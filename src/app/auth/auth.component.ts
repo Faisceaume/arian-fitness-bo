@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthentificationService } from './authentification.service';
+import { AuthService } from './auth.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-authentification',
-  templateUrl: './authentification.component.html',
-  styleUrls: ['./authentification.component.css']
+  selector: 'app-auth',
+  templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.css']
 })
-export class AuthentificationComponent implements OnInit {
+export class AuthComponent implements OnInit {
 
   userRegister = {
     member: '',
@@ -20,7 +20,7 @@ export class AuthentificationComponent implements OnInit {
     password : ''
   };
 
-  constructor(private authentificationService: AuthentificationService) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
 
@@ -29,7 +29,7 @@ export class AuthentificationComponent implements OnInit {
   onSubmit(form: NgForm) {
     const data = form.value;
     if (form.valid) {
-      this.authentificationService.createNewUser(data.email, data.password)
+      this.authService.createNewUser(data.email, data.password)
       .then(res => {
         console.log(res);
       }, err => {
@@ -41,7 +41,7 @@ export class AuthentificationComponent implements OnInit {
 
 
   onSubmit2() {
-    this.authentificationService.SignInUser(this.userSingUp.email, this.userSingUp.password)
+    this.authService.SignInUser(this.userSingUp.email, this.userSingUp.password)
     .then(res => {
       console.log(res);
     }, err => {
@@ -50,7 +50,7 @@ export class AuthentificationComponent implements OnInit {
   }
 
   connectionWithGoogle() {
-    this.authentificationService.connectionWithGoogle();
+    this.authService.connectionWithGoogle();
   }
 
 }

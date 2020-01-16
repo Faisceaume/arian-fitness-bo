@@ -9,7 +9,7 @@ import { auth } from 'firebase/app';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthentificationService {
+export class AuthService {
 
   user: Utilisateur;
 
@@ -24,11 +24,11 @@ export class AuthentificationService {
         resolve(res);
         const batch = this.db.firestore.batch();
         const nextId = this.db.firestore.collection('users').doc().id;
-        const data = Object.assign({}, {email:  mail});
+        const data = Object.assign({}, {email:  mail, uid: nextId});
         const nextDocument1 = this.db.firestore.collection('users').doc(nextId);
         batch.set(nextDocument1, data);
         batch.commit();
-        this.router.navigate(['members']);
+        this.router.navigate(['/']);
       }, err => reject(err));
     });
 
@@ -39,7 +39,7 @@ SignInUser(email: string, password: string ) {
     this.afauth.auth.signInWithEmailAndPassword(email, password)
     .then(res => {
       resolve(res);
-      this.router.navigate(['members']);
+      this.router.navigate(['/']);
     }, err => reject(err));
   });
 
@@ -62,7 +62,7 @@ connectionWithGoogle(): void {
          uid: u.uid,
          email: u.email
        } as Users;
-       this.router.navigate(['members']);
+       this.router.navigate(['/']);
      }
    );
 }

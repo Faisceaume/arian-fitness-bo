@@ -14,10 +14,14 @@ import { AppComponent } from './app.component';
 
 // import { environment } from '../environments/environment';
 import { environment } from '../environments/environment.prod';
+import { AuthComponent } from './auth/auth.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AuthComponent,
+    HomeComponent
   ],
   imports: [
     SharedModule,
@@ -28,7 +32,7 @@ import { environment } from '../environments/environment.prod';
     AngularFireStorageModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
