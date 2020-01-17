@@ -11,7 +11,10 @@
           <mat-form-field>
             <input matInput placeholder="password" type="password" name="password" #password="ngModel" [(ngModel)]="userSingUp.password" id="password" required>
           </mat-form-field>
-          <button mat-raised-button color="primary" type="submit" [disabled]="form2.invalid">Valider</button>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <button mat-raised-button type="submit" color="warn" [disabled]="form2.invalid">Sign In</button>&nbsp;
+            <button mat-raised-button type="button" color="warn" (click)="connectionWithGoogle()">Google Sign In</button>
+          </div>
         </div>
       </form>
     </mat-tab>
@@ -28,12 +31,6 @@
           <button mat-raised-button color="warn" type="submit" [disabled]="form1.invalid">Valider</button>
         </div>
       </form>
-    </mat-tab>
-
-    <mat-tab label="Connexion via Google">
-      <div fxLayout="column" fxLayoutAlign="start center" class="divlog">
-        <button mat-raised-button color="warn" (click)="connectionWithGoogle()">Se Connecter !</button>
-      </div>
     </mat-tab>
 
   </mat-tab-group>
