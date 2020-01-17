@@ -16,12 +16,14 @@ import { AppComponent } from './app.component';
 import { environment } from '../environments/environment.prod';
 import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
+import { MaterielFormComponent } from './materiel-form/materiel-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
-    HomeComponent
+    HomeComponent,
+    MaterielFormComponent
   ],
   imports: [
     SharedModule,
