@@ -18,6 +18,7 @@ import { MatPaginatorModule, MatSortModule } from '@angular/material';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatListModule} from '@angular/material/list';
 
 
 const modules = [
@@ -40,7 +41,8 @@ const modules = [
     MatDialogModule,
     MatSlideToggleModule,
     MatSortModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatListModule
 ];
 
 @NgModule({

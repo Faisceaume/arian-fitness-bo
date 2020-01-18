@@ -15,6 +15,7 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['date', 'nom', 'description', 'action'];
   dataSource: MatTableDataSource<Exercice>;
   exerciceSubscription: Subscription;
+  allExercice: Exercice[];
 
   constructor(private exercicesService: ExercicesService,
               private router: Router) { }
@@ -26,6 +27,7 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
     this.exerciceSubscription = this.exercicesService.exerciceSubject.subscribe( data => {
       this.dataSource = new MatTableDataSource<Exercice>(data);
       this.dataSource.sort = this.sort;
+      this.allExercice = data;
     });
   }
 

@@ -2,8 +2,18 @@
   <div fxLayout="row" fxLayoutAlign="center center">
     <img src="assets/logo-b&w-transparent-500w.png">
   </div>
-  <button mat-raised-button color="primary" routerLink="/materiels">Materiels</button>
-  <button mat-raised-button color="warn" routerLink="/exercices">Exercices</button>
+
+  <button mat-raised-button color="primary" routerLink="/materiels"
+        *ngIf="isAuthentification">Materiels</button>
+
+  <button mat-raised-button color="accent" routerLink="/exercices"
+        *ngIf="isAuthentification">Exercices</button>
+
+  <button mat-icon-button color="accent" (click)="seDeconnecter()"
+          matTooltip="logout" *ngIf="isAuthentification">
+  <mat-icon>power_settings_new</mat-icon>
+</button>
+
 </div>
 
 <router-outlet></router-outlet>
