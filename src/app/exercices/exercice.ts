@@ -1,7 +1,7 @@
 export class Exercice {
-  exerciceid: string;
+  id: string;
   nom: string;
   timestamp: string;
-  postefixe: boolean;
-  categories: string;
+  description: boolean;
+  categories: string[];
 }
