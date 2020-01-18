@@ -1,0 +1,46 @@
+<div class="mattab">
+
+  <mat-tab-group mat-align-tabs="center">
+
+    <mat-tab label="Exercice Form">
+      <form #form1="ngForm" autocomplete="off" (ngSubmit)="onSubmit()" class="text-center">
+        <div fxLayout="column" fxLayoutAlign="start center" class="divlog">
+
+          <mat-form-field>
+            <input matInput placeholder="nom " type="text" name="nom"
+            #nom="ngModel" [(ngModel)]="formData.nom" id="nom" required>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>PosteFixe</mat-label>
+            <mat-select name="postefixe" #postefixe="ngModel"
+                [(ngModel)]="formData.postefixe" required>
+                    <mat-option value="false"> False</mat-option>
+                    <mat-option value="true"> True</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Visibility</mat-label>
+          <mat-select name="visibility" #visibility="ngModel"
+              [(ngModel)]="formData.visibility" required>
+                  <mat-option value="false"> False</mat-option>
+                  <mat-option value="true"> True</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Toppings</mat-label>
+          <mat-select [formControl]="toppings"  multiple>
+            <mat-option *ngFor="let categorie of categories" [value]="categorie">{{categorie}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+          <button mat-raised-button color="warn" type="submit" [disabled]="form1.invalid">Valider</button>
+        </div>
+      </form>
+    </mat-tab>
+
+  </mat-tab-group>
+
+</div>

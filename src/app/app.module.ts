@@ -21,7 +21,7 @@ import { HomeComponent } from './home/home.component';
   declarations: [
     AppComponent,
     AuthComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     SharedModule,
@@ -30,7 +30,6 @@ import { HomeComponent } from './home/home.component';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    ReactiveFormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
   ],
