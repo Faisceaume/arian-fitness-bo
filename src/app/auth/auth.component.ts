@@ -46,7 +46,7 @@ export class AuthComponent implements OnInit {
     this.authService.SignInUser(this.userSingUp.email, this.userSingUp.password)
     .then(res => {
       console.log(res);
-      this.route.navigate(['/home'])
+      this.route.navigate(['/home']);
     }, err => {
       alert(err);
     });
@@ -54,7 +54,7 @@ export class AuthComponent implements OnInit {
 
   connectionWithGoogle() {
     this.authService.connectionWithGoogle();
-    this.route.navigate(['/home'])
+    this.route.navigate(['/home']);
   }
 
 }
