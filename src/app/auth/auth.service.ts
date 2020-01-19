@@ -28,7 +28,7 @@ export class AuthService {
         const nextDocument1 = this.db.firestore.collection('users').doc(nextId);
         batch.set(nextDocument1, data);
         batch.commit();
-        this.router.navigate(['/']);
+        /*this.router.navigate(['/']);*/
       }, err => reject(err));
     });
 
@@ -39,7 +39,7 @@ SignInUser(email: string, password: string ) {
     this.afauth.auth.signInWithEmailAndPassword(email, password)
     .then(res => {
       resolve(res);
-      this.router.navigate(['/']);
+      /*this.router.navigate(['/home']);*/
     }, err => reject(err));
   });
 
@@ -62,7 +62,7 @@ connectionWithGoogle(): void {
          uid: u.uid,
          email: u.email
        } as Users;
-       this.router.navigate(['/']);
+       /*this.router.navigate(['/home']);*/
      }
    );
 }

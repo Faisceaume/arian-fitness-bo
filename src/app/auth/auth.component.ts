@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -20,7 +21,7 @@ export class AuthComponent implements OnInit {
     password : ''
   };
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private route: Router) { }
 
   ngOnInit() {
 
@@ -32,6 +33,7 @@ export class AuthComponent implements OnInit {
       this.authService.createNewUser(data.email, data.password)
       .then(res => {
         console.log(res);
+        this.route.navigate(['/auth']);
       }, err => {
        alert(err);
       });
@@ -44,6 +46,7 @@ export class AuthComponent implements OnInit {
     this.authService.SignInUser(this.userSingUp.email, this.userSingUp.password)
     .then(res => {
       console.log(res);
+      this.route.navigate(['/home'])
     }, err => {
       alert(err);
     });
@@ -51,6 +54,7 @@ export class AuthComponent implements OnInit {
 
   connectionWithGoogle() {
     this.authService.connectionWithGoogle();
+    this.route.navigate(['/home'])
   }
 
 }
