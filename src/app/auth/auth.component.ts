@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UsersService } from './users.service';
 
 @Component({
   selector: 'app-auth',
@@ -9,6 +10,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
+
+  errorMessageConnexion = '';
+  errorMessageInscription = '';
+  roleProperty = '';
 
   userRegister = {
     member: '',
@@ -21,7 +26,7 @@ export class AuthComponent implements OnInit {
     password : ''
   };
 
-  constructor(private authService: AuthService, private route: Router) { }
+  constructor(private userService: UsersService, private authService: AuthService, private route: Router) { }
 
   ngOnInit() {
 
@@ -33,9 +38,10 @@ export class AuthComponent implements OnInit {
       this.authService.createNewUser(data.email, data.password)
       .then(res => {
         console.log(res);
+        this.errorMessageInscription = '';
         this.route.navigate(['/auth']);
       }, err => {
-       alert(err);
+       this.errorMessageInscription = err;
       });
     }
 
@@ -46,15 +52,32 @@ export class AuthComponent implements OnInit {
     this.authService.SignInUser(this.userSingUp.email, this.userSingUp.password)
     .then(res => {
       console.log(res);
-      this.route.navigate(['/home']);
+      this.errorMessageConnexion = '';
+      this.userService.getUserRole(this.userSingUp.email).then((role: string) => {
+        this.roleProperty = role;
+        if (this.roleProperty === 'admin') {
+          this.route.navigate(['/home']);
+          this.errorMessageConnexion = '';
+        } else {
+          this.errorMessageConnexion = 'Vous n\'êtes pas administrateur';
+          this.authService.signOutUser();
+          return;
+        }
+      });
     }, err => {
-      alert(err);
+      this.errorMessageConnexion = err;
     });
   }
 
   connectionWithGoogle() {
-    this.authService.connectionWithGoogle();
-    this.route.navigate(['/home']);
+    const promesse = new Promise((resolve, reject) => {
+      this.authService.connectionWithGoogle();
+      resolve();
+    });
+
+    promesse.then(() => {
+      this.route.navigate(['/home']);
+    });
   }
 
 }

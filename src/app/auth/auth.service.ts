@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Utilisateur} from './utilisateur';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -15,7 +15,7 @@ export class AuthService {
 
   constructor(private afauth: AngularFireAuth,
               private router: Router,
-              private db: AngularFirestore) { }
+              private db: AngularFirestore, private zone: NgZone) { }
 
   createNewUser(mail: string, password: string) {
     return new Promise<any>((resolve, reject) => {
@@ -24,7 +24,7 @@ export class AuthService {
         resolve(res);
         const batch = this.db.firestore.batch();
         const nextId = this.db.firestore.collection('users').doc().id;
-        const data = Object.assign({}, {email:  mail, uid: nextId});
+        const data = Object.assign({}, {email:  mail, uid: nextId, role: 'pending'});
         const nextDocument1 = this.db.firestore.collection('users').doc(nextId);
         batch.set(nextDocument1, data);
         batch.commit();
@@ -62,7 +62,7 @@ connectionWithGoogle(): void {
          uid: u.uid,
          email: u.email
        } as Users;
-       /*this.router.navigate(['/home']);*/
+       this.zone.run(() => this.router.navigate(['/home']));
      }
    );
 }

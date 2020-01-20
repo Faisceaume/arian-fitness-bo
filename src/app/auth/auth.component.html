@@ -15,6 +15,9 @@
             <button mat-raised-button type="submit" color="warn" [disabled]="form2.invalid">Sign In</button>&nbsp;
             <button mat-raised-button type="button" color="warn" (click)="connectionWithGoogle()">Google Sign In</button>
           </div>
+          <div fxLayout="column" fxLayoutAlign="center center" style="padding: 2%; color: red">
+            {{ errorMessageConnexion }}
+          </div>
         </div>
       </form>
     </mat-tab>
@@ -29,7 +32,11 @@
             <input matInput placeholder="password" type="password" name="password" #password="ngModel" [(ngModel)]="userRegister.password" id="password" required>
           </mat-form-field>
           <button mat-raised-button color="warn" type="submit" [disabled]="form1.invalid">Valider</button>
+          <div fxLayout="column" fxLayoutAlign="center center" style="padding: 2%; color: red">
+            {{ errorMessageInscription }}
+          </div>
         </div>
+        
       </form>
     </mat-tab>
 

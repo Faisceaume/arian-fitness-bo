@@ -14,10 +14,18 @@ export class UsersService {
   users: Users[];
   usersSubject = new Subject<any[]>();
   isAdministrateur: boolean;
+
+  role: string;
+  roleSubject = new Subject<string>();
+
   /*db = firebase.firestore();*/
 
 
   constructor(private db: AngularFirestore) {}
+
+  emitRoleSubject() {
+    this.roleSubject.next(this.role);
+  }
 
   getAllUsers() {
     this.db.collection('users')
@@ -54,5 +62,17 @@ export class UsersService {
 
   emitUsersSubject() {
     this.usersSubject.next(this.users.slice());
+  }
+
+  getUserRole(email: string) {
+    const req = this.db.firestore.collection('users').where('email', '==', email);
+    return new Promise((resolve, reject) => {
+      req.get().then((querySnapshot) => {
+        querySnapshot.forEach(doc => {
+          this.role = doc.data().role as string;
+          resolve(this.role);
+        });
+      });
+    });
   }
 }
