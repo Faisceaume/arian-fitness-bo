@@ -19,6 +19,11 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatListModule} from '@angular/material/list';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 
 
 const modules = [
@@ -42,7 +47,10 @@ const modules = [
     MatSlideToggleModule,
     MatSortModule,
     MatTooltipModule,
-    MatListModule
+    MatListModule,
+    MatChipsModule,
+    MatCheckboxModule,
+    MatRadioModule
 ];
 
 @NgModule({
