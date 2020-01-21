@@ -16,6 +16,7 @@ export class AuthComponent implements OnInit {
   roleProperty = '';
   isRegisterLoad = false;
   isRegistered = false;
+  isGoogleRegistered = false;
 
   userRegister = {
     member: '',
@@ -38,7 +39,7 @@ export class AuthComponent implements OnInit {
 
   }
 
-  onSubmit(form: NgForm) {
+  signUp(form: NgForm) {
     const data = form.value;
     if (form.valid) {
       this.isRegisterLoad = true;
@@ -54,11 +55,9 @@ export class AuthComponent implements OnInit {
        this.errorMessageInscription = err;
       });
     }
-
   }
 
-
-  onSubmit2() {
+  signIn() {
     this.authService.SignInUser(this.userSingUp.email, this.userSingUp.password)
     .then(res => {
       console.log(res);
@@ -80,7 +79,7 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  connectionWithGoogle() {
+  signInWithGoogle() {
     const promesse = new Promise((resolve, reject) => {
       this.authService.connectionWithGoogle();
       resolve();

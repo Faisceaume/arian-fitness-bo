@@ -3,7 +3,6 @@ import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from './auth.service';
-/*import * as firebase from 'firebase/app';*/
 
 @Injectable({
   providedIn: 'root'

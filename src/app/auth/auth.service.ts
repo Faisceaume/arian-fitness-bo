@@ -32,42 +32,49 @@ export class AuthService {
         /*this.router.navigate(['/']);*/
       }, err => reject(err));
     });
+  }
 
-}
+  SignInUser(email: string, password: string ) {
+    return new Promise<any>((resolve, reject) => {
+      this.afauth.auth.signInWithEmailAndPassword(email, password)
+      .then(res => {
+        resolve(res);
+        this.isConnected = true;
+        this.router.navigate(['/home']);
+      }, err => reject(err));
+    });
 
-SignInUser(email: string, password: string ) {
-  return new Promise<any>((resolve, reject) => {
-    this.afauth.auth.signInWithEmailAndPassword(email, password)
-    .then(res => {
-      resolve(res);
-      this.isConnected = true;
-      /*this.router.navigate(['/home']);*/
-    }, err => reject(err));
-  });
+  }
 
-}
+  signOutUser() {
+    this.afauth.auth.signOut().then(() => {
+      // Sign-out successful.
+      this.isConnected = false;
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
 
-signOutUser() {
-  this.afauth.auth.signOut().then(() => {
-    // Sign-out successful.
-    this.isConnected = false;
-  }).catch((error) => {
-    // An error happened.
-  });
-}
+  connectionWithGoogle(): void {
+    const provider = new auth.GoogleAuthProvider();
+    this.afauth.auth.signInWithPopup(provider).then(
+      (result) => {
+        const u = result.user;
+        const item = {
+          uid: u.uid,
+          email: u.email
+        } as Users;
 
-connectionWithGoogle(): void {
-  const provider = new auth.GoogleAuthProvider();
-  this.afauth.auth.signInWithPopup(provider).then(
-     (result) => {
-       const u = result.user;
-       const item = {
-         uid: u.uid,
-         email: u.email
-       } as Users;
-       this.zone.run(() => this.router.navigate(['/home']));
-     }
-   );
-}
+        const batch = this.db.firestore.batch();
+        const nextId = this.db.firestore.collection('users').doc().id;
+        const data = Object.assign({}, {email:  u.email, uid: u.uid, role: 'pending'});
+        const nextDocument1 = this.db.firestore.collection('users').doc(nextId);
+        batch.set(nextDocument1, data);
+        batch.commit();
+
+        this.zone.run(() => this.router.navigate(['/home']));
+      }
+    );
+  }
 
 }

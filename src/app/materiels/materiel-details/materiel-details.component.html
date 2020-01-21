@@ -24,6 +24,8 @@
            (change)="onValueChange('visibility', visibilityControl.value)"></mat-slide-toggle>
       </section>
 
+      <app-categorie [noeud]="materiel" [idmateriel]="formData.id"></app-categorie>
+
       <mat-chip-list aria-label="Fish selection"
       [selectable]="true"
       [multiple]="true">
