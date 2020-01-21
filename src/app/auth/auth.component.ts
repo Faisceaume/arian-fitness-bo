@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from './auth.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -28,7 +28,11 @@ export class AuthComponent implements OnInit {
     password : ''
   };
 
-  constructor(private userService: UsersService, private authService: AuthService, private route: Router) { }
+  constructor(
+    private userService: UsersService,
+    private authService: AuthService,
+    private route: Router,
+    private zone: NgZone ) { }
 
   ngOnInit() {
 
@@ -44,6 +48,7 @@ export class AuthComponent implements OnInit {
         this.isRegisterLoad = false;
         console.log(res);
         this.errorMessageInscription = '';
+        /*this.authService.signOutUser();*/
       }, err => {
        this.isRegisterLoad = false;
        this.errorMessageInscription = err;
@@ -64,7 +69,8 @@ export class AuthComponent implements OnInit {
           this.route.navigate(['/home']);
           this.errorMessageConnexion = '';
         } else {
-          this.errorMessageConnexion = 'Vous n\'avez pas accès à cette plateforme.';
+          this.errorMessageConnexion = 'Vous n\'êtes pas administrateur';
+          this.authService.isConnected = false;
           this.authService.signOutUser();
           return;
         }

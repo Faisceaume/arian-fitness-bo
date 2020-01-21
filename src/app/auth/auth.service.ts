@@ -12,6 +12,7 @@ import { auth } from 'firebase/app';
 export class AuthService {
 
   user: Utilisateur;
+  isConnected = false;
 
   constructor(private afauth: AngularFireAuth,
               private router: Router,
@@ -39,6 +40,7 @@ SignInUser(email: string, password: string ) {
     this.afauth.auth.signInWithEmailAndPassword(email, password)
     .then(res => {
       resolve(res);
+      this.isConnected = true;
       /*this.router.navigate(['/home']);*/
     }, err => reject(err));
   });
@@ -48,6 +50,7 @@ SignInUser(email: string, password: string ) {
 signOutUser() {
   this.afauth.auth.signOut().then(() => {
     // Sign-out successful.
+    this.isConnected = false;
   }).catch((error) => {
     // An error happened.
   });
