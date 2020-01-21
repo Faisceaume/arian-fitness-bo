@@ -3,11 +3,11 @@ import { AuthService } from '../auth/auth.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-accueil',
+  templateUrl: './accueil.component.html',
+  styleUrls: ['./accueil.component.css']
 })
-export class HomeComponent implements OnInit {
+export class AccueilComponent implements OnInit {
 
   isAuthentification: boolean;
 

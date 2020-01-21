@@ -18,7 +18,7 @@ import { MatPaginatorModule, MatSortModule } from '@angular/material';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTooltipModule} from '@angular/material/tooltip';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const modules = [
     CommonModule,
@@ -37,6 +37,7 @@ const modules = [
     MatFormFieldModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
     MatSlideToggleModule,
     MatSortModule,
     MatTooltipModule

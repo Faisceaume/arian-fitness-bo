@@ -15,7 +15,7 @@
             <button mat-raised-button type="submit" color="warn" [disabled]="form2.invalid">Sign In</button>&nbsp;
             <button mat-raised-button type="button" color="warn" (click)="connectionWithGoogle()">Google Sign In</button>
           </div>
-          <div fxLayout="column" fxLayoutAlign="center center" style="padding: 2%; color: red">
+          <div fxLayout="column" fxLayoutAlign="center center" style="padding: 2%; color: red; max-width:500px">
             {{ errorMessageConnexion }}
           </div>
         </div>
@@ -32,19 +32,19 @@
             <input matInput placeholder="password" type="password" name="password" #password="ngModel" [(ngModel)]="userRegister.password" id="password" required>
           </mat-form-field>
           <button mat-raised-button color="warn" type="submit" [disabled]="form1.invalid">Valider</button>
-          <div fxLayout="column" fxLayoutAlign="center center" style="padding: 2%; color: red">
+          <div fxLayout="column" fxLayoutAlign="center center" style="padding: 2%; color: red; max-width:500px">
             {{ errorMessageInscription }}
           </div>
         </div>
-        
+
       </form>
       <div fxLayout="column" fxLayoutAlign="start center" *ngIf="isRegisterLoad">
-          <div style="padding: 2%;"><mat-spinner></mat-spinner></div> 
+          <div style="padding: 2%;"><mat-spinner></mat-spinner></div>
           Demande d'inscription en cours
       </div>
       <div fxLayout="column" fxLayoutAlign="start center" *ngIf="isRegistered">
         <div style="padding: 2%"><mat-icon style="color: green">done</mat-icon></div>
-        Inscription validée 
+        Inscription validée
       </div>
     </mat-tab>
 

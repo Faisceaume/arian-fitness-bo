@@ -64,7 +64,7 @@ export class AuthComponent implements OnInit {
           this.route.navigate(['/home']);
           this.errorMessageConnexion = '';
         } else {
-          this.errorMessageConnexion = 'Vous n\'êtes pas administrateur';
+          this.errorMessageConnexion = 'Vous n\'avez pas accès à cette plateforme.';
           this.authService.signOutUser();
           return;
         }
