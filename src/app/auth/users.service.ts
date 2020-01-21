@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-/*import * as firebase from 'firebase/app';*/
 import {Users} from './users';
 import 'firebase/firestore';
 import { Subject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
-/*import { firestore } from 'firebase/app';*/
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +12,16 @@ export class UsersService {
   users: Users[];
   usersSubject = new Subject<any[]>();
   isAdministrateur: boolean;
-  /*db = firebase.firestore();*/
+
+  role: string;
+  roleSubject = new Subject<string>();
 
 
   constructor(private db: AngularFirestore) {}
+
+  emitRoleSubject() {
+    this.roleSubject.next(this.role);
+  }
 
   getAllUsers() {
     this.db.collection('users')
@@ -54,5 +58,17 @@ export class UsersService {
 
   emitUsersSubject() {
     this.usersSubject.next(this.users.slice());
+  }
+
+  getUserRole(email: string) {
+    const req = this.db.firestore.collection('users').where('email', '==', email);
+    return new Promise((resolve, reject) => {
+      req.get().then((querySnapshot) => {
+        querySnapshot.forEach(doc => {
+          this.role = doc.data().role as string;
+          resolve(this.role);
+        });
+      });
+    });
   }
 }

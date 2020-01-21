@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule} from '@angular/forms';
 
@@ -15,13 +15,15 @@ import { AppComponent } from './app.component';
 // import { environment } from '../environments/environment';
 import { environment } from '../environments/environment.prod';
 import { AuthComponent } from './auth/auth.component';
-import { HomeComponent } from './home/home.component';
+import { AccueilComponent } from './accueil/accueil.component';
+import { UiModule } from './ui/ui.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
-    HomeComponent,
+    AccueilComponent
   ],
   imports: [
     SharedModule,
@@ -30,10 +32,15 @@ import { HomeComponent } from './home/home.component';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
+    ReactiveFormsModule,
+    UiModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
+    AppRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class AppModule { }

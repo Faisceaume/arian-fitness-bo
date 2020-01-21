@@ -4,7 +4,7 @@
 }
 
 .logo-header {
-    background-color: #fff;
+    /* background-color: #fff; */
     padding: 10px;
     margin: 50px;
     border-radius: 10px;
@@ -13,7 +13,6 @@
 
 
 .divlog {
-    background-image: linear-gradient(to bottom, #ffffff, #eeeef2, #dbdde6, #c8cdda, #b3bece);
     padding: 50px 10px;
 }
 

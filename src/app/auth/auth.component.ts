@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from './auth.service';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UsersService } from './users.service';
 
 @Component({
   selector: 'app-auth',
@@ -8,6 +10,13 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
+
+  errorMessageConnexion = '';
+  errorMessageInscription = '';
+  roleProperty = '';
+  isRegisterLoad = false;
+  isRegistered = false;
+  isGoogleRegistered = false;
 
   userRegister = {
     member: '',
@@ -20,37 +29,65 @@ export class AuthComponent implements OnInit {
     password : ''
   };
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private userService: UsersService,
+    private authService: AuthService,
+    private route: Router,
+    private zone: NgZone ) { }
 
   ngOnInit() {
 
   }
 
-  onSubmit(form: NgForm) {
+  signUp(form: NgForm) {
     const data = form.value;
     if (form.valid) {
+      this.isRegisterLoad = true;
       this.authService.createNewUser(data.email, data.password)
       .then(res => {
+        this.isRegistered = true;
+        this.isRegisterLoad = false;
         console.log(res);
+        this.errorMessageInscription = '';
+        /*this.authService.signOutUser();*/
       }, err => {
-       alert(err);
+       this.isRegisterLoad = false;
+       this.errorMessageInscription = err;
       });
     }
-
   }
 
-
-  onSubmit2() {
+  signIn() {
     this.authService.SignInUser(this.userSingUp.email, this.userSingUp.password)
     .then(res => {
       console.log(res);
+      this.errorMessageConnexion = '';
+      this.userService.getUserRole(this.userSingUp.email).then((role: string) => {
+        this.roleProperty = role;
+        if (this.roleProperty === 'admin') {
+          this.route.navigate(['/home']);
+          this.errorMessageConnexion = '';
+        } else {
+          this.errorMessageConnexion = 'Vous n\'êtes pas administrateur';
+          this.authService.isConnected = false;
+          this.authService.signOutUser();
+          return;
+        }
+      });
     }, err => {
-      alert(err);
+      this.errorMessageConnexion = err;
     });
   }
 
-  connectionWithGoogle() {
-    this.authService.connectionWithGoogle();
+  signInWithGoogle() {
+    const promesse = new Promise((resolve, reject) => {
+      this.authService.connectionWithGoogle();
+      resolve();
+    });
+
+    promesse.then(() => {
+      this.route.navigate(['/home']);
+    });
   }
 
 }

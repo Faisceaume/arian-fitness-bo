@@ -19,6 +19,7 @@ $arian-fitness-bo-accent: mat-palette($mat-pink, A200, A100, A400);
 $arian-fitness-bo-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
+// $arian-fitness-bo-theme: mat-dark-theme($arian-fitness-bo-primary, $arian-fitness-bo-accent, $arian-fitness-bo-warn);
 $arian-fitness-bo-theme: mat-light-theme($arian-fitness-bo-primary, $arian-fitness-bo-accent, $arian-fitness-bo-warn);
 
 // Include theme styles for core and each component used in your app.

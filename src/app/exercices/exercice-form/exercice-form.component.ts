@@ -3,8 +3,8 @@ import { NgForm} from '@angular/forms';
 import { Exercice } from '../exercice';
 import { ExercicesService } from '../exercices.service';
 import { Subscription } from 'rxjs';
-import { CategoriesService } from 'src/app/categories/categories.service';
-import { Categorie } from 'src/app/categories/categorie';
+import { CategoriesService } from 'src/app/shared/categories-section/categories.service';
+import { Categorie } from 'src/app/shared/categories-section/categorie';
 
 @Component({
   selector: 'app-exercice-form',
@@ -16,7 +16,6 @@ export class ExerciceFormComponent implements OnInit, OnDestroy {
   formData: Exercice;
   subscription: Subscription;
   categories: Categorie[];
-  chipsSelected: string[] = [];
 
   constructor(private exercicesService: ExercicesService,
               private categoriesService: CategoriesService) { }
@@ -36,29 +35,8 @@ export class ExerciceFormComponent implements OnInit, OnDestroy {
 
   }
 
-  selectMe(event: any) {
-    if (event.selected) {
-      event.selected = false;
-      this.removeChips(event as Categorie);
-    } else {
-      event.selected = true;
-      this.addChips(event as Categorie);
-    }
-  }
-
-  addChips(item: Categorie) {
-    this.chipsSelected.push(item.nom);
-  }
-
-  removeChips(item: Categorie) {
-    const index = this.chipsSelected.indexOf(item.nom);
-    if (index >= 0) {
-      this.chipsSelected.splice(index, 1);
-    }
-  }
-
   onSubmit(form: NgForm): void {
-    this.formData.categories = this.chipsSelected;
+    this.formData.categories = this.categoriesService.chipsSelectedForOperation;
     this.exercicesService.createExercice(this.formData);
   }
 

@@ -3,17 +3,17 @@
     <div fxLayout="column" fxLayoutAlign="start center" class="divlog">
 
       <mat-form-field>
-        <input matInput placeholder="Nom " type="text" name="nom"
-        #nom="ngModel" [(ngModel)]="formData.nom"
-        (ngModelChange)="onValueChange('nom', formData.nom)"
-        id="nom" required>
+        <input matInput placeholder="Nom" type="text" id="nom" required
+          [(ngModel)]="formData.nom"
+          (ngModelChange)="onValueChange('nom', formData.nom)"
+        >
       </mat-form-field>
 
       <section class="example-section">
         <label class="example-margin">PosteFixe </label>
            <mat-slide-toggle class="example-margin"
-           [formControl]="posteFixeControl"
-           (change)="onValueChange('postefixe', posteFixeControl.value)">
+            [formControl]="posteFixeControl"
+            (change)="onValueChange('postefixe', posteFixeControl.value)">
            </mat-slide-toggle>
       </section>
 
@@ -24,15 +24,10 @@
            (change)="onValueChange('visibility', visibilityControl.value)"></mat-slide-toggle>
       </section>
 
-      <mat-chip-list aria-label="Fish selection"
-      [selectable]="true"
-      [multiple]="true">
-        <mat-chip *ngFor="let categorie of categories"
-        [ngStyle]="{'background-color': categorie.selected ? '#ff4757' : ''}"
-        (click)="selectMe(categorie)">
-          {{categorie.nom}}
-        </mat-chip>
-      </mat-chip-list>
+      <app-categories-section
+      [noeud]="'mat_cat'"
+      [chipsSelectedInput]="formData.categories"
+      [currentMateriel]="formData"></app-categories-section>
 
     </div>
 </div>

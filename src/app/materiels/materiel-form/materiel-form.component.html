@@ -21,15 +21,8 @@
                [formControl]="visibilityControl"></mat-slide-toggle>
           </section>
 
-          <mat-chip-list aria-label="Fish selection"
-          [selectable]="true"
-          [multiple]="true">
-            <mat-chip *ngFor="let categorie of categories"
-            [ngStyle]="{'background-color': categorie.selected ? '#ff4757' : ''}"
-            (click)="selectMe(categorie)">
-              {{categorie.nom}}
-            </mat-chip>
-          </mat-chip-list>
+            <app-categories-section [noeud]="'mat_cat'"></app-categories-section>
+
           <button mat-raised-button color="warn" type="submit" [disabled]="form1.invalid">Valider</button>
         </div>
       </form>

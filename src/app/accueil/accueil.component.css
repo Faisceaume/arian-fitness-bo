@@ -1,0 +1,14 @@
+
+
+
+.div-home div {
+  height: 200px;
+  background-color: #999;
+  color: #FFF;
+  cursor: pointer;
+  text-transform: uppercase;
+  margin: 1px;
+}
+.div-home div:hover {
+  background-color: #333;
+}

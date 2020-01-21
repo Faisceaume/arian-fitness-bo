@@ -9,6 +9,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class CategoriesService {
 
+  chipsSelectedForOperation: Categorie[];
   categories: Categorie[];
   categorieSubject = new Subject<any[]>();
 
@@ -68,5 +69,9 @@ export class CategoriesService {
     batch.update(nextDocument1, `${attribut}`, value);
     batch.commit().then(() => {
     }).catch((error) => { console.error('Error updzting document: ', error); });
+  }
+
+  setChipsSelectedForOperationValue(elements: Categorie[]) {
+    this.chipsSelectedForOperation = elements;
   }
 }

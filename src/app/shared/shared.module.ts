@@ -18,13 +18,12 @@ import { MatPaginatorModule, MatSortModule } from '@angular/material';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {MatListModule} from '@angular/material/list';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
-
+import { CategoriesSectionComponent } from './categories-section/categories-section.component';
 
 const modules = [
     CommonModule,
@@ -44,6 +43,7 @@ const modules = [
     MatFormFieldModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
     MatSlideToggleModule,
     MatSortModule,
     MatTooltipModule,
@@ -54,12 +54,13 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [CategoriesSectionComponent],
   imports: [
     ...modules,
   ],
   exports: [
     ...modules,
+    CategoriesSectionComponent,
 ]
 })
 export class SharedModule {

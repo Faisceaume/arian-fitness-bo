@@ -1,0 +1,11 @@
+
+  <mat-chip-list #chipList aria-label="Fruit selection" *ngIf="fruits">
+    <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable"
+             [removable]="removable"
+             [ngStyle]="{'background-color': fruit.selected ? '#ff4757' : ''}"
+            (click)="selectMe(fruit)">
+      {{fruit.nom}}
+    </mat-chip>
+
+  </mat-chip-list>
+
