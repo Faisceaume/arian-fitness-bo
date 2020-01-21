@@ -2,11 +2,8 @@ import { Injectable, NgZone } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
-<<<<<<< HEAD
-=======
 import { AuthService } from './auth.service';
 /*import * as firebase from 'firebase/app';*/
->>>>>>> assamoi
 
 @Injectable({
   providedIn: 'root'
