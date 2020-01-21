@@ -66,16 +66,11 @@ export class MaterielsService {
     this.firestore.doc('materiels/' + materiel.id).delete();
   }
 
-  updateMaterial(materiel: Materiel) {
+  newUpdateVersion(element: Materiel, attribut: string, value: any) {
     const batch = this.firestore.firestore.batch();
-    const nextDocument1 = this.firestore.firestore.collection('materiels').doc(materiel.id);
-
-    const data = Object.assign({}, materiel);
-    batch.update(nextDocument1, data);
-
+    const nextDocument1 = this.firestore.firestore.collection('materiels').doc(element.id);
+    batch.update(nextDocument1, `${attribut}`, value);
     batch.commit().then(() => {
-      console.log('Batch Commited');
-      this.router.navigate(['materiels']);
     }).catch((error) => { console.error('Error updzting document: ', error); });
   }
 }

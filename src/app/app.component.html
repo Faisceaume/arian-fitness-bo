@@ -9,6 +9,9 @@
   <button mat-raised-button color="accent" routerLink="/exercices"
         *ngIf="isAuthentification">Exercices</button>
 
+  <button mat-raised-button color="warn" routerLink="/init-categories"
+        *ngIf="isAuthentification">Categories</button>
+
   <button mat-icon-button color="accent" (click)="seDeconnecter()"
           matTooltip="logout" *ngIf="isAuthentification">
   <mat-icon>power_settings_new</mat-icon>

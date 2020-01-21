@@ -1,100 +1,80 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Exercice } from '../exercice';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExercicesService } from '../exercices.service';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { Observable } from 'rxjs';
-import { MatAutocomplete, MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
+import { Categorie } from 'src/app/categories/categorie';
+import { CategoriesService } from 'src/app/categories/categories.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-exercice-details',
   templateUrl: './exercice-details.component.html',
   styleUrls: ['./exercice-details.component.css']
 })
-export class ExerciceDetailsComponent implements OnInit {
+export class ExerciceDetailsComponent implements OnInit, OnDestroy {
 
-  // toppings = new FormControl();
   formData: Exercice;
-
-  categories: string[] = ['categorie1', 'categorie2', 'categorie3', 'categorie4'];
-
-      // Chips section
-      visible = true;
-      selectable = true;
-      removable = true;
-      addOnBlur = true;
-      separatorKeysCodes: number[] = [ENTER, COMMA];
-      fruitCtrl = new FormControl();
-      filteredFruits: Observable<string[]>;
-      fruits: string[] = [];
-      allFruits: string[] = ['categorie1', 'categorie2', 'categorie3', 'categorie4'];
-      @ViewChild('fruitInput', {static: false}) fruitInput: ElementRef<HTMLInputElement>;
-      @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
+  categories: Categorie[];
+  chipsSelected: string[];
+  subscription: Subscription;
 
   constructor(private route: ActivatedRoute,
               private exercicesService: ExercicesService,
-              private router: Router) {
+              private router: Router,
+              private categoriesService: CategoriesService) {
   }
 
   ngOnInit() {
     const id = this.route.snapshot.params.id;
-    this.exercicesService.getSingleExercice(id).then(
-                  (item: Exercice) => {
-                    this.formData = item;
-                    // this.toppings.setValue(this.formData.categories);
-                    this.fruits = item.categories;
-                  }
-                );
+    this.exercicesService.getSingleExercice(id).then( (item: Exercice) => {
+          this.formData = item;
+          this.chipsSelected = this.formData.categories;
+          } ).then( () => {
+                  this.getAllCategorie();
+        }
+    );
   }
 
-  onSubmit() {
-    // this.formData.categories = this.toppings.value;
-    this.formData.categories = this.fruits;
-    this.exercicesService.updateExercice(this.formData);
-    this.router.navigate(['exercices']);
+  getAllCategorie() {
+    this.categoriesService.getAllCategories('exerc_cat');
+    this.subscription = this.categoriesService.categorieSubject.subscribe(data => {
+        this.categories = data;
+        this.categories.forEach((item, index) => {
+            if (this.chipsSelected.indexOf(item.nom) >= 0) {
+                    this.categories[index].selected = true;
+               }
+            });
+        });
   }
 
-
-  // Chips section
-  add(event: MatChipInputEvent): void {
-    // Add fruit only when MatAutocomplete is not open
-    // To make sure this does not conflict with OptionSelected Event
-    if (!this.matAutocomplete.isOpen) {
-      const input = event.input;
-      const value = event.value;
-
-      // Add our fruit
-      if ((value || '').trim()) {
-        this.fruits.push(value.trim());
-      }
-
-      // Reset the input value
-      if (input) {
-        input.value = '';
-      }
-
-      this.fruitCtrl.setValue(null);
+  selectMe(event: any) {
+    if (event.selected) {
+      event.selected = false;
+      this.removeChips(event as Categorie);
+    } else {
+      event.selected = true;
+      this.addChips(event as Categorie);
     }
+    this.onValueChange('categories', this.chipsSelected);
   }
 
-  remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
+  addChips(item: Categorie) {
+    this.chipsSelected.push(item.nom);
+  }
 
+  removeChips(item: Categorie) {
+    const index = this.chipsSelected.indexOf(item.nom);
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.chipsSelected.splice(index, 1);
     }
   }
 
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
+  onValueChange(attribut: string, value: any) {
+    this.exercicesService.newUpdateVersion(this.formData, attribut, value);
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

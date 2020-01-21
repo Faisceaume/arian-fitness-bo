@@ -18,18 +18,15 @@ export class ExercicesService {
 
   createExercice(exercice: Exercice) {
       const batch = this.firestore.firestore.batch();
-
       const currentid = this.firestore.firestore.collection('exercices').doc().id;
       const nextDocument1 = this.firestore.firestore.collection('exercices').doc(currentid);
-
       let data = Object.assign({}, exercice);
       data = Object.assign(exercice, {id: currentid, timestamp: new Date().getTime()});
       batch.set(nextDocument1, data);
-
       batch.commit().then(() => {
                   console.log('Batch Commited');
                   this.router.navigate(['exercices']);
-                }).catch((error) => { console.error('Error creating document: ', error); });
+      }).catch((error) => { console.error('Error creating document: ', error); });
   }
 
   getAllExercices() {
@@ -67,16 +64,11 @@ export class ExercicesService {
     this.firestore.doc('exercices/' + exercice.id).delete();
   }
 
-  updateExercice(exercice: Exercice) {
+  newUpdateVersion(element: Exercice, attribut: string, value: any) {
     const batch = this.firestore.firestore.batch();
-    const nextDocument1 = this.firestore.firestore.collection('exercices').doc(exercice.id);
-
-    const data = Object.assign({}, exercice);
-    batch.update(nextDocument1, data);
-
+    const nextDocument1 = this.firestore.firestore.collection('exercices').doc(element.id);
+    batch.update(nextDocument1, `${attribut}`, value);
     batch.commit().then(() => {
-      console.log('Batch Commited');
-      this.router.navigate(['exercices']);
     }).catch((error) => { console.error('Error updzting document: ', error); });
   }
 }

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuardService } from './auth/auth-guard.service';
-import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 
 
@@ -17,6 +16,10 @@ const routes: Routes = [
   {
     path: 'materiels', canActivate: [AuthGuardService],
     loadChildren: () => import('./materiels/materiels.module').then(mod => mod.MaterielsModule)
+  },
+  {
+    path: 'init-categories', canActivate: [AuthGuardService],
+    loadChildren: () => import('./categories/categories.module').then(mod => mod.CategoriesModule)
   },
 ];
 
