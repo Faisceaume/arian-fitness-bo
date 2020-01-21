@@ -14,6 +14,8 @@ export class AuthComponent implements OnInit {
   errorMessageConnexion = '';
   errorMessageInscription = '';
   roleProperty = '';
+  isRegisterLoad = false;
+  isRegistered = false;
 
   userRegister = {
     member: '',
@@ -35,12 +37,15 @@ export class AuthComponent implements OnInit {
   onSubmit(form: NgForm) {
     const data = form.value;
     if (form.valid) {
+      this.isRegisterLoad = true;
       this.authService.createNewUser(data.email, data.password)
       .then(res => {
+        this.isRegistered = true;
+        this.isRegisterLoad = false;
         console.log(res);
         this.errorMessageInscription = '';
-        this.route.navigate(['/auth']);
       }, err => {
+       this.isRegisterLoad = false;
        this.errorMessageInscription = err;
       });
     }

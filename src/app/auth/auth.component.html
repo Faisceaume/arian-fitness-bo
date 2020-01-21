@@ -23,8 +23,8 @@
     </mat-tab>
 
     <mat-tab label="Inscription">
-      <form #form1="ngForm" autocomplete="off" (ngSubmit)="onSubmit(form1)" class="text-center">
-        <div fxLayout="column" fxLayoutAlign="start center" class="divlog">
+      <form #form1="ngForm" autocomplete="off" (ngSubmit)="onSubmit(form1)" class="text-center" [hidden]="isRegisterLoad">
+        <div fxLayout="column" fxLayoutAlign="start center" class="divlog" *ngIf="!isRegistered">
           <mat-form-field>
             <input matInput placeholder="Email " type="email" name="email" #email="ngModel" [(ngModel)]="userRegister.email" id="email" required>
           </mat-form-field>
@@ -38,6 +38,14 @@
         </div>
         
       </form>
+      <div fxLayout="column" fxLayoutAlign="start center" *ngIf="isRegisterLoad">
+          <div style="padding: 2%;"><mat-spinner></mat-spinner></div> 
+          Demande d'inscription en cours
+      </div>
+      <div fxLayout="column" fxLayoutAlign="start center" *ngIf="isRegistered">
+        <div style="padding: 2%"><mat-icon style="color: green">done</mat-icon></div>
+        Inscription validée 
+      </div>
     </mat-tab>
 
   </mat-tab-group>
