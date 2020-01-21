@@ -9,24 +9,13 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class AccueilComponent implements OnInit {
 
-  isAuthentification: boolean;
 
-  constructor(private authService: AuthService,
-              private afauth: AngularFireAuth) { }
+
+  constructor() { }
 
   ngOnInit() {
-    this.afauth.auth.onAuthStateChanged(
-      (user) => {
-        if (user) {
-          this.isAuthentification = true;
-        } else {
-          this.isAuthentification = false;
-        }
-      }
-    );
+
   }
 
-  seDeconnecter(): void {
-    this.authService.signOutUser();
-  }
+
 }

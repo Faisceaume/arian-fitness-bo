@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatSelectModule } from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
@@ -19,10 +19,18 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatListModule} from '@angular/material/list';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+
 
 const modules = [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     FlexLayoutModule,
     MatSelectModule,
     MatTabsModule,
@@ -40,7 +48,11 @@ const modules = [
     MatProgressSpinnerModule,
     MatSlideToggleModule,
     MatSortModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatListModule,
+    MatChipsModule,
+    MatCheckboxModule,
+    MatRadioModule
 ];
 
 @NgModule({

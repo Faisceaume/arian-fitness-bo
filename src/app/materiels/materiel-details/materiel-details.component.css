@@ -1,0 +1,19 @@
+
+.divlog {
+  background-image: linear-gradient(to bottom, #ffffff, #eeeef2, #dbdde6, #c8cdda, #b3bece);
+  padding: 50px 10px;
+  width: 100%;
+}
+
+.mattab {
+  width: 100%;
+  background-color: #fff;
+}
+
+.item {
+text-align: center;
+}
+
+mat-form-field{
+  width: 50%;
+}

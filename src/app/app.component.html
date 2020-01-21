@@ -1,7 +1,22 @@
-<div class="container">
+<div class="container home">
   <div fxLayout="row" fxLayoutAlign="center center">
     <img src="assets/logo-noir-transparent-500w.png" class="logo-header">
   </div>
+
+  <button mat-raised-button color="primary" routerLink="/materiels"
+        *ngIf="isAuthentification">Materiels</button>
+
+  <button mat-raised-button color="accent" routerLink="/exercices"
+        *ngIf="isAuthentification">Exercices</button>
+
+  <button mat-raised-button color="warn" routerLink="/init-categories"
+        *ngIf="isAuthentification">Categories</button>
+
+  <button mat-icon-button color="accent" (click)="seDeconnecter()"
+          matTooltip="logout" *ngIf="isAuthentification">
+  <mat-icon>power_settings_new</mat-icon>
+</button>
+
 </div>
 
 <app-nav></app-nav>

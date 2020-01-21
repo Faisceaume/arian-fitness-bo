@@ -1,1 +1,38 @@
-<p>materiel-details works!</p>
+
+<div class="mattab" *ngIf="formData">
+    <div fxLayout="column" fxLayoutAlign="start center" class="divlog">
+
+      <mat-form-field>
+        <input matInput placeholder="Nom " type="text" name="nom"
+        #nom="ngModel" [(ngModel)]="formData.nom"
+        (ngModelChange)="onValueChange('nom', formData.nom)"
+        id="nom" required>
+      </mat-form-field>
+
+      <section class="example-section">
+        <label class="example-margin">PosteFixe </label>
+           <mat-slide-toggle class="example-margin"
+           [formControl]="posteFixeControl"
+           (change)="onValueChange('postefixe', posteFixeControl.value)">
+           </mat-slide-toggle>
+      </section>
+
+      <section class="example-section">
+        <label class="example-margin">Visibility </label>
+           <mat-slide-toggle class="example-margin"
+           [formControl]="visibilityControl"
+           (change)="onValueChange('visibility', visibilityControl.value)"></mat-slide-toggle>
+      </section>
+
+      <mat-chip-list aria-label="Fish selection"
+      [selectable]="true"
+      [multiple]="true">
+        <mat-chip *ngFor="let categorie of categories"
+        [ngStyle]="{'background-color': categorie.selected ? '#ff4757' : ''}"
+        (click)="selectMe(categorie)">
+          {{categorie.nom}}
+        </mat-chip>
+      </mat-chip-list>
+
+    </div>
+</div>
