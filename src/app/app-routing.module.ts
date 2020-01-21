@@ -8,7 +8,7 @@ import { AccueilComponent } from './accueil/accueil.component';
 const routes: Routes = [
   { path : 'auth', component : AuthComponent },
   { path : 'home', canActivate: [AuthGuardService], component : AccueilComponent },
-  { path: '', redirectTo: '/auth', pathMatch: 'full' }
+  { path: '', redirectTo: '/auth', pathMatch: 'full' },
   {
     path: 'exercices', canActivate: [AuthGuardService],
     loadChildren: () => import('./exercices/exercices.module').then(mod => mod.ExercicesModule)
