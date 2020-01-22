@@ -26,6 +26,9 @@ import {MatRadioModule} from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material';
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoriesCrudComponent } from './categories/categories-crud/categories-crud.component';
+import { ObjectifsComponent } from './objectifs/objectifs.component';
+import { PathologiesComponent } from './pathologies/pathologies.component';
+import { NiveauxComponent } from './niveaux/niveaux.component';
 
 const modules = [
     CommonModule,
@@ -57,7 +60,7 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: [CategoriesComponent, CategoriesCrudComponent],
+  declarations: [CategoriesComponent, CategoriesCrudComponent, ObjectifsComponent, PathologiesComponent, NiveauxComponent],
   imports: [
     ...modules,
   ],

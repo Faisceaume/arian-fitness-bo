@@ -13,9 +13,7 @@ export class CategoriesService {
   categories: Categorie[];
   categorieSubject = new Subject<any[]>();
 
-  constructor(private firestore: AngularFirestore,
-              private router: Router,
-              ) { }
+  constructor(private firestore: AngularFirestore) { }
 
   createCategorie(categorie: Categorie, noeud: string): void {
         const batch = this.firestore.firestore.batch();
