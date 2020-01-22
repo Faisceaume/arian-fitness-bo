@@ -3,7 +3,7 @@
   <mat-tab-group mat-align-tabs="center">
 
     <mat-tab label="Connection">
-      <form #form2="ngForm" autocomplete="off" (submit)="onSubmit2()" class="text-center">
+      <form #form2="ngForm" autocomplete="off" (submit)="signIn()" class="text-center">
         <div fxLayout="column" fxLayoutAlign="start center" class="divlog">
           <mat-form-field>
             <input matInput placeholder="Email" type="email" name="email" #email="ngModel" [(ngModel)]="userSingUp.email" id="email" required>
@@ -13,17 +13,26 @@
           </mat-form-field>
           <div fxLayout="row" fxLayoutAlign="center center">
             <button mat-raised-button type="submit" color="warn" [disabled]="form2.invalid">Sign In</button>&nbsp;
-            <button mat-raised-button type="button" color="warn" (click)="connectionWithGoogle()">Google Sign In</button>
+            <button mat-raised-button type="button" color="warn" (click)="signInWithGoogle()">Google Sign In</button>
           </div>
           <div fxLayout="column" fxLayoutAlign="center center" style="padding: 2%; color: red">
             {{ errorMessageConnexion }}
           </div>
         </div>
       </form>
+
+      <div fxLayout="column" fxLayoutAlign="start center" *ngIf="">
+        <div style="padding: 2%;"><mat-spinner></mat-spinner></div> 
+        Demande d'inscription en cours
+      </div>
+      <div fxLayout="column" fxLayoutAlign="start center" *ngIf="">
+        <div style="padding: 2%"><mat-icon style="color: green">done</mat-icon></div>
+        Inscription validée 
+      </div>
     </mat-tab>
 
     <mat-tab label="Inscription">
-      <form #form1="ngForm" autocomplete="off" (ngSubmit)="onSubmit(form1)" class="text-center" [hidden]="isRegisterLoad">
+      <form #form1="ngForm" autocomplete="off" (ngSubmit)="signUp(form1)" class="text-center" [hidden]="isRegisterLoad">
         <div fxLayout="column" fxLayoutAlign="start center" class="divlog" *ngIf="!isRegistered">
           <mat-form-field>
             <input matInput placeholder="Email " type="email" name="email" #email="ngModel" [(ngModel)]="userRegister.email" id="email" required>

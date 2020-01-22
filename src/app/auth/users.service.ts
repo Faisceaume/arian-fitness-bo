@@ -56,6 +56,7 @@ export class UsersService {
     });
   }
 
+
   setIsAdministrateur(value: boolean) {
     this.isAdministrateur = value;
   }
@@ -73,6 +74,34 @@ export class UsersService {
           resolve(this.role);
         });
       });
+    });
+  }
+
+  getUserEmail(email: string) {
+    const query = this.db.firestore.collection('users').where('email', '==', email);
+    
+    return new Promise((resolve, reject) => {
+      query.get().then((querySnapshot) => {
+          if (querySnapshot.empty) {
+            resolve( false );
+          } else {
+            resolve( true );
+          }
+      }).catch((error) => console.log(error) );
+    });
+  }
+
+  createUser(mail: string) {
+    const nextId = this.db.createId();
+    this.db.collection('users').doc( nextId ).set({email:  mail, uid: nextId, role: 'pending'});
+  }
+
+  createUserG( mail: string) {
+    return new Promise((resolve, reject) => {
+      const nextId = this.db.createId();
+      console.log(mail);
+      this.db.collection('users').doc( nextId ).set({email:  mail, uid: nextId, role: 'pending'});
+      resolve();
     });
   }
 }
