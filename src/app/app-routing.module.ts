@@ -6,6 +6,7 @@ import { AccueilComponent } from './accueil/accueil.component';
 
 
 const routes: Routes = [
+  { path: '', redirectTo: '/auth', pathMatch: 'full' },
   { path : 'auth', component : AuthComponent },
   { path : 'home', component : AccueilComponent },
   { path: '', redirectTo: '/auth', pathMatch: 'full' },

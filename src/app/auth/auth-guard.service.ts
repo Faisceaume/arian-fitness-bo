@@ -19,7 +19,7 @@ export class AuthGuardService implements CanActivate {
     return new Promise<boolean>((resolve, reject) => {
       this.afauth.auth.onAuthStateChanged(
         (user) => {
-          if (user && this.authService.isConnected) {
+          if (user) {
             resolve(true);
           } else {
             this.ngZone.run(() => this.router.navigate(['/auth']));
