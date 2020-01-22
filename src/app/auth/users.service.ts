@@ -75,7 +75,6 @@ export class UsersService {
 
   getUserEmail(email: string) {
     const query = this.db.firestore.collection('users').where('email', '==', email);
-    
     return new Promise((resolve, reject) => {
       query.get().then((querySnapshot) => {
           if (querySnapshot.empty) {

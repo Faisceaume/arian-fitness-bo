@@ -14,6 +14,7 @@ export class AuthService {
 
   user: Utilisateur;
   isConnected = false;
+  isAdmin = false;
 
   constructor(private afauth: AngularFireAuth,
               private router: Router,
@@ -25,7 +26,6 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       this.afauth.auth.createUserWithEmailAndPassword(mail, password)
       .then(res => {
-        this.userService.createUser(mail);
         resolve(res);
       }, err => reject(err));
     });
@@ -45,14 +45,13 @@ export class AuthService {
 
   signOutUser() {
     this.afauth.auth.signOut().then(() => {
-      // Sign-out successful.
+      this.isAdmin = false;
       this.isConnected = false;
     }).catch((error) => {
-      // An error happened.
     });
   }
 
-  connectionWithGoogle() {
+  signInWithGoogle() {
     const provider = new auth.GoogleAuthProvider();
     return new Promise<any>((resolve, reject) => {
       this.afauth.auth.signInWithPopup(provider).then(
