@@ -8,3 +8,32 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+h2 {
+  text-transform: uppercase;
+  font-size: 1em;
+  padding-left: 10px;
+}
+
+
+.button-right {
+  position: absolute !important;
+  top: 30px;
+  right: 30px;
+}
+.button-right .mat-icon {
+  font-size: 3em;
+  width: 44px;
+  height: 44px;
+  line-height: 44px !important;
+  color: #999;
+  transition: all 0.1s;
+}
+.button-right:hover .mat-icon {
+  color: #000;
+}
+
+
+.timestamp {
+  color: #999;
+}

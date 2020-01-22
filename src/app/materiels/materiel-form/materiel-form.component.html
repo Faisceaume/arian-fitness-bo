@@ -1,37 +1,57 @@
-<div class="mattab">
+<button mat-icon-button
+  routerLink="/materiels"
+  type="button"
+  class="button-right">
+    <mat-icon>close</mat-icon>
+</button>
 
-      <form #form1="ngForm" autocomplete="off" (ngSubmit)="onSubmit()" class="text-center">
-        <div fxLayout="column" fxLayoutAlign="start center" class="divlog">
+<div fxLayout="column">
 
-          <mat-form-field>
-            <input matInput placeholder="Nom " type="text" name="nom"
-            #nom="ngModel" [(ngModel)]="formData.nom" id="nom" required>
-          </mat-form-field>
+  <h2>Ajout d'un nouveau matériel</h2>
 
-          <section class="example-section">
-            <label class="example-margin">PosteFixe </label>
-               <mat-slide-toggle class="example-margin"
-               [formControl]="posteFixeControl">
-               </mat-slide-toggle>
-          </section>
+  <form #form1="ngForm" autocomplete="off" (ngSubmit)="onSubmit()">
 
-          <section class="example-section">
-            <label class="example-margin">Visibility </label>
-               <mat-slide-toggle class="example-margin"
-               [formControl]="visibilityControl"></mat-slide-toggle>
-          </section>
+    <div fxLayout="column">
 
-          <mat-chip-list aria-label="Fish selection"
-          [selectable]="true"
-          [multiple]="true">
-            <mat-chip *ngFor="let categorie of categories"
-            [ngStyle]="{'background-color': categorie.selected ? '#ff4757' : ''}"
-            (click)="selectMe(categorie)">
-              {{categorie.nom}}
-            </mat-chip>
-          </mat-chip-list>
-          <button mat-raised-button color="warn" type="submit" [disabled]="form1.invalid">Valider</button>
+      <mat-form-field [ngStyle]="{'padding':'10px'}">
+        <input matInput placeholder="Nom du matériel" type="text"
+          name="nom" #nom="ngModel" ngModel id="nom" required>
+      </mat-form-field>
+
+      <div fxLayout="row wrap" [ngStyle]="{'padding':'10px'}">
+        <div>
+          <label>Poste Fixe </label>
+          <mat-slide-toggle color="warn"
+            [formControl]="posteFixeControl">
+          </mat-slide-toggle>
         </div>
-      </form>
+        <div [ngStyle]="{'padding-left':'30px'}">
+          <label>Visibilité </label>
+          <mat-slide-toggle color="warn"
+            [formControl]="visibilityControl">
+          </mat-slide-toggle>
+        </div>
+      </div>
+
+      <mat-chip-list aria-label="Fish selection"
+      [selectable]="true"
+      [multiple]="true">
+        <mat-chip *ngFor="let categorie of categories"
+        [ngStyle]="{'background-color': categorie.selected ? '#ff4757' : ''}"
+        (click)="selectMe(categorie)">
+          {{categorie.nom}}
+        </mat-chip>
+      </mat-chip-list>
+
+      <!-- <button mat-raised-button color="warn" type="submit" [disabled]="form1.invalid">Valider</button> -->
+
+      <button mat-fab type="submit" color="warn"
+        [ngStyle]="{'margin':'10px'}"
+			  [disabled]="!form1.form.valid">
+			  <mat-icon>save</mat-icon>
+		  </button>
+
+    </div>
+  </form>
 
 </div>

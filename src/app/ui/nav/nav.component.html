@@ -1,1 +1,32 @@
-<p>nav works!</p>
+<button id="mainmenu" mat-icon-button class="main-menu-trigger-button"
+  color="black"
+  [matMenuTriggerFor]="menu"
+  [ngStyle.xs]="{ 'left':'20px', 'top':'20px' }"
+  >
+  <mat-icon>menu</mat-icon>
+</button>
+
+
+<mat-menu #menu="matMenu" yPosition="below" xPosition="before">
+
+  <button mat-menu-item routerLink="./materiels">
+    <span>Matériels</span>
+  </button>
+  <button mat-menu-item routerLink="./exercices">
+    <span>Excercices</span>
+  </button>
+
+  <mat-divider></mat-divider>
+
+  <button *ngIf="auth.user | async as user; else login" mat-menu-item (click)="logout(user)">
+    <mat-icon>power_settings_new</mat-icon>
+    <span>Log out</span>
+  </button>
+  <ng-template #login>
+    <button mat-menu-item  routerLink ='/login'>
+      <!-- <mat-icon>lock</mat-icon> -->
+      <span>Sign In</span>
+    </button>
+  </ng-template>
+
+</mat-menu>

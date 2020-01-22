@@ -6,8 +6,6 @@ import { MaterielsRoutingModule } from './materiels-routing.module';
 import { MaterielFormComponent } from './materiel-form/materiel-form.component';
 import { SharedModule } from '../shared/shared.module';
 
-
-
 @NgModule({
   declarations: [MaterielDetailsComponent, MaterielsListComponent, MaterielFormComponent],
   imports: [

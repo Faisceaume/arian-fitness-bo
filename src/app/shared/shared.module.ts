@@ -23,6 +23,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
+import { MatMenuModule } from '@angular/material';
 
 const modules = [
     CommonModule,
@@ -40,6 +41,7 @@ const modules = [
     MatIconModule,
     MatBadgeModule,
     MatFormFieldModule,
+    MatMenuModule,
     MatPaginatorModule,
     MatDialogModule,
     MatProgressSpinnerModule,
