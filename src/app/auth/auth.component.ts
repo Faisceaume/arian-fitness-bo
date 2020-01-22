@@ -64,6 +64,7 @@ export class AuthComponent implements OnInit {
         this.roleProperty = role;
         if (this.roleProperty === 'admin') {
           this.authService.isAdmin = true;
+          this.authService.emitIsAdmin( this.authService.isAdmin );
           this.route.navigate(['/home']);
           this.errorMessageConnexion = '';
         } else {
@@ -86,6 +87,7 @@ export class AuthComponent implements OnInit {
             this.userService.getUserRole(result.email).then((role) => {
               if ( role === 'admin') {
                 this.authService.isAdmin = true;
+                this.authService.emitIsAdmin( this.authService.isAdmin );
                 this.route.navigate(['/home']);
               } else {
                 this.errorMessageConnexion = 'Votre compte Google est en cours d\'activation.';
@@ -100,6 +102,7 @@ export class AuthComponent implements OnInit {
               this.userService.getUserRole(result.email).then((role) => {
                 if (role === 'admin') {
                   this.authService.isAdmin = true;
+                  this.authService.emitIsAdmin( this.authService.isAdmin );
                   this.route.navigate(['/home']);
                 } else {
                   this.errorMessageConnexion = 'Votre inscription est en cours de traitement.';

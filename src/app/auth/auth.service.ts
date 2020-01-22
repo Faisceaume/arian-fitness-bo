@@ -6,6 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Users } from './users';
 import { auth } from 'firebase/app';
 import { UsersService } from './users.service';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,18 @@ export class AuthService {
   user: Utilisateur;
   isConnected = false;
   isAdmin = false;
+  isAdminSubject = new Subject<boolean>();
+  
 
   constructor(private afauth: AngularFireAuth,
               private router: Router,
               private db: AngularFirestore,
               private zone: NgZone,
               private userService: UsersService) { }
+
+  emitIsAdmin(isAdmins: boolean) {
+    this.isAdminSubject.next(isAdmins);
+  }
 
   createNewUser(mail: string, password: string) {
     return new Promise<any>((resolve, reject) => {
@@ -47,6 +54,7 @@ export class AuthService {
     this.afauth.auth.signOut().then(() => {
       this.isAdmin = false;
       this.isConnected = false;
+      this.emitIsAdmin(this.isAdmin);
     }).catch((error) => {
     });
   }

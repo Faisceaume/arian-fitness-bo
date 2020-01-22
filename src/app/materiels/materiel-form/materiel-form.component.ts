@@ -39,7 +39,8 @@ export class MaterielFormComponent implements OnInit {
       id: null,
       acro: '',
       nom: '',
-      timestamp: ''
+      timestamp: '',
+      acronyme: ''
     } as Categorie;
   }
 

@@ -16,7 +16,9 @@ export class AppComponent implements OnInit {
   constructor(private authService: AuthService, private afauth: AngularFireAuth) {}
 
   ngOnInit(): void {
-    this.isAdmin = this.authService.isAdmin;
+    this.authService.isAdminSubject.subscribe((admin) => {
+      this.isAdmin = admin;
+    });
     console.log(this.isAdmin);
     this.afauth.auth.onAuthStateChanged(
       (user) => {
