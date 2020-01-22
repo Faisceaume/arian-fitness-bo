@@ -9,8 +9,7 @@
 
   <h2>Liste du Matériel</h2>
 
-  <table mat-table [dataSource]="dataSource" matSort
-    [ngStyle]="{'box-shadow': 'none !important'}">
+  <table mat-table [dataSource]="dataSource" matSort [ngStyle]="{'box-shadow': 'none !important'}">
 
     <!-- Name Column -->
     <ng-container matColumnDef="nom">
@@ -28,8 +27,8 @@
     <ng-container matColumnDef="postefixe">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Poste Fixe </th>
       <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
-        <mat-icon *ngIf="element.postefixe">check</mat-icon>
-        <mat-icon *ngIf="!element.postefixe">close</mat-icon>
+        <mat-icon *ngIf="element.postefixe" (click)="updateFiel(true,'postefixe', element)">check</mat-icon>
+        <mat-icon *ngIf="!element.postefixe" (click)="updateFiel(false,'postefixe', element)">close</mat-icon>
       </td>
     </ng-container>
 
@@ -37,8 +36,8 @@
     <ng-container matColumnDef="visibility">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Visibilité</th>
       <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
-        <mat-icon *ngIf="element.visibility">visibility</mat-icon>
-        <mat-icon *ngIf="!element.visibility">visibility_off</mat-icon>
+        <mat-icon *ngIf="element.visibility" (click)="updateFiel(true,'visibility', element)">visibility</mat-icon>
+        <mat-icon *ngIf="!element.visibility" (click)="updateFiel(false,'visibility', element)">visibility_off</mat-icon>
       </td>
     </ng-container>
 

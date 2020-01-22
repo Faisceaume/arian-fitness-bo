@@ -15,7 +15,7 @@
 
       <mat-form-field [ngStyle]="{'padding':'10px'}">
         <input matInput placeholder="Nom du matériel" type="text"
-          name="nom" #nom="ngModel" ngModel id="nom" required>
+          name="nom" #nom="ngModel" [(ngModel)]="formData.nom" id="nom" required>
       </mat-form-field>
 
       <div fxLayout="row wrap" [ngStyle]="{'padding':'10px'}">
@@ -33,8 +33,6 @@
         </div>
       </div>
 
-      <app-categories [noeud]="'mat_cat'"></app-categories>
-
       <button mat-fab type="submit" color="warn"
         [ngStyle]="{'margin':'10px'}"
 			  [disabled]="!form1.form.valid">
@@ -43,7 +41,3 @@
 
     </div>
   </form>
-
-  <button mat-icon-button color="accent" (click)="openMatDialog()">
-    <mat-icon>add</mat-icon>
-  </button>

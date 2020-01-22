@@ -27,7 +27,7 @@ export class MaterielsService {
 
     batch.commit().then(() => {
       console.log('Batch Commited');
-      this.router.navigate(['materiels']);
+      this.router.navigate(['/materiels', currentid]);
     }).catch((error) => { console.error('Error creating document: ', error); });
   }
 

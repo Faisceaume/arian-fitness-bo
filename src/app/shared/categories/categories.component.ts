@@ -38,7 +38,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   constructor(private categoriesService: CategoriesService,
               private materielsService: MaterielsService,
-              private exercicesService: ExercicesService) { }
+              private exercicesService: ExercicesService,
+              private matDialog: MatDialog) { }
 
   ngOnInit() {
     this.categoriesService.getAllCategories(this.noeud);
@@ -84,6 +85,14 @@ export class CategoriesComponent implements OnInit, OnDestroy {
           this.exercicesService.newUpdateVersion(this.currentExercice, 'categories', this.chipsSelected);
         }
         this.categoriesService.setChipsSelectedForOperationValue(this.chipsSelected);
+  }
+
+  openMatDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '60%';
+    dialogConfig.data = this.noeud;
+    this.matDialog.open(CategoriesCrudComponent, dialogConfig);
   }
 
   ngOnDestroy(): void {

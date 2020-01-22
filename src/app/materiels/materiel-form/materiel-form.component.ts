@@ -23,8 +23,7 @@ export class MaterielFormComponent implements OnInit {
   visibilityControl = new FormControl();
 
   constructor(private materielsService: MaterielsService,
-              public categoriesService: CategoriesService,
-              private matDialog: MatDialog) { }
+              public categoriesService: CategoriesService) { }
 
   ngOnInit() {
     this.formData = {
@@ -52,19 +51,10 @@ export class MaterielFormComponent implements OnInit {
     if (this.visibilityControl.value) {
       this.formData.visibility = this.visibilityControl.value;
     }
-    this.formData.categories = this.categoriesService.chipsSelectedForOperation;
+   // this.formData.categories = this.categoriesService.chipsSelectedForOperation;
     // console.log(this.formData);
     // console.log(this.categoriesService.chipsSelectedForOperation);
     this.materielsService.createMateriel(this.formData);
-  }
-
-
-  openMatDialog() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
-    dialogConfig.data = 'mat_cat';
-    this.matDialog.open(CategoriesCrudComponent, dialogConfig);
   }
 
 
