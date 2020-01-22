@@ -9,7 +9,8 @@
 
   <h2>Liste du Matériel</h2>
 
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort
+    [ngStyle]="{'box-shadow': 'none !important'}">
 
     <!-- Name Column -->
     <ng-container matColumnDef="nom">
@@ -37,7 +38,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Visibilité</th>
       <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
         <mat-icon *ngIf="element.visibility">visibility</mat-icon>
-        <mat-icon *ngIf="!element.visibility">visibility</mat-icon>
+        <mat-icon *ngIf="!element.visibility">visibility_off</mat-icon>
       </td>
     </ng-container>
 

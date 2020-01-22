@@ -4,8 +4,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatSelectModule } from '@angular/material/select';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatTableModule} from '@angular/material/table';
+import { MatTabsModule} from '@angular/material/tabs';
+import { MatTableModule} from '@angular/material/table';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
@@ -24,6 +24,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material';
+
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoriesCrudComponent } from './categories/categories-crud/categories-crud.component';
 

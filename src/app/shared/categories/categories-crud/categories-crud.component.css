@@ -1,31 +1,10 @@
-table {
-  width: 100%;
-}
-
-th.mat-sort-header-sorted {
-  color: black;
-}
-
-h3{
-  text-align: center;
-}
 
 
-.divlog {
-  background-image: linear-gradient(to bottom, #ffffff, #eeeef2, #dbdde6, #c8cdda, #b3bece);
-  padding: 50px 10px;
-  width: 100%;
-}
-
-.mattab {
-  width: 100%;
-  background-color: #fff;
-}
-
-.item {
-text-align: center;
-}
-
-mat-form-field{
-  width: 50%;
+.acronyme {
+  background-color: #000;
+  color: #FFF;
+  border-radius: 10px;
+  padding: 4px;
+  font-size: 0.8em;
+  /* margin-right: 4px; */
 }
