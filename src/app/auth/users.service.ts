@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-/*import * as firebase from 'firebase/app';*/
 import {Users} from './users';
 import 'firebase/firestore';
 import { Subject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
-/*import { firestore } from 'firebase/app';*/
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +15,6 @@ export class UsersService {
 
   role: string;
   roleSubject = new Subject<string>();
-
-  /*db = firebase.firestore();*/
 
 
   constructor(private db: AngularFirestore) {}

@@ -33,17 +33,12 @@
       </div>
     </div>
 
+    <app-categories
+      [noeud]="'mat_cat'"
+      [chipsSelectedInput]="formData.categories"
+      [currentMateriel]="formData">
+    </app-categories>
 
-      <mat-chip-list aria-label="Fish selection"
-      [selectable]="true"
-      [multiple]="true">
-        <mat-chip *ngFor="let categorie of categories"
-        [ngStyle]="{'background-color': categorie.selected ? '#ff4757' : ''}"
-        (click)="selectMe(categorie)">
-          {{categorie.nom}}
-        </mat-chip>
-      </mat-chip-list>
-
-    </div>
+  </div>
 
 </div>

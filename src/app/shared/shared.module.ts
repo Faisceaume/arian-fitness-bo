@@ -24,6 +24,8 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material';
+import { CategoriesComponent } from './categories/categories.component';
+import { CategoriesCrudComponent } from './categories/categories-crud/categories-crud.component';
 
 const modules = [
     CommonModule,
@@ -55,13 +57,15 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [CategoriesComponent, CategoriesCrudComponent],
   imports: [
     ...modules,
   ],
   exports: [
     ...modules,
-]
+    CategoriesComponent,
+],
+entryComponents: [CategoriesCrudComponent]
 })
 export class SharedModule {
 

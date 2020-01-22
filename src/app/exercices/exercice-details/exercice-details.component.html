@@ -16,15 +16,10 @@
               (ngModelChange)="onValueChange('description', formData.description)" required></textarea>
           </mat-form-field>
 
-          <mat-chip-list aria-label="Fish selection"
-          [selectable]="true"
-          [multiple]="true">
-            <mat-chip *ngFor="let categorie of categories"
-            [ngStyle]="{'background-color': categorie.selected ? '#ff4757' : ''}"
-            (click)="selectMe(categorie)">
-              {{categorie.nom}}
-            </mat-chip>
-          </mat-chip-list>
+          <app-categories
+          [noeud]="'exerc_cat'"
+          [chipsSelectedInput]="formData.categories"
+          [currentExercice]="formData"></app-categories>
 
         </div>
 </div>

@@ -14,17 +14,12 @@
             [(ngModel)]="formData.description" required></textarea>
         </mat-form-field>
 
-          <mat-chip-list aria-label="Fish selection"
-          [selectable]="true"
-          [multiple]="true">
-            <mat-chip *ngFor="let categorie of categories"
-            [ngStyle]="{'background-color': categorie.selected ? '#ff4757' : ''}"
-            (click)="selectMe(categorie)">
-              {{categorie.nom}}
-            </mat-chip>
-          </mat-chip-list>
+        <app-categories [noeud]="'exerc_cat'"></app-categories>
 
           <button mat-raised-button color="warn" type="submit" [disabled]="form1.invalid">Valider</button>
         </div>
       </form>
+      <button mat-icon-button color="accent" (click)="openMatDialog()">
+        <mat-icon>add</mat-icon>
+      </button>
 </div>

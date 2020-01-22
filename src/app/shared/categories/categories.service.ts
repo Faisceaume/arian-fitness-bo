@@ -9,13 +9,15 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class CategoriesService {
 
+  chipsSelectedForOperation: Categorie[] = [];
   categories: Categorie[];
   categorieSubject = new Subject<any[]>();
 
   constructor(private firestore: AngularFirestore,
-              private router: Router) { }
+              private router: Router,
+              ) { }
 
-  createMateriel(categorie: Categorie, noeud: string): void {
+  createCategorie(categorie: Categorie, noeud: string): void {
         const batch = this.firestore.firestore.batch();
         const currentid = this.firestore.firestore.collection(noeud).doc().id;
         const nextDocument1 = this.firestore.firestore.collection(noeud).doc(currentid);
@@ -23,7 +25,6 @@ export class CategoriesService {
         data = Object.assign(categorie, {id: currentid, timestamp: new Date().getTime()});
         batch.set(nextDocument1, data);
         batch.commit().then(() => {
-                  this.router.navigate(['/init-categories', noeud]);
                 }).catch((error) => { console.error('Error creating document: ', error); });
   }
 
@@ -68,5 +69,9 @@ export class CategoriesService {
     batch.update(nextDocument1, `${attribut}`, value);
     batch.commit().then(() => {
     }).catch((error) => { console.error('Error updzting document: ', error); });
+  }
+
+  setChipsSelectedForOperationValue(elements: Categorie[]) {
+    this.chipsSelectedForOperation = elements;
   }
 }

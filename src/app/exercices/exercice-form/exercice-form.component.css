@@ -8,6 +8,7 @@
 .mattab {
   width: 100%;
   background-color: #fff;
+  text-align: center;
 }
 
 .item {
@@ -16,4 +17,8 @@ text-align: center;
 
 mat-form-field{
   width: 50%;
+}
+
+.example-chip-list {
+  width: 100%;
 }

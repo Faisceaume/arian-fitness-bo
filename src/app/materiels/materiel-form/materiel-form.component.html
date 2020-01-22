@@ -33,17 +33,7 @@
         </div>
       </div>
 
-      <mat-chip-list aria-label="Fish selection"
-      [selectable]="true"
-      [multiple]="true">
-        <mat-chip *ngFor="let categorie of categories"
-        [ngStyle]="{'background-color': categorie.selected ? '#ff4757' : ''}"
-        (click)="selectMe(categorie)">
-          {{categorie.nom}}
-        </mat-chip>
-      </mat-chip-list>
-
-      <!-- <button mat-raised-button color="warn" type="submit" [disabled]="form1.invalid">Valider</button> -->
+      <app-categories [noeud]="'mat_cat'"></app-categories>
 
       <button mat-fab type="submit" color="warn"
         [ngStyle]="{'margin':'10px'}"
@@ -54,4 +44,6 @@
     </div>
   </form>
 
-</div>
+  <button mat-icon-button color="accent" (click)="openMatDialog()">
+    <mat-icon>add</mat-icon>
+  </button>

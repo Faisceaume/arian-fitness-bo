@@ -1,9 +1,4 @@
 
-.item {
-text-align: center;
-}
-
-
 label {
   color: #666;
   text-transform: uppercase;
@@ -11,4 +6,8 @@ label {
 }
 label:hover {
   color: #000;
+}
+
+.example-chip-list {
+  width: 100%;
 }

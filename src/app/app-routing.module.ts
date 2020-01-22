@@ -17,10 +17,6 @@ const routes: Routes = [
     path: 'materiels',
     loadChildren: () => import('./materiels/materiels.module').then(mod => mod.MaterielsModule)
   },
-  {
-    path: 'init-categories', canActivate: [AuthGuardService],
-    loadChildren: () => import('./categories/categories.module').then(mod => mod.CategoriesModule)
-  },
 ];
 
 @NgModule({

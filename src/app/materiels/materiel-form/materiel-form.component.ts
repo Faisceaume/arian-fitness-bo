@@ -2,8 +2,10 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Materiel } from '../materiel';
 import { FormControl } from '@angular/forms';
 import { MaterielsService } from '../materiels.service';
-import { Categorie } from 'src/app/categories/categorie';
-import { CategoriesService } from 'src/app/categories/categories.service';
+import { Categorie } from 'src/app/shared/categories/categorie';
+import { CategoriesService } from 'src/app/shared/categories/categories.service';
+import { CategoriesCrudComponent } from 'src/app/shared/categories/categories-crud/categories-crud.component';
+import { MatDialogConfig, MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-materiel-form',
@@ -13,15 +15,16 @@ import { CategoriesService } from 'src/app/categories/categories.service';
 export class MaterielFormComponent implements OnInit {
 
   formData: Materiel;
+  formDataCategorie: Categorie;
   categories: Categorie[];
-  chipsSelected: string[] = [];
 
   // toggle slide
   posteFixeControl = new FormControl();
   visibilityControl = new FormControl();
 
   constructor(private materielsService: MaterielsService,
-              private categoriesService: CategoriesService) { }
+              public categoriesService: CategoriesService,
+              private matDialog: MatDialog) { }
 
   ngOnInit() {
     this.formData = {
@@ -33,32 +36,14 @@ export class MaterielFormComponent implements OnInit {
       categories: []
     } as Materiel;
 
-    this.categoriesService.getAllCategories('mat_cat');
-    this.categoriesService.categorieSubject.subscribe(data => {
-      this.categories = data;
-    });
+    this.formDataCategorie = {
+      id: null,
+      acro: '',
+      nom: '',
+      timestamp: ''
+    } as Categorie;
   }
 
-  selectMe(event: any) {
-    if (event.selected) {
-      event.selected = false;
-      this.removeChips(event as Categorie);
-    } else {
-      event.selected = true;
-      this.addChips(event as Categorie);
-    }
-  }
-
-  addChips(item: Categorie) {
-    this.chipsSelected.push(item.nom);
-  }
-
-  removeChips(item: Categorie) {
-    const index = this.chipsSelected.indexOf(item.nom);
-    if (index >= 0) {
-      this.chipsSelected.splice(index, 1);
-    }
-  }
 
   onSubmit(): void {
     if (this.posteFixeControl.value) {
@@ -67,8 +52,22 @@ export class MaterielFormComponent implements OnInit {
     if (this.visibilityControl.value) {
       this.formData.visibility = this.visibilityControl.value;
     }
-    this.formData.categories = this.chipsSelected;
+    this.formData.categories = this.categoriesService.chipsSelectedForOperation;
+    // console.log(this.formData);
+    // console.log(this.categoriesService.chipsSelectedForOperation);
     this.materielsService.createMateriel(this.formData);
   }
+
+
+  openMatDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '60%';
+    dialogConfig.data = 'mat_cat';
+    this.matDialog.open(CategoriesCrudComponent, dialogConfig);
+  }
+
+
+
 
 }
