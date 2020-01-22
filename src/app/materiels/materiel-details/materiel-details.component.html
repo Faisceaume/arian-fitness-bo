@@ -1,33 +1,44 @@
+<button mat-icon-button
+  routerLink="/materiels"
+  type="button"
+  class="button-right">
+    <mat-icon>close</mat-icon>
+</button>
 
-<div class="mattab" *ngIf="formData">
-    <div fxLayout="column" fxLayoutAlign="start center" class="divlog">
+<div *ngIf="formData">
 
-      <mat-form-field>
-        <input matInput placeholder="Nom" type="text" id="nom" required
-          [(ngModel)]="formData.nom"
-          (ngModelChange)="onValueChange('nom', formData.nom)"
-        >
-      </mat-form-field>
+  <div fxLayout="column">
 
-      <section class="example-section">
-        <label class="example-margin">PosteFixe </label>
-           <mat-slide-toggle class="example-margin"
-            [formControl]="posteFixeControl"
-            (change)="onValueChange('postefixe', posteFixeControl.value)">
-           </mat-slide-toggle>
-      </section>
+    <mat-form-field [ngStyle]="{'padding':'10px'}">
+      <input matInput placeholder="Nom" type="text" id="nom" required
+        [(ngModel)]="formData.nom"
+        (ngModelChange)="onValueChange('nom', formData.nom)">
+    </mat-form-field>
 
-      <section class="example-section">
-        <label class="example-margin">Visibility </label>
-           <mat-slide-toggle class="example-margin"
-           [formControl]="visibilityControl"
-           (change)="onValueChange('visibility', visibilityControl.value)"></mat-slide-toggle>
-      </section>
+    <div fxLayout="row"  [ngStyle]="{'padding':'10px'}">
+      <div [ngStyle]="{'padding-right':'30px'}">
+        <label>Poste Fixe &nbsp; </label>
+        <mat-slide-toggle
+          color="warn"
+          [formControl]="posteFixeControl"
+          (change)="onValueChange('postefixe', posteFixeControl.value)">
+        </mat-slide-toggle>
+      </div >
+      <div [ngStyle]="{'padding-left':'20px'}">
+        <label>Visibilité &nbsp; </label>
+        <mat-slide-toggle
+          color="warn"
+          [formControl]="visibilityControl"
+          (change)="onValueChange('visibility', visibilityControl.value)"></mat-slide-toggle>
+      </div>
+    </div>
 
-      <app-categories
+    <app-categories
       [noeud]="'mat_cat'"
       [chipsSelectedInput]="formData.categories"
-      [currentMateriel]="formData"></app-categories>
+      [currentMateriel]="formData">
+    </app-categories>
 
-    </div>
+  </div>
+
 </div>

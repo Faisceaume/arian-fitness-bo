@@ -48,7 +48,10 @@ export class AuthService {
 
   signOutUser() {
     this.afauth.auth.signOut().then(() => {
-
+      // Sign-out successful.
+      this.isConnected = false;
+    }).catch((error) => {
+      // An error happened.
     });
   }
 

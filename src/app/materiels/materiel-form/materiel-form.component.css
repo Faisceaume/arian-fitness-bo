@@ -1,22 +1,11 @@
 
-.divlog {
-  background-image: linear-gradient(to bottom, #ffffff, #eeeef2, #dbdde6, #c8cdda, #b3bece);
-  padding: 50px 10px;
-  width: 100%;
+label {
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
-
-.mattab {
-  width: 100%;
-  background-color: #fff;
-  text-align: center;
-}
-
-.item {
-text-align: center;
-}
-
-mat-form-field{
-  width: 50%;
+label:hover {
+  color: #000;
 }
 
 .example-chip-list {

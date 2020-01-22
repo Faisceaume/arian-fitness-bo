@@ -1,0 +1,18 @@
+
+
+.main-menu-trigger-button {
+  position: absolute !important;
+  top: 30px;
+  left: 30px;
+}
+.main-menu-trigger-button .mat-icon {
+  font-size: 3em;
+  width: 44px;
+  height: 44px;
+  line-height: 44px !important;
+  color: #999;
+  transition: all 0.1s;
+}
+.main-menu-trigger-button:hover .mat-icon {
+  color: #000;
+}

@@ -7,9 +7,9 @@ import { MaterielDetailsComponent } from './materiel-details/materiel-details.co
 
 
 const routes: Routes = [
-    { path: '', canActivate: [AuthGuardService], component: MaterielsListComponent },
-    { path: 'materiel-form', canActivate: [AuthGuardService], component: MaterielFormComponent },
-    { path: ':id', canActivate: [AuthGuardService], component: MaterielDetailsComponent },
+    { path: '', component: MaterielsListComponent },
+    { path: 'materiel-form', component: MaterielFormComponent },
+    { path: ':id', component: MaterielDetailsComponent },
   ];
 
 @NgModule({

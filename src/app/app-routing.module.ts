@@ -7,14 +7,14 @@ import { AccueilComponent } from './accueil/accueil.component';
 
 const routes: Routes = [
   { path : 'auth', component : AuthComponent },
-  { path : 'home', canActivate: [AuthGuardService], component : AccueilComponent },
+  { path : 'home', component : AccueilComponent },
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
   {
     path: 'exercices', canActivate: [AuthGuardService],
     loadChildren: () => import('./exercices/exercices.module').then(mod => mod.ExercicesModule)
   },
   {
-    path: 'materiels', canActivate: [AuthGuardService],
+    path: 'materiels',
     loadChildren: () => import('./materiels/materiels.module').then(mod => mod.MaterielsModule)
   },
 ];

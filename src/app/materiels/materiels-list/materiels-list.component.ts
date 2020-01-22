@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class MaterielsListComponent implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['date', 'nom', 'postefixe', 'visibility', 'action'];
+  displayedColumns: string[] = ['nom', 'date', 'postefixe', 'visibility', 'action'];
   dataSource: MatTableDataSource<Materiel>;
   materielsSubscription: Subscription;
 
@@ -36,6 +36,14 @@ export class MaterielsListComponent implements OnInit, OnDestroy {
   onDelete(materiel: Materiel) {
     if (confirm('Vraiment supprimer ?')) {
       this.materielsService.deleteMateriel(materiel);
+    }
+  }
+
+  updateFiel(beforeStatut: boolean, attribut: string, element: Materiel) {
+    if (beforeStatut) {
+      this.materielsService.newUpdateVersion(element, attribut, false);
+    } else {
+      this.materielsService.newUpdateVersion(element, attribut, true);
     }
   }
 
