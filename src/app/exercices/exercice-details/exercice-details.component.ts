@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Exercice } from '../exercice';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExercicesService } from '../exercices.service';
-import { Categorie } from 'src/app/shared/categories-section/categorie';
+import { Categorie } from 'src/app/shared/categories/categorie';
 
 @Component({
   selector: 'app-exercice-details',

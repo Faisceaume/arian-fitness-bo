@@ -14,9 +14,12 @@
             [(ngModel)]="formData.description" required></textarea>
         </mat-form-field>
 
-        <app-categories-section [noeud]="'exerc_cat'"></app-categories-section>
+        <app-categories [noeud]="'exerc_cat'"></app-categories>
 
           <button mat-raised-button color="warn" type="submit" [disabled]="form1.invalid">Valider</button>
         </div>
       </form>
+      <button mat-icon-button color="accent" (click)="openMatDialog()">
+        <mat-icon>add</mat-icon>
+      </button>
 </div>

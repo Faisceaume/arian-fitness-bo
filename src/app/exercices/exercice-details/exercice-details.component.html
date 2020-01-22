@@ -16,10 +16,10 @@
               (ngModelChange)="onValueChange('description', formData.description)" required></textarea>
           </mat-form-field>
 
-          <app-categories-section
+          <app-categories
           [noeud]="'exerc_cat'"
           [chipsSelectedInput]="formData.categories"
-          [currentExercice]="formData"></app-categories-section>
+          [currentExercice]="formData"></app-categories>
 
         </div>
 </div>

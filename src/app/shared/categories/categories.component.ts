@@ -7,14 +7,16 @@ import { Materiel } from 'src/app/materiels/materiel';
 import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { Exercice } from 'src/app/exercices/exercice';
 import { ExercicesService } from 'src/app/exercices/exercices.service';
+import { MatDialogConfig, MatDialog } from '@angular/material';
+import { CategoriesCrudComponent } from './categories-crud/categories-crud.component';
 
 
 @Component({
-  selector: 'app-categories-section',
-  templateUrl: './categories-section.component.html',
-  styleUrls: ['./categories-section.component.css']
+  selector: 'app-categories',
+  templateUrl: './categories.component.html',
+  styleUrls: ['./categories.component.css']
 })
-export class CategoriesSectionComponent implements OnInit, OnDestroy {
+export class CategoriesComponent implements OnInit, OnDestroy {
 
 
   @Input() noeud: string;
@@ -30,6 +32,9 @@ export class CategoriesSectionComponent implements OnInit, OnDestroy {
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   fruits: Categorie[] = [];
+
+  toCreate: boolean;
+  formData: Categorie;
 
   constructor(private categoriesService: CategoriesService,
               private materielsService: MaterielsService,
@@ -48,9 +53,12 @@ export class CategoriesSectionComponent implements OnInit, OnDestroy {
         });
       }
     });
+
   }
 
   addChip(item: Categorie) {
+    // this.chipsSelected[item.id] = item;
+    // console.log(this.chipsSelected);
     this.chipsSelected.push(item);
   }
 
@@ -62,22 +70,20 @@ export class CategoriesSectionComponent implements OnInit, OnDestroy {
   }
 
   selectMe(item: Categorie) {
-    if (item.selected) {
-      item.selected = false;
-      this.deleteChip(item);
-    } else {
-      item.selected = true;
-      this.addChip(item);
-    }
+        if (item.selected) {
+          item.selected = false;
+          this.deleteChip(item);
+        } else {
+          item.selected = true;
+          this.addChip(item);
+        }
 
-    if (this.currentMateriel) {
-      this.materielsService.newUpdateVersion(this.currentMateriel, 'categories', this.chipsSelected);
-    } else if (this.currentExercice) {
-      this.exercicesService.newUpdateVersion(this.currentExercice, 'categories', this.chipsSelected);
-    } else {
-      this.categoriesService.setChipsSelectedForOperationValue(this.chipsSelected);
-    }
-
+        if (this.currentMateriel) {
+          this.materielsService.newUpdateVersion(this.currentMateriel, 'categories', this.chipsSelected);
+        } else if (this.currentExercice) {
+          this.exercicesService.newUpdateVersion(this.currentExercice, 'categories', this.chipsSelected);
+        }
+        this.categoriesService.setChipsSelectedForOperationValue(this.chipsSelected);
   }
 
   ngOnDestroy(): void {

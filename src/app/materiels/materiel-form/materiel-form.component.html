@@ -1,5 +1,4 @@
 <div class="mattab">
-
       <form #form1="ngForm" autocomplete="off" (ngSubmit)="onSubmit()" class="text-center">
         <div fxLayout="column" fxLayoutAlign="start center" class="divlog">
 
@@ -21,10 +20,12 @@
                [formControl]="visibilityControl"></mat-slide-toggle>
           </section>
 
-            <app-categories-section [noeud]="'mat_cat'"></app-categories-section>
+          <app-categories [noeud]="'mat_cat'"></app-categories>
 
           <button mat-raised-button color="warn" type="submit" [disabled]="form1.invalid">Valider</button>
         </div>
       </form>
-
+      <button mat-icon-button color="accent" (click)="openMatDialog()">
+        <mat-icon>add</mat-icon>
+      </button>
 </div>

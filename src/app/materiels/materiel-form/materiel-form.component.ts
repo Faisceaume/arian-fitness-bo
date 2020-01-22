@@ -2,8 +2,10 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Materiel } from '../materiel';
 import { FormControl } from '@angular/forms';
 import { MaterielsService } from '../materiels.service';
-import { Categorie } from 'src/app/shared/categories-section/categorie';
-import { CategoriesService } from 'src/app/shared/categories-section/categories.service';
+import { Categorie } from 'src/app/shared/categories/categorie';
+import { CategoriesService } from 'src/app/shared/categories/categories.service';
+import { CategoriesCrudComponent } from 'src/app/shared/categories/categories-crud/categories-crud.component';
+import { MatDialogConfig, MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-materiel-form',
@@ -13,6 +15,7 @@ import { CategoriesService } from 'src/app/shared/categories-section/categories.
 export class MaterielFormComponent implements OnInit {
 
   formData: Materiel;
+  formDataCategorie: Categorie;
   categories: Categorie[];
 
   // toggle slide
@@ -20,7 +23,8 @@ export class MaterielFormComponent implements OnInit {
   visibilityControl = new FormControl();
 
   constructor(private materielsService: MaterielsService,
-              private categoriesService: CategoriesService) { }
+              public categoriesService: CategoriesService,
+              private matDialog: MatDialog) { }
 
   ngOnInit() {
     this.formData = {
@@ -31,6 +35,13 @@ export class MaterielFormComponent implements OnInit {
       visibility: false,
       categories: []
     } as Materiel;
+
+    this.formDataCategorie = {
+      id: null,
+      acro: '',
+      nom: '',
+      timestamp: ''
+    } as Categorie;
   }
 
 
@@ -42,7 +53,21 @@ export class MaterielFormComponent implements OnInit {
       this.formData.visibility = this.visibilityControl.value;
     }
     this.formData.categories = this.categoriesService.chipsSelectedForOperation;
+    // console.log(this.formData);
+    // console.log(this.categoriesService.chipsSelectedForOperation);
     this.materielsService.createMateriel(this.formData);
   }
+
+
+  openMatDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '60%';
+    dialogConfig.data = 'mat_cat';
+    this.matDialog.open(CategoriesCrudComponent, dialogConfig);
+  }
+
+
+
 
 }

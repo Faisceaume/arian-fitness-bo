@@ -1,4 +1,4 @@
-import { Categorie } from '../shared/categories-section/categorie';
+import { Categorie } from '../shared/categories/categorie';
 
 export class Materiel {
   id: string;
