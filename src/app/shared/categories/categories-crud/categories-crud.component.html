@@ -5,11 +5,12 @@
 </button>
 
 <button mat-icon-button class="button-right-modal"
+  (click)="closeDialog()"
   *ngIf="toCreate || toEdit" type="button">
     <mat-icon>close</mat-icon>
 </button>
 
-<h2 class="h2-modal">Gestion des Categories {{ typeDeCategorie }}</h2>
+<h2 class="h2-modal">Gestion des Categories {{ typecat }}</h2>
 
 <ng-template #loading>
   <br><br><br><br>
@@ -21,38 +22,37 @@
 <div *ngIf="!toCreate && !toEdit">
   <mat-chip-list *ngIf="categories; else loading">
     <mat-chip *ngFor="let cat of categories">
+      {{ cat.nom }}
       <span class="acronyme">{{ cat.acronyme }}</span>
       <mat-icon (click)="onDelete(cat)">cancel</mat-icon>
-      {{ cat.nom }}
       <mat-icon (click)="onEdit(cat)">edit</mat-icon>
     </mat-chip>
   </mat-chip-list>
 </div>
 
 
-<div *ngIf="toCreate || toEdit">
+<div fxLayoutAlign="start start" *ngIf="toCreate || toEdit">
   <form #form2="ngForm" autocomplete="off" (ngSubmit)="onSubmit2(form2)">
-    <div fxLayout="column" fxLayoutAlign="start start">
 
-      <mat-form-field>
+      <mat-form-field fxFlex>
         <input matInput placeholder="Nom de la Catégorie" type="text" name="nom"
           [(ngModel)]="formDataCategorie.nom"
           (ngModelChange)="updateField('nom', formDataCategorie.nom)"
           id="nom" required>
       </mat-form-field>
-
+      &nbsp;&nbsp;
       <mat-form-field>
-        <input matInput placeholder="Acronyme de la catégorie" type="text" name="acronyme"
+        <input matInput placeholder="Acronyme" type="text" name="acronyme"
+          maxlength="3"
           [(ngModel)]="formDataCategorie.acronyme"
           (ngModelChange)="updateField('acronyme', formDataCategorie.acronyme)"
           id="acronyme" required>
       </mat-form-field>
-
+      &nbsp;&nbsp;
       <button mat-fab color="warn" type="submit"
         [disabled]="form2.invalid"
         *ngIf="toCreate">
           <mat-icon>save</mat-icon>
       </button>
-    </div>
-  </form>
+    </form>
 </div>

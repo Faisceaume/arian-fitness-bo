@@ -39,7 +39,7 @@ export class MaterielsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateFiel(beforeStatut: boolean, attribut: string, element: Materiel) {
+  updateField(beforeStatut: boolean, attribut: string, element: Materiel) {
     if (beforeStatut) {
       this.materielsService.newUpdateVersion(element, attribut, false);
     } else {

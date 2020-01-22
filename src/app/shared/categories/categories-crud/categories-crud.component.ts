@@ -15,12 +15,15 @@ export class CategoriesCrudComponent implements OnInit {
   toCreate: boolean;
   toEdit: boolean;
   categories: any;
+  typecat: any;
 
   constructor(private categoriesService: CategoriesService,
               public dialogRef: MatDialogRef<CategoriesCrudComponent>,
               @Inject(MAT_DIALOG_DATA) public data: string) { }
 
   ngOnInit() {
+    console.log(this.data);
+    this.typecat = this.data === 'mat_cat' ? 'de matériel' : 'd\'exercices';
     this.categoriesService.getAllCategories(this.data);
     this.categoriesService.categorieSubject.subscribe(data => {
       this.categories = data;
@@ -64,6 +67,10 @@ export class CategoriesCrudComponent implements OnInit {
     if (confirm('Confirmer la suppression ?')) {
       this.categoriesService.deleteCategorie(categorie, this.data);
     }
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
   }
 
 }
