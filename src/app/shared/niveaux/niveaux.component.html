@@ -1,0 +1,69 @@
+<button mat-icon-button
+  type="button"
+  class="button-right"
+  (click)="onCreate()">
+    <mat-icon>add</mat-icon>
+</button>
+
+<div [ngStyle]="{'padding':'0 10px'}">
+
+  <h2>Liste du Matériel</h2>
+
+  <table mat-table [dataSource]="dataSource" matSort [ngStyle]="{'box-shadow': 'none !important'}">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="nom">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom du Niveau</th>
+      <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+    </ng-container>
+
+    <!-- Date Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Timestamp</th>
+      <td mat-cell *matCellDef="let element" class="timestamp"> {{element.timestamp | date}} </td>
+    </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
+          <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+        </ng-container>
+
+            <!-- Name Column -->
+    <ng-container matColumnDef="repetitionexercice">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Repetition Exercice</th>
+      <td mat-cell *matCellDef="let element"> {{element.repetitionexercice}} </td>
+    </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="nbrsemaine">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre de Semaine</th>
+          <td mat-cell *matCellDef="let element"> {{element.nbrsemaine}} </td>
+        </ng-container>
+
+            <!-- Name Column -->
+    <ng-container matColumnDef="nbrsemainemodereprise">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nbr de semaine reprise</th>
+      <td mat-cell *matCellDef="let element"> {{element.nbrsemainemodereprise}} </td>
+    </ng-container>
+
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+      <td mat-cell *matCellDef="let element" [ngStyle]="{'text-align':'right'}">
+        <button mat-icon-button (click)="onUpdate(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="onDelete(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+</div>
+

@@ -20,6 +20,15 @@
           </div>
         </div>
       </form>
+
+      <div fxLayout="column" fxLayoutAlign="start center" *ngIf="">
+        <div style="padding: 2%;"><mat-spinner></mat-spinner></div>
+        Demande d'inscription en cours
+      </div>
+      <div fxLayout="column" fxLayoutAlign="start center" *ngIf="">
+        <div style="padding: 2%"><mat-icon style="color: green">done</mat-icon></div>
+        Inscription validée
+      </div>
     </mat-tab>
 
     <mat-tab label="Inscription">

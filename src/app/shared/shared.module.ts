@@ -27,6 +27,12 @@ import { MatMenuModule } from '@angular/material';
 
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoriesCrudComponent } from './categories/categories-crud/categories-crud.component';
+import { ObjectifsComponent } from './objectifs/objectifs.component';
+import { NiveauxComponent } from './niveaux/niveaux.component';
+import { PathologiesComponent } from './pathologies/pathologies.component';
+import { ObjectifsCrudComponent } from './objectifs/objectifs-crud/objectifs-crud.component';
+import { NiveauxCrudComponent } from './niveaux/niveaux-crud/niveaux-crud.component';
+import { PathologiesCrudComponent } from './pathologies/pathologies-crud/pathologies-crud.component';
 
 const modules = [
     CommonModule,
@@ -58,7 +64,14 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: [CategoriesComponent, CategoriesCrudComponent],
+  declarations: [CategoriesComponent,
+                 CategoriesCrudComponent,
+                 ObjectifsComponent,
+                 NiveauxComponent,
+                PathologiesComponent,
+                ObjectifsCrudComponent,
+                NiveauxCrudComponent,
+                PathologiesCrudComponent],
   imports: [
     ...modules,
   ],
@@ -66,7 +79,10 @@ const modules = [
     ...modules,
     CategoriesComponent,
 ],
-entryComponents: [CategoriesCrudComponent]
+entryComponents: [CategoriesCrudComponent,
+                  ObjectifsCrudComponent,
+                  NiveauxCrudComponent,
+                  PathologiesCrudComponent]
 })
 export class SharedModule {
 

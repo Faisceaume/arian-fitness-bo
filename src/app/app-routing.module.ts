@@ -3,12 +3,18 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { AccueilComponent } from './accueil/accueil.component';
+import { ObjectifsComponent } from './shared/objectifs/objectifs.component';
+import { NiveauxComponent } from './shared/niveaux/niveaux.component';
+import { PathologiesComponent } from './shared/pathologies/pathologies.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
   { path : 'auth', component : AuthComponent },
   { path : 'home', canActivate: [AuthGuardService], component : AccueilComponent },
+  { path : 'objectifs', component : ObjectifsComponent },
+  { path : 'niveaux', component : NiveauxComponent },
+  { path : 'pathologies', component : PathologiesComponent },
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
   {
     path: 'exercices', canActivate: [AuthGuardService],

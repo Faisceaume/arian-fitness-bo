@@ -37,7 +37,7 @@ export class MaterielFormComponent implements OnInit {
 
     this.formDataCategorie = {
       id: null,
-      acro: '',
+      acronyme: '',
       nom: '',
       timestamp: '',
       acronyme: ''
@@ -52,9 +52,6 @@ export class MaterielFormComponent implements OnInit {
     if (this.visibilityControl.value) {
       this.formData.visibility = this.visibilityControl.value;
     }
-   // this.formData.categories = this.categoriesService.chipsSelectedForOperation;
-    // console.log(this.formData);
-    // console.log(this.categoriesService.chipsSelectedForOperation);
     this.materielsService.createMateriel(this.formData);
   }
 
