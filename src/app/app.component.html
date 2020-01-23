@@ -5,5 +5,5 @@
   </div>
 </div>
 
-<app-nav *ngIf="isAdmin"></app-nav>
+<app-nav *ngIf="isAdmin && isAuth"></app-nav>
 <router-outlet></router-outlet>

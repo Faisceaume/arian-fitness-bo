@@ -11,11 +11,13 @@ export class AppComponent implements OnInit {
 
   title = 'arian-fitness-bo';
   isAuthentification: boolean;
-  isAdmin = false;
+  isAdmin: boolean;
+  isAuth: boolean;
 
   constructor(private authService: AuthService, private afauth: AngularFireAuth) {}
 
   ngOnInit(): void {
+    this.isAdmin = true;
     this.authService.isAdminSubject.subscribe((admin) => {
       this.isAdmin = admin;
     });
@@ -24,6 +26,7 @@ export class AppComponent implements OnInit {
       (user) => {
         if (user) {
           this.isAuthentification = true;
+          this.isAuth = true;
         } else {
           this.isAuthentification = false;
         }
