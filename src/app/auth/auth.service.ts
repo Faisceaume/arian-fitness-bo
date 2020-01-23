@@ -33,7 +33,6 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       this.afauth.auth.createUserWithEmailAndPassword(mail, password)
       .then(res => {
-        this.userService.createUser(mail);
         resolve(res);
       }, err => reject(err));
     });

@@ -78,6 +78,7 @@ const modules = [
   exports: [
     ...modules,
     CategoriesComponent,
+    ObjectifsComponent,
 ],
 entryComponents: [CategoriesCrudComponent,
                   ObjectifsCrudComponent,

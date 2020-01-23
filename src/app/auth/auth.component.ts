@@ -40,9 +40,10 @@ export class AuthComponent implements OnInit {
     const data = form.value;
     if (form.valid) {
       this.isRegisterLoad = true;
+      this.userService.createUser(data.email);
       this.authService.createNewUser(data.email, data.password)
       .then(res => {
-        this.userService.createUser(data.email);
+        console.log(data);
         this.isRegistered = true;
         this.isRegisterLoad = false;
         this.errorMessageInscription = '';
