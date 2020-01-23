@@ -15,9 +15,8 @@ export class AuthService {
 
   user: Utilisateur;
   isConnected = false;
-  isAdmin = false;
+  isAdmin: boolean;
   isAdminSubject = new Subject<boolean>();
-
 
   constructor(private afauth: AngularFireAuth,
               private router: Router,

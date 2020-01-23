@@ -43,7 +43,6 @@ export class AuthComponent implements OnInit {
       this.userService.createUser(data.email);
       this.authService.createNewUser(data.email, data.password)
       .then(res => {
-        console.log(data);
         this.isRegistered = true;
         this.isRegisterLoad = false;
         this.errorMessageInscription = '';
