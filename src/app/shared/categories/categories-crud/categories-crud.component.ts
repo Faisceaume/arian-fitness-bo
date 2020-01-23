@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { MatTableDataSource, MatSort, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Categorie } from '../categorie';
 import { CategoriesService } from '../categories.service';
 import { NgForm } from '@angular/forms';
@@ -11,23 +11,22 @@ import { NgForm } from '@angular/forms';
 })
 export class CategoriesCrudComponent implements OnInit {
 
-  displayedColumns: string[] = ['date', 'nom', 'acro', 'action'];
-  dataSource: MatTableDataSource<Categorie>;
   formDataCategorie: Categorie;
   toCreate: boolean;
   toEdit: boolean;
+  categories: any;
+  typecat: any;
 
   constructor(private categoriesService: CategoriesService,
               public dialogRef: MatDialogRef<CategoriesCrudComponent>,
               @Inject(MAT_DIALOG_DATA) public data: string) { }
 
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
-
   ngOnInit() {
+    console.log(this.data);
+    this.typecat = this.data === 'mat_cat' ? 'de matériel' : 'd\'exercices';
     this.categoriesService.getAllCategories(this.data);
     this.categoriesService.categorieSubject.subscribe(data => {
-      this.dataSource = new MatTableDataSource<Categorie>(data);
-      this.dataSource.sort = this.sort;
+      this.categories = data;
     });
     this.initFormData();
   }
@@ -36,7 +35,7 @@ export class CategoriesCrudComponent implements OnInit {
     this.formDataCategorie = {
       id: null,
       nom: '',
-      acro: '',
+      acronyme: '',
       timestamp: ''
     } as Categorie;
   }
@@ -65,9 +64,13 @@ export class CategoriesCrudComponent implements OnInit {
   }
 
   onDelete(categorie: Categorie) {
-    if (confirm('Vraiment supprimer ?')) {
+    if (confirm('Confirmer la suppression ?')) {
       this.categoriesService.deleteCategorie(categorie, this.data);
     }
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
   }
 
 }

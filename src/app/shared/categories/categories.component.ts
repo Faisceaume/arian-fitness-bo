@@ -31,7 +31,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruits: Categorie[] = [];
+  categories: Categorie[] = [];
 
   toCreate: boolean;
   formData: Categorie;
@@ -44,12 +44,12 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.categoriesService.getAllCategories(this.noeud);
     this.categoriesService.categorieSubject.subscribe(data => {
-      this.fruits = data;
+      this.categories = data;
       if (this.chipsSelectedInput) {
         this.chipsSelected = this.chipsSelectedInput;
-        this.fruits.forEach((item: Categorie, index) => {
+        this.categories.forEach((item: Categorie, index) => {
           if (this.chipsSelectedInput.find(it => it.id === item.id)) {
-            this.fruits[index].selected = true;
+            this.categories[index].selected = true;
           }
         });
       }
@@ -87,7 +87,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         this.categoriesService.setChipsSelectedForOperationValue(this.chipsSelected);
   }
 
-  openMatDialog() {
+  openMatDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = '60%';

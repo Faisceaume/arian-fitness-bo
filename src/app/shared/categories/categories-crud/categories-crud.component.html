@@ -1,67 +1,58 @@
-<h3>Categories Section</h3>
-<button mat-icon-button color="accent" (click)="onCreate()">
-  <mat-icon>add</mat-icon>
+<button mat-icon-button class="button-right-modal"
+  *ngIf="!toCreate && !toEdit"
+  (click)="onCreate()" type="button">
+    <mat-icon>add</mat-icon>
 </button>
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-  <!-- Position Column -->
-  <ng-container matColumnDef="date">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-    <td mat-cell *matCellDef="let element"> {{element.timestamp | date: 'M/dd' }} </td>
-  </ng-container>
+<button mat-icon-button class="button-right-modal"
+  (click)="closeDialog()"
+  *ngIf="toCreate || toEdit" type="button">
+    <mat-icon>close</mat-icon>
+</button>
 
-    <!-- Weight Column -->
-    <ng-container matColumnDef="acro">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Acronyme </th>
-      <td mat-cell *matCellDef="let element"> {{element.acro}} </td>
-    </ng-container>
+<h2 class="h2-modal">Gestion des Categories {{ typecat }}</h2>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="nom">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
-    <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
-  </ng-container>
-
-   <!-- Symbol Column -->
-   <ng-container matColumnDef="action">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-icon-button color="accent" (click)="onEdit(element)">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button color="accent" (click)="onDelete(element)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+<ng-template #loading>
+  <br><br><br><br>
+  <mat-spinner color="warn"></mat-spinner>
+  <br><br>
+</ng-template>
 
 
+<div *ngIf="!toCreate && !toEdit">
+  <mat-chip-list *ngIf="categories; else loading">
+    <mat-chip *ngFor="let cat of categories">
+      {{ cat.nom }}
+      <span class="acronyme">{{ cat.acronyme }}</span>
+      <mat-icon (click)="onDelete(cat)">cancel</mat-icon>
+      <mat-icon (click)="onEdit(cat)">edit</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+</div>
 
-<div class="mattab" *ngIf="toCreate || toEdit">
-  <form #form2="ngForm" autocomplete="off" (ngSubmit)="onSubmit2(form2)" class="text-center">
-    <div fxLayout="column" fxLayoutAlign="start center" class="divlog">
 
-      <mat-form-field>
-        <input matInput placeholder="nom " type="text" name="nom"
-        [(ngModel)]="formDataCategorie.nom"
-        (ngModelChange)="updateField('nom', formDataCategorie.nom)"
-        id="nom" required>
+<div fxLayoutAlign="start start" *ngIf="toCreate || toEdit">
+  <form #form2="ngForm" autocomplete="off" (ngSubmit)="onSubmit2(form2)">
+
+      <mat-form-field fxFlex>
+        <input matInput placeholder="Nom de la Catégorie" type="text" name="nom"
+          [(ngModel)]="formDataCategorie.nom"
+          (ngModelChange)="updateField('nom', formDataCategorie.nom)"
+          id="nom" required>
       </mat-form-field>
-
+      &nbsp;&nbsp;
       <mat-form-field>
-        <input matInput placeholder="acronyme " type="text" name="acro"
-        [(ngModel)]="formDataCategorie.acro"
-        (ngModelChange)="updateField('acro', formDataCategorie.acro)"
-        id="acro" required>
+        <input matInput placeholder="Acronyme" type="text" name="acronyme"
+          maxlength="3"
+          [(ngModel)]="formDataCategorie.acronyme"
+          (ngModelChange)="updateField('acronyme', formDataCategorie.acronyme)"
+          id="acronyme" required>
       </mat-form-field>
-
-      <button mat-raised-button color="warn" type="submit"
-      [disabled]="form2.invalid"
-      *ngIf="toCreate">Valider</button>
-    </div>
-  </form>
+      &nbsp;&nbsp;
+      <button mat-fab color="warn" type="submit"
+        [disabled]="form2.invalid"
+        *ngIf="toCreate">
+          <mat-icon>save</mat-icon>
+      </button>
+    </form>
 </div>

@@ -24,8 +24,8 @@ export class PathologiesService {
             }).catch((error) => { console.error('Error creating document: ', error); });
 }
 
-getAllPathologies() {
-this.firestore.collection('pathologies')
+getAllPathologies(): void {
+  this.firestore.collection('pathologies')
               .snapshotChanges().subscribe( data => {
    this.pathologies = data.map( e => {
     const anotherData = e.payload.doc.data() as Pathologie;
@@ -38,11 +38,11 @@ this.firestore.collection('pathologies')
 }
 
 emitPathologieSubject() {
-this.pathologieSubject.next(this.pathologies.slice());
+  this.pathologieSubject.next(this.pathologies.slice());
 }
 
 getSinglePathologie(id: string) {
-return new Promise<Pathologie>((resolve, reject) => {
+  return new Promise<Pathologie>((resolve, reject) => {
   const museums = this.firestore.firestore.collection('pathologies').where('id', '==', id);
   museums.get().then((querySnapshot) =>  {
     querySnapshot.forEach((doc) => {
@@ -55,16 +55,16 @@ return new Promise<Pathologie>((resolve, reject) => {
 });
 }
 
-deletePathologie(pathologie: Pathologie) {
-this.firestore.collection('pathologies').doc(pathologie.id).delete();
+deletePathologie(item: Pathologie) {
+  this.firestore.doc('pathologies/' + item.id).delete();
 }
 
 newUpdateVersion(pathologie: Pathologie, attribut: string, value: any) {
-const batch = this.firestore.firestore.batch();
-const nextDocument1 = this.firestore.firestore.collection('pathologies').doc(pathologie.id);
-batch.update(nextDocument1, `${attribut}`, value);
-batch.commit().then(() => {
-}).catch((error) => { console.error('Error updzting document: ', error); });
+  const batch = this.firestore.firestore.batch();
+  const nextDocument1 = this.firestore.firestore.collection('pathologies').doc(pathologie.id);
+  batch.update(nextDocument1, `${attribut}`, value);
+  batch.commit().then(() => {
+    }).catch((error) => { console.error('Error updzting document: ', error); });
 }
 
 }

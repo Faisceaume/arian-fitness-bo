@@ -32,8 +32,7 @@ export class AuthComponent implements OnInit {
   constructor(
     private userService: UsersService,
     private authService: AuthService,
-    private route: Router,
-    private zone: NgZone ) { }
+    private route: Router ) { }
 
   ngOnInit() {
 
@@ -47,9 +46,9 @@ export class AuthComponent implements OnInit {
       .then(res => {
         this.isRegistered = true;
         this.isRegisterLoad = false;
-        console.log(res);
         this.errorMessageInscription = '';
-        /*this.authService.signOutUser();*/
+        console.log(res);
+        this.authService.signOutUser();
       }, err => {
        this.isRegisterLoad = false;
        this.errorMessageInscription = err;
@@ -81,13 +80,40 @@ export class AuthComponent implements OnInit {
 
   signInWithGoogle() {
     const promesse = new Promise((resolve, reject) => {
-      this.authService.connectionWithGoogle();
+      this.authService.connectionWithGoogle().then((result) => {
+        this.userService.getUserEmail(result.email).then((mail) => {
+          if (mail) {
+            this.userService.getUserRole(result.email).then((role) => {
+              if ( role === 'admin') {
+                this.route.navigate(['/home']);
+              } else {
+                this.errorMessageConnexion = 'Vous n\'êtes pas administrateur';
+                this.authService.isConnected = false;
+                this.authService.signOutUser();
+                return;
+              }
+            });
+          } else {
+            const maill = result.email;
+            this.userService.createUserG(maill).then(() => {
+              this.userService.getUserRole(result.email).then((role) => {
+                if (role === 'admin') {
+                  this.route.navigate(['/home']);
+                } else {
+                  this.errorMessageConnexion = 'Vous n\'êtes pas administrateur !!!';
+                  this.authService.isConnected = false;
+                  this.authService.signOutUser();
+                  return;
+                }
+              });
+            });
+          }
+        });
+      });
       resolve();
     });
 
     promesse.then(() => {
-      this.route.navigate(['/home']);
     });
   }
-
 }

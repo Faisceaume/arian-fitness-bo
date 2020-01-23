@@ -14,6 +14,10 @@ h2 {
   font-size: 1em;
   padding-left: 10px;
 }
+h2.h2-modal {
+  padding-left: 0px;
+  font-size: 1.2em;
+}
 
 
 .button-right {
@@ -21,19 +25,31 @@ h2 {
   top: 30px;
   right: 30px;
 }
-.button-right .mat-icon {
-  font-size: 3em;
-  width: 44px;
-  height: 44px;
-  line-height: 44px !important;
+.button-right .mat-icon, .button-right-modal .mat-icon {
+  font-size: 40px;
+  width: 40px !important;
+  height: 40px !important;
+  line-height: 40px !important;
   color: #999;
   transition: all 0.1s;
 }
-.button-right:hover .mat-icon {
+.button-right:hover .mat-icon, .button-right-modal .mat-icon {
   color: #000;
 }
 
 
+.button-right-modal {
+  float: right;
+}
+
+
+
 .timestamp {
   color: #999;
+}
+
+
+.dark-chip {
+  background-color: #000 !important;
+  color: #FFF !important;
 }

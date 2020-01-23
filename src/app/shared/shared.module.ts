@@ -4,8 +4,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatSelectModule } from '@angular/material/select';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatTableModule} from '@angular/material/table';
+import { MatTabsModule} from '@angular/material/tabs';
+import { MatTableModule} from '@angular/material/table';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
@@ -24,11 +24,15 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material';
+
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoriesCrudComponent } from './categories/categories-crud/categories-crud.component';
 import { ObjectifsComponent } from './objectifs/objectifs.component';
-import { PathologiesComponent } from './pathologies/pathologies.component';
 import { NiveauxComponent } from './niveaux/niveaux.component';
+import { PathologiesComponent } from './pathologies/pathologies.component';
+import { ObjectifsCrudComponent } from './objectifs/objectifs-crud/objectifs-crud.component';
+import { NiveauxCrudComponent } from './niveaux/niveaux-crud/niveaux-crud.component';
+import { PathologiesCrudComponent } from './pathologies/pathologies-crud/pathologies-crud.component';
 
 const modules = [
     CommonModule,
@@ -60,7 +64,14 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: [CategoriesComponent, CategoriesCrudComponent, ObjectifsComponent, PathologiesComponent, NiveauxComponent],
+  declarations: [CategoriesComponent,
+                 CategoriesCrudComponent,
+                 ObjectifsComponent,
+                 NiveauxComponent,
+                PathologiesComponent,
+                ObjectifsCrudComponent,
+                NiveauxCrudComponent,
+                PathologiesCrudComponent],
   imports: [
     ...modules,
   ],
@@ -68,7 +79,10 @@ const modules = [
     ...modules,
     CategoriesComponent,
 ],
-entryComponents: [CategoriesCrudComponent]
+entryComponents: [CategoriesCrudComponent,
+                  ObjectifsCrudComponent,
+                  NiveauxCrudComponent,
+                  PathologiesCrudComponent]
 })
 export class SharedModule {
 

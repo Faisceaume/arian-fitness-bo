@@ -1,7 +1,7 @@
 export class Categorie {
   id: string;
   nom: string;
-  acro: string;
+  acronyme: string;
   timestamp: string;
   selected?: boolean;
 }
