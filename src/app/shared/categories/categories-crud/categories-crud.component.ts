@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Categorie } from '../categorie';
 import { CategoriesService } from '../categories.service';
@@ -59,7 +59,7 @@ export class CategoriesCrudComponent implements OnInit {
 
   updateField(attribut: string, value: any) {
     if (this.formDataCategorie.id) {
-      this.categoriesService.newUpdateVersion(this.formDataCategorie, attribut, value, this.data)
+      this.categoriesService.newUpdateVersion(this.formDataCategorie, attribut, value, this.data);
     }
   }
 

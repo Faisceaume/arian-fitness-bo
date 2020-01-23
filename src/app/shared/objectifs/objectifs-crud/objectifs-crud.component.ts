@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ObjectifsService } from '../objectifs.service';
 import { Objectif } from '../objectif';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-objectifs-crud',
@@ -33,7 +32,7 @@ export class ObjectifsCrudComponent implements OnInit {
     }
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit() {
     this.objectifsService.createObjectif(this.formData);
     this.closeDialog();
   }

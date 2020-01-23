@@ -30,6 +30,9 @@ export class NiveauxComponent implements OnInit {
   }
 
   onDelete(niveau: Niveau) {
+    if (confirm('vraiment supprimer ?')) {
+      this.niveauxService.deleteNiveau(niveau);
+    }
   }
 
   onCreate() {
