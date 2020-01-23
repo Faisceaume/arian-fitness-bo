@@ -46,7 +46,6 @@ export class AuthComponent implements OnInit {
         this.isRegistered = true;
         this.isRegisterLoad = false;
         this.errorMessageInscription = '';
-        console.log(res);
         this.authService.signOutUser();
       }, err => {
        this.isRegisterLoad = false;
@@ -58,7 +57,6 @@ export class AuthComponent implements OnInit {
   signIn() {
     this.authService.SignInUser(this.userSingUp.email, this.userSingUp.password)
     .then(res => {
-      console.log(res);
       this.errorMessageConnexion = '';
       this.userService.getUserRole(this.userSingUp.email).then((role: string) => {
         this.roleProperty = role;
