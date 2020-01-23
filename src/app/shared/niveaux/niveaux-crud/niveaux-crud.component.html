@@ -1,1 +1,40 @@
-<p>niveaux-crud works!</p>
+<div class="mattab">
+  <form #form="ngForm" autocomplete="off" (ngSubmit)="onSubmit()" class="text-center">
+    <div fxLayout="column" fxLayoutAlign="start center" class="divlog">
+
+      <mat-form-field>
+        <input matInput placeholder="nom " type="text" name="nom"
+        [(ngModel)]="formData.nom"
+        (ngModelChange)="updateField('nom', formData.nom)" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="nombre" type="number" name="nombre"
+        [(ngModel)]="formData.nombre"
+        (ngModelChange)="updateField('nombre', formData.nombre)" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="repetition exercice " type="text" name="repetitionexercice"
+        [(ngModel)]="formData.repetitionexercice"
+        (ngModelChange)="updateField('repetitionexercice', formData.repetitionexercice)" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="nombre de semaine " type="number" name="nbrsemaine"
+        [(ngModel)]="formData.nbrsemaine"
+        (ngModelChange)="updateField('nbrsemaine', formData.nbrsemaine)" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Select an option</mat-label>
+        <mat-select [(value)]="formData.nbrsemainemodereprise" (selectionChange)="onChangeValue($event)">
+          <mat-option value="1/2">1/2</mat-option>
+          <mat-option value="1/8">1/8</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="warn" type="submit" [disabled]="form.invalid">Valider</button>
+    </div>
+  </form>
+</div>

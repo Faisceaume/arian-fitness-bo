@@ -29,7 +29,9 @@ export class PathologiesComponent implements OnInit {
   }
 
   onDelete(pathologie: Pathologie) {
-
+    if (confirm('Vraiment Supprimer ?')) {
+      this.pathologiesService.deletePathologie(pathologie);
+    }
   }
 
   onCreate() {

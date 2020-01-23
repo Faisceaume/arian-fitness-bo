@@ -1,1 +1,36 @@
-<p>pathologies-crud works!</p>
+<div fxLayoutAlign="start start">
+  <form #form="ngForm" autocomplete="off" (ngSubmit)="onSubmit(form)">
+
+      <mat-form-field fxFlex>
+        <input matInput placeholder="Nom de la pathologie" type="text" name="nom"
+          [(ngModel)]="formData.nom"
+          (ngModelChange)="updateField('nom', formData.nom)"
+          id="nom" required>
+      </mat-form-field>
+      &nbsp;&nbsp;
+
+      <mat-form-field>
+        <input matInput placeholder="Acronyme" type="text" name="acronyme"
+          maxlength="3"
+          [(ngModel)]="formData.acronyme"
+          (ngModelChange)="updateField('acronyme', formData.acronyme)"
+          id="acronyme" required>
+      </mat-form-field>
+      &nbsp;&nbsp;
+
+      <mat-form-field class="example-full-width">
+        <textarea matInput placeholder="details" name="details"
+        rows="7" [(ngModel)]="formData.details"
+        (ngModelChange)="updateField('details', formData.details)"
+        required></textarea>
+    </mat-form-field>
+      &nbsp;&nbsp;
+
+      <button mat-fab color="warn" type="submit"
+        [disabled]="form.invalid"
+        *ngIf="toCreate">
+          <mat-icon>save</mat-icon>
+      </button>
+
+    </form>
+</div>
