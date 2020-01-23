@@ -34,20 +34,18 @@ export class AuthComponent implements OnInit {
     private authService: AuthService,
     private route: Router ) { }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   signUp(form: NgForm) {
     const data = form.value;
     if (form.valid) {
       this.isRegisterLoad = true;
+      this.userService.createUser(data.email);
       this.authService.createNewUser(data.email, data.password)
       .then(res => {
         this.isRegistered = true;
         this.isRegisterLoad = false;
         this.errorMessageInscription = '';
-        console.log(res);
         this.authService.signOutUser();
       }, err => {
        this.isRegisterLoad = false;
@@ -59,15 +57,16 @@ export class AuthComponent implements OnInit {
   signIn() {
     this.authService.SignInUser(this.userSingUp.email, this.userSingUp.password)
     .then(res => {
-      console.log(res);
       this.errorMessageConnexion = '';
       this.userService.getUserRole(this.userSingUp.email).then((role: string) => {
         this.roleProperty = role;
         if (this.roleProperty === 'admin') {
+          this.authService.isAdmin = true;
+          this.authService.emitIsAdmin( this.authService.isAdmin );
           this.route.navigate(['/home']);
           this.errorMessageConnexion = '';
         } else {
-          this.errorMessageConnexion = 'Vous n\'êtes pas administrateur';
+          this.errorMessageConnexion = 'Votre compte est en cours d\'activation.';
           this.authService.isConnected = false;
           this.authService.signOutUser();
           return;
@@ -80,14 +79,16 @@ export class AuthComponent implements OnInit {
 
   signInWithGoogle() {
     const promesse = new Promise((resolve, reject) => {
-      this.authService.connectionWithGoogle().then((result) => {
+      this.authService.signInWithGoogle().then((result) => {
         this.userService.getUserEmail(result.email).then((mail) => {
           if (mail) {
             this.userService.getUserRole(result.email).then((role) => {
               if ( role === 'admin') {
+                this.authService.isAdmin = true;
+                this.authService.emitIsAdmin( this.authService.isAdmin );
                 this.route.navigate(['/home']);
               } else {
-                this.errorMessageConnexion = 'Vous n\'êtes pas administrateur';
+                this.errorMessageConnexion = 'Votre compte Google est en cours d\'activation.';
                 this.authService.isConnected = false;
                 this.authService.signOutUser();
                 return;
@@ -98,9 +99,11 @@ export class AuthComponent implements OnInit {
             this.userService.createUserG(maill).then(() => {
               this.userService.getUserRole(result.email).then((role) => {
                 if (role === 'admin') {
+                  this.authService.isAdmin = true;
+                  this.authService.emitIsAdmin( this.authService.isAdmin );
                   this.route.navigate(['/home']);
                 } else {
-                  this.errorMessageConnexion = 'Vous n\'êtes pas administrateur !!!';
+                  this.errorMessageConnexion = 'Votre inscription est en cours de traitement.';
                   this.authService.isConnected = false;
                   this.authService.signOutUser();
                   return;

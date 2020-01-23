@@ -6,6 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Users } from './users';
 import { auth } from 'firebase/app';
 import { UsersService } from './users.service';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,8 @@ export class AuthService {
 
   user: Utilisateur;
   isConnected = false;
+  isAdmin: boolean;
+  isAdminSubject = new Subject<boolean>();
 
   constructor(private afauth: AngularFireAuth,
               private router: Router,
@@ -21,11 +24,14 @@ export class AuthService {
               private zone: NgZone,
               private userService: UsersService) { }
 
+  emitIsAdmin(isAdmins: boolean) {
+    this.isAdminSubject.next(isAdmins);
+  }
+
   createNewUser(mail: string, password: string) {
     return new Promise<any>((resolve, reject) => {
       this.afauth.auth.createUserWithEmailAndPassword(mail, password)
       .then(res => {
-        this.userService.createUser(mail);
         resolve(res);
       }, err => reject(err));
     });
@@ -45,14 +51,14 @@ export class AuthService {
 
   signOutUser() {
     this.afauth.auth.signOut().then(() => {
-      // Sign-out successful.
+      this.isAdmin = false;
       this.isConnected = false;
+      this.emitIsAdmin(this.isAdmin);
     }).catch((error) => {
-      // An error happened.
     });
   }
 
-  connectionWithGoogle() {
+  signInWithGoogle() {
     const provider = new auth.GoogleAuthProvider();
     return new Promise<any>((resolve, reject) => {
       this.afauth.auth.signInWithPopup(provider).then(

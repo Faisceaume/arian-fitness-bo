@@ -1,40 +1,59 @@
-<div class="mattab">
-  <form #form="ngForm" autocomplete="off" (ngSubmit)="onSubmit()" class="text-center">
-    <div fxLayout="column" fxLayoutAlign="start center" class="divlog">
+<div>
+  <form #form="ngForm" autocomplete="off" (ngSubmit)="onSubmit()">
 
-      <mat-form-field>
-        <input matInput placeholder="nom " type="text" name="nom"
+    <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+      <h2 *ngIf="toCreate" class="h2-modal">Ajouter un nouveau niveau</h2>
+      <h2 *ngIf="!toCreate" class="h2-modal">Editer le niveau</h2>
+
+      <mat-form-field fxFlex="100">
+        <input matInput placeholder="Nom du niveau" type="text" name="nom"
         [(ngModel)]="formData.nom"
         (ngModelChange)="updateField('nom', formData.nom)" required>
       </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="nombre" type="number" name="nombre"
+      <mat-form-field fxFlex="33">
+        <input matInput placeholder="Nombre/Ordre du niveau" type="number" name="nombre"
         [(ngModel)]="formData.nombre"
         (ngModelChange)="updateField('nombre', formData.nombre)" required>
       </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="repetition exercice " type="text" name="repetitionexercice"
+      <mat-form-field fxFlex="33">
+        <input matInput placeholder="Répétition des exercices" type="text" name="repetitionexercice"
         [(ngModel)]="formData.repetitionexercice"
-        (ngModelChange)="updateField('repetitionexercice', formData.repetitionexercice)" required>
+        (ngModelChange)="updateField('repetitionexercice', formData.repetitionexercice)">
       </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="nombre de semaine " type="number" name="nbrsemaine"
+      <mat-form-field fxFlex="33">
+        <input matInput placeholder="Nombre de semaines" type="number" name="nbrsemaine"
         [(ngModel)]="formData.nbrsemaine"
         (ngModelChange)="updateField('nbrsemaine', formData.nbrsemaine)" required>
       </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Select an option</mat-label>
-        <mat-select [(value)]="formData.nbrsemainemodereprise" (selectionChange)="onChangeValue($event)">
-          <mat-option value="1/2">1/2</mat-option>
-          <mat-option value="1/8">1/8</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <section fxFlex="100">
+        <label>Nombre de semaine en mode reprise :</label>
+        <mat-radio-group
+          [(ngModel)]="formData.nbrsemainemodereprise"
+          color="warn"
+          required
+          (ngModelChange)="updateField('nbrsemainemodereprise', formData.nbrsemainemodereprise)"
+          [ngModelOptions]="{standalone: true}">
+            <mat-radio-button value="0.5">
+              1/2
+            </mat-radio-button>
+            <mat-radio-button value="0.125">
+              1/8
+            </mat-radio-button>
+        </mat-radio-group>
+      </section>
 
-      <button mat-raised-button color="warn" type="submit" [disabled]="form.invalid">Valider</button>
+      <button mat-fab
+        *ngIf="toCreate" color="warn" type="submit"
+        [ngStyle]="{'margin':'10px'}"
+			  [disabled]="!form.valid">
+			    <mat-icon>save</mat-icon>
+		  </button>
+
     </div>
   </form>
 </div>

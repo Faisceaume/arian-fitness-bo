@@ -1,58 +1,59 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgForm} from '@angular/forms';
-import { Exercice } from '../exercice';
+import { Component, OnInit } from '@angular/core';
 import { ExercicesService } from '../exercices.service';
-import { Subscription } from 'rxjs';
-import { CategoriesService } from 'src/app/shared/categories/categories.service';
-import { Categorie } from 'src/app/shared/categories/categorie';
-import { MatDialogConfig, MatDialog } from '@angular/material';
-import { CategoriesCrudComponent } from 'src/app/shared/categories/categories-crud/categories-crud.component';
+import { Exercice } from '../exercice';
+import { FormControl } from '@angular/forms';
+
 
 @Component({
   selector: 'app-exercice-form',
   templateUrl: './exercice-form.component.html',
   styleUrls: ['./exercice-form.component.css']
 })
-export class ExerciceFormComponent implements OnInit, OnDestroy {
+export class ExerciceFormComponent implements OnInit {
 
   formData: Exercice;
-  subscription: Subscription;
-  categories: Categorie[];
+  // toggle slide
+  echauffementControl = new FormControl();
+  accessalledesportControl = new FormControl();
 
-  constructor(private exercicesService: ExercicesService,
-              private categoriesService: CategoriesService,
-              private matDialog: MatDialog) { }
+  constructor(private exercicesService: ExercicesService) { }
 
   ngOnInit() {
-    this.formData = {
-      id : null,
-      nom : '',
-      timestamp: '',
-      categories: []
-    } as Exercice;
-
-    this.categoriesService.getAllCategories('exerc_cat');
-    this.subscription = this.categoriesService.categorieSubject.subscribe(data => {
-      this.categories = data;
-    });
-
+    this.initFormData();
   }
 
-  onSubmit(form: NgForm): void {
-    this.formData.categories = this.categoriesService.chipsSelectedForOperation;
+
+  initFormData() {
+    this.formData = {
+          id: null,
+          numero: '',
+          nom: '',
+          type: '',
+          descriptif: '',
+          niveau: null,
+          duree: 0,
+          position: '',
+
+          ageminimal: 0,
+          agemaximal: 0,
+          echauffement: false,
+          nbrerepetitionechauffement: 0,
+          nbrrepetitionsenior: 0,
+          accessalledesport: false,
+
+          regime: '',
+          consigne: '',
+          timestamp: 0
+    } as Exercice;
+  }
+
+  onSubmit(): void {
+    if (this.echauffementControl.value) {
+      this.formData.echauffement = this.echauffementControl.value;
+    }
+    if (this.accessalledesportControl.value) {
+      this.formData.accessalledesport = this.accessalledesportControl.value;
+    }
     this.exercicesService.createExercice(this.formData);
   }
-
-  openMatDialog() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
-    dialogConfig.data = 'exerc_cat';
-    this.matDialog.open(CategoriesCrudComponent, dialogConfig);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
 }

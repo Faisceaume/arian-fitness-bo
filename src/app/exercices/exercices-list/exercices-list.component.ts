@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
-import { Subscription } from 'rxjs';
 import { Exercice } from '../exercice';
+import { Subscription } from 'rxjs';
 import { ExercicesService } from '../exercices.service';
 import { Router } from '@angular/router';
 
@@ -12,32 +12,42 @@ import { Router } from '@angular/router';
 })
 export class ExercicesListComponent implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['date', 'nom', 'description', 'action'];
+  displayedColumns: string[] = ['date', 'numero', 'nom', 'type',
+                                'descriptif', 'niveau', 'duree', 'position', 'action',
+                                'agemaximal', 'ageminimal', 'echauffement', 'nbrerepetitionechauffement',
+                                'nbrrepetitionsenior', 'accessalledesport', 'regime', 'consigne'];
   dataSource: MatTableDataSource<Exercice>;
   exerciceSubscription: Subscription;
-  allExercice: Exercice[];
 
   constructor(private exercicesService: ExercicesService,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit() {
     this.exercicesService.getAllExercices();
-    this.exerciceSubscription = this.exercicesService.exerciceSubject.subscribe( data => {
+    this.exerciceSubscription = this.exercicesService.exerciceSubject.subscribe(data => {
       this.dataSource = new MatTableDataSource<Exercice>(data);
       this.dataSource.sort = this.sort;
-      this.allExercice = data;
     });
   }
 
-  onEdit(exercice: Exercice) {
-    this.router.navigate(['exercices', exercice.id]);
+  onEdit(materiel: Exercice) {
+    this.router.navigate(['materiels', materiel.id]);
   }
 
-  onDelete(exercice: Exercice) {
+  onDelete(materiel: Exercice) {
     if (confirm('Vraiment supprimer ?')) {
-      this.exercicesService.deleteExercice(exercice);
+      this.exercicesService.deleteExercice(materiel);
+    }
+  }
+
+  updateField(beforeStatut: boolean, attribut: string, element: Exercice) {
+    if (beforeStatut) {
+      this.exercicesService.newUpdateVersion(element, attribut, false);
+    } else {
+      this.exercicesService.newUpdateVersion(element, attribut, true);
     }
   }
 
