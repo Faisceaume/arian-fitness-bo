@@ -12,8 +12,8 @@ import { NiveauxCrudComponent } from './niveaux-crud/niveaux-crud.component';
 export class NiveauxComponent implements OnInit {
 
   niveaux: Niveau[];
-  displayedColumns: string[] = ['nom', 'date', 'nombre', 'repetitionexercice',
-                               'nbrsemaine', 'nbrsemainemodereprise', 'action'];
+  displayedColumns: string[] = ['nom', 'nombre', 'repetitionexercice',
+                               'nbrsemaine', 'action'];
   dataSource: MatTableDataSource<Niveau>;
 
   constructor(private niveauxService: NiveauxService, private matDialog: MatDialog) { }

@@ -10,3 +10,10 @@ label {
 section:hover label {
   color: #000;
 }
+
+mat-radio-button {
+  background-color: #eee;
+  margin: 0 2px;
+  padding: 3px 5px;
+  border-radius: 10px;
+}

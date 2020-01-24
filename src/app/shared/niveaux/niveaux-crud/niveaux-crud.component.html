@@ -2,7 +2,7 @@
 
   <div fxLayout="row">
     <div  fxFlex="80" fxLayoutAlign="start start">
-      <h2 *ngIf="toCreate" class="h2-modal">Ajouter une nouvelle niveau</h2>
+      <h2 *ngIf="toCreate" class="h2-modal">Ajouter une nouveau niveau</h2>
       <h2 *ngIf="!toCreate" class="h2-modal">Editer le niveau</h2>
     </div>
     <div  fxFlex="20" fxLayoutAlign="end start">
@@ -36,27 +36,16 @@
       </mat-form-field>
 
       <mat-form-field fxFlex="33">
-        <input matInput placeholder="Répétition des exercices" type="text" name="repetitionexercice"
-        [(ngModel)]="formData.repetitionexercice"
-        (ngModelChange)="updateField('repetitionexercice', formData.repetitionexercice)">
+        <mat-label>Répétition des exercices</mat-label>
+        <select matNativeControl required
+          [(ngModel)]="formData.repetitionexercice" name="repetitionexercice"
+          (ngModelChange)="updateField('repetitionexercice', formData.repetitionexercice)">
+            <option value="10-20">10 à 20 répétitions</option>
+            <option value="06-20">6 à 20 répétitions</option>
+            <option value="05-25">5 à 25 répétitions</option>
+            <option value="15-20">15 à 20 répétitions</option>
+        </select>
       </mat-form-field>
-
-      <section fxFlex="100" [ngStyle]="{'margin':'10px 0 20px'}">
-        <label>Ratio pour le calcul des semaines en mode reprise :</label>
-        <mat-radio-group
-          [(ngModel)]="formData.nbrsemainemodereprise"
-          color="warn"
-          required
-          (ngModelChange)="updateField('nbrsemainemodereprise', formData.nbrsemainemodereprise)"
-          [ngModelOptions]="{standalone: true}">
-            <mat-radio-button value="0.5">
-              <strong>1/2</strong>
-            </mat-radio-button>
-            <mat-radio-button value="0.125">
-              <strong>1/8</strong>
-            </mat-radio-button>
-        </mat-radio-group>
-      </section>
 
       <button mat-fab
         *ngIf="toCreate" color="warn" type="submit"
