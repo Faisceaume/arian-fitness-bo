@@ -42,6 +42,22 @@ export class QuestionnairesService {
     batch.commit().then(() => console.log('Questionnaire ajouté avec succès') );
   }
 
+  createQuestion(idQuestionnaire: string) {
+    const batch = this.db.firestore.batch();
+    const idDoc = this.db.createId();
+
+    const data1 = {};
+    const data2 = {};
+
+    const ref1 = this.db.firestore.collection('questionnaires').doc( idQuestionnaire ).collection('questions').doc( idDoc );
+    const ref2 = this.db.firestore.collection('questions').doc( idDoc );
+
+    batch.set(ref1, data1);
+    batch.set(ref2, data2);
+
+    batch.commit().then(() => console.log('Questions crées avec succès'));
+  }
+
 
   /*********************************************/
   /*********************************************/

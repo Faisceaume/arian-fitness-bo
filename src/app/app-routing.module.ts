@@ -6,7 +6,7 @@ import { AccueilComponent } from './accueil/accueil.component';
 import { ObjectifsComponent } from './shared/objectifs/objectifs.component';
 import { NiveauxComponent } from './shared/niveaux/niveaux.component';
 import { PathologiesComponent } from './shared/pathologies/pathologies.component';
-import { QuestionsComponent } from './questionnaires/questions/questions.component';
+import { QuestionsComponent } from './questionnaires/questionnaires/questions.component';
 
 
 const routes: Routes = [

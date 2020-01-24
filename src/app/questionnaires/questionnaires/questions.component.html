@@ -13,14 +13,22 @@
         <mat-expansion-panel hideToggle>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              {{ questionnaire.name }}
+              <h3>{{ questionnaire.name }}</h3> 
             </mat-panel-title>
             <mat-panel-description fxLayout="row" fxLayoutAlign="end">
               <button mat-button (click)="onEdit(questionnaire)" ><mat-icon>edit</mat-icon></button>
               <button mat-button (click)="onDelete(questionnaire.id)"><mat-icon>delete</mat-icon></button>
             </mat-panel-description>
           </mat-expansion-panel-header>
+
+          <div>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <h4>Questions</h4>
+              <button mat-button>Add question <mat-icon>add</mat-icon></button>
+            </div>
+          </div>
         </mat-expansion-panel>
+
     </mat-accordion>
     
 </div>
