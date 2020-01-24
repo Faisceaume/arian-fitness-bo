@@ -1,1 +1,26 @@
-<p>questions works!</p>
+<button mat-icon-button
+  type="button"
+  class="button-right"
+  (click)="onCreate()">
+    <mat-icon>add</mat-icon>
+</button>
+
+<div [ngStyle]="{'padding':'0 10px'}">
+    
+    <h2>Questionnaires</h2>
+
+    <mat-accordion *ngFor="let questionnaire of questionnairesList">
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ questionnaire.name }}
+            </mat-panel-title>
+            <mat-panel-description fxLayout="row" fxLayoutAlign="end">
+              <button mat-button (click)="onEdit(questionnaire)" ><mat-icon>edit</mat-icon></button>
+              <button mat-button (click)="onDelete(questionnaire.id)"><mat-icon>delete</mat-icon></button>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+    </mat-accordion>
+    
+</div>

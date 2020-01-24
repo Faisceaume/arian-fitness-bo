@@ -1,0 +1,14 @@
+<div class="" fxLayout="row" fxLayoutAlign="space-between">
+    <h3>Add questionnaire</h3>
+    <button mat-button color="warn" (click)="onClose()">x</button>
+</div>
+<form [formGroup]="questionnairesForm" (ngSubmit)="onAdd()">
+    <div fxLayout="row" fxLayoutAlign="center" >
+        <mat-form-field>
+            <input matInput type="text" formControlName="name" placeholder="Name">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center">
+        <button type="submit" [disabled]="questionnairesForm.invalid" mat-raised-button color="primary">Add</button>
+    </div>
+</form>
