@@ -11,7 +11,7 @@ type: string; // "global" ou "analytique" :  radio button
 regime: string;
 accessalledesport: boolean;
 niveau: Niveau; // [id : 'id', nom  : 'nom , nbre : 'nbre', repetitionexercice : '', nbrsemaine: '']
-numero: string;
+numero: number;
 nom: string;
 consigne: string;
 duree: number; // minute

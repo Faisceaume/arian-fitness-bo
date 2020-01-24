@@ -12,10 +12,10 @@ import { Router } from '@angular/router';
 })
 export class ExercicesListComponent implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['date', 'numero', 'nom', 'type',
-                                'descriptif', 'niveau', 'duree', 'position', 'action',
-                                'agemaximal', 'ageminimal', 'echauffement', 'nbrerepetitionechauffement',
-                                'nbrrepetitionsenior', 'accessalledesport', 'regime', 'consigne'];
+  displayedColumns: string[] = ['date', 'numero', 'nom', 'type', 'niveau', 'duree',
+                                'position', 'ageminimal', 'agemaximal', 'echauffement',
+                                'nbrerepetitionechauffement', 'nbrrepetitionsenior',
+                                'accessalledesport', 'regime', 'consigne', 'action'];
   dataSource: MatTableDataSource<Exercice>;
   exerciceSubscription: Subscription;
 

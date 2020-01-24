@@ -1,0 +1,21 @@
+mat-form-field {
+  padding: 0 6px;
+}
+
+mat-radio-button {
+  padding: 0 10px;
+  margin-top: 20px;
+}
+
+label {
+  padding: 10px;
+  border-radius: 50px;
+}
+
+mat-horizontal-stepper {
+  padding: 10px;
+}
+
+.btnClass {
+  text-align: center;
+}
