@@ -1,10 +1,21 @@
 <div>
+
+  <div fxLayout="row">
+    <div  fxFlex="80" fxLayoutAlign="start start">
+      <h2 *ngIf="toCreate" class="h2-modal">Ajouter une nouvelle niveau</h2>
+      <h2 *ngIf="!toCreate" class="h2-modal">Editer le niveau</h2>
+    </div>
+    <div  fxFlex="20" fxLayoutAlign="end start">
+      <button mat-icon-button class="button-right-modal"
+        (click)="closeDialog()" type="button">
+          <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
   <form #form="ngForm" autocomplete="off" (ngSubmit)="onSubmit()">
 
     <div fxLayout="row wrap" fxLayoutAlign="start start">
-
-      <h2 *ngIf="toCreate" class="h2-modal">Ajouter un nouveau niveau</h2>
-      <h2 *ngIf="!toCreate" class="h2-modal">Editer le niveau</h2>
 
       <mat-form-field fxFlex="100">
         <input matInput placeholder="Nom du niveau" type="text" name="nom"
@@ -19,19 +30,19 @@
       </mat-form-field>
 
       <mat-form-field fxFlex="33">
-        <input matInput placeholder="Répétition des exercices" type="text" name="repetitionexercice"
-        [(ngModel)]="formData.repetitionexercice"
-        (ngModelChange)="updateField('repetitionexercice', formData.repetitionexercice)">
-      </mat-form-field>
-
-      <mat-form-field fxFlex="33">
         <input matInput placeholder="Nombre de semaines" type="number" name="nbrsemaine"
         [(ngModel)]="formData.nbrsemaine"
         (ngModelChange)="updateField('nbrsemaine', formData.nbrsemaine)" required>
       </mat-form-field>
 
-      <section fxFlex="100">
-        <label>Nombre de semaine en mode reprise :</label>
+      <mat-form-field fxFlex="33">
+        <input matInput placeholder="Répétition des exercices" type="text" name="repetitionexercice"
+        [(ngModel)]="formData.repetitionexercice"
+        (ngModelChange)="updateField('repetitionexercice', formData.repetitionexercice)">
+      </mat-form-field>
+
+      <section fxFlex="100" [ngStyle]="{'margin':'10px 0 20px'}">
+        <label>Ratio pour le calcul des semaines en mode reprise :</label>
         <mat-radio-group
           [(ngModel)]="formData.nbrsemainemodereprise"
           color="warn"
@@ -39,10 +50,10 @@
           (ngModelChange)="updateField('nbrsemainemodereprise', formData.nbrsemainemodereprise)"
           [ngModelOptions]="{standalone: true}">
             <mat-radio-button value="0.5">
-              1/2
+              <strong>1/2</strong>
             </mat-radio-button>
             <mat-radio-button value="0.125">
-              1/8
+              <strong>1/8</strong>
             </mat-radio-button>
         </mat-radio-group>
       </section>

@@ -33,11 +33,20 @@
         </div>
       </div>
 
-      <button mat-fab type="submit" color="warn"
-        [ngStyle]="{'margin':'10px'}"
-			  [disabled]="!form1.form.valid">
-			  <mat-icon>save</mat-icon>
-		  </button>
+      <div fxLayout="row">
+
+        <button mat-fab type="button" color="black"
+          [ngStyle]="{'margin':'10px 5px 10px 10px'}"
+          (click)="goBack()">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+
+        <button mat-fab type="submit" color="warn"
+          [ngStyle]="{'margin':'10px 0 10px 5px'}"
+          [disabled]="!form1.form.valid">
+          <mat-icon>save</mat-icon>
+        </button>
+      </div>
 
     </div>
   </form>

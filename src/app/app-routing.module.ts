@@ -12,9 +12,9 @@ const routes: Routes = [
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
   { path : 'auth', component : AuthComponent },
   { path : 'home', canActivate: [AuthGuardService], component : AccueilComponent },
-  { path : 'objectifs', component : ObjectifsComponent },
-  { path : 'niveaux', component : NiveauxComponent },
-  { path : 'pathologies', component : PathologiesComponent },
+  { path : 'objectifs', canActivate: [AuthGuardService], component : ObjectifsComponent },
+  { path : 'niveaux', canActivate: [AuthGuardService], component : NiveauxComponent },
+  { path : 'pathologies', canActivate: [AuthGuardService], component : PathologiesComponent },
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
   {
     path: 'exercices', canActivate: [AuthGuardService],

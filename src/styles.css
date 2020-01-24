@@ -30,26 +30,27 @@ h2.h2-modal {
   width: 40px !important;
   height: 40px !important;
   line-height: 40px !important;
-  color: #999;
+  color: #999 !important;
   transition: all 0.1s;
 }
-.button-right:hover .mat-icon, .button-right-modal .mat-icon {
-  color: #000;
+.button-right:hover .mat-icon, .button-right-modal:hover .mat-icon {
+  color: #000 !important;
 }
-
-
 .button-right-modal {
   float: right;
 }
-
-
-
 .timestamp {
   color: #999;
 }
-
-
 .dark-chip {
   background-color: #000 !important;
   color: #FFF !important;
+}
+.bulle-acro {
+  background-color: #333;
+  color: #FFF;
+  border-radius: 10px;
+  margin: 0 0 0 5px;
+  padding: 3px 5px;
+  font-size: 0.9em;
 }
