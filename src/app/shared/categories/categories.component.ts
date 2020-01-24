@@ -19,7 +19,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
 
   @Input() noeud: string;
-  @Input() chipsSelectedInput?: Categorie[];
+  @Input() chipsSelectedInput?: any;
   @Input() currentMateriel: Materiel;
   @Input() currentExercice: Exercice;
 
@@ -76,12 +76,13 @@ export class CategoriesComponent implements OnInit, OnDestroy {
           this.addChip(item);
         }
 
+        console.log(this.chipsSelected);
         if (this.currentMateriel) {
           this.materielsService.newUpdateVersion(this.currentMateriel, 'categories', this.chipsSelected);
         } else if (this.currentExercice) {
           this.exercicesService.newUpdateVersion(this.currentExercice, 'categories', this.chipsSelected);
         }
-        this.categoriesService.setChipsSelectedForOperationValue(this.chipsSelected);
+        // this.categoriesService.setChipsSelectedForOperationValue(this.chipsSelected);
   }
 
   openMatDialog(): void {

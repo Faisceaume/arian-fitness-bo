@@ -24,6 +24,8 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material';
+import {MatStepperModule} from '@angular/material/stepper';
+
 
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoriesCrudComponent } from './categories/categories-crud/categories-crud.component';
@@ -60,7 +62,8 @@ const modules = [
     MatListModule,
     MatChipsModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    MatStepperModule
 ];
 
 @NgModule({

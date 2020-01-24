@@ -5,8 +5,6 @@ import { FormControl } from '@angular/forms';
 import { MaterielsService } from '../materiels.service';
 import { Categorie } from 'src/app/shared/categories/categorie';
 import { CategoriesService } from 'src/app/shared/categories/categories.service';
-import { CategoriesCrudComponent } from 'src/app/shared/categories/categories-crud/categories-crud.component';
-import { MatDialogConfig, MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-materiel-form',

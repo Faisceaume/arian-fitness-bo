@@ -1,19 +1,21 @@
-
-.divlog {
-  background-image: linear-gradient(to bottom, #ffffff, #eeeef2, #dbdde6, #c8cdda, #b3bece);
-  padding: 50px 10px;
-  width: 100%;
+mat-form-field {
+  padding: 0 6px;
 }
 
-.mattab {
-  width: 100%;
-  background-color: #fff;
+mat-radio-button {
+  padding: 0 10px;
+  margin-top: 20px;
 }
 
-.item {
-text-align: center;
+label {
+  padding: 10px;
+  border-radius: 50px;
 }
 
-mat-form-field{
-  width: 50%;
+mat-horizontal-stepper {
+  padding: 10px;
+}
+
+.btnClass {
+  text-align: center;
 }
