@@ -1,3 +1,19 @@
+
 mat-radio-button {
   padding: 0 5px;
+}
+
+label {
+  color: #666;
+  letter-spacing: 1px;
+}
+section:hover label {
+  color: #000;
+}
+
+mat-radio-button {
+  background-color: #eee;
+  margin: 0 2px;
+  padding: 3px 5px;
+  border-radius: 10px;
 }

@@ -9,30 +9,35 @@
 <mat-menu #menu="matMenu" yPosition="below" xPosition="before">
 
   <button mat-menu-item routerLink="./home">
+    <mat-icon>home</mat-icon>
     <span>Accueil</span>
   </button>
   <button mat-menu-item routerLink="./materiels">
+    <mat-icon>fitness_center</mat-icon>
     <span>Matériels</span>
   </button>
-  <button mat-menu-item routerLink="./exercices">
+  <!-- <button mat-menu-item routerLink="./exercices">
     <span>Excercices</span>
-  </button>
+  </button> -->
   <button mat-menu-item routerLink="./objectifs">
+    <mat-icon>assignment</mat-icon>
     <span>Objectifs</span>
   </button>
   <button mat-menu-item routerLink="./niveaux">
+    <mat-icon>bookmarks</mat-icon>
     <span>Niveaux</span>
   </button>
   <button mat-menu-item routerLink="./pathologies">
+    <mat-icon>healing</mat-icon>
     <span>Pathologies</span>
   </button>
 
   <mat-divider></mat-divider>
 
   <!-- *ngIf="auth.user | async as user; else login" -->
-  <button  mat-menu-item (click)="logout(user)">
+  <button  mat-menu-item (click)="logout()">
     <mat-icon>power_settings_new</mat-icon>
-    <span>Log out</span>
+    <span>Sign out</span>
   </button>
   <ng-template #login>
     <button mat-menu-item  routerLink ='/login'>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { Materiel } from '../materiel';
 import { FormControl } from '@angular/forms';
 import { MaterielsService } from '../materiels.service';
@@ -20,7 +21,7 @@ export class MaterielFormComponent implements OnInit {
   posteFixeControl = new FormControl();
   visibilityControl = new FormControl();
 
-  constructor(private materielsService: MaterielsService,
+  constructor(private location: Location, private materielsService: MaterielsService,
               public categoriesService: CategoriesService) { }
 
   ngOnInit() {
@@ -52,7 +53,9 @@ export class MaterielFormComponent implements OnInit {
     this.materielsService.createMateriel(this.formData);
   }
 
-
+  goBack(): void {
+    this.location.back();
+  }
 
 
 }

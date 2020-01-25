@@ -1,7 +1,24 @@
-<div fxLayoutAlign="start start">
-  <form #form="ngForm" autocomplete="off" (ngSubmit)="onSubmit(form)">
+ <div>
 
-      <mat-form-field fxFlex>
+  <div fxLayout="row">
+    <div  fxFlex="80" fxLayoutAlign="start start">
+      <h2 *ngIf="toCreate" class="h2-modal">Ajouter une nouvelle pathologie</h2>
+      <h2 *ngIf="!toCreate" class="h2-modal">Editer la pathalogie</h2>
+    </div>
+    <div  fxFlex="20" fxLayoutAlign="end start">
+      <button mat-icon-button class="button-right-modal"
+        (click)="closeDialog()" type="button">
+          <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+
+  <form #form="ngForm" autocomplete="off" (ngSubmit)="onSubmit()">
+
+    <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+      <mat-form-field fxFlex="79">
         <input matInput placeholder="Nom de la pathologie" type="text" name="nom"
           [(ngModel)]="formData.nom"
           (ngModelChange)="updateField('nom', formData.nom)"
@@ -9,7 +26,7 @@
       </mat-form-field>
       &nbsp;&nbsp;
 
-      <mat-form-field>
+      <mat-form-field fxFlex="20">
         <input matInput placeholder="Acronyme" type="text" name="acronyme"
           maxlength="3"
           [(ngModel)]="formData.acronyme"
@@ -18,9 +35,9 @@
       </mat-form-field>
       &nbsp;&nbsp;
 
-      <mat-form-field class="example-full-width">
-        <textarea matInput placeholder="details" name="details"
-        rows="7" [(ngModel)]="formData.details"
+      <mat-form-field fxFlex="100">
+        <textarea matInput placeholder="Descriptif de la pathologie" name="details"
+        rows="4" [(ngModel)]="formData.details"
         (ngModelChange)="updateField('details', formData.details)"
         required></textarea>
     </mat-form-field>
@@ -32,5 +49,7 @@
           <mat-icon>save</mat-icon>
       </button>
 
-    </form>
+    </div>
+
+  </form>
 </div>

@@ -12,10 +12,23 @@ import { Router } from '@angular/router';
 })
 export class ExercicesListComponent implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['date', 'numero', 'nom', 'type', 'niveau', 'duree',
-                                'position', 'ageminimal', 'agemaximal', 'echauffement',
-                                'nbrerepetitionechauffement', 'nbrrepetitionsenior',
-                                'accessalledesport', 'regime', 'consigne', 'action'];
+  displayedColumns: string[] = [
+                                'numero',
+                                'nom',
+                                'duree',
+                                'position',
+                                'ageminimal',
+                                'agemaximal',
+                                'nbrerepetitionechauffement',
+                                'nbrrepetitionsenior',
+                                'type',
+                                'echauffement',
+                                'accessalledesport',
+                                'regime',
+                                'date',
+                                'niveau',
+                                'action'
+                              ];
   dataSource: MatTableDataSource<Exercice>;
   exerciceSubscription: Subscription;
 
@@ -40,6 +53,13 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
   onDelete(materiel: Exercice) {
     if (confirm('Vraiment supprimer ?')) {
       this.exercicesService.deleteExercice(materiel);
+    }
+  }
+
+  updateTypeField(value: string, attribut: string, element: Exercice) {
+    if (value) {
+      console.log(value);
+      this.exercicesService.newUpdateVersion(element, attribut, value);
     }
   }
 

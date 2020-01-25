@@ -1,14 +1,17 @@
-<div fxLayoutAlign="start start">
+<div>
   <form #form="ngForm" autocomplete="off" (ngSubmit)="onSubmit()">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="5px">
 
-      <mat-form-field fxFlex>
+      <h2 fxFlex="90" *ngIf="toCreate" class="h2-modal">Ajouter un nouvel objectif</h2>
+      <h2 fxFlex="90" *ngIf="!toCreate" class="h2-modal">Editer l'objectif</h2>
+
+      <mat-form-field fxFlex="45">
         <input matInput placeholder="Nom de l'iobjectif" type="text" name="nom"
           [(ngModel)]="formData.nom"
           (ngModelChange)="updateField('nom', formData.nom)"
           id="nom" required>
       </mat-form-field>
-      &nbsp;&nbsp;
-      <mat-form-field>
+      <mat-form-field fxFlex="45">
         <input matInput placeholder="Acronyme" type="text" name="acronyme"
           maxlength="5"
           [(ngModel)]="formData.acronyme"
@@ -22,5 +25,7 @@
           <mat-icon>save</mat-icon>
       </button>
 
-    </form>
+    </div>
+  </form>
 </div>
+
