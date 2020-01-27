@@ -12,7 +12,7 @@ import { PathologiesCrudComponent } from './pathologies-crud/pathologies-crud.co
 export class PathologiesComponent implements OnInit {
 
   pathologies: Pathologie[];
-  displayedColumns: string[] = ['nom', 'date', 'acronyme', 'details', 'action'];
+  displayedColumns: string[] = ['nom', 'date', 'acronyme', 'action'];
   dataSource: MatTableDataSource<Pathologie>;
 
   constructor(private pathologiesService: PathologiesService, private matDialog: MatDialog) { }

@@ -16,15 +16,14 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
                                 'numero',
                                 'nom',
                                 'duree',
-                                'position',
                                 'ageminimal',
                                 'agemaximal',
                                 'nbrerepetitionechauffement',
                                 'nbrrepetitionsenior',
+                                'position',
                                 'type',
                                 'echauffement',
                                 'accessalledesport',
-                                'regime',
                                 'date',
                                 'niveau',
                                 'action'
@@ -56,7 +55,7 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateTypeField(value: string, attribut: string, element: Exercice) {
+  updateAnyField(value: string, attribut: string, element: Exercice) {
     if (value) {
       console.log(value);
       this.exercicesService.newUpdateVersion(element, attribut, value);

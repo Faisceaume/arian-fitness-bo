@@ -29,21 +29,15 @@
       <td mat-cell *matCellDef="let element"> {{element.duree}} </td>
     </ng-container>
 
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Position</th>
-      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-    </ng-container>
-
     <!-- Age minimal Column -->
     <ng-container matColumnDef="ageminimal">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Age minimal</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Age min.</th>
       <td mat-cell *matCellDef="let element"> {{element.ageminimal}} </td>
     </ng-container>
 
     <!-- Age maximal Column -->
     <ng-container matColumnDef="agemaximal">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Age maximal</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Age max.</th>
       <td mat-cell *matCellDef="let element"> {{element.agemaximal}} </td>
     </ng-container>
 
@@ -59,12 +53,22 @@
       <td mat-cell *matCellDef="let element"> {{element.nbrrepetitionsenior}} </td>
     </ng-container>
 
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Position</th>
+      <td mat-cell *matCellDef="let element">
+        <!-- {{element.position}}  -->
+        <mat-icon *ngIf="element.position=='couché'" (click)="updateAnyField('debout','position', element)">airline_seat_flat</mat-icon>
+        <mat-icon *ngIf="element.position=='debout'" (click)="updateAnyField('couché','position', element)">accessibility</mat-icon>
+      </td>
+    </ng-container>
+
     <!-- Type Column -->
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Type</th>
       <td mat-cell *matCellDef="let element">
-        <mat-icon *ngIf="element.type=='global'" (click)="updateTypeField('analytique','type', element)">fingerprint</mat-icon>
-        <mat-icon *ngIf="element.type=='analytique'" (click)="updateTypeField('global','type', element)">fiber_manual_record</mat-icon>
+        <mat-icon *ngIf="element.type=='global'" (click)="updateAnyField('analytique','type', element)">fingerprint</mat-icon>
+        <mat-icon *ngIf="element.type=='analytique'" (click)="updateAnyField('global','type', element)">fiber_manual_record</mat-icon>
       </td>
     </ng-container>
 
@@ -86,12 +90,6 @@
         <mat-icon *ngIf="!element.accessalledesport"
                   (click)="updateField(false,'accessalledesport', element)">close</mat-icon>
       </td>
-    </ng-container>
-
-    <!-- Regime Column -->
-    <ng-container matColumnDef="regime">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Regime</th>
-      <td mat-cell *matCellDef="let element"> {{element.regime}} </td>
     </ng-container>
 
     <!-- Date Column -->

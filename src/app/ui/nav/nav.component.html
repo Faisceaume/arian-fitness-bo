@@ -6,19 +6,20 @@
   <mat-icon>menu</mat-icon>
 </button>
 
-<mat-menu #menu="matMenu" yPosition="below" xPosition="before">
+<mat-menu #menu="matMenu" yPosition="below" xPosition="before" class="indide-menu">
 
   <button mat-menu-item routerLink="./home">
     <mat-icon>home</mat-icon>
     <span>Accueil</span>
   </button>
+  <button mat-menu-item routerLink="./exercices">
+    <mat-icon>explicit</mat-icon>
+    <span>Excercices</span>
+  </button>
   <button mat-menu-item routerLink="./materiels">
     <mat-icon>fitness_center</mat-icon>
     <span>Matériels</span>
   </button>
-  <!-- <button mat-menu-item routerLink="./exercices">
-    <span>Excercices</span>
-  </button> -->
   <button mat-menu-item routerLink="./objectifs">
     <mat-icon>assignment</mat-icon>
     <span>Objectifs</span>

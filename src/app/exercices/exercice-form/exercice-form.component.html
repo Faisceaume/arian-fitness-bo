@@ -9,7 +9,7 @@
 
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>1 ère Etape</ng-template>
+      <ng-template matStepLabel>ère Etape</ng-template>
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
@@ -33,14 +33,16 @@
           <input matInput placeholder="descriptif" formControlName="descriptif">
         </mat-form-field>
 
-        <mat-form-field fxFlex="50">
-          <mat-label>Niveau</mat-label>
-          <mat-select formControlName="niveau">
-            <mat-option *ngFor="let niveau of niveaux" [value]="niveau">
-              {{niveau.nom}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <section fxFlex="100">
+          <!-- <mat-label>Niveau</mat-label> -->
+          <label class="dark-chip"> Niveau :</label>
+          <mat-radio-group color="warn" formControlName="niveau">
+            <mat-radio-button *ngFor="let niveau of niveaux" [value]="niveau">
+              {{ niveau.nom }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </section>
+
 
         <section fxFlex="100">
           <label class="dark-chip"> Type :</label>
@@ -66,7 +68,7 @@
   <mat-step [stepControl]="secondFormGroup">
 
     <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>2ème Etape</ng-template>
+      <ng-template matStepLabel>ème Etape</ng-template>
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
@@ -117,7 +119,7 @@
 
   <mat-step [stepControl]="thirdFormGroup">
     <form [formGroup]="thirdFormGroup">
-      <ng-template matStepLabel>3ème Etape</ng-template>
+      <ng-template matStepLabel>ème Etape</ng-template>
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
