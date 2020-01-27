@@ -5,6 +5,7 @@ import { FormControl } from '@angular/forms';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Niveau } from 'src/app/shared/niveaux/niveau';
 import { NiveauxService } from 'src/app/shared/niveaux/niveaux.service';
+import { CategoriesService } from 'src/app/shared/categories/categories.service';
 
 @Component({
   selector: 'app-exercice-form',
@@ -25,7 +26,8 @@ export class ExerciceFormComponent implements OnInit {
 
   constructor(private exercicesService: ExercicesService,
               private formBuilder: FormBuilder,
-              private niveauxService: NiveauxService) { }
+              private niveauxService: NiveauxService,
+              private categoriesService: CategoriesService) { }
 
   ngOnInit() {
     this.firstFormGroup = this.formBuilder.group({
@@ -75,6 +77,9 @@ export class ExerciceFormComponent implements OnInit {
 
   onSubmit(): void {
     this.setFormDataValue();
+    this.formData.categories = this.categoriesService.chipsSelectedForOperation;
+    this.categoriesService.setChipsSelectedForOperationValue(null);
     this.exercicesService.createExercice(this.formData);
   }
+
 }

@@ -129,8 +129,10 @@
           <input matInput placeholder="consigne" formControlName="consigne" required>
         </mat-form-field>
 
+        <app-categories [noeud]="'exe_cat'"></app-categories>
       </div>
     </form>
+
     <div class="btnClass">
       <button mat-button matStepperPrevious>
         <mat-icon>navigate_before</mat-icon>

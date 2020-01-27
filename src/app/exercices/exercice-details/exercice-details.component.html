@@ -162,6 +162,10 @@
           placeholder="consigne"  required>
         </mat-form-field>
 
+        <app-categories [noeud]="'exe_cat'"
+        [currentExercice]="formData"
+        [chipsSelectedInput]="formData.categories"></app-categories>
+
       </div>
 
     <div class="btnClass">
