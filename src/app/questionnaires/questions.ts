@@ -5,5 +5,5 @@ export class Questions {
     ordre: number;
     active: boolean;
     idOfQuestionnaire: string;
-    timestamp?: Date;
+    timestamp?: number;
 }

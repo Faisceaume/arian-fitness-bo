@@ -30,9 +30,6 @@ export class QuestionsComponent implements OnInit {
     this.questionnairesService.getAllQuestionnaires();
     this.questionnairesService.questionnairesListSubject.subscribe(data => {
       this.questionnairesList = data;
-      /*for (let question of this.questionnairesList) {
-        this.onDisplayQuestions(question.id);
-      }*/
     });
 
   }
@@ -45,7 +42,7 @@ export class QuestionsComponent implements OnInit {
 
   openDialog() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = '30%';
+    dialogConfig.width = '40%';
     this.dialog.open(QuestionnairesFormComponent, dialogConfig);
   }
 
@@ -58,7 +55,7 @@ export class QuestionsComponent implements OnInit {
 
   onEdit( questionnaire: Questionnaires ) {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = '30%';
+    dialogConfig.width = '40%';
     dialogConfig.data = questionnaire;
     this.dialog.open(QuestionnairesDetailComponent, dialogConfig);
   }
@@ -88,5 +85,15 @@ export class QuestionsComponent implements OnInit {
   onDeleteQuestion(idQuestionnaire, idQuestion) {
     this.questionnairesService.deleteQuestion(idQuestionnaire, idQuestion);
   }
+
+  updateActiveField(idQuestionnaire, idQuestion, active) {
+    if (active) {
+      this.questionnairesService.updateActiveField(idQuestionnaire, idQuestion, true);
+    } else {
+      this.questionnairesService.updateActiveField(idQuestionnaire, idQuestion, false);
+    }
+  }
+
+
 
 }

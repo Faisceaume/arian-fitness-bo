@@ -37,7 +37,7 @@ export class QuestionsFormComponent implements OnInit {
   onAddQuestion() {
     const idQuestionnaire = this.road.snapshot.paramMap.get('idQuestionnaire');
     const data = this.questionForm.value;
-    this.questionnairesService.createQuestion(idQuestionnaire, data, new Date());
+    this.questionnairesService.createQuestion(idQuestionnaire, data, new Date().getTime());
     this.initForm();
   }
 

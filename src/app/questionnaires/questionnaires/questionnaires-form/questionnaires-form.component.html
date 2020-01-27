@@ -1,14 +1,13 @@
-<div class="" fxLayout="row" fxLayoutAlign="space-between">
-    <h3>Add questionnaire</h3>
-    <button type="button" mat-button color="warn" (click)="onClose()">x</button>
+<div>
+    <form [formGroup]="questionnairesForm" (ngSubmit)="onAdd()" fxLayout="row" fxLayoutAlign="space-around">
+        <div>
+            <mat-form-field>
+                <input matInput type="text" formControlName="name" placeholder="Nom du questionnaire">
+            </mat-form-field>
+        </div>
+        <div>
+            <button type="submit" [disabled]="questionnairesForm.invalid" mat-fab color="warn"><mat-icon>save</mat-icon> </button>
+        </div>
+    </form>
 </div>
-<form [formGroup]="questionnairesForm" (ngSubmit)="onAdd()">
-    <div fxLayout="row" fxLayoutAlign="center" >
-        <mat-form-field>
-            <input matInput type="text" formControlName="name" placeholder="Name">
-        </mat-form-field>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="center">
-        <button type="submit" [disabled]="questionnairesForm.invalid" mat-fab color="primary"><mat-icon>save</mat-icon> </button>
-    </div>
-</form>
+

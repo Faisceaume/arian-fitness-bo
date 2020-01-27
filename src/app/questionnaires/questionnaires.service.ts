@@ -45,7 +45,7 @@ export class QuestionnairesService {
   /******************* CREATE ******************/
   /*********************************************/
   /*********************************************/
-  createQuestionnaire(nameArg: string, timestampArg: Date) {
+  createQuestionnaire(nameArg: string, timestampArg: number) {
     const batch = this.db.firestore.batch();
     const idDoc = this.db.createId();
     const data = {
@@ -59,7 +59,7 @@ export class QuestionnairesService {
   }
 
   createQuestion(
-    idQuestionnaire: string, dataArg: any, timestampArg: Date) {
+    idQuestionnaire: string, dataArg: any, timestampArg: number) {
     const batch = this.db.firestore.batch();
     const idDoc = this.db.createId();
 
@@ -127,7 +127,7 @@ export class QuestionnairesService {
   /**************** UPDATE *********************/
   /*********************************************/
   /*********************************************/
-  updateQuestionnaire( id: string, nameArg: string, timestampArg: Date) {
+  updateQuestionnaire( id: string, nameArg: string, timestampArg: number) {
     const batch = this.db.firestore.batch();
     const ref = this.db.firestore.collection('questionnaires').doc( id );
     batch.update(ref, {name: nameArg, timestamp: timestampArg});
@@ -145,6 +145,20 @@ export class QuestionnairesService {
     batch.update(ref1, dataArg);
     batch.update(ref2, dataArg);
     batch.commit().then(() => console.log('Update question success'));
+  }
+
+  updateActiveField(idOfQuestionnaire, idQuestion, activeArg) {
+    const batch = this.db.firestore.batch();
+    const ref1 = this.db.firestore
+                        .collection('questionnaires')
+                        .doc(idOfQuestionnaire)
+                        .collection('questions')
+                        .doc(idQuestion);
+    const ref2 = this.db.firestore.collection('questions').doc(idQuestion);
+
+    batch.update(ref1, {active: activeArg});
+    batch.update(ref2, {active: activeArg});
+    batch.commit().then(() => console.log('Update field active success'));
   }
 
 

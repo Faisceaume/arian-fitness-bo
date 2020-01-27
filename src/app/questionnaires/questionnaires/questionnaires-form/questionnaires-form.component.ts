@@ -30,7 +30,7 @@ export class QuestionnairesFormComponent implements OnInit {
 
   onAdd() {
     const name = this.questionnairesForm.get('name').value;
-    const time = new Date();
+    const time = new Date().getTime();
     this.questionnairesService.createQuestionnaire(name, time);
     this.onClose();
   }

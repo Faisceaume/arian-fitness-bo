@@ -10,7 +10,11 @@
     <h2>Questionnaires</h2>
 
     <mat-accordion [multi]="false" >
-        <mat-expansion-panel hideToggle *ngFor="let questionnaire of questionnairesList" (opened)="onDisplayQuestions(questionnaire.id)">
+        <mat-expansion-panel hideToggle
+        *ngFor="let questionnaire of questionnairesList"
+        (opened)="onDisplayQuestions(questionnaire.id)"
+        style="box-shadow: none;"
+        >
           <mat-expansion-panel-header>
             <mat-panel-title>
               <h3>{{ questionnaire.name }}</h3> 
@@ -51,12 +55,23 @@
           
                 <ng-container matColumnDef="timestamp">
                   <mat-header-cell *matHeaderCellDef>Timestamp</mat-header-cell>
-                  <mat-cell *matCellDef="let element;" class="timestamp"> {{element.timestamp.toDate() | date}} </mat-cell>
+                  <mat-cell *matCellDef="let element;" class="timestamp"> {{element.timestamp | date}} </mat-cell>
                 </ng-container>
           
                 <ng-container matColumnDef="active">
                   <mat-header-cell *matHeaderCellDef>Active</mat-header-cell>
-                  <mat-cell *matCellDef="let element;"> {{ element.active }} </mat-cell>
+                  <mat-cell *matCellDef="let element;">
+                    <mat-icon 
+                    *ngIf="element.active"
+                    (click)="updateActiveField(element.idOfQuestionnaire, element.id, !element.active)">
+                            visibility
+                    </mat-icon>
+                    <mat-icon 
+                    *ngIf="!element.active"
+                    (click)="updateActiveField(element.idOfQuestionnaire, element.id, !element.active)">
+                            visibility_off
+                    </mat-icon>
+                  </mat-cell>
                 </ng-container>
           
                 <ng-container matColumnDef="action">

@@ -32,7 +32,7 @@ export class QuestionnairesDetailComponent implements OnInit {
 
   onEdit() {
     const name = this.questionnairesForm.get('name').value;
-    this.questionnairesService.updateQuestionnaire(this.data.id, name, new Date());
+    this.questionnairesService.updateQuestionnaire(this.data.id, name, new Date().getTime());
     this.onClose();
   }
 

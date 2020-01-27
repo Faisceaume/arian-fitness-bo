@@ -47,7 +47,7 @@ export class QuestionsDetailComponent implements OnInit {
     const data = this.questionForm.value as Questions;
     data.id = this.questionSingle.id;
     data.idOfQuestionnaire = this.questionSingle.idOfQuestionnaire;
-    data.timestamp = new Date();
+    data.timestamp = new Date().getTime();
     console.log(data);
     this.questionnairesService.updateQuestion(data);
     this.route.navigate(['/questionnaires']);
