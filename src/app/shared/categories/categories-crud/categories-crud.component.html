@@ -41,6 +41,7 @@
           id="nom" required>
       </mat-form-field>
       &nbsp;&nbsp;
+
       <mat-form-field>
         <input matInput placeholder="Acronyme" type="text" name="acronyme"
           maxlength="3"
@@ -49,6 +50,16 @@
           id="acronyme" required>
       </mat-form-field>
       &nbsp;&nbsp;
+
+      <mat-form-field *ngIf="data == 'exe_cat'">
+        <input matInput placeholder="duree" type="number" name="duree"
+          maxlength="3"
+          [(ngModel)]="formDataCategorie.duree"
+          (ngModelChange)="updateField('duree', formDataCategorie.duree)"
+          id="duree" required>
+      </mat-form-field>
+      &nbsp;&nbsp;
+
       <button mat-fab color="warn" type="submit"
         [disabled]="form2.invalid"
         *ngIf="toCreate">

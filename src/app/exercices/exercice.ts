@@ -1,4 +1,5 @@
 import { Niveau } from '../shared/niveaux/niveau';
+import { Categorie } from '../shared/categories/categorie';
 
 export class Exercice {
 id: string;
@@ -18,4 +19,6 @@ duree: number; // minute
 position: string;
 nbrerepetitionechauffement: number;
 nbrrepetitionsenior: number;
+
+categories: Categorie[];
 }

@@ -3,5 +3,6 @@ export class Categorie {
   nom: string;
   acronyme: string;
   timestamp: string;
+  duree?: number;
   selected?: boolean;
 }
