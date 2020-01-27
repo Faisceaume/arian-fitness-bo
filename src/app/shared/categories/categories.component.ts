@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Inject } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { Categorie } from './categorie';
 import { CategoriesService } from './categories.service';
@@ -6,7 +6,7 @@ import { Materiel } from 'src/app/materiels/materiel';
 import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { Exercice } from 'src/app/exercices/exercice';
 import { ExercicesService } from 'src/app/exercices/exercices.service';
-import { MatDialogConfig, MatDialog } from '@angular/material';
+import { MatDialogConfig, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { CategoriesCrudComponent } from './categories-crud/categories-crud.component';
 
 
