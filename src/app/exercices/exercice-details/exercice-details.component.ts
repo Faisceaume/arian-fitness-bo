@@ -16,6 +16,7 @@ export class ExerciceDetailsComponent implements OnInit {
   isLinear = false;
   formData: Exercice;
   niveaux: Niveau[];
+  toChangeNiveau: boolean;
   // toggle slide
   echauffementControl = new FormControl();
   accessalledesportControl = new FormControl();
@@ -33,10 +34,11 @@ export class ExerciceDetailsComponent implements OnInit {
       this.echauffementControl.setValue(item.echauffement);
       this.accessalledesportControl.setValue(item.accessalledesport);
     });
+
     this.niveauxService.getAllNiveaux();
     this.niveauxService.niveauxSubject.subscribe(data => {
-      this.niveaux = data;
-    });
+    this.niveaux = data;
+  });
   }
 
   updateFiel(attribut: string, value: any) {

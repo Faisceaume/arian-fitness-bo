@@ -19,3 +19,8 @@ mat-horizontal-stepper {
 .btnClass {
   text-align: center;
 }
+
+.sectionNiveau {
+  margin-top: 15px;
+  margin-left: 15px;
+}
