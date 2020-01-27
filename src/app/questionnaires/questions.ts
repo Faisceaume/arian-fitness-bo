@@ -1,8 +1,9 @@
 export class Questions {
     id: string;
     question: string;
-    reponse: string[];
+    reponses: string[];
     ordre: number;
     active: boolean;
-    timestamp: Date;
+    idOfQuestionnaire: string;
+    timestamp?: Date;
 }

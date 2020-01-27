@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Questionnaires } from './questionnaires';
 import { Subject } from 'rxjs';
+import { Questions } from './questions';
+import { ResolveEnd } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +12,12 @@ export class QuestionnairesService {
 
   questionnairesList: Questionnaires[];
   questionnairesListSubject = new Subject<Questionnaires[]>();
+
+  questionsList: Questions[];
+  questionsListSubject = new Subject<Questions[]>();
+
+  singleQuestion: Questions;
+  singleQuestionSubject = new Subject<Questions>();
 
   constructor(private db: AngularFirestore) { }
 
@@ -20,6 +28,14 @@ export class QuestionnairesService {
   /*********************************************/
   emitQuestionnairesListSubject() {
     this.questionnairesListSubject.next( this.questionnairesList );
+  }
+
+  emitQuestionsListSubject() {
+    this.questionsListSubject.next( this.questionsList );
+  }
+
+  emitSingleQuestionSubject() {
+    this.singleQuestionSubject.next( this.singleQuestion );
   }
 
 
@@ -42,18 +58,26 @@ export class QuestionnairesService {
     batch.commit().then(() => console.log('Questionnaire ajouté avec succès') );
   }
 
-  createQuestion(idQuestionnaire: string) {
+  createQuestion(
+    idQuestionnaire: string, dataArg: any, timestampArg: Date) {
     const batch = this.db.firestore.batch();
     const idDoc = this.db.createId();
 
-    const data1 = {};
-    const data2 = {};
+    const data: Questions = {
+      id: idDoc,
+      question: dataArg.question,
+      reponses: dataArg.reponses,
+      ordre: dataArg.ordre,
+      active: dataArg.active,
+      idOfQuestionnaire: idQuestionnaire,
+      timestamp: timestampArg
+    };
 
     const ref1 = this.db.firestore.collection('questionnaires').doc( idQuestionnaire ).collection('questions').doc( idDoc );
     const ref2 = this.db.firestore.collection('questions').doc( idDoc );
 
-    batch.set(ref1, data1);
-    batch.set(ref2, data2);
+    batch.set(ref1, data);
+    batch.set(ref2, data);
 
     batch.commit().then(() => console.log('Questions crées avec succès'));
   }
@@ -73,6 +97,30 @@ export class QuestionnairesService {
     });
   }
 
+  getAllQuestions(idQuestionnaires: string) {
+    this.db.collection('questionnaires').doc(idQuestionnaires).collection('questions').snapshotChanges().subscribe(array => {
+      this.questionsList = array.map(e => {
+        return {...e.payload.doc.data()} as Questions;
+      });
+      this.emitQuestionsListSubject();
+    });
+  }
+
+  getSingleQuestion(idQuestion) {
+    this.db.collection('questions').doc(idQuestion).get().subscribe(d => {
+      this.singleQuestion = {
+        id: d.data().id,
+        question: d.data().question,
+        reponses: d.data().reponses,
+        ordre: d.data().ordre,
+        active: d.data().active,
+        idOfQuestionnaire: d.data().idOfQuestionnaire,
+        timestamp: d.data().timestamp
+      } as Questions;
+      this.emitSingleQuestionSubject();
+    });
+  }
+
 
   /*********************************************/
   /*********************************************/
@@ -86,6 +134,19 @@ export class QuestionnairesService {
     batch.commit().then( () => console.log('édition réussie') );
   }
 
+  updateQuestion(dataArg: Questions) {
+    const batch = this.db.firestore.batch();
+    const ref1 = this.db.firestore
+                        .collection('questionnaires')
+                        .doc(dataArg.idOfQuestionnaire)
+                        .collection('questions')
+                        .doc(dataArg.id);
+    const ref2 = this.db.firestore.collection('questions').doc(dataArg.id);
+    batch.update(ref1, dataArg);
+    batch.update(ref2, dataArg);
+    batch.commit().then(() => console.log('Update question success'));
+  }
+
 
   /*********************************************/
   /*********************************************/
@@ -94,8 +155,29 @@ export class QuestionnairesService {
   /*********************************************/
   deleteQuestionnaire( id ) {
     const batch = this.db.firestore.batch();
+    const query = this.db.firestore.collection('questions').where('idOfQuestionnaire', '==', id);
+    query.get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+    });
     const ref = this.db.firestore.collection('questionnaires').doc( id );
     batch.delete(ref);
     batch.commit().then(() => console.log('Suppression réussi !!!'));
+}
+
+  deleteQuestion(idQuestionnaire, idQuestion) {
+    const batch = this.db.firestore.batch();
+    const ref1 = this.db.firestore
+                        .collection('questionnaires')
+                        .doc( idQuestionnaire)
+                        .collection('questions')
+                        .doc( idQuestion );
+    const ref2 = this.db.firestore.collection('questions').doc( idQuestion );
+
+    batch.delete(ref1);
+    batch.delete(ref2);
+
+    batch.commit().then(() => console.log('Suppression de la question ok'));
   }
 }
