@@ -6,98 +6,97 @@
 </button>
 
 <div [ngStyle]="{'padding':'0 10px'}">
-    
-    <h2>Questionnaires</h2>
+
+  <h2>Liste des Questionnaires</h2>
 
     <mat-accordion [multi]="false" >
-        <mat-expansion-panel hideToggle
+      <mat-expansion-panel hideToggle
         *ngFor="let questionnaire of questionnairesList"
         (opened)="onDisplayQuestions(questionnaire.id)"
-        style="box-shadow: none;"
-        >
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <h3>{{ questionnaire.name }}</h3> 
-            </mat-panel-title>
-            <mat-panel-description fxLayout="row" fxLayoutAlign="end">
-              <button type="button" mat-button (click)="onEdit(questionnaire)" ><mat-icon>edit</mat-icon></button>
-              <button type="button" mat-button (click)="onDeleteQuestionnaire(questionnaire.id)"><mat-icon>delete</mat-icon></button>
-            </mat-panel-description>
-          </mat-expansion-panel-header>
+        style="box-shadow: none;">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h3>{{ questionnaire.name }}</h3>
+          </mat-panel-title>
+          <mat-panel-description fxLayout="row" fxLayoutAlign="end">
+            <button type="button" mat-button (click)="onEdit(questionnaire)" ><mat-icon>edit</mat-icon></button>
+            <button type="button" mat-button (click)="onDeleteQuestionnaire(questionnaire.id)"><mat-icon>delete</mat-icon></button>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
-          <div>
+        <div>
             <div fxLayout="row" fxLayoutAlign="space-between">
               <h4>Questions</h4>
               <button (click)="onAddQuestion(questionnaire.id)" type="button" mat-button>Add question <mat-icon>add</mat-icon></button>
             </div>
-          
+
             <div>
-          
-          
+
+
               <mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="box-shadow: none;">
-          
+
                 <ng-container matColumnDef="ordre">
                   <mat-header-cell *matHeaderCellDef>Ordre</mat-header-cell>
                   <mat-cell *matCellDef="let element;"> {{ element.ordre }} </mat-cell>
                 </ng-container>
-          
+
                 <ng-container matColumnDef="question">
                   <mat-header-cell *matHeaderCellDef>Question</mat-header-cell>
                   <mat-cell *matCellDef="let element;"> {{ element.question }} </mat-cell>
                 </ng-container>
-          
+
                 <ng-container matColumnDef="reponses">
                   <mat-header-cell *matHeaderCellDef>Reponses</mat-header-cell>
                   <mat-cell *matCellDef="let element;">
                     {{ element.reponses }}
                   </mat-cell>
                 </ng-container>
-          
+
                 <ng-container matColumnDef="timestamp">
                   <mat-header-cell *matHeaderCellDef>Timestamp</mat-header-cell>
                   <mat-cell *matCellDef="let element;" class="timestamp"> {{element.timestamp | date}} </mat-cell>
                 </ng-container>
-          
+
                 <ng-container matColumnDef="active">
                   <mat-header-cell *matHeaderCellDef>Active</mat-header-cell>
                   <mat-cell *matCellDef="let element;">
-                    <mat-icon 
+                    <mat-icon
                     *ngIf="element.active"
                     (click)="updateActiveField(element.idOfQuestionnaire, element.id, !element.active)">
                             visibility
                     </mat-icon>
-                    <mat-icon 
+                    <mat-icon
                     *ngIf="!element.active"
                     (click)="updateActiveField(element.idOfQuestionnaire, element.id, !element.active)">
                             visibility_off
                     </mat-icon>
                   </mat-cell>
                 </ng-container>
-          
+
                 <ng-container matColumnDef="action">
                   <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                   <mat-cell *matCellDef="let element;">
-                    <button 
+                    <button
                     type="button"
                     (click)="onEditQuestion(element.id)"
                     mat-icon-button><mat-icon>edit</mat-icon></button>
-                    <button 
+                    <button
                     type="button"
                     (click)="onDeleteQuestion(element.idOfQuestionnaire, element.id)"
                      mat-icon-button
                      ><mat-icon>delete</mat-icon></button>
                   </mat-cell>
                 </ng-container>
-          
+
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-          
+
               </mat-table>
             </div>
           </div>
-          
+
         </mat-expansion-panel>
 
     </mat-accordion>
-    
+
 </div>
