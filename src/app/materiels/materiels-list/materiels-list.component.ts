@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class MaterielsListComponent implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['nom', 'date', 'postefixe', 'visibility', 'categories', 'action'];
+  displayedColumns: string[] = ['nom', 'date', 'visibility', 'categories', 'action'];
   dataSource: MatTableDataSource<Materiel>;
   materielsSubscription: Subscription;
 

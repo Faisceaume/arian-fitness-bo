@@ -18,8 +18,6 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
                                 'duree',
                                 'ageminimal',
                                 'agemaximal',
-                                'nbrerepetitionechauffement',
-                                'nbrrepetitionsenior',
                                 'position',
                                 'type',
                                 'echauffement',

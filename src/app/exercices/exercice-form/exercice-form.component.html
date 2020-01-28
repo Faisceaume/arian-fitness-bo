@@ -9,133 +9,233 @@
 
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>ère Etape</ng-template>
+      <ng-template matStepLabel>ère étape</ng-template>
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
-        <mat-form-field fxFlex="22">
-          <input matInput placeholder="numero" formControlName="numero">
+        <mat-form-field fxFlex="10">
+          <input matInput placeholder="Numéro" formControlName="numero" type="number" required>
         </mat-form-field>
 
-        <mat-form-field fxFlex="34">
-          <input matInput placeholder="nom" formControlName="nom">
+        <mat-form-field fxFlex="90">
+          <input matInput placeholder="Nom de l'exercice" formControlName="nom" required>
         </mat-form-field>
 
-        <mat-form-field fxFlex="22">
-          <input matInput placeholder="duree (min)" formControlName="duree">
+        <mat-form-field fxFlex="10">
+          <input matInput placeholder="Durée en minute" formControlName="duree">
         </mat-form-field>
 
-        <mat-form-field fxFlex="22">
-          <input matInput placeholder="position" formControlName="position">
+        <mat-form-field fxFlex="90">
+          <input matInput placeholder="Descriptif" formControlName="descriptif">
+        </mat-form-field>
+
+        <div fxLayout="row" fxFlex="100">
+          <div fxFlex="80" fxLayout="column">
+            <div>
+              <label class="dark-chip"> Type :</label>
+              <mat-radio-group color="warn" formControlName="type">
+                  <mat-radio-button value="global" class="span-radio-button">
+                    Global
+                  </mat-radio-button>
+                  <mat-radio-button value="analytique" class="span-radio-button">
+                    Analytique
+                  </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
+              <label class="dark-chip"> Position :</label>
+              <mat-radio-group color="warn" formControlName="position">
+                <mat-radio-button value="debout" class="span-radio-button">
+                  Debout
+                </mat-radio-button>
+                <mat-radio-button value="couché" class="span-radio-button">
+                  Couché
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
+              <label class="dark-chip"> Niveau Maximum:</label>
+              <mat-radio-group color="warn" formControlName="niveaumax">
+                <mat-radio-button *ngFor="let niveau of niveaux" [value]="niveau" class="span-radio-button">
+                  N{{ niveau.acronyme }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div fxFlex="20" class="btnClass" fxLayoutAlign="end end">
+            <button mat-fab matStepperNext color="warn" [disabled]="firstFormGroup.invalid">
+              <mat-icon>navigate_next</mat-icon>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </mat-step>
+
+
+
+
+
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>ème étape</ng-template>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+        <mat-form-field fxFlex="50">
+          <mat-label>Age Minimal</mat-label>
+          <mat-select formControlName="ageminimal" required>
+            <mat-option *ngFor="let agemaximal of ages" matNativeControl [value]="agemaximal">
+                {{agemaximal}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
 
         <mat-form-field fxFlex="50">
-          <input matInput placeholder="descriptif" formControlName="descriptif">
+          <mat-label>Age Maximal</mat-label>
+          <mat-select formControlName="agemaximal" required>
+            <mat-option *ngFor="let agemax of ages" matNativeControl [value]="agemax">
+                {{agemax}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
 
-        <section fxFlex="100">
-          <!-- <mat-label>Niveau</mat-label> -->
-          <label class="dark-chip"> Niveau :</label>
-          <mat-radio-group color="warn" formControlName="niveau">
-            <mat-radio-button *ngFor="let niveau of niveaux" [value]="niveau">
-              {{ niveau.nom }}
-            </mat-radio-button>
-          </mat-radio-group>
-        </section>
-
-
-        <section fxFlex="100">
-          <label class="dark-chip"> Type :</label>
-          <mat-radio-group color="warn" formControlName="type">
-              <mat-radio-button value="global">
-                Global
-              </mat-radio-button>
-              <mat-radio-button value="analytique">
-                Analytique
-              </mat-radio-button>
-          </mat-radio-group>
-        </section>
-      </div>
-    </form>
-
-    <div class="btnClass">
-      <button mat-button matStepperNext>
-        <mat-icon>navigate_next</mat-icon>
-      </button>
-    </div>
-  </mat-step>
-
-  <mat-step [stepControl]="secondFormGroup">
-
-    <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>ème Etape</ng-template>
-
-      <div fxLayout="row wrap" fxLayoutAlign="start start">
-
-        <mat-form-field fxFlex="25">
-          <input matInput placeholder="Age minimal" formControlName="ageminimal" required>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="25">
-          <input matInput placeholder="Age maximal" formControlName="agemaximal" required>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="25">
-          <input matInput placeholder="nombre repetition senior" formControlName="nbrrepetitionsenior" required>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="25">
-          <input matInput placeholder="nombre repitition echauff" formControlName="nbrerepetitionechauffement" required>
-        </mat-form-field>
-
-        <div fxLayout="row"  [ngStyle]="{'padding':'10px'}">
-          <div [ngStyle]="{'padding-right':'30px'}">
-            <label>Echauffement &nbsp; </label>
-            <mat-slide-toggle
-              color="warn"
-              [formControl]="echauffementControl">
-            </mat-slide-toggle>
-          </div >
-          <div [ngStyle]="{'padding-left':'20px'}">
-            <label>Accès salle de sport &nbsp; </label>
-            <mat-slide-toggle
-              color="warn"
-              [formControl]="accessalledesportControl"></mat-slide-toggle>
-          </div>
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Accès salle de sport &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="accessalledesportControl"></mat-slide-toggle>
         </div>
 
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Dégressif &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="degressif"></mat-slide-toggle>
+        </div>
+
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Visuel &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="visuel"></mat-slide-toggle>
+        </div>
+
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Echauffement &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="echauffementControl">
+          </mat-slide-toggle>
+        </div>
+
+        <mat-form-field fxFlex="100" *ngIf="echauffementControl.value">
+          <mat-label>Nombre de Répétitions Échauffement</mat-label>
+          <mat-select formControlName="nbrerepetitionechauffement">
+            <mat-option *ngFor="let repetechauff of nbrerepetechauffement" matNativeControl [value]="repetechauff">
+                {{repetechauff}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Retour au calme &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="retouraucalme">
+          </mat-slide-toggle>
+        </div>
+
+        <mat-form-field fxFlex="100" *ngIf="retouraucalme.value">
+          <mat-label>Nombre de Répétitions Retour au Calme</mat-label>
+          <mat-select formControlName="nbrerepetitionechauffement">
+            <mat-option *ngFor="let repetecalme of nbrerepetretourcalme" matNativeControl [value]="repetecalme">
+                {{repetecalme}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Fourchettes de Répétitions Précisées pour l'Exercice &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="repetitionsexercice">
+          </mat-slide-toggle>
+        </div>
+
+        <mat-form-field fxFlex="100" *ngIf="repetitionsexercice.value">
+          <mat-label>Nombre de Répétitions Précisées pour l'exercice</mat-label>
+          <mat-select formControlName="nbrerepetitionexercice">
+            <mat-option *ngFor="let repetexo of nbrerepetexercice" matNativeControl [value]="repetexo">
+                {{repetexo}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+
+        <mat-form-field fxFlex="100" *ngIf="showSeniotRepetList">
+          <mat-label>Nombre de Répétitions Sénior</mat-label>
+          <mat-select formControlName="nbrrepetitionsenior">
+            <mat-option *ngFor="let repetsenior of nbrerepetsenior" matNativeControl [value]="repetsenior">
+                {{repetsenior}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
       </div>
     </form>
 
-    <div class="btnClass">
-      <button mat-button matStepperPrevious>
-        <mat-icon>navigate_before</mat-icon>
-      </button>
-      <button mat-button matStepperNext>
-        <mat-icon>navigate_next</mat-icon>
-      </button>
+    <div fxLayout="row" fxFlex="100">
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="start end">
+        <button mat-icon-button matStepperPrevious color="black">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </div>
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="end start">
+        <button mat-fab matStepperNext color="warn" [disabled]="secondFormGroup.invalid || firstFormGroup.invalid">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </div>
     </div>
+
   </mat-step>
 
   <mat-step [stepControl]="thirdFormGroup">
     <form [formGroup]="thirdFormGroup">
-      <ng-template matStepLabel>ème Etape</ng-template>
+      <ng-template matStepLabel>ème étape</ng-template>
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
         <mat-form-field fxFlex="50">
-          <input matInput placeholder="regime" formControlName="regime" required>
+          <input matInput placeholder="Régime" formControlName="regime">
         </mat-form-field>
 
         <mat-form-field fxFlex="50">
-          <input matInput placeholder="consigne" formControlName="consigne" required>
+          <input matInput placeholder="Consigne" formControlName="consigne">
         </mat-form-field>
 
         <app-categories [noeud]="'exe_cat'"></app-categories>
       </div>
     </form>
 
-    <div class="btnClass">
+    <div fxLayout="row" fxFlex="100">
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="start end">
+        <button mat-icon-button matStepperPrevious color="black">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </div>
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="end start">
+        <button mat-fab matStepperNext color="warn" type="submit" (click)="onSubmit()"
+          [disabled]="firstFormGroup.invalid || secondFormGroup.invalid || thirdFormGroup.invalid">
+            <mat-icon>save</mat-icon>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- <div class="btnClass">
       <button mat-button matStepperPrevious>
         <mat-icon>navigate_before</mat-icon>
       </button>
@@ -146,7 +246,9 @@
 			  [disabled]="firstFormGroup.invalid || secondFormGroup.invalid || thirdFormGroup.invalid">
 			    <mat-icon>save</mat-icon>
 		  </button>
-    </div>
+    </div> -->
+
+
   </mat-step>
 
 </mat-horizontal-stepper>
