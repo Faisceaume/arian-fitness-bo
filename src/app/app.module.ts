@@ -17,6 +17,7 @@ import { environment } from '../environments/environment.prod';
 import { AuthComponent } from './auth/auth.component';
 import { AccueilComponent } from './accueil/accueil.component';
 import { UiModule } from './ui/ui.module';
+import { QuestionnairesModule } from './questionnaires/questionnaires.module';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { UiModule } from './ui/ui.module';
   imports: [
     SharedModule,
     BrowserModule,
+    QuestionnairesModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,

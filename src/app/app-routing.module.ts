@@ -6,6 +6,9 @@ import { AccueilComponent } from './accueil/accueil.component';
 import { ObjectifsComponent } from './shared/objectifs/objectifs.component';
 import { NiveauxComponent } from './shared/niveaux/niveaux.component';
 import { PathologiesComponent } from './shared/pathologies/pathologies.component';
+import { QuestionsComponent } from './questionnaires/questionnaires/questions.component';
+import { QuestionsFormComponent } from './questionnaires/questionnaires/questions-form/questions-form.component';
+import { QuestionsDetailComponent } from './questionnaires/questionnaires/questions-detail/questions-detail.component';
 
 
 const routes: Routes = [
@@ -24,6 +27,9 @@ const routes: Routes = [
     path: 'materiels', canActivate: [AuthGuardService],
     loadChildren: () => import('./materiels/materiels.module').then(mod => mod.MaterielsModule)
   },
+  { path: 'questionnaires', canActivate: [AuthGuardService], component: QuestionsComponent },
+  {path: 'question-form/:idQuestionnaire', canActivate: [AuthGuardService], component: QuestionsFormComponent},
+  {path: 'question-detail/:idQuestion', canActivate: [AuthGuardService], component: QuestionsDetailComponent}
 ];
 
 @NgModule({
