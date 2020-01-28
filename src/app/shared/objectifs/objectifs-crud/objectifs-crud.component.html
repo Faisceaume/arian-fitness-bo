@@ -5,13 +5,13 @@
       <h2 fxFlex="90" *ngIf="toCreate" class="h2-modal">Ajouter un nouvel objectif</h2>
       <h2 fxFlex="90" *ngIf="!toCreate" class="h2-modal">Editer l'objectif</h2>
 
-      <mat-form-field fxFlex="40">
+      <mat-form-field fxFlex="45">
         <input matInput placeholder="Nom de l'iobjectif" type="text" name="nom"
           [(ngModel)]="formData.nom"
           (ngModelChange)="updateField('nom', formData.nom)"
           id="nom" required>
       </mat-form-field>
-      <mat-form-field fxFlex="40">
+      <mat-form-field fxFlex="45">
         <input matInput placeholder="Acronyme" type="text" name="acronyme"
           maxlength="5"
           [(ngModel)]="formData.acronyme"
@@ -19,17 +19,6 @@
           id="acronyme" required>
       </mat-form-field>
       &nbsp;&nbsp;
-
-      <div fxFlex="15" [ngStyle]="{'padding':'10px'}">
-        <div>
-          <label>Premium </label>
-          <mat-slide-toggle color="warn"
-            [formControl]="premiumControl"
-            (change)="updateField('premium', premiumControl.value)">
-          </mat-slide-toggle>
-        </div>
-      </div>
-
       <button mat-fab color="warn" type="submit"
         [disabled]="form.invalid"
         *ngIf="toCreate">

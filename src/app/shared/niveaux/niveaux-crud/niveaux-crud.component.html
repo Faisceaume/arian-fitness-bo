@@ -17,10 +17,16 @@
 
     <div fxLayout="row wrap" fxLayoutAlign="start start">
 
-      <mat-form-field fxFlex="100">
+      <mat-form-field fxFlex="80">
         <input matInput placeholder="Nom du niveau" type="text" name="nom"
         [(ngModel)]="formData.nom"
         (ngModelChange)="updateField('nom', formData.nom)" required>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="20">
+        <input matInput placeholder="Acronyme" type="text" name="acronyme" maxlength="4"
+        [(ngModel)]="formData.acronyme"
+        (ngModelChange)="updateField('acronyme', formData.acronyme)" required>
       </mat-form-field>
 
       <mat-form-field fxFlex="33">

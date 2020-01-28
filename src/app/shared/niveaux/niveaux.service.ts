@@ -26,7 +26,7 @@ createNiveaux(niveau: Niveau): void {
 }
 
 getAllNiveaux(): void {
-  this.firestore.collection('niveaux')
+  this.firestore.collection('niveaux', ref => ref.orderBy('nom'))
                 .snapshotChanges().subscribe( data => {
     this.niveaux = data.map( e => {
       const anotherData = e.payload.doc.data() as Niveau;

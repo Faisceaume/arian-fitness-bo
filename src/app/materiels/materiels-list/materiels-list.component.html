@@ -21,13 +21,13 @@
       <td mat-cell *matCellDef="let element" class="timestamp"> {{element.timestamp | date}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="postefixe">
+    <!-- <ng-container matColumnDef="postefixe">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Poste Fixe </th>
       <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
         <mat-icon class="icon-but" *ngIf="element.postefixe" (click)="updateField(true,'postefixe', element)">check</mat-icon>
         <mat-icon class="icon-but" *ngIf="!element.postefixe" (click)="updateField(false,'postefixe', element)">close</mat-icon>
       </td>
-    </ng-container>
+    </ng-container> -->
 
     <ng-container matColumnDef="visibility">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Visibilité</th>

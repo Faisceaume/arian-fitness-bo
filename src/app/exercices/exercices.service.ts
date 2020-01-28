@@ -17,16 +17,16 @@ export class ExercicesService {
 
 
   createExercice(exercice: Exercice) {
-      const batch = this.firestore.firestore.batch();
-      const currentid = this.firestore.firestore.collection('exercices').doc().id;
-      const nextDocument1 = this.firestore.firestore.collection('exercices').doc(currentid);
-      let data = Object.assign({}, exercice);
-      data = Object.assign(exercice, {id: currentid, timestamp: new Date().getTime()});
-      batch.set(nextDocument1, data);
-      batch.commit().then(() => {
-                  console.log('Batch Commited');
-                  this.router.navigate(['exercices']);
-      }).catch((error) => { console.error('Error creating document: ', error); });
+    const batch = this.firestore.firestore.batch();
+    const currentid = this.firestore.firestore.collection('exercices').doc().id;
+    const nextDocument1 = this.firestore.firestore.collection('exercices').doc(currentid);
+    let data = Object.assign({}, exercice);
+    data = Object.assign(exercice, {id: currentid, timestamp: new Date().getTime()});
+    batch.set(nextDocument1, data);
+    batch.commit().then(() => {
+                console.log('Batch Commited');
+                this.router.navigate(['exercices']);
+    }).catch((error) => { console.error('Error creating document: ', error); });
   }
 
   getAllExercices() {

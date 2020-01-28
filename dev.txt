@@ -57,3 +57,32 @@ gsutil iam ch serviceAccount:kajimotomusic-prod@appspot.gserviceaccount.com:stor
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
+
+
+gcloud projects add-iam-policy-binding kajimotomusic-prod --member serviceAccount:kajimotomusic-prod@appspot.gserviceaccount.com --role roles/datastore.importExportAdmin
+gsutil iam ch serviceAccount:kajimotomusic-prod@appspot.gserviceaccount.com:storage.admin gs://kajimotomusicparis.com
+gsutil iam ch serviceAccount:kajimotomusic-prod@appspot.gserviceaccount.com:storage.admin \
+    gs://kajimotomusic-prod-backups
+
+
+
+
+gcloud projects add-iam-policy-binding arian-fitness --member serviceAccount:arian-fitness@appshot.gserviceaccount.com --role roles/datastore.importExportAdmin
+gsutil iam ch serviceAccount:arian-fitness@appspot.gserviceaccount.com:storage.admin gs://arian-fitness.appspot.com
+
+
+
+arian-fitness@appspot.gserviceaccount.com
+
+
+
+arian-fitness.appspot.com
+
+
+
+
+
+- Appliquer CATÉGORIE DE Matériel aux Pathologies
+- SDS à tout le matériel
+- Retirer le boolean du formulaire materiel Poste Fixe
+- Ajout d'un boolean "premium" en toggle switch dans les objectif
