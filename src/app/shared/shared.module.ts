@@ -35,6 +35,7 @@ import { PathologiesComponent } from './pathologies/pathologies.component';
 import { ObjectifsCrudComponent } from './objectifs/objectifs-crud/objectifs-crud.component';
 import { NiveauxCrudComponent } from './niveaux/niveaux-crud/niveaux-crud.component';
 import { PathologiesCrudComponent } from './pathologies/pathologies-crud/pathologies-crud.component';
+import { MaterielsSharedComponent } from './materiels-shared/materiels-shared.component';
 
 const modules = [
     CommonModule,
@@ -74,7 +75,8 @@ const modules = [
                 PathologiesComponent,
                 ObjectifsCrudComponent,
                 NiveauxCrudComponent,
-                PathologiesCrudComponent],
+                PathologiesCrudComponent,
+                MaterielsSharedComponent],
   imports: [
     ...modules,
   ],
@@ -86,7 +88,8 @@ const modules = [
 entryComponents: [CategoriesCrudComponent,
                   ObjectifsCrudComponent,
                   NiveauxCrudComponent,
-                  PathologiesCrudComponent]
+                  PathologiesCrudComponent,
+                  MaterielsSharedComponent]
 })
 export class SharedModule {
 

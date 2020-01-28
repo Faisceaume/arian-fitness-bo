@@ -8,6 +8,8 @@ import { NiveauxService } from 'src/app/shared/niveaux/niveaux.service';
 import { CategoriesService } from 'src/app/shared/categories/categories.service';
 import { Materiel } from 'src/app/materiels/materiel';
 import { MaterielsService } from 'src/app/materiels/materiels.service';
+import { MatDialogConfig, MatDialog } from '@angular/material';
+import { MaterielsSharedComponent } from 'src/app/shared/materiels-shared/materiels-shared.component';
 
 @Component({
   selector: 'app-exercice-form',
@@ -183,7 +185,8 @@ export class ExerciceFormComponent implements OnInit {
               private formBuilder: FormBuilder,
               private niveauxService: NiveauxService,
               private categoriesService: CategoriesService,
-              private materielsService: MaterielsService) { }
+              public materielsService: MaterielsService,
+              private matDialog: MatDialog) { }
 
   ngOnInit() {
 
@@ -263,6 +266,13 @@ export class ExerciceFormComponent implements OnInit {
         this.materielsChecked.splice(id, 1);
       }
     }
+  }
+
+  openMatDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '80%';
+    this.matDialog.open(MaterielsSharedComponent, dialogConfig);
   }
 
 }

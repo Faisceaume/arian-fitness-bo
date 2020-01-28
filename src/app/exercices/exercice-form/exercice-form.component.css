@@ -39,3 +39,12 @@ mat-horizontal-stepper {
 .example-margin {
   margin: 0 10px;
 }
+
+.black {
+  padding: 5px;
+}
+
+.materiel {
+  margin-top: 5px;
+  padding: 10px;
+}
