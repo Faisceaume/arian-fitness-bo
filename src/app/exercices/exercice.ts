@@ -1,5 +1,6 @@
 import { Niveau } from '../shared/niveaux/niveau';
 import { Categorie } from '../shared/categories/categorie';
+import { Materiel } from '../materiels/materiel';
 
 export class Exercice {
   accessalledesport: boolean;
@@ -24,4 +25,5 @@ export class Exercice {
   position: string;
   retouraucalme: boolean;
   visuel: boolean;
+  materiels: Materiel[];
 }

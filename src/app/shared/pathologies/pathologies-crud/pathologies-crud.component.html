@@ -42,13 +42,7 @@
         required></textarea>
     </mat-form-field>
       &nbsp;&nbsp;
-      <button mat-fab color="warn" type="button" (click)="exercicecategorie = !exercicecategorie">
-          <mat-icon>swap_vert</mat-icon>
-      </button>
-<!--
-      <app-categories [noeud]="'mat_cat'" *ngIf="!exercicecategorie"></app-categories>
-      <app-categories [noeud]="'exe_cat'" *ngIf="exercicecategorie"></app-categories>
--->
+
       <button mat-fab color="warn" type="submit"
         [disabled]="form.invalid"
         *ngIf="toCreate">

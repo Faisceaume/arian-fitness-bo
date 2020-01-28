@@ -6,6 +6,10 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Niveau } from 'src/app/shared/niveaux/niveau';
 import { NiveauxService } from 'src/app/shared/niveaux/niveaux.service';
 import { CategoriesService } from 'src/app/shared/categories/categories.service';
+import { Materiel } from 'src/app/materiels/materiel';
+import { MaterielsService } from 'src/app/materiels/materiels.service';
+import { MatDialogConfig, MatDialog } from '@angular/material';
+import { MaterielsSharedComponent } from 'src/app/shared/materiels-shared/materiels-shared.component';
 
 @Component({
   selector: 'app-exercice-form',
@@ -20,6 +24,8 @@ export class ExerciceFormComponent implements OnInit {
   thirdFormGroup: FormGroup;
   formData: Exercice;
   niveaux: Niveau[];
+  materiels: Materiel[];
+  materielsChecked: Materiel[] = [];
   // toggle slide
   echauffementControl = new FormControl();
   accessalledesportControl = new FormControl();
@@ -91,10 +97,19 @@ export class ExerciceFormComponent implements OnInit {
   constructor(private exercicesService: ExercicesService,
               private formBuilder: FormBuilder,
               private niveauxService: NiveauxService,
-              private categoriesService: CategoriesService) { }
+              private categoriesService: CategoriesService,
+              public materielsService: MaterielsService,
+              private matDialog: MatDialog) { }
 
   ngOnInit() {
 
+<<<<<<< HEAD
+=======
+    this.materielsService.getAllMateriels();
+    this.materielsService.materielSubject.subscribe(data => {
+      this.materiels = data;
+    });
+>>>>>>> arian-okoma
 
     this.firstFormGroup = this.formBuilder.group({
       numero: [0, Validators.required],
@@ -153,8 +168,27 @@ export class ExerciceFormComponent implements OnInit {
   onSubmit(): void {
     this.setFormDataValue();
     this.formData.categories = this.categoriesService.chipsSelectedForOperation;
+    this.formData.materiels = this.materielsChecked;
     this.categoriesService.setChipsSelectedForOperationValue(null);
     this.exercicesService.createExercice(this.formData);
+  }
+
+  onCkecked(event, item: Materiel) {
+    if (event.checked) {
+      this.materielsChecked.push(item);
+    } else {
+      const id = this.materielsChecked.indexOf(item);
+      if (id >= 0 ) {
+        this.materielsChecked.splice(id, 1);
+      }
+    }
+  }
+
+  openMatDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '80%';
+    this.matDialog.open(MaterielsSharedComponent, dialogConfig);
   }
 
 }

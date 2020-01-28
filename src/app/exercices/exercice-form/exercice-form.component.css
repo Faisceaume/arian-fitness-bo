@@ -35,3 +35,16 @@ mat-horizontal-stepper {
 ::ng-deep .mat-horizontal-stepper-header-container .mat-step-icon-state-edit {
   background-color: #999 !important;
 }
+
+.example-margin {
+  margin: 0 10px;
+}
+
+.black {
+  padding: 5px;
+}
+
+.materiel {
+  margin-top: 5px;
+  padding: 10px;
+}

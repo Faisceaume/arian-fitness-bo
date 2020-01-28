@@ -217,6 +217,24 @@
         </mat-form-field>
 
         <app-categories [noeud]="'exe_cat'"></app-categories>
+
+        <section fxFlex="100" class="materiel">
+            <mat-label class="black">Gestion des matériels : </mat-label>
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip *ngFor="let materiel of materielsService.materielsSelected">{{ materiel.nom }}</mat-chip>
+          </mat-chip-list>
+          <button mat-icon-button (click)="openMatDialog()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </section>
+
+        <!--
+        <div fxLayout="row wrap" fxLayoutAlign="start start">
+          <section class="example-section" *ngFor="let materiel of materiels">
+            <mat-checkbox class="example-margin" (change)="onCkecked($event, materiel)">{{materiel.nom}}</mat-checkbox>
+          </section>
+        </div>
+        -->
       </div>
     </form>
 
