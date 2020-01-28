@@ -1,0 +1,13 @@
+<div>
+    <form [formGroup]="questionnairesForm" (ngSubmit)="onAdd()" fxLayout="row" fxLayoutAlign="space-around">
+        <div>
+            <mat-form-field>
+                <input matInput type="text" formControlName="name" placeholder="Nom du questionnaire">
+            </mat-form-field>
+        </div>
+        <div>
+            <button type="submit" [disabled]="questionnairesForm.invalid" mat-fab color="warn"><mat-icon>save</mat-icon> </button>
+        </div>
+    </form>
+</div>
+

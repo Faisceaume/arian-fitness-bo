@@ -37,6 +37,13 @@
       <td mat-cell *matCellDef="let element"> {{element.details}} </td>
     </ng-container> -->
 
+    <!-- Details Column -->
+    <ng-container matColumnDef="mat_cat">
+      <th mat-header-cell *matHeaderCellDef> Mat_Cat </th>
+      <td mat-cell *matCellDef="let element"> </td>
+      <!-- <td mat-cell *matCellDef="let element" (click)="mat_cat_dialog()"> </td> -->
+    </ng-container>
+
     <!-- Action Column -->
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>

@@ -75,6 +75,7 @@ export class MaterielsService {
     }).catch((error) => { console.error('Error updzting document: ', error); });
   }
 
+
   addMaterielSelected(item: Materiel) {
     this.materielsSelected.push(item);
   }
@@ -84,6 +85,10 @@ export class MaterielsService {
     if (index >= 0) {
       this.materielsSelected.splice(index, 1);
     }
+  }
+
+  resetMaterielSelected() {
+    this.materielsSelected = [];
   }
 
 }

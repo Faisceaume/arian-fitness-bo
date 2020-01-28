@@ -74,14 +74,41 @@ gsutil iam ch serviceAccount:arian-fitness@appspot.gserviceaccount.com:storage.a
 
 arian-fitness@appspot.gserviceaccount.com
 
-
-
 arian-fitness.appspot.com
 
 
 
 
 
+
+- ERROR : Suppression de 3 matériel lors du chantier des catégories
+
+
+
+
+CALL LOUNIS 28/01
+- Appliquer CATÉGORIE de Matériel aux Pathologies
+- Champs durée de l'exercice : ne pas mettre de 0 à l'ouverture du formulaire
+- Champs "pathologie" à 3 états dans les exercies :
+    - pour les personnes sans Pathologies
+    - uniquement pour les personnes avec Pathologies
+    - exercice avec ou sans Pathologie
+- Champs "senior" à 3 états dans les exercies :
+    - pour les personnes non senior
+    - uniquement pour les personnes senior
+    - exercice pour tout le monde, tous les âges
+- Exercice > Position : 3 états : Debout / Couché sur le ventre / Couché sur le dos
+- Boolean pour les contraintes d'age (x2)
+- Envoyer toutes les listes de select du formulaire exercice à Lounis pour correction
+- Menu Check box pour "Regime de contraction" : Concentrique / Pliométrique / Isométrique / Excentrique
+- Consigne : Text area car champs long
+- Catégories :
+  - pour la durée de la catégorie : menu select : 5 minutes / 7 minutes 30 / 10 minutes
+  - pour le temps de repos : menu select : 30 secondes / 60 secondes / 90 secondes / 120 secondes
+
+
+
+CALL LOUNIS 27/01
 - Appliquer CATÉGORIE DE Matériel aux Pathologies
 - SDS à tout le matériel
 - Retirer le boolean du formulaire materiel Poste Fixe

@@ -25,7 +25,8 @@ export class ExerciceFormComponent implements OnInit {
   formData: Exercice;
   niveaux: Niveau[];
   materiels: Materiel[];
-  materielsChecked: Materiel[] = [];
+  // materielsChecked: Materiel[] = [];
+
   // toggle slide
   echauffementControl = new FormControl();
   accessalledesportControl = new FormControl();
@@ -36,95 +37,8 @@ export class ExerciceFormComponent implements OnInit {
   showSeniotRepetList = false;
 
   ages = [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23,
-    24,
-    25,
-    26,
-    27,
-    28,
-    29,
-    30,
-    31,
-    32,
-    33,
-    34,
-    35,
-    36,
-    37,
-    38,
-    39,
-    40,
-    41,
-    42,
-    43,
-    44,
-    45,
-    46,
-    47,
-    48,
-    49,
-    50,
-    51,
-    52,
-    53,
-    54,
-    55,
-    56,
-    57,
-    58,
-    59,
-    60,
-    61,
-    62,
-    63,
-    64,
-    65,
-    66,
-    67,
-    68,
-    69,
-    70,
-    71,
-    72,
-    73,
-    74,
-    75,
-    76,
-    77,
-    78,
-    79,
-    80,
-    81,
-    82,
-    83,
-    84,
-    85,
-    86,
-    87,
-    88,
-    89,
+    'à partir de 20 ans',
+    'age maximal 49 ans',
   ];
 
 
@@ -190,11 +104,12 @@ export class ExerciceFormComponent implements OnInit {
 
   ngOnInit() {
 
+    /*
     this.materielsService.getAllMateriels();
     this.materielsService.materielSubject.subscribe(data => {
       this.materiels = data;
     });
-
+*/
     this.firstFormGroup = this.formBuilder.group({
       numero: [0, Validators.required],
       nom: ['', Validators.required],
@@ -252,11 +167,14 @@ export class ExerciceFormComponent implements OnInit {
   onSubmit(): void {
     this.setFormDataValue();
     this.formData.categories = this.categoriesService.chipsSelectedForOperation;
-    this.formData.materiels = this.materielsChecked;
+    this.formData.materiels = this.materielsService.materielsSelected;
+    // this.formData.materiels = this.materielsChecked;
     this.categoriesService.setChipsSelectedForOperationValue(null);
+    this.materielsService.resetMaterielSelected();
     this.exercicesService.createExercice(this.formData);
   }
 
+/*
   onCkecked(event, item: Materiel) {
     if (event.checked) {
       this.materielsChecked.push(item);
@@ -267,11 +185,13 @@ export class ExerciceFormComponent implements OnInit {
       }
     }
   }
-
+*/
   openMatDialog() {
+    this.materielsService.resetMaterielSelected();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';
+    dialogConfig.data = null;
     this.matDialog.open(MaterielsSharedComponent, dialogConfig);
   }
 

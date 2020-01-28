@@ -45,8 +45,8 @@
         <mat-form-field fxFlex="50" *ngIf="toChangeNiveau">
           <mat-label>Niveau</mat-label>
           <mat-select
-          [(ngModel)]="formData.niveau"
-          (ngModelChange)="updateFiel('niveau',formData.niveau)"
+          [(ngModel)]="formData.niveaumax"
+          (ngModelChange)="updateFiel('niveau',formData.niveaumax)"
           required>
             <mat-option *ngFor="let niveau of niveaux" [value]="niveau">
               {{niveau.nom}}
@@ -55,8 +55,8 @@
         </mat-form-field>
 
         <section fxFlex="40" *ngIf="!toChangeNiveau" class="sectionNiveau">
-          <mat-label> Niveau : {{ formData.niveau.nom}} </mat-label>
-          <span matBadge="{{ formData.niveau.nombre }}" matBadgeOverlap="false"></span>
+          <mat-label> Niveau : {{ formData.niveaumax.nom}} </mat-label>
+          <span matBadge="{{ formData.niveaumax.nombre }}" matBadgeOverlap="false"></span>
           <button mat-button (click)="toChangeNiveau = true">
             <mat-icon>close</mat-icon>
           </button>
@@ -165,6 +165,19 @@
         <app-categories [noeud]="'exe_cat'"
         [currentExercice]="formData"
         [chipsSelectedInput]="formData.categories"></app-categories>
+
+        <section fxFlex="100" class="materiel">
+            <mat-label class="black">Gestion des matériels : </mat-label>
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip *ngFor="let materiel of materielsService.materielsSelected">
+                {{ materiel.nom }}
+                <mat-icon (click)="onDelete(materiel)">cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+            <button mat-icon-button (click)="openMatDialog()">
+              <mat-icon>add</mat-icon>
+            </button>
+        </section>
 
       </div>
 

@@ -33,6 +33,15 @@
           </td>
         </ng-container>
 
+    <!-- Premium Column -->
+    <ng-container matColumnDef="premium">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Premium </th>
+      <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
+        <mat-icon class="icon-but" *ngIf="element.premium" (click)="updateField(true,'premium', element)">check</mat-icon>
+        <mat-icon class="icon-but" *ngIf="!element.premium" (click)="updateField(false,'premium', element)">close</mat-icon>
+      </td>
+    </ng-container>
+
         <!-- Action Column -->
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
