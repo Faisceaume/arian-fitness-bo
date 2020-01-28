@@ -9,28 +9,18 @@
 
   <div fxLayout="column">
 
-    <mat-form-field [ngStyle]="{'padding':'10px'}">
+    <mat-form-field [ngStyle]="{'padding':'10px 10px 0'}">
       <input matInput placeholder="Nom" type="text" id="nom" required
         [(ngModel)]="formData.nom"
         (ngModelChange)="onValueChange('nom', formData.nom)">
     </mat-form-field>
 
-    <div fxLayout="row"  [ngStyle]="{'padding':'10px'}">
-      <div [ngStyle]="{'padding-right':'30px'}">
-        <label>Poste Fixe &nbsp; </label>
-        <mat-slide-toggle
-          color="warn"
-          [formControl]="posteFixeControl"
-          (change)="onValueChange('postefixe', posteFixeControl.value)">
-        </mat-slide-toggle>
-      </div >
-      <div [ngStyle]="{'padding-left':'20px'}">
-        <label>Visibilité &nbsp; </label>
-        <mat-slide-toggle
-          color="warn"
-          [formControl]="visibilityControl"
-          (change)="onValueChange('visibility', visibilityControl.value)"></mat-slide-toggle>
-      </div>
+    <div [ngStyle]="{'padding':'10px 15px'}">
+      <label [ngStyle]="{'padding-right':'10px'}">Visibilité &nbsp; </label>
+      <mat-slide-toggle
+        color="warn"
+        [formControl]="visibilityControl"
+        (change)="onValueChange('visibility', visibilityControl.value)"></mat-slide-toggle>
     </div>
 
     <app-categories

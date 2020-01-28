@@ -12,6 +12,7 @@ export class PathologiesCrudComponent implements OnInit {
 
   formData: Pathologie;
   toCreate: boolean;
+  exercicecategorie = true;
 
   constructor(public dialogRef: MatDialogRef<PathologiesCrudComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,

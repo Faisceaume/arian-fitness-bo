@@ -12,7 +12,7 @@ import { ObjectifsCrudComponent } from './objectifs-crud/objectifs-crud.componen
 export class ObjectifsComponent implements OnInit {
 
   objectifs: Objectif[];
-  displayedColumns: string[] = ['nom', 'date', 'acronyme', 'action'];
+  displayedColumns: string[] = ['nom', 'date', 'acronyme', 'premium', 'action'];
   dataSource: MatTableDataSource<Objectif>;
 
   constructor(private objectifsService: ObjectifsService, private matDialog: MatDialog) { }
@@ -48,5 +48,13 @@ export class ObjectifsComponent implements OnInit {
     dialogConfig.width = '60%';
     dialogConfig.data = information;
     this.matDialog.open(ObjectifsCrudComponent, dialogConfig);
+  }
+
+  updateField(beforeStatut: boolean, attribut: string, element: Objectif) {
+    if (beforeStatut) {
+      this.objectifsService.newUpdateVersion(element, attribut, false);
+    } else {
+      this.objectifsService.newUpdateVersion(element, attribut, true);
+    }
   }
 }

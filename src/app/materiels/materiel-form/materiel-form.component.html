@@ -18,13 +18,11 @@
           name="nom" #nom="ngModel" [(ngModel)]="formData.nom" id="nom" required>
       </mat-form-field>
 
-      <div fxLayout="row wrap" [ngStyle]="{'padding':'10px'}">
-        <div [ngStyle]="{'padding-left':'30px'}">
-          <label>Visibilité </label>
-          <mat-slide-toggle color="warn"
-            [formControl]="visibilityControl">
-          </mat-slide-toggle>
-        </div>
+      <div [ngStyle]="{'padding':'10px 15px 20px'}">
+        <label [ngStyle]="{'padding-right':'10px'}">Visibilité </label>
+        <mat-slide-toggle color="warn"
+          [formControl]="visibilityControl">
+        </mat-slide-toggle>
       </div>
 
       <div fxLayout="row">

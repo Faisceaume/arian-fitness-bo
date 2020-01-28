@@ -3,6 +3,7 @@ import { Pathologie } from './pathologie';
 import { PathologiesService } from './pathologies.service';
 import { MatTableDataSource, MatSort, MatDialogConfig, MatDialog } from '@angular/material';
 import { PathologiesCrudComponent } from './pathologies-crud/pathologies-crud.component';
+import { CategoriesComponent } from '../categories/categories.component';
 
 @Component({
   selector: 'app-pathologies',
