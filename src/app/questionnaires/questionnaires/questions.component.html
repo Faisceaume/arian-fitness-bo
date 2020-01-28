@@ -14,6 +14,7 @@
         *ngFor="let questionnaire of questionnairesList"
         (opened)="onDisplayQuestions(questionnaire.id)"
         style="box-shadow: none;"
+        #table
         >
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -34,7 +35,13 @@
             <div>
           
           
-              <mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="box-shadow: none;">
+              <mat-table 
+                [dataSource]="dataSource"
+                class="mat-elevation-z8"
+                style="box-shadow: none;"
+                cdkDropList
+                (cdkDropListDropped)="onListDrop($event)"
+              >
           
                 <ng-container matColumnDef="ordre">
                   <mat-header-cell *matHeaderCellDef>Ordre</mat-header-cell>
@@ -90,7 +97,7 @@
                 </ng-container>
           
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                <mat-row cdkDrag [cdkDragData]="row" *matRowDef="let row; columns: displayedColumns;"></mat-row>
           
               </mat-table>
             </div>
