@@ -24,10 +24,6 @@ export class ExerciceFormComponent implements OnInit {
   thirdFormGroup: FormGroup;
   formData: Exercice;
   niveaux: Niveau[];
-  materiels: Materiel[];
-  // materielsChecked: Materiel[] = [];
-
-  // toggle slide
   echauffementControl = new FormControl();
   accessalledesportControl = new FormControl();
   degressif = new FormControl();
@@ -103,13 +99,8 @@ export class ExerciceFormComponent implements OnInit {
               private matDialog: MatDialog) { }
 
   ngOnInit() {
+    this.materielsService.resetMaterielSelected();
 
-    /*
-    this.materielsService.getAllMateriels();
-    this.materielsService.materielSubject.subscribe(data => {
-      this.materiels = data;
-    });
-*/
     this.firstFormGroup = this.formBuilder.group({
       numero: [0, Validators.required],
       nom: ['', Validators.required],
@@ -168,26 +159,12 @@ export class ExerciceFormComponent implements OnInit {
     this.setFormDataValue();
     this.formData.categories = this.categoriesService.chipsSelectedForOperation;
     this.formData.materiels = this.materielsService.materielsSelected;
-    // this.formData.materiels = this.materielsChecked;
     this.categoriesService.setChipsSelectedForOperationValue(null);
     this.materielsService.resetMaterielSelected();
     this.exercicesService.createExercice(this.formData);
   }
 
-/*
-  onCkecked(event, item: Materiel) {
-    if (event.checked) {
-      this.materielsChecked.push(item);
-    } else {
-      const id = this.materielsChecked.indexOf(item);
-      if (id >= 0 ) {
-        this.materielsChecked.splice(id, 1);
-      }
-    }
-  }
-*/
   openMatDialog() {
-    this.materielsService.resetMaterielSelected();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';

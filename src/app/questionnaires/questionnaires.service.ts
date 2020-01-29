@@ -10,31 +10,31 @@ import { ResolveEnd } from '@angular/router';
 })
 export class QuestionnairesService {
 
-questionnairesList: Questionnaires[];
-questionnairesListSubject = new Subject<Questionnaires[]>();
+  questionnairesList: Questionnaires[];
+  questionnairesListSubject = new Subject<Questionnaires[]>();
 
-questionsList: Questions[];
-questionsListSubject = new Subject<Questions[]>();
+  questionsList: Questions[];
+  questionsListSubject = new Subject<Questions[]>();
 
-singleQuestion: Questions;
-singleQuestionSubject = new Subject<Questions>();
+  singleQuestion: Questions;
+  singleQuestionSubject = new Subject<Questions>();
 
-constructor(private db: AngularFirestore) { }
+  constructor(private db: AngularFirestore) { }
 
   /*********************************************/
   /*********************************************/
   /************** EMIT SUBJECT ******************/
   /*********************************************/
   /*********************************************/
-emitQuestionnairesListSubject() {
+  emitQuestionnairesListSubject() {
     this.questionnairesListSubject.next( this.questionnairesList );
   }
 
-emitQuestionsListSubject() {
+  emitQuestionsListSubject() {
     this.questionsListSubject.next( this.questionsList );
   }
 
-emitSingleQuestionSubject() {
+  emitSingleQuestionSubject() {
     this.singleQuestionSubject.next( this.singleQuestion );
   }
 
@@ -45,7 +45,7 @@ emitSingleQuestionSubject() {
   /******************* CREATE ******************/
   /*********************************************/
   /*********************************************/
-createQuestionnaire(nameArg: string, timestampArg: number) {
+  createQuestionnaire(nameArg: string, timestampArg: number) {
     const batch = this.db.firestore.batch();
     const idDoc = this.db.createId();
     const data = {
@@ -58,7 +58,7 @@ createQuestionnaire(nameArg: string, timestampArg: number) {
     batch.commit().then(() => console.log('Questionnaire ajouté avec succès') );
   }
 
-createQuestion(
+  createQuestion(
     idQuestionnaire: string, dataArg: any, timestampArg: number) {
     const batch = this.db.firestore.batch();
     const idDoc = this.db.createId();
@@ -88,7 +88,7 @@ createQuestion(
   /******************* GET *********************/
   /*********************************************/
   /*********************************************/
-getAllQuestionnaires(): void {
+  getAllQuestionnaires() {
     this.db.collection('questionnaires').snapshotChanges().subscribe(array => {
       this.questionnairesList = array.map( e => {
         return e.payload.doc.data() as Questionnaires;
@@ -97,7 +97,7 @@ getAllQuestionnaires(): void {
     });
   }
 
-getAllQuestions(idQuestionnaires: string): void {
+  getAllQuestions(idQuestionnaires: string) {
     this.db.collection('questionnaires').doc(idQuestionnaires).collection('questions').snapshotChanges().subscribe(array => {
       this.questionsList = array.map(e => {
         return {...e.payload.doc.data()} as Questions;
@@ -106,7 +106,7 @@ getAllQuestions(idQuestionnaires: string): void {
     });
   }
 
-getSingleQuestion(idQuestion): void {
+  getSingleQuestion(idQuestion) {
     this.db.collection('questions').doc(idQuestion).get().subscribe(d => {
       this.singleQuestion = {
         id: d.data().id,
@@ -127,14 +127,14 @@ getSingleQuestion(idQuestion): void {
   /**************** UPDATE *********************/
   /*********************************************/
   /*********************************************/
-updateQuestionnaire( id: string, nameArg: string, timestampArg: number): void {
+  updateQuestionnaire( id: string, nameArg: string, timestampArg: number) {
     const batch = this.db.firestore.batch();
     const ref = this.db.firestore.collection('questionnaires').doc( id );
     batch.update(ref, {name: nameArg, timestamp: timestampArg});
     batch.commit().then( () => console.log('édition réussie') );
   }
 
-updateQuestion(dataArg: Questions): void {
+  updateQuestion(dataArg: Questions) {
     const batch = this.db.firestore.batch();
     const ref1 = this.db.firestore
                         .collection('questionnaires')
@@ -147,7 +147,7 @@ updateQuestion(dataArg: Questions): void {
     batch.commit().then(() => console.log('Update question success'));
   }
 
-updateActiveField(idOfQuestionnaire, idQuestion, activeArg): void {
+  updateActiveField(idOfQuestionnaire, idQuestion, activeArg) {
     const batch = this.db.firestore.batch();
     const ref1 = this.db.firestore
                         .collection('questionnaires')
@@ -167,7 +167,7 @@ updateActiveField(idOfQuestionnaire, idQuestion, activeArg): void {
   /******************* DELETE ******************/
   /*********************************************/
   /*********************************************/
-deleteQuestionnaire( id ): void {
+  deleteQuestionnaire( id ) {
     const batch = this.db.firestore.batch();
     const query = this.db.firestore.collection('questions').where('idOfQuestionnaire', '==', id);
     query.get().then(querySnapshot => {
@@ -180,7 +180,7 @@ deleteQuestionnaire( id ): void {
     batch.commit().then(() => console.log('Suppression réussi !!!'));
 }
 
-deleteQuestion(idQuestionnaire, idQuestion): void {
+  deleteQuestion(idQuestionnaire, idQuestion) {
     const batch = this.db.firestore.batch();
     const ref1 = this.db.firestore
                         .collection('questionnaires')

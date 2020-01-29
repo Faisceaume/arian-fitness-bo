@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { Materiel } from 'src/app/materiels/materiel';
 import { MatTableDataSource, MatSort, MatPaginator, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { MaterielsService } from 'src/app/materiels/materiels.service';
