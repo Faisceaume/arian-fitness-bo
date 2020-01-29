@@ -22,7 +22,7 @@
         </mat-form-field>
 
         <mat-form-field fxFlex="10">
-          <input matInput placeholder="Durée en minute" formControlName="duree">
+          <input matInput placeholder="Durée (min)" formControlName="duree">
         </mat-form-field>
 
         <mat-form-field fxFlex="90">
@@ -30,7 +30,18 @@
         </mat-form-field>
 
         <div fxLayout="row" fxFlex="100">
-          <div fxFlex="80" fxLayout="column">
+          <div fxFlex="100" fxLayout="column">
+            <div>
+              <label class="dark-chip"> Age :</label>
+              <mat-radio-group color="warn" formControlName="age">
+                <mat-radio-button value="SUP20" class="span-radio-button">
+                  À partir de 20 ans
+                </mat-radio-button>
+                <mat-radio-button value="INF50" class="span-radio-button">
+                  Jusqu'à 49 ans
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
             <div>
               <label class="dark-chip"> Type :</label>
               <mat-radio-group color="warn" formControlName="type">
@@ -43,13 +54,61 @@
               </mat-radio-group>
             </div>
             <div>
+              <label class="dark-chip"> Régime :</label>
+              <mat-radio-group color="warn" formControlName="regime">
+                <mat-radio-button value="concentrique" class="span-radio-button">
+                  Concentrique
+                </mat-radio-button>
+                <mat-radio-button value="pliométrique" class="span-radio-button">
+                  Pliométrique
+                </mat-radio-button>
+                <mat-radio-button value="isométrique" class="span-radio-button">
+                  Isométrique
+                </mat-radio-button>
+                <mat-radio-button value="excentrique" class="span-radio-button">
+                  Excentrique
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
+              <label class="dark-chip"> Senior :</label>
+              <mat-radio-group color="warn" formControlName="senior">
+                <mat-radio-button value="non" class="span-radio-button">
+                  Uniquement pour non senior
+                </mat-radio-button>
+                <mat-radio-button value="oui" class="span-radio-button">
+                  Uniquement pour senior
+                </mat-radio-button>
+                <mat-radio-button value="tous" class="span-radio-button">
+                  Pour toute personne
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
               <label class="dark-chip"> Position :</label>
               <mat-radio-group color="warn" formControlName="position">
                 <mat-radio-button value="debout" class="span-radio-button">
                   Debout
                 </mat-radio-button>
-                <mat-radio-button value="couché" class="span-radio-button">
-                  Couché
+                <mat-radio-button value="coucheventre" class="span-radio-button">
+                  Couché sur le ventre
+                </mat-radio-button>
+                <mat-radio-button value="couchedos" class="span-radio-button">
+                  Couché sur le dos
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
+              <label class="dark-chip"> Pathologie :</label>
+              <mat-radio-group color="warn" formControlName="pathologie">
+                <mat-radio-button value="sans" class="span-radio-button">
+                  uniquement sans pathologie
+                </mat-radio-button>
+                <mat-radio-button value="avec" class="span-radio-button">
+                  uniquement avec pathologies
+                </mat-radio-button>
+                <mat-radio-button value="tous" class="span-radio-button">
+                  avec ou sans pathologie
                 </mat-radio-button>
               </mat-radio-group>
             </div>
@@ -57,7 +116,7 @@
               <label class="dark-chip"> Niveau Maximum:</label>
               <mat-radio-group color="warn" formControlName="niveaumax">
                 <mat-radio-button *ngFor="let niveau of niveaux" [value]="niveau" class="span-radio-button">
-                  N{{ niveau.acronyme }}
+                  N {{ niveau.acronyme }}
                 </mat-radio-button>
               </mat-radio-group>
             </div>
@@ -83,24 +142,6 @@
       <ng-template matStepLabel>ème étape</ng-template>
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
-
-        <mat-form-field fxFlex="50">
-          <mat-label>Age Minimal</mat-label>
-          <mat-select formControlName="ageminimal" required>
-            <mat-option *ngFor="let agemaximal of ages" matNativeControl [value]="agemaximal">
-                {{agemaximal}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="50">
-          <mat-label>Age Maximal</mat-label>
-          <mat-select formControlName="agemaximal" required>
-            <mat-option *ngFor="let agemax of ages" matNativeControl [value]="agemax">
-                {{agemax}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
 
         <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
           <label fxFlex="50" fxLayoutAlign="end start">Accès salle de sport &nbsp; </label>
@@ -132,7 +173,7 @@
         <mat-form-field fxFlex="100" *ngIf="echauffementControl.value">
           <mat-label>Nombre de Répétitions Échauffement</mat-label>
           <mat-select formControlName="nbrerepetitionechauffement">
-            <mat-option *ngFor="let repetechauff of nbrerepetechauffement" matNativeControl [value]="repetechauff">
+            <mat-option *ngFor="let repetechauff of listes.nbrerepetechauffement" matNativeControl [value]="repetechauff">
                 {{repetechauff}}
             </mat-option>
           </mat-select>
@@ -149,7 +190,7 @@
         <mat-form-field fxFlex="100" *ngIf="retouraucalme.value">
           <mat-label>Nombre de Répétitions Retour au Calme</mat-label>
           <mat-select formControlName="nbrerepetitionechauffement">
-            <mat-option *ngFor="let repetecalme of nbrerepetretourcalme" matNativeControl [value]="repetecalme">
+            <mat-option *ngFor="let repetecalme of listes.nbrerepetretourcalme" matNativeControl [value]="repetecalme">
                 {{repetecalme}}
             </mat-option>
           </mat-select>
@@ -166,7 +207,7 @@
         <mat-form-field fxFlex="100" *ngIf="repetitionsexercice.value">
           <mat-label>Nombre de Répétitions Précisées pour l'exercice</mat-label>
           <mat-select formControlName="nbrerepetitionexercice">
-            <mat-option *ngFor="let repetexo of nbrerepetexercice" matNativeControl [value]="repetexo">
+            <mat-option *ngFor="let repetexo of listes.nbrerepetexercice" matNativeControl [value]="repetexo">
                 {{repetexo}}
             </mat-option>
           </mat-select>
@@ -177,7 +218,7 @@
         <mat-form-field fxFlex="100" *ngIf="showSeniotRepetList">
           <mat-label>Nombre de Répétitions Sénior</mat-label>
           <mat-select formControlName="nbrrepetitionsenior">
-            <mat-option *ngFor="let repetsenior of nbrerepetsenior" matNativeControl [value]="repetsenior">
+            <mat-option *ngFor="let repetsenior of listes.nbrerepetsenior" matNativeControl [value]="repetsenior">
                 {{repetsenior}}
             </mat-option>
           </mat-select>
@@ -207,10 +248,6 @@
       <ng-template matStepLabel>ème étape</ng-template>
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
-
-        <mat-form-field fxFlex="50">
-          <input matInput placeholder="Régime" formControlName="regime">
-        </mat-form-field>
 
         <mat-form-field fxFlex="50">
           <input matInput placeholder="Consigne" formControlName="consigne">

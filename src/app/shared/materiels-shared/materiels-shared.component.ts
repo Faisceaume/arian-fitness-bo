@@ -12,7 +12,7 @@ import { Exercice } from 'src/app/exercices/exercice';
 })
 export class MaterielsSharedComponent implements OnInit {
 
-  displayedColumns: string[] = ['nom', 'date', 'visibility', 'categories', 'action'];
+  displayedColumns: string[] = ['nom', 'visibility', 'categories', 'action'];
   dataSource: MatTableDataSource<Materiel>;
 
   constructor(private materielsService: MaterielsService,
