@@ -99,6 +99,7 @@ export class ExerciceFormComponent implements OnInit {
               private matDialog: MatDialog) { }
 
   ngOnInit() {
+    this.materielsService.resetMaterielSelected();
 
     this.firstFormGroup = this.formBuilder.group({
       numero: [0, Validators.required],
