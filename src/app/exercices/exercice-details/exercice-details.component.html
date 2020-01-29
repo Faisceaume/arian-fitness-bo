@@ -166,6 +166,19 @@
         [currentExercice]="formData"
         [chipsSelectedInput]="formData.categories"></app-categories>
 
+        <section fxFlex="100" class="materiel">
+            <mat-label class="black">Gestion des matériels : </mat-label>
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip *ngFor="let materiel of materielsService.materielsSelected">
+                {{ materiel.nom }}
+                <mat-icon (click)="onDelete(materiel)">cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+            <button mat-icon-button (click)="openMatDialog()">
+              <mat-icon>add</mat-icon>
+            </button>
+        </section>
+
       </div>
 
     <div class="btnClass">

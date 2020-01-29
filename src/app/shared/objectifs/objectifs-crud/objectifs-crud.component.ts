@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ObjectifsService } from '../objectifs.service';
 import { Objectif } from '../objectif';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-objectifs-crud',
@@ -12,6 +13,7 @@ export class ObjectifsCrudComponent implements OnInit {
 
   toCreate: boolean;
   formData: Objectif;
+  premiumControl = new FormControl();
 
   constructor(public dialogRef: MatDialogRef<ObjectifsCrudComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -20,11 +22,13 @@ export class ObjectifsCrudComponent implements OnInit {
   ngOnInit() {
     if (this.data) {
       this.formData = this.data;
+      this.premiumControl.setValue(this.formData.premium);
     } else {
       this.formData = {
         id: null,
         nom: '',
         acronyme: '',
+        premium: false,
         timestamp: 0
       } as Objectif;
 
@@ -33,6 +37,9 @@ export class ObjectifsCrudComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.premiumControl.value) {
+      this.formData.premium = this.premiumControl.value;
+    }
     this.objectifsService.createObjectif(this.formData);
     this.closeDialog();
   }

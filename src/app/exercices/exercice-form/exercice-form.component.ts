@@ -103,14 +103,6 @@ export class ExerciceFormComponent implements OnInit {
 
   ngOnInit() {
 
-<<<<<<< HEAD
-=======
-    this.materielsService.getAllMateriels();
-    this.materielsService.materielSubject.subscribe(data => {
-      this.materiels = data;
-    });
->>>>>>> arian-okoma
-
     this.firstFormGroup = this.formBuilder.group({
       numero: [0, Validators.required],
       nom: ['', Validators.required],
@@ -171,17 +163,6 @@ export class ExerciceFormComponent implements OnInit {
     this.formData.materiels = this.materielsChecked;
     this.categoriesService.setChipsSelectedForOperationValue(null);
     this.exercicesService.createExercice(this.formData);
-  }
-
-  onCkecked(event, item: Materiel) {
-    if (event.checked) {
-      this.materielsChecked.push(item);
-    } else {
-      const id = this.materielsChecked.indexOf(item);
-      if (id >= 0 ) {
-        this.materielsChecked.splice(id, 1);
-      }
-    }
   }
 
   openMatDialog() {
