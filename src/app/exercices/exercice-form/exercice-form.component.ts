@@ -157,7 +157,7 @@ export class ExerciceFormComponent implements OnInit {
   onSubmit(): void {
     this.setFormDataValue();
     this.formData.categories = this.categoriesService.chipsSelectedForOperation;
-    this.formData.materiels = this.materielsChecked;
+    this.formData.materiels = this.materielsService.materielsSelected;
     this.categoriesService.setChipsSelectedForOperationValue(null);
     this.exercicesService.createExercice(this.formData);
   }
