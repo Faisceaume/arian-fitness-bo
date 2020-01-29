@@ -43,12 +43,6 @@
     </mat-form-field>
       &nbsp;&nbsp;
 
-      <button mat-fab color="warn" type="button"
-        [disabled]="form.invalid"
-        *ngIf="toCreate">
-          <mat-icon>edit</mat-icon>
-      </button>
-
       <button mat-fab color="warn" type="submit"
         [disabled]="form.invalid"
         *ngIf="toCreate">
@@ -56,10 +50,34 @@
       </button>
 
     </div>
-
   </form>
 </div>
 
+<div fxLayout="row wrap" fxLayoutAlign="center center">
+    <button mat-raised-button color="warn"
+    type="button"
+    (click)="toMatCatManager = !toMatCatManager"
+    *ngIf="!toExeCatManager">{{ toMatCatManager?  'Close' : 'Materiels'}}</button>
+
+    <button mat-raised-button color="accent"
+    type="button"
+    (click)="toExeCatManager = !toExeCatManager"
+    *ngIf="!toMatCatManager">{{ toExeCatManager?  'Close' : 'Exercices'}}</button>
+</div>
+
+<div *ngIf="toMatCatManager">
+  <app-categories [noeud]="'mat_cat'" *ngIf="toCreate"></app-categories>
+  <app-categories [noeud]="'mat_cat'"
+        [currentPathologie]="formData"
+        [chipsSelectedInput]="formData.materielsCategorie" *ngIf="!toCreate"></app-categories>
+</div>
+
+<div *ngIf="toExeCatManager">
+  <app-categories [noeud]="'exe_cat'" *ngIf="toCreate"></app-categories>
+  <app-categories [noeud]="'exe_cat'"
+        [currentPathologie]="formData"
+        [chipsSelectedInput]="formData.exercicesCategorie" *ngIf="!toCreate"></app-categories>
+</div>
 
 
 

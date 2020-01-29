@@ -3,6 +3,7 @@ export class Categorie {
   nom: string;
   acronyme: string;
   timestamp: string;
-  duree?: number;
+  duree?: string;
+  repos?: string;
   selected?: boolean;
 }

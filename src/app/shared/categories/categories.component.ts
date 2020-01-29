@@ -8,6 +8,8 @@ import { Exercice } from 'src/app/exercices/exercice';
 import { ExercicesService } from 'src/app/exercices/exercices.service';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { CategoriesCrudComponent } from './categories-crud/categories-crud.component';
+import { Pathologie } from '../pathologies/pathologie';
+import { PathologiesService } from '../pathologies/pathologies.service';
 
 
 @Component({
@@ -22,6 +24,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   @Input() chipsSelectedInput?: any;
   @Input() currentMateriel: Materiel;
   @Input() currentExercice: Exercice;
+  @Input() currentPathologie: Pathologie;
 
 
   chipsSelected: Categorie[] = [];
@@ -38,6 +41,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   constructor(private categoriesService: CategoriesService,
               private materielsService: MaterielsService,
               private exercicesService: ExercicesService,
+              private pathologiesService: PathologiesService,
               private matDialog: MatDialog) { }
 
   ngOnInit() {
@@ -53,7 +57,6 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         });
       }
     });
-
   }
 
   addChip(item: Categorie) {
@@ -71,15 +74,29 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         if (item.selected) {
           item.selected = false;
           this.deleteChip(item);
+
+          // Operation for Pathologies Section
+          this.noeud === 'exe_cat' ? this.categoriesService.removeExeCatChipsSelected(item) :
+           this.categoriesService.removeMatCatChipsSelected(item);
         } else {
           item.selected = true;
           this.addChip(item);
+
+          // Operation for Pathologies Section
+          this.noeud === 'exe_cat' ? this.categoriesService.addChipsForExeCatChipsSelected(item) :
+           this.categoriesService.addChipsForMatCatChipsSelected(item);
         }
 
         if (this.currentMateriel) {
           this.materielsService.newUpdateVersion(this.currentMateriel, 'categories', this.chipsSelected);
         } else if (this.currentExercice) {
           this.exercicesService.newUpdateVersion(this.currentExercice, 'categories', this.chipsSelected);
+        } else if (this.currentPathologie) {
+          this.noeud === 'exe_cat' ?
+            this.pathologiesService.newUpdateVersion(this.currentPathologie, 'exercicesCategorie',
+              this.chipsSelected) :
+            this.pathologiesService.newUpdateVersion(this.currentPathologie, 'materielsCategorie',
+              this.chipsSelected);
         }
         this.categoriesService.setChipsSelectedForOperationValue(this.chipsSelected);
   }
@@ -87,7 +104,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   openMatDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
+    dialogConfig.width = '80%';
     dialogConfig.data = this.noeud;
     this.matDialog.open(CategoriesCrudComponent, dialogConfig);
   }
@@ -96,6 +113,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     this.chipsSelectedInput = null;
     this.currentMateriel = null;
     this.currentExercice = null;
+    this.currentPathologie = null;
   }
 
 }

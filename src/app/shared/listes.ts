@@ -51,5 +51,18 @@ export class Listes {
     'Maximum de temps'
   ];
 
+  nbrdureeexercice = [
+    '5 minutes',
+    '7 minutes 30',
+    '10 minutes'
+  ];
+
+  nbrreposexercice = [
+    '30 secondes',
+    '60 secondes',
+    '90 secondes',
+    '120 secondes'
+  ];
+
 
 }

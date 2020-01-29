@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Pathologie } from '../pathologie';
 import { PathologiesService } from '../pathologies.service';
+import { CategoriesService } from '../../categories/categories.service';
 
 @Component({
   selector: 'app-pathologies-crud',
@@ -12,10 +13,13 @@ export class PathologiesCrudComponent implements OnInit {
 
   formData: Pathologie;
   toCreate: boolean;
+  toMatCatManager: boolean;
+  toExeCatManager: boolean;
 
   constructor(public dialogRef: MatDialogRef<PathologiesCrudComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private pathologiesService: PathologiesService) { }
+              private pathologiesService: PathologiesService,
+              private categoriesService: CategoriesService) { }
 
   ngOnInit() {
     if (this.data) {
@@ -34,7 +38,10 @@ export class PathologiesCrudComponent implements OnInit {
   }
 
   onSubmit() {
+    this.formData.exercicesCategorie = this.categoriesService.exeCatChipsSelected;
+    this.formData.materielsCategorie = this.categoriesService.matCatChipsSelected;
     this.pathologiesService.createPathologie(this.formData);
+    this.categoriesService.resetChipsSelectedElement();
     this.closeDialog();
   }
 
