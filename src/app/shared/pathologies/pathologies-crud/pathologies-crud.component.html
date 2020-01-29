@@ -1,4 +1,4 @@
- <div>
+ <div *ngIf="!toMatCatManager && !toExeCatManager">
 
   <div fxLayout="row">
     <div  fxFlex="80" fxLayoutAlign="start start">
@@ -43,6 +43,30 @@
     </mat-form-field>
       &nbsp;&nbsp;
 
+      <div *ngIf="!toCreate">
+        <span *ngFor="let cat of formData.exercicesCategorie" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
+        <span *ngFor="let cat of formData.materielsCategorie" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
+      </div>
+
+      <div *ngIf="toCreate">
+        <span *ngFor="let cat of categoriesService.matCatChipsSelected" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
+        <span *ngFor="let cat of categoriesService.exeCatChipsSelected" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
+      </div>
+
+      <button mat-fab color="black"
+      type="button"
+      (click)="toMatCatManager = !toMatCatManager"
+      *ngIf="!toExeCatManager"><mat-icon>fitness_center</mat-icon></button>
+      &nbsp;&nbsp;
+
+      <button mat-fab color="black"
+        type="button"
+        (click)="toExeCatManager = !toExeCatManager"
+        *ngIf="!toMatCatManager">
+       <mat-icon>explicit</mat-icon>
+      </button>
+      &nbsp;&nbsp;
+
       <button mat-fab color="warn" type="submit"
         [disabled]="form.invalid"
         *ngIf="toCreate">
@@ -53,16 +77,12 @@
   </form>
 </div>
 
-<div fxLayout="row wrap" fxLayoutAlign="center center">
-    <button mat-raised-button color="warn"
-    type="button"
-    (click)="toMatCatManager = !toMatCatManager"
-    *ngIf="!toExeCatManager">{{ toMatCatManager?  'Close' : 'Materiels'}}</button>
-
-    <button mat-raised-button color="accent"
-    type="button"
-    (click)="toExeCatManager = !toExeCatManager"
-    *ngIf="!toMatCatManager">{{ toExeCatManager?  'Close' : 'Exercices'}}</button>
+<div fxLayout="row wrap" fxLayoutAlign="end start">
+  <button mat-icon-button class="button-right-modal" type="button"
+  *ngIf="toMatCatManager || toExeCatManager"
+  (click)="toMatCatManager = false; toExeCatManager = false">
+    <mat-icon>close</mat-icon>
+</button>
 </div>
 
 <div *ngIf="toMatCatManager">
@@ -78,9 +98,3 @@
         [currentPathologie]="formData"
         [chipsSelectedInput]="formData.exercicesCategorie" *ngIf="!toCreate"></app-categories>
 </div>
-
-
-
-<!-- <app-categories *ngIf="" [noeud]="'exe_cat'"></app-categories> -->
-
-<!-- <app-categories *ngIf="" [noeud]="'exe_mat'"></app-categories> -->

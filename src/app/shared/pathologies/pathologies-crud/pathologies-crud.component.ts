@@ -19,7 +19,7 @@ export class PathologiesCrudComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<PathologiesCrudComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private pathologiesService: PathologiesService,
-              private categoriesService: CategoriesService) { }
+              public categoriesService: CategoriesService) { }
 
   ngOnInit() {
     if (this.data) {
