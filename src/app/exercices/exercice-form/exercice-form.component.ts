@@ -10,6 +10,7 @@ import { Materiel } from 'src/app/materiels/materiel';
 import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { MaterielsSharedComponent } from 'src/app/shared/materiels-shared/materiels-shared.component';
+import { Listes } from 'src/app/shared/listes';
 
 @Component({
   selector: 'app-exercice-form',
@@ -31,65 +32,7 @@ export class ExerciceFormComponent implements OnInit {
   retouraucalme = new FormControl();
   repetitionsexercice = new FormControl();
   showSeniotRepetList = false;
-
-  ages = [
-    'à partir de 20 ans',
-    'age maximal 49 ans',
-  ];
-
-
-  nbrerepetechauffement = [
-    '5',
-    '10',
-    '15',
-    '20',
-    '15 secondes',
-    '10 secondes'
-  ];
-
-  nbrerepetretourcalme = [
-    '2 minutes',
-    '15 secondes',
-    '3 répétitions'
-  ];
-
-  nbrerepetsenior = [
-    '15 à 20 répétitions',
-    '10 à 15 répétitions',
-    '6 à 15 par côté',
-    '10 répétions',
-    '10 répétions par côté',
-    '10 à 20 répétions',
-    '15 secondes par côté',
-    '20 secondes',
-    '30 secondes',
-    '30 secondes par côté',
-    '45 secondes'
-  ];
-
-  nbrerepetexercice = [
-    '5 à 12 répétitions',
-    '5 à 12 répétitions par côté',
-    '6 à 15 répétitions par côté',
-    '8 à 15 répétitions',
-    '8 à 15 répétitions par côté',
-    '10 à 15 répétitions',
-    '10 répétitions',
-    '10 répétitions par côté',
-    '10 à 20 répétitions',
-    '15 à 20 répétitions',
-    '15 secondes par côté',
-    '20 secondes',
-    '30 secondes par côté',
-    '30 secondes',
-    '30 secondes',
-    '30 secondes par côté',
-    '45 secondes',
-    'Maximum de répétitions',
-    'Maximum de temps'
-  ];
-
-
+  listes: Listes;
 
   constructor(private exercicesService: ExercicesService,
               private formBuilder: FormBuilder,
@@ -99,21 +42,26 @@ export class ExerciceFormComponent implements OnInit {
               private matDialog: MatDialog) { }
 
   ngOnInit() {
+
+    this.listes = new Listes();
+
     this.materielsService.resetMaterielSelected();
 
     this.firstFormGroup = this.formBuilder.group({
-      numero: [0, Validators.required],
+      numero: [null, Validators.required],
       nom: ['', Validators.required],
       type: ['global', Validators.required],
       descriptif: ['', Validators.required],
       niveaumax: [null, Validators.required],
-      duree: [0, Validators.required],
-      position: ['', Validators.required]
+      duree: [null, Validators.required],
+      position: ['debout'],
+      regime: ['concentrique'],
+      senior: ['non'],
+      pathologie: ['sans'],
+      age: ['SUP20']
     });
 
     this.secondFormGroup = this.formBuilder.group({
-      ageminimal: [0, Validators.required],
-      agemaximal: [0, Validators.required],
       echauffement: [false, Validators.required],
       nbrerepetitionechauffement: [0, Validators.required],
       nbrrepetitionsenior: [0, Validators.required],
@@ -160,7 +108,6 @@ export class ExerciceFormComponent implements OnInit {
     this.formData.categories = this.categoriesService.chipsSelectedForOperation;
     this.formData.materiels = this.materielsService.materielsSelected;
     this.categoriesService.setChipsSelectedForOperationValue(null);
-    this.materielsService.resetMaterielSelected();
     this.exercicesService.createExercice(this.formData);
   }
 
@@ -168,7 +115,6 @@ export class ExerciceFormComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';
-    dialogConfig.data = null;
     this.matDialog.open(MaterielsSharedComponent, dialogConfig);
   }
 

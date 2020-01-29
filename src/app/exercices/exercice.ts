@@ -4,26 +4,26 @@ import { Materiel } from '../materiels/materiel';
 
 export class Exercice {
   accessalledesport: boolean;
+  age: string;
   categories: Categorie[];
   consigne: string;
-  timestamp: number;
-  agemaximal: number;
-  ageminimal: number;
+  duree: number;
   degressif: boolean;
   descriptif: string;
   echauffement: boolean;
   id: string;
+  materiels: Materiel[];
   niveaumax: Niveau;
   nbrerepetitionechauffement: number;
   nbrrepetitionsenior: number;
   nom: string;
   numero: number;
-  type: string;
+  pathologie: string;
   regime: string;
   repetitionsexercice: boolean;
-  duree: number;
   position: string;
   retouraucalme: boolean;
+  timestamp: number;
+  type: string;
   visuel: boolean;
-  materiels: Materiel[];
 }
