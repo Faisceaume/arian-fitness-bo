@@ -24,9 +24,6 @@ export class ExerciceFormComponent implements OnInit {
   thirdFormGroup: FormGroup;
   formData: Exercice;
   niveaux: Niveau[];
-  materiels: Materiel[];
-  materielsChecked: Materiel[] = [];
-  // toggle slide
   echauffementControl = new FormControl();
   accessalledesportControl = new FormControl();
   degressif = new FormControl();
