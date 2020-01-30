@@ -43,35 +43,47 @@
     </mat-form-field>
       &nbsp;&nbsp;
 
-      <div *ngIf="!toCreate">
-        <span *ngFor="let cat of formData.exercicesCategorie" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
-        <span *ngFor="let cat of formData.materielsCategorie" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
+      <div *ngIf="!toCreate" fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}">
+        <div fxFlex="50">
+          <h4 class="h4-modal">Catégories d'exercices</h4>
+          <span *ngFor="let cat of formData.exercicesCategorie" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
+        </div>
+        <div fxFlex="50">
+          <h4 class="h4-modal">Catégories de matériels</h4>
+          <span *ngFor="let cat of formData.materielsCategorie" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
+        </div>
       </div>
 
-      <div *ngIf="toCreate">
-        <span *ngFor="let cat of categoriesService.matCatChipsSelected" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
-        <span *ngFor="let cat of categoriesService.exeCatChipsSelected" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
+      <div *ngIf="toCreate" fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}">
+        <div fxFlex="50">
+          <h4 class="h4-modal">Catégories d'exercices</h4>
+          <span *ngFor="let cat of categoriesService.matCatChipsSelected" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
+        </div>
+        <div fxFlex="50">
+          <h4 class="h4-modal">Catégories de matériels</h4>
+          <span *ngFor="let cat of categoriesService.exeCatChipsSelected" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
+        </div>
       </div>
 
-      <button mat-fab color="black"
-      type="button"
-      (click)="toMatCatManager = !toMatCatManager"
-      *ngIf="!toExeCatManager"><mat-icon>fitness_center</mat-icon></button>
-      &nbsp;&nbsp;
-
-      <button mat-fab color="black"
-        type="button"
-        (click)="toExeCatManager = !toExeCatManager"
-        *ngIf="!toMatCatManager">
-       <mat-icon>explicit</mat-icon>
-      </button>
-      &nbsp;&nbsp;
-
-      <button mat-fab color="warn" type="submit"
-        [disabled]="form.invalid"
-        *ngIf="toCreate">
-          <mat-icon>save</mat-icon>
-      </button>
+      <div fxFlex="100">
+        <button mat-fab color="black"
+          type="button"
+          (click)="toMatCatManager = !toMatCatManager"
+          *ngIf="!toExeCatManager && !form.invalid">
+            <mat-icon>fitness_center</mat-icon>
+        </button>
+        <button mat-fab color="black"
+          type="button"
+          (click)="toExeCatManager = !toExeCatManager"
+          *ngIf="!toMatCatManager && !form.invalid">
+            <mat-icon>explicit</mat-icon>
+        </button>
+        <button mat-fab color="warn" type="submit"
+          [disabled]="form.invalid"
+          *ngIf="toCreate">
+            <mat-icon>save</mat-icon>
+        </button>
+      </div>
 
     </div>
   </form>

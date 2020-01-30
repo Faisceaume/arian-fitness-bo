@@ -9,21 +9,21 @@ export class Exercice {
   consigne: string;
   duree: number;
   degressif: boolean;
-  descriptif: string;
   echauffement: boolean;
   id: string;
   materiels: Materiel[];
-  niveaumax: Niveau;
   nbrerepetitionechauffement: number;
   nbrrepetitionsenior: number;
+  niveaumax: Niveau;
   nom: string;
   numero: number;
   pathologie: string;
+  position: string;
   regime: string;
   repetitionsexercice: boolean;
-  position: string;
   retouraucalme: boolean;
   timestamp: number;
   type: string;
+  visibility: boolean;
   visuel: boolean;
 }

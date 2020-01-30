@@ -31,6 +31,7 @@ export class ExerciceFormComponent implements OnInit {
   visuel = new FormControl();
   retouraucalme = new FormControl();
   repetitionsexercice = new FormControl();
+  visibility = new FormControl();
   showSeniotRepetList = false;
   listes: Listes;
 
@@ -51,9 +52,9 @@ export class ExerciceFormComponent implements OnInit {
       numero: [null, Validators.required],
       nom: ['', Validators.required],
       type: ['global', Validators.required],
-      descriptif: ['', Validators.required],
+      consigne: ['', Validators.required],
       niveaumax: [null, Validators.required],
-      duree: [null, Validators.required],
+      duree: [null],
       position: ['debout'],
       regime: ['concentrique'],
       senior: ['non'],
@@ -62,20 +63,19 @@ export class ExerciceFormComponent implements OnInit {
     });
 
     this.secondFormGroup = this.formBuilder.group({
-      echauffement: [false, Validators.required],
-      nbrerepetitionechauffement: [0, Validators.required],
-      nbrrepetitionsenior: [0, Validators.required],
-      nbrerepetitionexercice: [0, Validators.required],
-      accessalledesport: [false, Validators.required],
-      degressif: [false, Validators.required],
-      repetitionsexercice: [false, Validators.required],
-      retouraucalme: [false, Validators.required],
-      visuel: [false, Validators.required]
+      accessalledesport: [false],
+      visibility: [false],
+      degressif: [false],
+      visuel: [false],
+      echauffement: [false],
+      nbrerepetitionechauffement: [0],
+      nbrrepetitionsenior: [0],
+      nbrerepetitionexercice: [0],
+      nbrrepetitionsexercice: [false, Validators.required],
+      nbrerepetretourcalme: [false, Validators.required],
     });
 
     this.thirdFormGroup = this.formBuilder.group({
-      regime: ['', Validators.required],
-      consigne: ['', Validators.required],
     });
 
     this.niveauxService.getAllNiveaux();
