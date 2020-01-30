@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Categorie } from '../categorie';
 import { CategoriesService } from '../categories.service';
 import { NgForm } from '@angular/forms';
+import { Listes } from '../../listes';
 
 @Component({
   selector: 'app-categories-crud',
@@ -16,13 +17,14 @@ export class CategoriesCrudComponent implements OnInit {
   toEdit: boolean;
   categories: any;
   typecat: any;
+  liste: Listes;
 
   constructor(private categoriesService: CategoriesService,
               public dialogRef: MatDialogRef<CategoriesCrudComponent>,
               @Inject(MAT_DIALOG_DATA) public data: string) { }
 
   ngOnInit() {
-    console.log(this.data);
+    this.liste = new Listes();
     this.typecat = this.data === 'mat_cat' ? 'de matériel' : 'd\'exercices';
     this.categoriesService.getAllCategories(this.data);
     this.categoriesService.categorieSubject.subscribe(data => {

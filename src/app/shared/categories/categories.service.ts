@@ -13,6 +13,9 @@ export class CategoriesService {
   categories: Categorie[];
   categorieSubject = new Subject<any[]>();
 
+  matCatChipsSelected: Categorie[] = [ ];
+  exeCatChipsSelected: Categorie[] = [ ];
+
   constructor(private firestore: AngularFirestore,
               private router: Router,
               ) { }
@@ -74,4 +77,36 @@ export class CategoriesService {
   setChipsSelectedForOperationValue(elements: Categorie[]) {
     this.chipsSelectedForOperation = elements;
   }
+
+
+
+  // Add Materiels Categories and Exercices Categories => Pathologies
+
+  addChipsForMatCatChipsSelected(item: Categorie) {
+    this.matCatChipsSelected.push(item);
+  }
+
+  addChipsForExeCatChipsSelected(item: Categorie) {
+    this.exeCatChipsSelected.push(item);
+  }
+
+  removeMatCatChipsSelected(item: Categorie) {
+    const index = this.matCatChipsSelected.findIndex(it => it.id === item.id);
+    if (index >= 0) {
+      this.matCatChipsSelected.splice(index, 1);
+    }
+  }
+
+  removeExeCatChipsSelected(item: Categorie) {
+    const index = this.exeCatChipsSelected.findIndex(it => it.id === item.id);
+    if (index >= 0) {
+      this.exeCatChipsSelected.splice(index, 1);
+    }
+  }
+
+  resetChipsSelectedElement() {
+    this.matCatChipsSelected = [];
+    this.exeCatChipsSelected = [];
+  }
+
 }

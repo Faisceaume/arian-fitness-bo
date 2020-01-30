@@ -51,12 +51,31 @@
       </mat-form-field>
       &nbsp;&nbsp;
 
-      <mat-form-field *ngIf="data == 'exe_cat'">
-        <input matInput placeholder="Durée" type="number" name="duree"
-          maxlength="3"
-          [(ngModel)]="formDataCategorie.duree"
-          (ngModelChange)="updateField('duree', formDataCategorie.duree)"
-          id="duree" required>
+      <mat-form-field fxFlex="100" *ngIf="data == 'exe_cat'">
+        <mat-label>Durée</mat-label>
+        <mat-select [(ngModel)]="formDataCategorie.duree"
+                    (ngModelChange)="updateField('duree', formDataCategorie.duree)"
+                    [ngModelOptions]="{standalone: true}">
+          <mat-option *ngFor="let duree of liste.nbrdureeexercice"
+                      matNativeControl
+                      [value]="duree">
+              {{duree}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      &nbsp;&nbsp;
+
+      <mat-form-field fxFlex="100" *ngIf="data == 'exe_cat'">
+        <mat-label>Repos</mat-label>
+        <mat-select [(ngModel)]="formDataCategorie.repos"
+                    (ngModelChange)="updateField('repos', formDataCategorie.repos)"
+                    [ngModelOptions]="{standalone: true}">
+          <mat-option *ngFor="let repos of liste.nbrreposexercice"
+                      matNativeControl
+                      [value]="repos">
+              {{repos}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
       &nbsp;&nbsp;
 

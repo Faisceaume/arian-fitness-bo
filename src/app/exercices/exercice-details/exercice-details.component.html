@@ -91,6 +91,7 @@
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
+<!--
         <mat-form-field fxFlex="25">
           <input matInput [(ngModel)]="formData.ageminimal"
           (ngModelChange)="updateFiel('ageminimal',formData.ageminimal)"
@@ -102,14 +103,14 @@
           (ngModelChange)="updateFiel('agemaximal',formData.agemaximal)"
           placeholder="Age maximal"  required>
         </mat-form-field>
-
-        <mat-form-field fxFlex="25">
+-->
+        <mat-form-field fxFlex="50">
           <input matInput [(ngModel)]="formData.nbrrepetitionsenior"
           (ngModelChange)="updateFiel('nbrrepetitionsenior',formData.nbrrepetitionsenior)"
           placeholder="nombre repetition senior"  required>
         </mat-form-field>
 
-        <mat-form-field fxFlex="25">
+        <mat-form-field fxFlex="50">
           <input matInput [(ngModel)]="formData.nbrerepetitionechauffement"
           (ngModelChange)="updateFiel('nbrerepetitionechauffement',formData.nbrerepetitionechauffement)"
           placeholder="nombre repitition echauff"  required>
