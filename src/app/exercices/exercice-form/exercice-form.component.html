@@ -26,7 +26,7 @@
         </mat-form-field>
 
         <mat-form-field fxFlex="90">
-          <input matInput placeholder="Descriptif" formControlName="descriptif">
+          <input matInput placeholder="Consigne" formControlName="consigne" required>
         </mat-form-field>
 
         <div fxLayout="row" fxFlex="100">
@@ -102,13 +102,13 @@
               <label class="dark-chip"> Pathologie :</label>
               <mat-radio-group color="warn" formControlName="pathologie">
                 <mat-radio-button value="sans" class="span-radio-button">
-                  uniquement sans pathologie
+                  Uniquement sans pathologie
                 </mat-radio-button>
                 <mat-radio-button value="avec" class="span-radio-button">
-                  uniquement avec pathologies
+                  Uniquement avec pathologies
                 </mat-radio-button>
                 <mat-radio-button value="tous" class="span-radio-button">
-                  avec ou sans pathologie
+                  Avec ou sans pathologie
                 </mat-radio-button>
               </mat-radio-group>
             </div>
@@ -142,6 +142,12 @@
       <ng-template matStepLabel>ème étape</ng-template>
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Visibilité &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="visibility"></mat-slide-toggle>
+        </div>
 
         <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
           <label fxFlex="50" fxLayoutAlign="end start">Accès salle de sport &nbsp; </label>
@@ -189,7 +195,7 @@
 
         <mat-form-field fxFlex="100" *ngIf="retouraucalme.value">
           <mat-label>Nombre de Répétitions Retour au Calme</mat-label>
-          <mat-select formControlName="nbrerepetitionechauffement">
+          <mat-select formControlName="nbrerepetretourcalme">
             <mat-option *ngFor="let repetecalme of listes.nbrerepetretourcalme" matNativeControl [value]="repetecalme">
                 {{repetecalme}}
             </mat-option>
@@ -206,7 +212,7 @@
 
         <mat-form-field fxFlex="100" *ngIf="repetitionsexercice.value">
           <mat-label>Nombre de Répétitions Précisées pour l'exercice</mat-label>
-          <mat-select formControlName="nbrerepetitionexercice">
+          <mat-select formControlName="nbrrepetitionsexercice">
             <mat-option *ngFor="let repetexo of listes.nbrerepetexercice" matNativeControl [value]="repetexo">
                 {{repetexo}}
             </mat-option>
@@ -249,20 +255,18 @@
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
-        <mat-form-field fxFlex="50">
-          <input matInput placeholder="Consigne" formControlName="consigne">
-        </mat-form-field>
-
         <app-categories [noeud]="'exe_cat'"></app-categories>
 
         <section fxFlex="100" class="materiel">
-            <mat-label class="black">Gestion des matériels : </mat-label>
-          <mat-chip-list aria-label="Fish selection">
+          <mat-chip-list aria-label="Sélection de Matériels">
+            <mat-chip class="dark-chip">Gestion des matériels :</mat-chip>
             <mat-chip *ngFor="let materiel of materielsService.materielsSelected">{{ materiel.nom }}</mat-chip>
+            <mat-chip>
+              <button mat-icon-button (click)="openMatDialog()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </mat-chip>
           </mat-chip-list>
-          <button mat-icon-button (click)="openMatDialog()">
-            <mat-icon>add</mat-icon>
-          </button>
         </section>
 
       </div>

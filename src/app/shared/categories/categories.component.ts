@@ -61,6 +61,11 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   addChip(item: Categorie) {
     this.chipsSelected.push(item);
+    if (this.currentExercice) {
+      this.categoriesService.addElementToSubCollection(item, this.currentExercice, 'exe_cat');
+    } else if (this.currentMateriel) {
+      this.categoriesService.addElementToSubCollection(item, this.currentMateriel, 'mat_cat');
+    }
   }
 
   deleteChip(item: Categorie) {

@@ -3,6 +3,7 @@ import { Categorie } from './categorie';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Materiel } from 'src/app/materiels/materiel';
 
 @Injectable({
   providedIn: 'root'
@@ -107,6 +108,18 @@ export class CategoriesService {
   resetChipsSelectedElement() {
     this.matCatChipsSelected = [];
     this.exeCatChipsSelected = [];
+  }
+
+
+  // Denormalisation component
+  addElementToSubCollection(categorie: Categorie, element: any , noeud: string) {
+    const elementRacine = noeud === 'exe_cat' ? 'exercices' : 'materiels';
+    const batch = this.firestore.firestore.batch();
+    const nextDocument1 = this.firestore.firestore.collection(noeud).doc(categorie.id).collection(elementRacine)
+    .doc(element.id);
+    batch.set(nextDocument1, element);
+    batch.commit().then(() => {
+    }).catch((error) => { console.error('Error updzting document: ', error); });
   }
 
 }

@@ -18,6 +18,10 @@ h2.h2-modal {
   padding-left: 0px;
   font-size: 1.2em;
 }
+h4.h4-modal {
+  padding: 0 0 10px;
+  margin: 0;
+}
 
 
 .button-right {

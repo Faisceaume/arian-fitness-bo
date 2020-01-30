@@ -29,16 +29,10 @@
       <td mat-cell *matCellDef="let element"> {{element.duree}} </td>
     </ng-container>
 
-    <!-- Age minimal Column -->
-    <ng-container matColumnDef="ageminimal">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Age min.</th>
-      <td mat-cell *matCellDef="let element"> {{element.ageminimal}} </td>
-    </ng-container>
-
-    <!-- Age maximal Column -->
-    <ng-container matColumnDef="agemaximal">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Age max.</th>
-      <td mat-cell *matCellDef="let element"> {{element.agemaximal}} </td>
+    <!-- Age -->
+    <ng-container matColumnDef="age">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Age</th>
+      <td mat-cell *matCellDef="let element"> {{ element.age }} </td>
     </ng-container>
 
     <!-- Position Column -->
@@ -83,15 +77,15 @@
 
     <!-- Date Column -->
     <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Timestamp</th>
-        <td mat-cell *matCellDef="let element" class="timestamp"> {{element.timestamp | date}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date</th>
+        <td mat-cell *matCellDef="let element" class="timestamp"> {{element.timestamp | date:'d/MM' }} </td>
     </ng-container>
 
     <!-- Niveau Column -->
     <ng-container matColumnDef="niveau">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Niveau</th>
       <td mat-cell *matCellDef="let element">
-        <span class="bulle-acro">{{element.niveaumax.acronyme}}</span>
+        <span class="bulle-acro">N {{element.niveaumax.acronyme}}</span>
       </td>
     </ng-container>
 
