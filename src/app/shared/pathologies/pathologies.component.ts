@@ -32,7 +32,7 @@ export class PathologiesComponent implements OnInit {
   }
 
   onDelete(pathologie: Pathologie) {
-    if (confirm('Vraiment Supprimer ?')) {
+    if (confirm('Confirmer la suppression ?')) {
       this.pathologiesService.deletePathologie(pathologie);
     }
   }

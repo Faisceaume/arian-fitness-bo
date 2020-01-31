@@ -11,6 +11,7 @@ import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { MaterielsSharedComponent } from 'src/app/shared/materiels-shared/materiels-shared.component';
 import { Listes } from 'src/app/shared/listes';
+import { CanActivate, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-exercice-form',
@@ -40,6 +41,7 @@ export class ExerciceFormComponent implements OnInit {
               private niveauxService: NiveauxService,
               private categoriesService: CategoriesService,
               public materielsService: MaterielsService,
+              private route: ActivatedRoute,
               private matDialog: MatDialog) { }
 
   ngOnInit() {
@@ -51,7 +53,7 @@ export class ExerciceFormComponent implements OnInit {
         nom: ['', Validators.required],
         type: ['global', Validators.required],
         consigne: ['', Validators.required],
-        niveaumax: [null, Validators.required],
+        niveau: [null, Validators.required],
         duree: [null],
         position: ['debout'],
         regime: ['concentrique'],
@@ -77,7 +79,7 @@ export class ExerciceFormComponent implements OnInit {
     this.thirdFormGroup = this.formBuilder.group({
         });
 
-    this.firstFormGroup.get('niveaumax').valueChanges.subscribe(item => {
+    this.firstFormGroup.get('niveau').valueChanges.subscribe(item => {
         this.showSeniotRepetList = item.acronyme === 'S80+' ? true : false;
       });
 
@@ -131,6 +133,14 @@ export class ExerciceFormComponent implements OnInit {
 
     this.categoriesService.setChipsSelectedForOperationValue(null);
     this.exercicesService.createExercice(this.formData);
+  }
+
+  removeMateriel(materiel: Materiel): void {
+    const list = this.materielsService.materielsSelected;
+    const index = list.findIndex(item => item.id === materiel.id);
+    if (index >= 0) {
+      list.splice(index, 1);
+    }
   }
 
   openMatDialog() {

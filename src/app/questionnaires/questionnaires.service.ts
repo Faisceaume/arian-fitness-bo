@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Questionnaires } from './questionnaires';
 import { Subject } from 'rxjs';
 import { Questions } from './questions';
-import { ResolveEnd } from '@angular/router';
+import { ResolveEnd, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class QuestionnairesService {
   singleQuestion: Questions;
   singleQuestionSubject = new Subject<Questions>();
 
-  constructor(private db: AngularFirestore) { }
+  constructor(private db: AngularFirestore, private router: Router) { }
 
   /*********************************************/
   /*********************************************/
@@ -79,7 +79,9 @@ export class QuestionnairesService {
     batch.set(ref1, data);
     batch.set(ref2, data);
 
-    batch.commit().then(() => console.log('Questions crées avec succès'));
+    batch.commit().then(() => console.log('Question crée avec succès'));
+    this.router.navigate(['./../questionnaires' ]);
+
   }
 
 
@@ -159,6 +161,21 @@ export class QuestionnairesService {
     batch.update(ref1, {active: activeArg});
     batch.update(ref2, {active: activeArg});
     batch.commit().then(() => console.log('Update field active success'));
+  }
+
+
+  updateOrdreField(idOfQuestionnaire, idQuestion, ordreArg) {
+    const batch = this.db.firestore.batch();
+    const ref1 = this.db.firestore
+                        .collection('questionnaires')
+                        .doc(idOfQuestionnaire)
+                        .collection('questions')
+                        .doc(idQuestion);
+    const ref2 = this.db.firestore.collection('questions').doc(idQuestion);
+    batch.update(ref1, {ordre: ordreArg});
+    batch.update(ref2, {ordre: ordreArg});
+    batch.commit().then(() => console.log('Update field ordre success'));
+
   }
 
 

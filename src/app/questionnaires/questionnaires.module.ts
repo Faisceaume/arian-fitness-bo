@@ -4,10 +4,11 @@ import { QuestionsComponent } from './questionnaires/questions.component';
 import { SharedModule } from '../shared/shared.module';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDialogModule} from '@angular/material/dialog';
-import { QuestionnairesFormComponent } from './questionnaires/questionnaires-form/questionnaires-form.component';
-import { QuestionnairesDetailComponent } from './questionnaires/questionnaires-detail/questionnaires-detail.component';
+import { QuestionnairesFormComponent } from './questionnaires/questions.component';
+import { QuestionnairesDetailComponent } from './questionnaires/questions.component';
 import { QuestionsFormComponent } from './questionnaires/questions-form/questions-form.component';
 import { QuestionsDetailComponent } from './questionnaires/questions-detail/questions-detail.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 
 
@@ -22,7 +23,8 @@ import { QuestionsDetailComponent } from './questionnaires/questions-detail/ques
     CommonModule,
     SharedModule,
     MatExpansionModule,
-    MatDialogModule
+    MatDialogModule,
+    DragDropModule
   ],
   entryComponents : [ QuestionnairesFormComponent, QuestionnairesDetailComponent ]
 })

@@ -88,7 +88,7 @@
     <ng-container matColumnDef="niveau">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Niveau</th>
       <td mat-cell *matCellDef="let element">
-        <span class="bulle-acro">N {{element.niveaumax.acronyme}}</span>
+        <span class="bulle-acro" *ngIf="element.niveau">N {{element.niveau.acronyme}}</span>
       </td>
     </ng-container>
 
@@ -110,5 +110,3 @@
   </table>
 
 </div>
-
-

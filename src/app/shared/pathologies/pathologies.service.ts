@@ -71,19 +71,23 @@ getSinglePathologie(id: string) {
 }
 
 deletePathologie(item: Pathologie) {
-  item.exercicesCategorie.forEach(element => {
-    const data = element.pathologieids;
-    const index = data.indexOf(item.id);
-    data.splice(index, 1);
-    this.categoriesService.newUpdateVersion(element, 'pathologieids', data, 'exe_cat');
-  });
+  if (item.exercicesCategorie) {
+      item.exercicesCategorie.forEach(element => {
+      const data = element.pathologieids;
+      const index = data.indexOf(item.id);
+      data.splice(index, 1);
+      this.categoriesService.newUpdateVersion(element, 'pathologieids', data, 'exe_cat');
+    });
+  }
 
-  item.materielsCategorie.forEach(element => {
-    const data = element.pathologieids;
-    const index = data.indexOf(item.id);
-    data.splice(index, 1);
-    this.categoriesService.newUpdateVersion(element, 'pathologieids', data, 'mat_cat');
-  });
+  if (item.materielsCategorie) {
+      item.materielsCategorie.forEach(element => {
+      const data = element.pathologieids;
+      const index = data.indexOf(item.id);
+      data.splice(index, 1);
+      this.categoriesService.newUpdateVersion(element, 'pathologieids', data, 'mat_cat');
+    });
+  }
   this.firestore.doc('pathologies/' + item.id).delete();
 }
 
