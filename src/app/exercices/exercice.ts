@@ -22,6 +22,7 @@ export class Exercice {
   regime: string;
   repetitionsexercice: boolean;
   retouraucalme: boolean;
+  senior: string;
   timestamp: number;
   type: string;
   visibility: boolean;

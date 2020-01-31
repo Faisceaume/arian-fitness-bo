@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ExercicesService } from '../exercices.service';
 import { Exercice } from '../exercice';
 import { FormControl } from '@angular/forms';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Niveau } from 'src/app/shared/niveaux/niveau';
 import { NiveauxService } from 'src/app/shared/niveaux/niveaux.service';
 import { CategoriesService } from 'src/app/shared/categories/categories.service';
@@ -11,6 +11,7 @@ import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { MaterielsSharedComponent } from 'src/app/shared/materiels-shared/materiels-shared.component';
 import { Listes } from 'src/app/shared/listes';
+import { CanActivate, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-exercice-form',
@@ -40,52 +41,94 @@ export class ExerciceFormComponent implements OnInit {
               private niveauxService: NiveauxService,
               private categoriesService: CategoriesService,
               public materielsService: MaterielsService,
+              private route: ActivatedRoute,
               private matDialog: MatDialog) { }
 
   ngOnInit() {
 
     this.listes = new Listes();
 
+    const id = this.route.snapshot.params.id;
+    if (id) {
+
+      this.exercicesService.getSingleExercice(id).then((item: Exercice) => {
+        this.formData = item;
+
+        this.firstFormGroup = this.formBuilder.group({
+          numero: [this.formData.numero, Validators.required],
+          nom: [this.formData.nom, Validators.required],
+          type: [this.formData.type, Validators.required],
+          consigne: [this.formData.consigne, Validators.required],
+          niveaumax: [this.formData.niveaumax, Validators.required],
+          duree: [this.formData.duree],
+          position: [this.formData.position],
+          regime: [this.formData.regime],
+          senior: [this.formData.senior],
+          pathologie: [this.formData.pathologie],
+          age: [this.formData.age]
+        });
+
+        this.secondFormGroup = this.formBuilder.group({
+          accessalledesport: [this.formData.accessalledesport],
+          visibility: [this.formData.visibility],
+          degressif: [this.formData.degressif],
+          visuel: [this.formData.visuel],
+          echauffement: [this.formData.echauffement],
+          nbrerepetitionechauffement: [this.formData.nbrerepetitionechauffement],
+          nbrrepetitionsenior: [this.formData.nbrrepetitionsenior],
+        });
+
+        this.thirdFormGroup = this.formBuilder.group({
+        });
+
+      });
+
+
+    } else {
+
+      this.firstFormGroup = this.formBuilder.group({
+        numero: [null, Validators.required],
+        nom: ['', Validators.required],
+        type: ['global', Validators.required],
+        consigne: ['', Validators.required],
+        niveaumax: [null, Validators.required],
+        duree: [null],
+        position: ['debout'],
+        regime: ['concentrique'],
+        senior: ['non'],
+        pathologie: ['sans'],
+        age: ['SUP20']
+      });
+
+      this.secondFormGroup = this.formBuilder.group({
+        accessalledesport: [false],
+        visibility: [false],
+        degressif: [false],
+        visuel: [false],
+        echauffement: [false],
+        nbrerepetitionechauffement: [0],
+        nbrrepetitionsenior: [0],
+        nbrerepetitionexercice: [0],
+        nbrrepetitionsexercice: [false, Validators.required],
+        nbrerepetretourcalme: [false, Validators.required],
+      });
+
+
+
+      this.firstFormGroup.get('niveaumax').valueChanges.subscribe(item => {
+        this.showSeniotRepetList = item.acronyme === 'S80+' ? true : false;
+      });
+
+    }
+
+
     this.materielsService.resetMaterielSelected();
-
-    this.firstFormGroup = this.formBuilder.group({
-      numero: [null, Validators.required],
-      nom: ['', Validators.required],
-      type: ['global', Validators.required],
-      consigne: ['', Validators.required],
-      niveaumax: [null, Validators.required],
-      duree: [null],
-      position: ['debout'],
-      regime: ['concentrique'],
-      senior: ['non'],
-      pathologie: ['sans'],
-      age: ['SUP20']
-    });
-
-    this.secondFormGroup = this.formBuilder.group({
-      accessalledesport: [false],
-      visibility: [false],
-      degressif: [false],
-      visuel: [false],
-      echauffement: [false],
-      nbrerepetitionechauffement: [0],
-      nbrrepetitionsenior: [0],
-      nbrerepetitionexercice: [0],
-      nbrrepetitionsexercice: [false, Validators.required],
-      nbrerepetretourcalme: [false, Validators.required],
-    });
-
-    this.thirdFormGroup = this.formBuilder.group({
-    });
 
     this.niveauxService.getAllNiveaux();
     this.niveauxService.niveauxSubject.subscribe(data => {
       this.niveaux = data;
     });
 
-    this.firstFormGroup.get('niveaumax').valueChanges.subscribe(item => {
-      this.showSeniotRepetList = item.acronyme === 'S80+' ? true : false;
-    });
   }
 
   setFormDataValue() {
