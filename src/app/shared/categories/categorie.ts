@@ -3,7 +3,10 @@ export class Categorie {
   nom: string;
   acronyme: string;
   timestamp: string;
-  duree?: string;
-  repos?: string;
-  selected?: boolean;
+  duree: string;
+  repos: string;
+  selected: boolean;
+  matids: string[];
+  exeids: string[];
+  pathologieids: string[];
 }

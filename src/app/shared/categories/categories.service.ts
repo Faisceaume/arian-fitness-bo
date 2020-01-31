@@ -3,6 +3,8 @@ import { Categorie } from './categorie';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Materiel } from 'src/app/materiels/materiel';
+import { PathologiesService } from '../pathologies/pathologies.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +19,11 @@ export class CategoriesService {
   exeCatChipsSelected: Categorie[] = [ ];
 
   constructor(private firestore: AngularFirestore,
-              private router: Router,
-              ) { }
+              private router: Router) { }
 
   createCategorie(categorie: Categorie, noeud: string): void {
+        noeud === 'mat_cat' ? categorie.matids = [] : categorie.exeids = [];
+        categorie.pathologieids = [];
         const batch = this.firestore.firestore.batch();
         const currentid = this.firestore.firestore.collection(noeud).doc().id;
         const nextDocument1 = this.firestore.firestore.collection(noeud).doc(currentid);
@@ -107,6 +110,38 @@ export class CategoriesService {
   resetChipsSelectedElement() {
     this.matCatChipsSelected = [];
     this.exeCatChipsSelected = [];
+  }
+
+
+  // Denormalisation  =>  exe_cat : exercices  - mat_cat : materiels
+  addElementToSubCollection(categorie: Categorie, element: any , noeud: string) {
+    const elementRacine = noeud === 'exe_cat' ? 'exercices' : 'materiels';
+    const batch = this.firestore.firestore.batch();
+    const nextDocument1 = this.firestore.firestore.collection(noeud).doc(categorie.id)
+    .collection(elementRacine).doc(element.id);
+    batch.set(nextDocument1, element);
+    batch.commit().then(() => {
+      noeud === 'exe_cat' ? categorie.exeids.push(element.id) : categorie.matids.push(element.id);
+      noeud === 'exe_cat' ? this.newUpdateVersion(categorie, 'exeids', categorie.exeids, 'exe_cat') :
+      this.newUpdateVersion(categorie, 'matids', categorie.matids, 'mat_cat');
+    }).catch((error) => { console.error('Error updating document: ', error); });
+  }
+
+  removeElementToSubCollection(categorie: Categorie, element: any , noeud: string) {
+    const elementids = noeud === 'exe_cat' ? categorie.exeids : categorie.matids ;
+    const index = elementids.indexOf(element.id);
+    if (index >= 0) {
+      elementids.splice(index, 1);
+    }
+    noeud === 'exe_cat' ? this.newUpdateVersion(categorie, 'exeids', categorie.exeids, 'exe_cat') :
+      this.newUpdateVersion(categorie, 'matids', categorie.matids, 'mat_cat');
+    const elementRacine = noeud === 'exe_cat' ? 'exercices' : 'materiels';
+    const batch = this.firestore.firestore.batch();
+    const nextDocument1 = this.firestore.firestore.collection(noeud).doc(categorie.id)
+    .collection(elementRacine).doc(element.id);
+    batch.delete(nextDocument1);
+    batch.commit().then(() => {
+    }).catch((error) => { console.error('Error updating document: ', error); });
   }
 
 }

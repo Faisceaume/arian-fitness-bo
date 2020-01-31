@@ -107,6 +107,7 @@ export class ExerciceFormComponent implements OnInit {
     this.setFormDataValue();
     this.formData.categories = this.categoriesService.chipsSelectedForOperation;
     this.formData.materiels = this.materielsService.materielsSelected;
+
     this.categoriesService.setChipsSelectedForOperationValue(null);
     this.exercicesService.createExercice(this.formData);
   }

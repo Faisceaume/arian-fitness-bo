@@ -61,12 +61,28 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   addChip(item: Categorie) {
     this.chipsSelected.push(item);
+    if (this.currentExercice) {
+      this.categoriesService.addElementToSubCollection(item, this.currentExercice, 'exe_cat');
+    } else if (this.currentMateriel) {
+      this.categoriesService.addElementToSubCollection(item, this.currentMateriel, 'mat_cat');
+    }
   }
 
   deleteChip(item: Categorie) {
     const index = this.chipsSelected.findIndex(it => it.id === item.id);
     if (index >= 0) {
       this.chipsSelected.splice(index, 1);
+    }
+
+    if (this.currentExercice) {
+      this.categoriesService.removeElementToSubCollection(item, this.currentExercice, 'exe_cat');
+    } else if (this.currentMateriel) {
+      this.categoriesService.removeElementToSubCollection(item, this.currentMateriel, 'mat_cat');
+    } else if (this.currentPathologie) {
+      this.noeud === 'exe_cat' ? this.pathologiesService.newUpdateVersion(this.currentPathologie,
+        'exercicesCategorie', this.chipsSelected) :
+        this.pathologiesService.newUpdateVersion(this.currentPathologie,
+          'materielsCategorie', this.chipsSelected);
     }
   }
 
@@ -78,6 +94,9 @@ export class CategoriesComponent implements OnInit, OnDestroy {
           // Operation for Pathologies Section
           this.noeud === 'exe_cat' ? this.categoriesService.removeExeCatChipsSelected(item) :
            this.categoriesService.removeMatCatChipsSelected(item);
+          if (this.currentPathologie) {
+            this.pathologiesService.deletePathologieidOnTable(item, this.currentPathologie, this.noeud);
+          }
         } else {
           item.selected = true;
           this.addChip(item);
@@ -85,6 +104,9 @@ export class CategoriesComponent implements OnInit, OnDestroy {
           // Operation for Pathologies Section
           this.noeud === 'exe_cat' ? this.categoriesService.addChipsForExeCatChipsSelected(item) :
            this.categoriesService.addChipsForMatCatChipsSelected(item);
+          if (this.currentPathologie) {
+            this.pathologiesService.addPathologieidOnTable(item, this.currentPathologie, this.noeud);
+          }
         }
 
         if (this.currentMateriel) {
