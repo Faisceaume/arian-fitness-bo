@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { QuestionnairesService } from '../questionnaires.service';
-import { MatDialogConfig, MatDialog, MatTableDataSource, MatTable, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogConfig, MatDialog, MatTableDataSource, MatTable, MatDialogRef, MAT_DIALOG_DATA, MatSort } from '@angular/material';
 import { Questionnaires } from '../questionnaires';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Questions } from '../questions';
@@ -14,13 +14,16 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 })
 export class QuestionsComponent implements OnInit {
 
-  @ViewChild('table', {static: false}) table: MatTable<Questions>;
+  
 
   questionnairesList: Questionnaires[];
   questionsList: Questions[];
 
-  displayedColumns: string[] = ['ordre', 'question', 'reponses', 'timestamp', 'active', 'action'];
+  displayedColumns: string[] = ['ordre', 'question', 'reponses', 'timestamp', 'active', 'action', 'Drag'];
   dataSource: MatTableDataSource<any>;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild('table', {static: false}) table: MatTable<Questions>;
+  dataDrag: any;
 
   constructor(
     private questionnairesService: QuestionnairesService,
@@ -45,6 +48,7 @@ export class QuestionsComponent implements OnInit {
   openDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '40%';
+    // tslint:disable-next-line: no-use-before-declare
     this.dialog.open( QuestionnairesFormComponent, dialogConfig);
   }
 
@@ -59,6 +63,7 @@ export class QuestionsComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '40%';
     dialogConfig.data = questionnaire;
+    // tslint:disable-next-line: no-use-before-declare
     this.dialog.open(QuestionnairesDetailComponent, dialogConfig);
   }
 
@@ -72,7 +77,10 @@ export class QuestionsComponent implements OnInit {
     this.questionnairesService.getAllQuestions(idQuestionnaire);
     this.questionnairesService.questionsListSubject.subscribe(data => {
       this.questionsList = data;
+      this.questionsList.sort((a,b) => { return a.ordre - b.ordre });
       this.dataSource = new MatTableDataSource(this.questionsList);
+      this.dataSource.sort = this.sort;
+      this.dataDrag = this.dataSource.data;
     });
   }
 
@@ -96,15 +104,24 @@ export class QuestionsComponent implements OnInit {
     }
   }
 
-  onListDrop(event: CdkDragDrop<Questions[]>) {
-    console.log(event.item.data, event.currentIndex);
+  onListDrop(event: CdkDragDrop<string[]>) {
     const prevIndex = this.dataSource.data.findIndex((d) => d === event.item.data);
-    moveItemInArray(this.dataSource.data, prevIndex, event.currentIndex);
+    const idQuestionnaire = this.dataSource.data[prevIndex].idOfQuestionnaire;
+    const idPrevIndex = this.dataSource.data[prevIndex].id;
+    const idCurrentIndex = this.dataSource.data[event.currentIndex].id;
+    moveItemInArray(event.container.data, prevIndex, event.currentIndex);
+    console.log(event);
+    this.questionnairesService.updateOrdreField(idQuestionnaire, idPrevIndex, event.currentIndex + 1);
+    this.questionnairesService.updateOrdreField(idQuestionnaire, idCurrentIndex, prevIndex + 1);
+    this.dataSource.data = this.dataDrag = event.container.data;
   }
-
-
-
 }
+
+
+
+
+
+
 
 
 /*********************************************/
@@ -112,8 +129,6 @@ export class QuestionsComponent implements OnInit {
 /******************* FORM  ******************/
 /*********************************************/
 /*********************************************/
-
-
 @Component({
   selector: 'app-questionnaires-form',
   templateUrl: './questionnaires-form.component.html',
@@ -152,12 +167,16 @@ export class QuestionnairesFormComponent implements OnInit {
 }
 
 
+
+
+
+
+
 /*********************************************/
 /*********************************************/
 /******************* EDIT ******************/
 /*********************************************/
 /*********************************************/
-
 @Component({
   selector: 'app-questionnaires-detail',
   templateUrl: 'questionnaires-detail.component.html',

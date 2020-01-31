@@ -162,6 +162,21 @@ export class QuestionnairesService {
   }
 
 
+  updateOrdreField(idOfQuestionnaire, idQuestion, ordreArg) {
+    const batch = this.db.firestore.batch();
+    const ref1 = this.db.firestore
+                        .collection('questionnaires')
+                        .doc(idOfQuestionnaire)
+                        .collection('questions')
+                        .doc(idQuestion);
+    const ref2 = this.db.firestore.collection('questions').doc(idQuestion);
+    batch.update(ref1, {ordre: ordreArg});
+    batch.update(ref2, {ordre: ordreArg});
+    batch.commit().then(() => console.log('Update field ordre success'));
+
+  }
+
+
   /*********************************************/
   /*********************************************/
   /******************* DELETE ******************/
