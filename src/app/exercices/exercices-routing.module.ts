@@ -8,7 +8,7 @@ import { ExerciceDetailsComponent } from './exercice-details/exercice-details.co
 
 const routes: Routes = [
     { path: '', canActivate: [AuthGuardService], component: ExercicesListComponent },
-    { path: 'exercice-form/:id', canActivate: [AuthGuardService], component: ExerciceFormComponent },
+    { path: 'exercice-form', canActivate: [AuthGuardService], component: ExerciceFormComponent },
     { path: ':id', canActivate: [AuthGuardService], component: ExerciceDetailsComponent },
   ];
 
