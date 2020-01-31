@@ -206,13 +206,13 @@
         <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
           <label fxFlex="50" fxLayoutAlign="end start">Fourchettes de Répétitions Précisées pour l'Exercice &nbsp; </label>
           <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
-            [formControl]="repetitionsexercice">
+            [formControl]="repetitionexercice">
           </mat-slide-toggle>
         </div>
 
-        <mat-form-field fxFlex="100" *ngIf="repetitionsexercice.value">
+        <mat-form-field fxFlex="100" *ngIf="repetitionexercice.value">
           <mat-label>Nombre de Répétitions Précisées pour l'exercice</mat-label>
-          <mat-select formControlName="nbrrepetitionsexercice">
+          <mat-select formControlName="nbrerepetitionexercice">
             <mat-option *ngFor="let repetexo of listes.nbrerepetexercice" matNativeControl [value]="repetexo">
                 {{repetexo}}
             </mat-option>

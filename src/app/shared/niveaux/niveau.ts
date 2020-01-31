@@ -2,7 +2,7 @@ export class Niveau {
   id: string;
   nom: string;
   nombre: number;
-  acronyme: number;
+  acronyme: string;
   repetitionexercice: string;
   nbrsemaine: number;
   nbrsemainemodereprise: string;

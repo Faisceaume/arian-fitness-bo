@@ -14,13 +14,15 @@ export class Exercice {
   materiels: Materiel[];
   nbrerepetitionechauffement: number;
   nbrrepetitionsenior: number;
+  nbrerepetretourcalme: number;
+  nbrerepetitionexercice: number;
   niveaumax: Niveau;
   nom: string;
   numero: number;
   pathologie: string;
   position: string;
   regime: string;
-  repetitionsexercice: boolean;
+  repetitionexercice: boolean;
   retouraucalme: boolean;
   senior: string;
   timestamp: number;
