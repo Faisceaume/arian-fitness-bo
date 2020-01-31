@@ -23,16 +23,13 @@
             <mat-panel-description fxLayout="row" fxLayoutAlign="end">
               <button type="button" mat-button (click)="onEdit(questionnaire)" ><mat-icon>edit</mat-icon></button>
               <button type="button" mat-button (click)="onDeleteQuestionnaire(questionnaire.id)"><mat-icon>delete</mat-icon></button>
+              <button type="button" mat-button (click)="onAddQuestion(questionnaire.id)"><mat-icon>add</mat-icon></button>
             </mat-panel-description>
           </mat-expansion-panel-header>
 
           <div>
-            <div fxLayout="row" fxLayoutAlign="space-between">
-              <button (click)="onAddQuestion(questionnaire.id)" type="button" mat-button>Add question <mat-icon>add</mat-icon></button>
-            </div>
 
             <div>
-
 
               <mat-table
                 #table
