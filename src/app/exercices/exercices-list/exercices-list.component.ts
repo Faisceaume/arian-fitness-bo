@@ -14,15 +14,17 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = [
                                 'numero',
+                                'niveau',
                                 'nom',
+                                'date',
                                 'duree',
                                 'age',
                                 'position',
                                 'type',
                                 'echauffement',
+                                'retouraucalme',
                                 'accessalledesport',
-                                'date',
-                                'niveau',
+                                'visibility',
                                 'action'
                               ];
   dataSource: MatTableDataSource<Exercice>;

@@ -113,8 +113,8 @@
               </mat-radio-group>
             </div>
             <div>
-              <label class="dark-chip"> Niveau Maximum:</label>
-              <mat-radio-group color="warn" formControlName="niveaumax">
+              <label class="dark-chip"> Niveau :</label>
+              <mat-radio-group color="warn" formControlName="niveau">
                 <mat-radio-button *ngFor="let niveau of niveaux" [value]="niveau" class="span-radio-button">
                   N {{ niveau.acronyme }}
                 </mat-radio-button>
@@ -259,7 +259,7 @@
 
         <section fxFlex="100" class="materiel">
           <mat-chip-list aria-label="Sélection de Matériels">
-            <mat-chip class="dark-chip">Gestion des matériels :</mat-chip>
+            <mat-chip class="dark-chip">Matériels de l'exercice :</mat-chip>
             <mat-chip *ngFor="let materiel of materielsService.materielsSelected">
               {{ materiel.nom }}
               <mat-icon (click)="removeMateriel(materiel)">close</mat-icon>

@@ -79,7 +79,7 @@ export class ExerciceFormComponent implements OnInit {
     this.thirdFormGroup = this.formBuilder.group({
         });
 
-    this.firstFormGroup.get('niveaumax').valueChanges.subscribe(item => {
+    this.firstFormGroup.get('niveau').valueChanges.subscribe(item => {
         this.showSeniotRepetList = item.acronyme === 'S80+' ? true : false;
       });
 

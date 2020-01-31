@@ -288,12 +288,15 @@
       <ng-template matStepLabel>ème étape</ng-template>
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
-        <app-categories [noeud]="'exe_cat'"
-        [currentExercice]="formData"
-        [chipsSelectedInput]="formData.categories"></app-categories>
+        <app-categories
+          [ngStyle]="{'padding':'10px 0'}"
+          [noeud]="'exe_cat'"
+          [currentExercice]="formData"
+          [chipsSelectedInput]="formData.categories"></app-categories>
+
         <section fxFlex="100" class="materiel">
           <mat-chip-list aria-label="Sélection de Matériels">
-            <mat-chip class="dark-chip">Gestion des matériels :</mat-chip>
+            <mat-chip class="dark-chip">Matériels de l'exercice :</mat-chip>
             <mat-chip *ngFor="let materiel of materielsService.materielsSelected">
               {{ materiel.nom }}
               <mat-icon (click)="removeMateriel(materiel)">close</mat-icon>
