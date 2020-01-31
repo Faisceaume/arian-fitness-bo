@@ -18,12 +18,12 @@
         >
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <h3>{{ questionnaire.name }}</h3>
+              <h3 [ngStyle]="{'font-weight':'400'}">{{ questionnaire.name }}</h3>
             </mat-panel-title>
             <mat-panel-description fxLayout="row" fxLayoutAlign="end">
+              <button type="button" mat-button (click)="onAddQuestion(questionnaire.id)"><mat-icon>add</mat-icon></button>
               <button type="button" mat-button (click)="onEdit(questionnaire)" ><mat-icon>edit</mat-icon></button>
               <button type="button" mat-button (click)="onDeleteQuestionnaire(questionnaire.id)"><mat-icon>delete</mat-icon></button>
-              <button type="button" mat-button (click)="onAddQuestion(questionnaire.id)"><mat-icon>add</mat-icon></button>
             </mat-panel-description>
           </mat-expansion-panel-header>
 
@@ -61,7 +61,7 @@
 
                 <ng-container matColumnDef="timestamp">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</mat-header-cell>
-                  <mat-cell *matCellDef="let element;" class="timestamp"> {{element.timestamp | date}} </mat-cell>
+                  <mat-cell *matCellDef="let element;" class="timestamp"> {{element.timestamp | date: 'dd/mm'}} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="active">

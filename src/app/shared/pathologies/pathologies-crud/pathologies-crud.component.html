@@ -66,18 +66,23 @@
       </div>
 
       <div fxFlex="100">
+
         <button mat-fab color="black"
           type="button"
-          (click)="toMatCatManager = !toMatCatManager"
-          *ngIf="!toExeCatManager && !form.invalid">
-            <mat-icon>fitness_center</mat-icon>
-        </button>
-        <button mat-fab color="black"
-          type="button"
+          matTooltip="Ajouter des catégories d'exercices à cette pathologie" matTooltipPosition="after"
           (click)="toExeCatManager = !toExeCatManager"
           *ngIf="!toMatCatManager && !form.invalid">
             <mat-icon>explicit</mat-icon>
         </button>
+
+        <button mat-fab color="black"
+          type="button"
+          matTooltip="Ajouter des catégories de matériel à cette pathologie" matTooltipPosition="after"
+          (click)="toMatCatManager = !toMatCatManager"
+          *ngIf="!toExeCatManager && !form.invalid">
+            <mat-icon>fitness_center</mat-icon>
+        </button>
+
         <button mat-fab color="warn" type="submit"
           [disabled]="form.invalid"
           *ngIf="toCreate">
