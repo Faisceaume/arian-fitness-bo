@@ -43,7 +43,7 @@
     </mat-form-field>
       &nbsp;&nbsp;
 
-      <div *ngIf="!toCreate" fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}">
+      <div *ngIf="!toCreate && (formData.exercicesCategorie || formData.materielsCategorie)" fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}">
         <div fxFlex="50">
           <h4 class="h4-modal">Catégories d'exercices</h4>
           <span *ngFor="let cat of formData.exercicesCategorie" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
@@ -54,7 +54,7 @@
         </div>
       </div>
 
-      <div *ngIf="toCreate" fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}">
+      <div *ngIf="toCreate && (categoriesService.matCatChipsSelected || categoriesService.exeCatChipsSelected)" fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}">
         <div fxFlex="50">
           <h4 class="h4-modal">Catégories d'exercices</h4>
           <span *ngFor="let cat of categoriesService.matCatChipsSelected" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>

@@ -58,6 +58,20 @@ h4.h4-modal {
   padding: 3px 5px;
   font-size: 0.9em;
 }
+.cercle-acro, .button-cercle {
+  border: 1px solid #333;
+  border-radius: 10px;
+  margin: 0 5px;
+  padding: 3px 5px;
+  font-size: 0.9em;
+}
+.button-cercle:hover {
+  background-color: #000;
+  color: #FFF;
+  cursor: pointer;
+}
+
+
 .icon-but {
   color: #666;
   cursor: pointer;
