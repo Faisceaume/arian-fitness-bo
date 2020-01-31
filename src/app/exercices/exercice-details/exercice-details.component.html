@@ -139,9 +139,9 @@
 
             <div *ngIf="niveauSelected">
               <label class="dark-chip"> Niveau : </label>
-              <p *ngIf="!toChangeNiveau">N {{ formData.niveau.acronyme}} </p>
+              <span class="bulle-acro" *ngIf="!toChangeNiveau">N {{ formData.niveau.acronyme}} </span>
 
-              <button mat-fab (click)="toChangeNiveau = true" *ngIf="!toChangeNiveau">
+              <button mat-icon-button (click)="toChangeNiveau = true" *ngIf="!toChangeNiveau">
                 <mat-icon>close</mat-icon>
               </button>
               <mat-radio-group color="warn"
