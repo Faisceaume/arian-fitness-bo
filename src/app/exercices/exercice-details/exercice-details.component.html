@@ -137,11 +137,17 @@
               </mat-radio-group>
             </div>
 
-            <div>
+            <div *ngIf="niveauSelected">
               <label class="dark-chip"> Niveau : </label>
+              <p *ngIf="!toChangeNiveau">N {{ formData.niveau.acronyme}} </p>
+
+              <button mat-fab (click)="toChangeNiveau = true" *ngIf="!toChangeNiveau">
+                <mat-icon>close</mat-icon>
+              </button>
               <mat-radio-group color="warn"
-              [(ngModel)]="formData.niveau"
-              (ngModelChange)="updateFiel('niveau', formData.niveau)">
+              [(value)]="niveauSelected"
+              (ngModelChange)="updateFiel('niveau', formData.niveau)"
+              *ngIf="toChangeNiveau">
                 <mat-radio-button *ngFor="let niveau of niveaux"
                 [value]="niveau" class="span-radio-button">
                   N {{ niveau.acronyme }}

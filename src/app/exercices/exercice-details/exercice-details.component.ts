@@ -21,6 +21,7 @@ export class ExerciceDetailsComponent implements OnInit {
   isLinear = false;
   formData: Exercice;
   niveaux: Niveau[];
+  niveauSelected: Niveau;
   toChangeNiveau: boolean;
   // toggle slide
   echauffementControl = new FormControl();
@@ -48,6 +49,7 @@ export class ExerciceDetailsComponent implements OnInit {
     const id = this.route.snapshot.params.id;
     this.exercicesService.getSingleExercice(id).then((item: Exercice) => {
       this.formData = item;
+      this.niveauSelected = item.niveau;
       this.materielsService.materielsSelected = this.formData.materiels;
 
       this.echauffementControl.setValue(item.echauffement);
