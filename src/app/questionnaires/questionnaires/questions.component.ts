@@ -109,10 +109,29 @@ export class QuestionsComponent implements OnInit {
     const idQuestionnaire = this.dataSource.data[prevIndex].idOfQuestionnaire;
     const idPrevIndex = this.dataSource.data[prevIndex].id;
     const idCurrentIndex = this.dataSource.data[event.currentIndex].id;
+    const prev = prevIndex + 1;
+    const current = event.currentIndex + 1;
+    const length = this.dataSource.data.length;
     moveItemInArray(event.container.data, prevIndex, event.currentIndex);
-    console.log(event);
-    this.questionnairesService.updateOrdreField(idQuestionnaire, idPrevIndex, event.currentIndex + 1);
-    this.questionnairesService.updateOrdreField(idQuestionnaire, idCurrentIndex, prevIndex + 1);
+
+    if ( prev > current ) {
+      for(let i = current; i < length; i++) {
+        const idCurrent = this.dataSource.data[i].id;
+        this.questionnairesService.updateOrdreField(idQuestionnaire, idCurrent, i + 1);
+      }
+      this.questionnairesService.updateOrdreField(idQuestionnaire, idPrevIndex, event.currentIndex + 1);
+    } else if ( prev < current ) {
+      console.log(prev, current);
+      for (let i = prev-1; i < current - 1; i++) {
+        const idCurrent = this.dataSource.data[i].id;
+        console.log( i , idCurrent);
+        this.questionnairesService.updateOrdreField(idQuestionnaire, idCurrent, i + 1);
+      }
+      console.log( event.currentIndex + 1 );
+      this.questionnairesService.updateOrdreField(idQuestionnaire, idPrevIndex, event.currentIndex + 1);
+    } else {
+      console.log('On est au même endroit');
+    }
     this.dataSource.data = this.dataDrag = event.container.data;
   }
 }
