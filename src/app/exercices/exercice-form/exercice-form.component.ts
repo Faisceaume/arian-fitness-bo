@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ExercicesService } from '../exercices.service';
 import { Exercice } from '../exercice';
 import { FormControl } from '@angular/forms';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Niveau } from 'src/app/shared/niveaux/niveau';
 import { NiveauxService } from 'src/app/shared/niveaux/niveaux.service';
 import { CategoriesService } from 'src/app/shared/categories/categories.service';
@@ -30,7 +30,7 @@ export class ExerciceFormComponent implements OnInit {
   degressif = new FormControl();
   visuel = new FormControl();
   retouraucalme = new FormControl();
-  repetitionsexercice = new FormControl();
+  repetitionexercice = new FormControl();
   visibility = new FormControl();
   showSeniotRepetList = false;
   listes: Listes;
@@ -46,46 +46,47 @@ export class ExerciceFormComponent implements OnInit {
 
     this.listes = new Listes();
 
-    this.materielsService.resetMaterielSelected();
-
     this.firstFormGroup = this.formBuilder.group({
-      numero: [null, Validators.required],
-      nom: ['', Validators.required],
-      type: ['global', Validators.required],
-      consigne: ['', Validators.required],
-      niveaumax: [null, Validators.required],
-      duree: [null],
-      position: ['debout'],
-      regime: ['concentrique'],
-      senior: ['non'],
-      pathologie: ['sans'],
-      age: ['SUP20']
-    });
+        numero: [null, Validators.required],
+        nom: ['', Validators.required],
+        type: ['global', Validators.required],
+        consigne: ['', Validators.required],
+        niveaumax: [null, Validators.required],
+        duree: [null],
+        position: ['debout'],
+        regime: ['concentrique'],
+        senior: ['non'],
+        pathologie: ['sans'],
+        age: ['SUP20']
+      });
 
     this.secondFormGroup = this.formBuilder.group({
-      accessalledesport: [false],
-      visibility: [false],
-      degressif: [false],
-      visuel: [false],
-      echauffement: [false],
-      nbrerepetitionechauffement: [0],
-      nbrrepetitionsenior: [0],
-      nbrerepetitionexercice: [0],
-      nbrrepetitionsexercice: [false, Validators.required],
-      nbrerepetretourcalme: [false, Validators.required],
-    });
+        accessalledesport: [false],
+        visibility: [false],
+        degressif: [false],
+        visuel: [false],
+        echauffement: [false],
+        nbrerepetitionechauffement: [0],
+        nbrrepetitionsenior: [0],
+        nbrerepetitionexercice: [0],
+        repetitionexercice: [false, Validators.required],
+        nbrerepetretourcalme: ['2 minutes', Validators.required],
+        retouraucalme: [false, Validators.required],
+      });
 
     this.thirdFormGroup = this.formBuilder.group({
-    });
+        });
 
+    this.firstFormGroup.get('niveaumax').valueChanges.subscribe(item => {
+        this.showSeniotRepetList = item.acronyme === 'S80+' ? true : false;
+      });
+
+    this.materielsService.resetMaterielSelected();
     this.niveauxService.getAllNiveaux();
     this.niveauxService.niveauxSubject.subscribe(data => {
       this.niveaux = data;
     });
 
-    this.firstFormGroup.get('niveaumax').valueChanges.subscribe(item => {
-      this.showSeniotRepetList = item.acronyme === 'S80+' ? true : false;
-    });
   }
 
   setFormDataValue() {
@@ -100,6 +101,26 @@ export class ExerciceFormComponent implements OnInit {
     }
     if (this.accessalledesportControl.value) {
       this.formData.accessalledesport = this.accessalledesportControl.value;
+    }
+
+    if (this.visibility.value) {
+      this.formData.visibility = this.visibility.value;
+    }
+
+    if (this.degressif.value) {
+      this.formData.degressif = this.degressif.value;
+    }
+
+    if (this.visuel.value) {
+      this.formData.visuel = this.visuel.value;
+    }
+
+    if (this.retouraucalme.value) {
+      this.formData.retouraucalme = this.retouraucalme.value;
+    }
+
+    if (this.repetitionexercice.value) {
+      this.formData.repetitionexercice = this.repetitionexercice.value;
     }
   }
 

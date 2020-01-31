@@ -92,20 +92,18 @@ OK - Champs "senior" à 3 états dans les exercies :
     - exercice pour tout le monde, tous les âges
 OK - Boolean pour les contraintes d'age (x2) : géré en string
 OK - Menu Check box pour "Regime de contraction" : Concentrique / Pliométrique / Isométrique / Excentrique
-
-
+OK - Envoyer toutes les listes de select du formulaire exercice à Lounis pour correction
+OK - Consigne : Text long
+OK - Catégories :
+  - pour la durée de la catégorie : menu select : 5 minutes / 7 minutes 30 / 10 minutes
+  - pour le temps de repos : menu select : 30 secondes / 60 secondes / 90 secondes / 120 secondes
 
 
 CALL LOUNIS 28/01
-- Appliquer CATÉGORIE de Matériel aux Pathologies
-
-- Envoyer toutes les listes de select du formulaire exercice à Lounis pour correction
+- Appliquer CATÉGORIE de Matériel && d'Exercices aux Pathologies
 
 
-- Consigne : Text area car champs long
-- Catégories :
-  - pour la durée de la catégorie : menu select : 5 minutes / 7 minutes 30 / 10 minutes
-  - pour le temps de repos : menu select : 30 secondes / 60 secondes / 90 secondes / 120 secondes
+- Conditions sur l'affichage des titres "Catégories" ne fonctionne pas.
 
 
 

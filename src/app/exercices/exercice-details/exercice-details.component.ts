@@ -9,6 +9,7 @@ import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { MaterielsSharedComponent } from 'src/app/shared/materiels-shared/materiels-shared.component';
 import { Materiel } from 'src/app/materiels/materiel';
+import { Listes } from 'src/app/shared/listes';
 
 @Component({
   selector: 'app-exercice-details',
@@ -25,6 +26,16 @@ export class ExerciceDetailsComponent implements OnInit {
   echauffementControl = new FormControl();
   accessalledesportControl = new FormControl();
 
+
+  // new section
+  visibility = new FormControl();
+  degressif = new FormControl();
+  visuel = new FormControl();
+  retouraucalme = new FormControl();
+  listes: Listes;
+  repetitionexercice = new FormControl();
+  showSeniotRepetList: boolean;
+
   constructor(private route: ActivatedRoute,
               private exercicesService: ExercicesService,
               private niveauxService: NiveauxService,
@@ -33,18 +44,26 @@ export class ExerciceDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.listes = new Listes();
     const id = this.route.snapshot.params.id;
     this.exercicesService.getSingleExercice(id).then((item: Exercice) => {
       this.formData = item;
       this.materielsService.materielsSelected = this.formData.materiels;
+
       this.echauffementControl.setValue(item.echauffement);
       this.accessalledesportControl.setValue(item.accessalledesport);
-    });
+      this.repetitionexercice.setValue(item.repetitionexercice);
+      this.visibility.setValue(item.visibility);
+      this.degressif.setValue(item.degressif);
+      this.visuel.setValue(item.visuel);
+      this.retouraucalme.setValue(item.retouraucalme);
 
-    this.niveauxService.getAllNiveaux();
-    this.niveauxService.niveauxSubject.subscribe(data => {
-    this.niveaux = data;
+      this.showSeniotRepetList = item.niveaumax.acronyme === 'S80+' ? true : false;
+
+      this.niveauxService.getAllNiveaux();
+      this.niveauxService.niveauxSubject.subscribe(data => {
+          this.niveaux = data;
+      });
   });
   }
 

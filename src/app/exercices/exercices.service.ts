@@ -30,7 +30,7 @@ export class ExercicesService {
         this.firestore.collection('exe_cat').doc(element.id).collection('exercices').doc(currentid)
         .set(exercice);
         const listeExeid = element.exeids;
-        listeExeid.push(currentid + '/');
+        listeExeid.push(currentid);
         this.categoriesService.newUpdateVersion(element, 'exeids', listeExeid, 'exe_cat');
       });
     }).then(() => {

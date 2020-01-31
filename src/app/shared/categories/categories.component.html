@@ -5,7 +5,7 @@
     [selectable]="selectable"
     [ngStyle]="{'background-color': !cat.selected ? '#fff' : ''}"
     (click)="selectMe(cat)">
-      <span>{{ cat.acronyme }} </span> : {{cat.nom}}
+      <span class="cercle-acro">{{ cat.acronyme }} </span> : {{cat.nom}}
   </mat-chip>
   <button mat-icon-button (click)="openMatDialog()">
     <mat-icon>add</mat-icon>
