@@ -4,6 +4,7 @@ import { Categorie } from '../categorie';
 import { CategoriesService } from '../categories.service';
 import { NgForm } from '@angular/forms';
 import { Listes } from '../../listes';
+import { PathologiesService } from '../../pathologies/pathologies.service';
 
 @Component({
   selector: 'app-categories-crud',
@@ -21,7 +22,8 @@ export class CategoriesCrudComponent implements OnInit {
 
   constructor(private categoriesService: CategoriesService,
               public dialogRef: MatDialogRef<CategoriesCrudComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: string) { }
+              @Inject(MAT_DIALOG_DATA) public data: string,
+              private pathologiesService: PathologiesService) { }
 
   ngOnInit() {
     this.liste = new Listes();
@@ -67,7 +69,8 @@ export class CategoriesCrudComponent implements OnInit {
 
   onDelete(categorie: Categorie) {
     if (confirm('Confirmer la suppression ?')) {
-      this.categoriesService.deleteCategorie(categorie, this.data);
+      // this.categoriesService.deleteCategorie(categorie, this.data);
+      this.pathologiesService.deleteCategorie(categorie, this.data);
     }
   }
 

@@ -3,6 +3,7 @@ import { Pathologie } from './pathologie';
 import { PathologiesService } from './pathologies.service';
 import { MatTableDataSource, MatSort, MatDialogConfig, MatDialog } from '@angular/material';
 import { PathologiesCrudComponent } from './pathologies-crud/pathologies-crud.component';
+import { CategoriesService } from '../categories/categories.service';
 
 @Component({
   selector: 'app-pathologies',
@@ -15,7 +16,9 @@ export class PathologiesComponent implements OnInit {
   displayedColumns: string[] = ['nom', 'date', 'acronyme', 'mat_cat', 'exe_cat', 'action'];
   dataSource: MatTableDataSource<Pathologie>;
 
-  constructor(private pathologiesService: PathologiesService, private matDialog: MatDialog) { }
+  constructor(private pathologiesService: PathologiesService,
+              private matDialog: MatDialog,
+              private categoriesService: CategoriesService) { }
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -35,6 +38,7 @@ export class PathologiesComponent implements OnInit {
   }
 
   onCreate() {
+    this.categoriesService.resetChipsSelectedElement();
     this.openMatDialog(null);
   }
 
