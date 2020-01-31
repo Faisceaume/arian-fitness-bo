@@ -40,28 +40,28 @@
         rows="4" [(ngModel)]="formData.details"
         (ngModelChange)="updateField('details', formData.details)"
         required></textarea>
-    </mat-form-field>
+      </mat-form-field>
       &nbsp;&nbsp;
 
-      <div *ngIf="!toCreate && (formData.exercicesCategorie || formData.materielsCategorie)" fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}">
-        <div fxFlex="50">
+      <div *ngIf="!toCreate" fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}">
+        <div fxFlex="50" *ngIf="formData.exercicesCategorie ? formData.exercicesCategorie.length!=0 : false">
           <h4 class="h4-modal">Catégories d'exercices</h4>
           <span *ngFor="let cat of formData.exercicesCategorie" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
         </div>
-        <div fxFlex="50">
+        <div fxFlex="50" *ngIf="formData.materielsCategorie ? formData.materielsCategorie.length!=0 : false">
           <h4 class="h4-modal">Catégories de matériels</h4>
           <span *ngFor="let cat of formData.materielsCategorie" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
         </div>
       </div>
 
-      <div *ngIf="toCreate && (categoriesService.matCatChipsSelected || categoriesService.exeCatChipsSelected)" fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}">
-        <div fxFlex="50">
+      <div *ngIf="toCreate" fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}">
+        <div fxFlex="50" *ngIf="categoriesService.exeCatChipsSelected.length!=0">
           <h4 class="h4-modal">Catégories d'exercices</h4>
-          <span *ngFor="let cat of categoriesService.matCatChipsSelected" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
-        </div>
-        <div fxFlex="50">
-          <h4 class="h4-modal">Catégories de matériels</h4>
           <span *ngFor="let cat of categoriesService.exeCatChipsSelected" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
+        </div>
+        <div fxFlex="50" *ngIf="categoriesService.matCatChipsSelected.length!=0">
+          <h4 class="h4-modal">Catégories de matériels</h4>
+          <span *ngFor="let cat of categoriesService.matCatChipsSelected" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
         </div>
       </div>
 

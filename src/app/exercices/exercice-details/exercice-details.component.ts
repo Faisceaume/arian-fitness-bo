@@ -58,13 +58,22 @@ export class ExerciceDetailsComponent implements OnInit {
       this.visuel.setValue(item.visuel);
       this.retouraucalme.setValue(item.retouraucalme);
 
-      this.showSeniotRepetList = item.niveaumax.acronyme === 'S80+' ? true : false;
+      this.showSeniotRepetList = item.niveau ? item.niveau.acronyme === 'S80+' ? true : false : false;
 
       this.niveauxService.getAllNiveaux();
       this.niveauxService.niveauxSubject.subscribe(data => {
           this.niveaux = data;
       });
   });
+  }
+
+  removeMateriel(materiel: Materiel): void {
+    const list = this.materielsService.materielsSelected;
+    const index = list.findIndex(item => item.id === materiel.id);
+    if (index >= 0) {
+      list.splice(index, 1);
+    }
+    this.exercicesService.newUpdateVersion(this.formData, 'materiels', list);
   }
 
   updateFiel(attribut: string, value: any) {

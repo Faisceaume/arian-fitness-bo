@@ -53,7 +53,7 @@ export class ExerciceFormComponent implements OnInit {
         nom: ['', Validators.required],
         type: ['global', Validators.required],
         consigne: ['', Validators.required],
-        niveaumax: [null, Validators.required],
+        niveau: [null, Validators.required],
         duree: [null],
         position: ['debout'],
         regime: ['concentrique'],
@@ -133,6 +133,14 @@ export class ExerciceFormComponent implements OnInit {
 
     this.categoriesService.setChipsSelectedForOperationValue(null);
     this.exercicesService.createExercice(this.formData);
+  }
+
+  removeMateriel(materiel: Materiel): void {
+    const list = this.materielsService.materielsSelected;
+    const index = list.findIndex(item => item.id === materiel.id);
+    if (index >= 0) {
+      list.splice(index, 1);
+    }
   }
 
   openMatDialog() {

@@ -16,7 +16,7 @@ export class Exercice {
   nbrrepetitionsenior: number;
   nbrerepetretourcalme: number;
   nbrerepetitionexercice: number;
-  niveaumax: Niveau;
+  niveau: Niveau;
   nom: string;
   numero: number;
   pathologie: string;
