@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { QuestionnairesService } from '../questionnaires.service';
-import { MatDialogConfig, MatDialog, MatTableDataSource } from '@angular/material';
-import { QuestionnairesFormComponent } from './questionnaires-form/questionnaires-form.component';
+import { MatDialogConfig, MatDialog, MatTableDataSource, MatTable, MatDialogRef, MAT_DIALOG_DATA, MatSort } from '@angular/material';
 import { Questionnaires } from '../questionnaires';
-import { QuestionnairesDetailComponent } from './questionnaires-detail/questionnaires-detail.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Questions } from '../questions';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-questions',
@@ -14,11 +14,16 @@ import { Questions } from '../questions';
 })
 export class QuestionsComponent implements OnInit {
 
+  
+
   questionnairesList: Questionnaires[];
   questionsList: Questions[];
 
-  displayedColumns: string[] = ['ordre', 'question', 'reponses', 'timestamp', 'active', 'action'];
+  displayedColumns: string[] = ['ordre', 'question', 'reponses', 'timestamp', 'active', 'action', 'Drag'];
   dataSource: MatTableDataSource<any>;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild('table', {static: false}) table: MatTable<Questions>;
+  dataDrag: any;
 
   constructor(
     private questionnairesService: QuestionnairesService,
@@ -43,7 +48,8 @@ export class QuestionsComponent implements OnInit {
   openDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '40%';
-    this.dialog.open(QuestionnairesFormComponent, dialogConfig);
+    // tslint:disable-next-line: no-use-before-declare
+    this.dialog.open( QuestionnairesFormComponent, dialogConfig);
   }
 
   onDeleteQuestionnaire( idQuestionnaire ) {
@@ -57,6 +63,7 @@ export class QuestionsComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '40%';
     dialogConfig.data = questionnaire;
+    // tslint:disable-next-line: no-use-before-declare
     this.dialog.open(QuestionnairesDetailComponent, dialogConfig);
   }
 
@@ -70,7 +77,10 @@ export class QuestionsComponent implements OnInit {
     this.questionnairesService.getAllQuestions(idQuestionnaire);
     this.questionnairesService.questionsListSubject.subscribe(data => {
       this.questionsList = data;
+      this.questionsList.sort((a,b) => { return a.ordre - b.ordre });
       this.dataSource = new MatTableDataSource(this.questionsList);
+      this.dataSource.sort = this.sort;
+      this.dataDrag = this.dataSource.data;
     });
   }
 
@@ -94,6 +104,112 @@ export class QuestionsComponent implements OnInit {
     }
   }
 
+  onListDrop(event: CdkDragDrop<string[]>) {
+    const prevIndex = this.dataSource.data.findIndex((d) => d === event.item.data);
+    const idQuestionnaire = this.dataSource.data[prevIndex].idOfQuestionnaire;
+    const idPrevIndex = this.dataSource.data[prevIndex].id;
+    const idCurrentIndex = this.dataSource.data[event.currentIndex].id;
+    moveItemInArray(event.container.data, prevIndex, event.currentIndex);
+    console.log(event);
+    this.questionnairesService.updateOrdreField(idQuestionnaire, idPrevIndex, event.currentIndex + 1);
+    this.questionnairesService.updateOrdreField(idQuestionnaire, idCurrentIndex, prevIndex + 1);
+    this.dataSource.data = this.dataDrag = event.container.data;
+  }
+}
 
+
+
+
+
+
+
+
+/*********************************************/
+/*********************************************/
+/******************* FORM  ******************/
+/*********************************************/
+/*********************************************/
+@Component({
+  selector: 'app-questionnaires-form',
+  templateUrl: './questionnaires-form.component.html',
+})
+export class QuestionnairesFormComponent implements OnInit {
+
+  questionnairesForm: FormGroup;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private questionnairesService: QuestionnairesService,
+    public dialogRef: MatDialogRef<QuestionnairesFormComponent>
+  ) { }
+
+  ngOnInit() {
+    this.initForm();
+  }
+
+  initForm() {
+    this.questionnairesForm = this.formBuilder.group({
+      name: ['', Validators.required]
+    });
+  }
+
+  onAdd() {
+    const name = this.questionnairesForm.get('name').value;
+    const time = new Date().getTime();
+    this.questionnairesService.createQuestionnaire(name, time);
+    this.onClose();
+  }
+
+  onClose() {
+    this.dialogRef.close();
+  }
+
+}
+
+
+
+
+
+
+
+/*********************************************/
+/*********************************************/
+/******************* EDIT ******************/
+/*********************************************/
+/*********************************************/
+@Component({
+  selector: 'app-questionnaires-detail',
+  templateUrl: 'questionnaires-detail.component.html',
+})
+export class QuestionnairesDetailComponent implements OnInit {
+
+  questionnairesForm: FormGroup;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private questionnairesService: QuestionnairesService,
+    public dialogRef: MatDialogRef<QuestionnairesDetailComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Questionnaires
+  ) { }
+
+  ngOnInit() {
+    this.initForm();
+  }
+
+  initForm() {
+    this.questionnairesForm = this.formBuilder.group({
+      name: [ this.data.name, Validators.required]
+    });
+  }
+
+  onEdit() {
+    const name = this.questionnairesForm.get('name').value;
+    this.questionnairesService.updateQuestionnaire(this.data.id, name, new Date().getTime());
+    this.onClose();
+  }
+
+  onClose() {
+    this.dialogRef.close();
+  }
 
 }

@@ -13,18 +13,20 @@
       <mat-expansion-panel hideToggle
         *ngFor="let questionnaire of questionnairesList"
         (opened)="onDisplayQuestions(questionnaire.id)"
-        style="box-shadow: none;">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <h3>{{ questionnaire.name }}</h3>
-          </mat-panel-title>
-          <mat-panel-description fxLayout="row" fxLayoutAlign="end">
-            <button type="button" mat-button (click)="onEdit(questionnaire)" ><mat-icon>edit</mat-icon></button>
-            <button type="button" mat-button (click)="onDeleteQuestionnaire(questionnaire.id)"><mat-icon>delete</mat-icon></button>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
+        style="box-shadow: none;"
+        #table
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h3>{{ questionnaire.name }}</h3>
+            </mat-panel-title>
+            <mat-panel-description fxLayout="row" fxLayoutAlign="end">
+              <button type="button" mat-button (click)="onEdit(questionnaire)" ><mat-icon>edit</mat-icon></button>
+              <button type="button" mat-button (click)="onDeleteQuestionnaire(questionnaire.id)"><mat-icon>delete</mat-icon></button>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
-        <div>
+          <div>
             <div fxLayout="row" fxLayoutAlign="space-between">
               <button (click)="onAddQuestion(questionnaire.id)" type="button" mat-button>Add question <mat-icon>add</mat-icon></button>
             </div>
@@ -32,32 +34,41 @@
             <div>
 
 
-              <mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="box-shadow: none;">
+              <mat-table
+                #table
+                [dataSource]="dataSource"
+                class="mat-elevation-z8"
+                style="box-shadow: none;"
+                [cdkDropListData]="dataDrag"
+                cdkDropList
+                (cdkDropListDropped)="onListDrop($event)"
+                matSort
+              >
 
                 <ng-container matColumnDef="ordre">
-                  <mat-header-cell *matHeaderCellDef>Ordre</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Ordre</mat-header-cell>
                   <mat-cell *matCellDef="let element;"> {{ element.ordre }} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="question">
-                  <mat-header-cell *matHeaderCellDef>Question</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Question</mat-header-cell>
                   <mat-cell *matCellDef="let element;"> {{ element.question }} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="reponses">
-                  <mat-header-cell *matHeaderCellDef>Reponses</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Reponses</mat-header-cell>
                   <mat-cell *matCellDef="let element;">
                     {{ element.reponses }}
                   </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="timestamp">
-                  <mat-header-cell *matHeaderCellDef>Timestamp</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</mat-header-cell>
                   <mat-cell *matCellDef="let element;" class="timestamp"> {{element.timestamp | date}} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="active">
-                  <mat-header-cell *matHeaderCellDef>Active</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Active</mat-header-cell>
                   <mat-cell *matCellDef="let element;">
                     <mat-icon
                     *ngIf="element.active"
@@ -87,10 +98,21 @@
                   </mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="Drag">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+                  <mat-cell cdkDragHandle *matCellDef="let element;"><mat-icon>drag_indicator</mat-icon></mat-cell>
+                </ng-container>
+
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                <mat-row cdkDrag [cdkDragData]="row" *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
               </mat-table>
+            </div>
+
+            <div>
+                <table>
+
+                </table>
             </div>
           </div>
 
