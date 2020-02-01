@@ -7,6 +7,8 @@ import { Questions } from '../questions';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
+import * as firebase from 'firebase';
+
 @Component({
   selector: 'app-questions',
   templateUrl: './questions.component.html',
@@ -36,7 +38,6 @@ export class QuestionsComponent implements OnInit {
     this.questionnairesService.questionnairesListSubject.subscribe(data => {
       this.questionnairesList = data;
     });
-
   }
 
 
@@ -124,13 +125,10 @@ export class QuestionsComponent implements OnInit {
       console.log(prev, current);
       for (let i = prev-1; i < current - 1; i++) {
         const idCurrent = this.dataSource.data[i].id;
-        console.log( i , idCurrent);
         this.questionnairesService.updateOrdreField(idQuestionnaire, idCurrent, i + 1);
       }
-      console.log( event.currentIndex + 1 );
       this.questionnairesService.updateOrdreField(idQuestionnaire, idPrevIndex, event.currentIndex + 1);
-    } else {
-      console.log('On est au même endroit');
+    } else { 
     }
     this.dataSource.data = this.dataDrag = event.container.data;
   }

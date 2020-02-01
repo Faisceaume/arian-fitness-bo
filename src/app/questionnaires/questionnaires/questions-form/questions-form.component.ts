@@ -13,6 +13,7 @@ export class QuestionsFormComponent implements OnInit {
   questionForm: FormGroup;
   reponses: FormArray;
   numberReponse = 0;
+  noOrdre: number;
 
   constructor(
     private route: Router,
@@ -29,14 +30,23 @@ export class QuestionsFormComponent implements OnInit {
     this.questionForm = this.formBuilder.group({
       question: ['', Validators.required],
       reponses: this.formBuilder.array([], Validators.required),
-      ordre: [null, Validators.required],
       active: [false, Validators.required]
+    });
+    this.questionnairesService.getAllQuestions( this.road.snapshot.paramMap.get('idQuestionnaire') );
+    this.questionnairesService.questionsListSubject.subscribe(data => {
+      if (data) {
+        this.noOrdre = data.length + 1;
+      } else {
+        this.noOrdre = 1;
+      }
     });
   }
 
   onAddQuestion() {
     const idQuestionnaire = this.road.snapshot.paramMap.get('idQuestionnaire');
     const data = this.questionForm.value;
+    data.ordre = this.noOrdre;
+    console.log( data );
     this.questionnairesService.createQuestion(idQuestionnaire, data, new Date().getTime());
     this.initForm();
   }

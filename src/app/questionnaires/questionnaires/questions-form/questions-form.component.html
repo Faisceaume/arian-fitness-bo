@@ -11,10 +11,6 @@
     <form [formGroup]="questionForm" fxLayout="column" (ngSubmit)="onAddQuestion()">
 
         <mat-form-field style="padding: 10px">
-          <input matInput type="number" formControlName="ordre" placeholder="Ordre">
-        </mat-form-field>
-
-        <mat-form-field style="padding: 10px">
           <input matInput type="text" formControlName="question" placeholder="Question">
         </mat-form-field>
 
