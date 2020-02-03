@@ -11,36 +11,44 @@
     <form [formGroup]="questionForm" fxLayout="column" (ngSubmit)="onAddQuestion()">
 
         <mat-form-field style="padding: 10px">
-          <input matInput type="text" formControlName="question" placeholder="Question">
+          <input matInput type="text" formControlName="question" placeholder="Question...">
         </mat-form-field>
 
-        <div style="padding: 10px" fxFlexAlign="start">
-          <label>Active</label>
-          <mat-slide-toggle formControlName="active" color="warn">
-          </mat-slide-toggle>
+        <div fxLayoutAlign="start center" style="padding: 10px">
+          <div fxFlex="20">
+            <label style="padding: 0 20px">Active</label>
+            <mat-slide-toggle formControlName="active" color="warn"></mat-slide-toggle>
+          </div>
+          <div fxFlex="50" [ngStyle]="{'padding':'10px 0'}">
+              <button mat-button color="black"
+                (click)="onAddReponse(); $event.preventDefault();">
+                  <mat-icon>add</mat-icon>
+                  Ajouter une réponse
+              </button>
+          </div>
         </div>
 
 
-        <div formArrayName="reponses" fxLayout="column">
-          <h3 fxFlexAlign="center">Reponses</h3>
-          <button style="width: 50%;"
-           mat-raised-button (click)="onAddReponse(); $event.preventDefault();"
-           fxFlexAlign="center"
-           ><mat-icon>add</mat-icon></button>
-          <div class="reponse" *ngFor="let reponse of getReponses().controls; let i = index;" fxLayout="column no-wrap" fxFlexAlign="center">
-            <div>
-              <mat-form-field style="padding: 5px; width: 80%;">
+
+
+        <div formArrayName="reponses" fxLayout="row wrap" [ngStyle]="{'padding':'10px'}">
+
+          <div class="reponse" *ngFor="let reponse of getReponses().controls; let i = index;" fxLayout="column">
+            <div fxFlex="100">
+              <mat-form-field fxFlex="100">
                 <input matInput type="text" [formControlName]="i" placeholder="reponse">
               </mat-form-field>
               <button type="button" mat-button (click)="removeReponse(i)"><mat-icon>delete</mat-icon></button>
             </div>
-          </div> 
+          </div>
+          
         </div>
 
-        <button type="submit" fxFlexAlign="center" mat-fab color="warn"
-        style="margin-top: 3%"
-        [disabled]="questionForm.invalid">
-          <mat-icon>save</mat-icon>
-        </button> 
+        <div [ngStyle]="{'padding':'10px'}">
+          <button type="submit" mat-fab color="warn"
+            [disabled]="questionForm.invalid">
+              <mat-icon>save</mat-icon>
+          </button>
+        </div>
     </form>
 </div>

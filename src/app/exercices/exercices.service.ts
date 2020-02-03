@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Exercice } from './exercice';
 import { Subject } from 'rxjs';
+import { CategoriesService } from '../shared/categories/categories.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class ExercicesService {
   exerciceSubject = new Subject<any[]>();
 
   constructor(private firestore: AngularFirestore,
-              private router: Router) { }
+              private router: Router,
+              private categoriesService: CategoriesService) { }
 
 
   createExercice(exercice: Exercice) {
@@ -24,13 +26,21 @@ export class ExercicesService {
     data = Object.assign(exercice, {id: currentid, timestamp: new Date().getTime()});
     batch.set(nextDocument1, data);
     batch.commit().then(() => {
-                console.log('Batch Commited');
-                this.router.navigate(['exercices']);
+      exercice.categories.forEach(element => {
+        this.firestore.collection('exe_cat').doc(element.id).collection('exercices').doc(currentid)
+        .set(exercice);
+        const listeExeid = element.exeids;
+        listeExeid.push(currentid);
+        this.categoriesService.newUpdateVersion(element, 'exeids', listeExeid, 'exe_cat');
+      });
+    }).then(() => {
+          console.log('Batch Commited');
+          this.router.navigate(['exercices']);
     }).catch((error) => { console.error('Error creating document: ', error); });
   }
 
   getAllExercices() {
-    this.firestore.collection('exercices')
+    this.firestore.collection('exercices', ref => ref.orderBy('numero'))
                   .snapshotChanges().subscribe( data => {
        this.exercices = data.map( e => {
         const anotherData = e.payload.doc.data() as Exercice;

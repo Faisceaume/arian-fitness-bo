@@ -18,9 +18,10 @@
         >
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <h3>{{ questionnaire.name }}</h3> 
+              <h3 [ngStyle]="{'font-weight':'400'}">{{ questionnaire.name }}</h3>
             </mat-panel-title>
             <mat-panel-description fxLayout="row" fxLayoutAlign="end">
+              <button type="button" mat-button (click)="onAddQuestion(questionnaire.id)"><mat-icon>add</mat-icon></button>
               <button type="button" mat-button (click)="onEdit(questionnaire)" ><mat-icon>edit</mat-icon></button>
               <button type="button" mat-button (click)="onDeleteQuestionnaire(questionnaire.id)"><mat-icon>delete</mat-icon></button>
             </mat-panel-description>
@@ -64,7 +65,7 @@
 
                 <ng-container matColumnDef="timestamp">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</mat-header-cell>
-                  <mat-cell *matCellDef="let element;" class="timestamp"> {{element.timestamp | date}} </mat-cell>
+                  <mat-cell *matCellDef="let element;" class="timestamp"> {{element.timestamp | date: 'dd/mm'}} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="active">
@@ -102,16 +103,20 @@
                   <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
                   <mat-cell cdkDragHandle *matCellDef="let element;"><mat-icon>drag_indicator</mat-icon></mat-cell>
                 </ng-container>
-          
+
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row cdkDrag [cdkDragData]="row" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+<<<<<<< HEAD
           
+=======
+
+>>>>>>> ebbd9b86bc18321e0e1d04ce3988031beece567f
               </mat-table>
             </div>
 
             <div>
                 <table>
-                  
+
                 </table>
             </div>
           </div>

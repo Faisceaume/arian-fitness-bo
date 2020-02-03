@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ExercicesService } from '../exercices.service';
 import { Exercice } from '../exercice';
 import { FormControl } from '@angular/forms';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Niveau } from 'src/app/shared/niveaux/niveau';
 import { NiveauxService } from 'src/app/shared/niveaux/niveaux.service';
 import { CategoriesService } from 'src/app/shared/categories/categories.service';
@@ -11,6 +11,7 @@ import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { MaterielsSharedComponent } from 'src/app/shared/materiels-shared/materiels-shared.component';
 import { Listes } from 'src/app/shared/listes';
+import { CanActivate, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-exercice-form',
@@ -30,62 +31,67 @@ export class ExerciceFormComponent implements OnInit {
   degressif = new FormControl();
   visuel = new FormControl();
   retouraucalme = new FormControl();
-  repetitionsexercice = new FormControl();
+  repetitionexercice = new FormControl();
+  visibility = new FormControl();
   showSeniotRepetList = false;
   listes: Listes;
+  regimeSelected: string[]  = [];
 
   constructor(private exercicesService: ExercicesService,
               private formBuilder: FormBuilder,
               private niveauxService: NiveauxService,
               private categoriesService: CategoriesService,
               public materielsService: MaterielsService,
+              private route: ActivatedRoute,
               private matDialog: MatDialog) { }
 
   ngOnInit() {
 
     this.listes = new Listes();
 
-    this.materielsService.resetMaterielSelected();
-
     this.firstFormGroup = this.formBuilder.group({
-      numero: [null, Validators.required],
-      nom: ['', Validators.required],
-      type: ['global', Validators.required],
-      descriptif: ['', Validators.required],
-      niveaumax: [null, Validators.required],
-      duree: [null, Validators.required],
-      position: ['debout'],
-      regime: ['concentrique'],
-      senior: ['non'],
-      pathologie: ['sans'],
-      age: ['SUP20']
-    });
+        age: ['SUP20'],
+        consignecourte: ['', Validators.required],
+        consignelongue: ['', Validators.required],
+        duree: [null],
+        genre: ['H&F', Validators.required],
+        niveau: [null, Validators.required],
+        numero: [null, Validators.required],
+        nom: ['', Validators.required],
+        pathologie: ['sans'],
+        position: ['debout'],
+        regime: [],
+        senior: ['non'],
+        type: ['global', Validators.required],
+      });
 
     this.secondFormGroup = this.formBuilder.group({
-      echauffement: [false, Validators.required],
-      nbrerepetitionechauffement: [0, Validators.required],
-      nbrrepetitionsenior: [0, Validators.required],
-      nbrerepetitionexercice: [0, Validators.required],
-      accessalledesport: [false, Validators.required],
-      degressif: [false, Validators.required],
-      repetitionsexercice: [false, Validators.required],
-      retouraucalme: [false, Validators.required],
-      visuel: [false, Validators.required]
-    });
+        accessalledesport: [false],
+        visibility: [false],
+        degressif: [false],
+        visuel: [false],
+        echauffement: [false],
+        nbrerepetitionechauffement: [0],
+        nbrrepetitionsenior: [0],
+        nbrerepetitionexercice: [this.listes.nbrerepetexercice[1]],
+        repetitionexercice: [false, Validators.required],
+        nbrerepetretourcalme: ['2 minutes', Validators.required],
+        retouraucalme: [false, Validators.required],
+      });
 
     this.thirdFormGroup = this.formBuilder.group({
-      regime: ['', Validators.required],
-      consigne: ['', Validators.required],
-    });
+        });
 
+    this.firstFormGroup.get('niveau').valueChanges.subscribe(item => {
+        this.showSeniotRepetList = item.acronyme === 'S80+' ? true : false;
+      });
+
+    this.materielsService.resetMaterielSelected();
     this.niveauxService.getAllNiveaux();
     this.niveauxService.niveauxSubject.subscribe(data => {
       this.niveaux = data;
     });
 
-    this.firstFormGroup.get('niveaumax').valueChanges.subscribe(item => {
-      this.showSeniotRepetList = item.acronyme === 'S80+' ? true : false;
-    });
   }
 
   setFormDataValue() {
@@ -95,11 +101,33 @@ export class ExerciceFormComponent implements OnInit {
       ...this.thirdFormGroup.value,
     } as Exercice;
 
+    this.formData.regime = this.regimeSelected;
+
     if (this.echauffementControl.value) {
       this.formData.echauffement = this.echauffementControl.value;
     }
     if (this.accessalledesportControl.value) {
       this.formData.accessalledesport = this.accessalledesportControl.value;
+    }
+
+    if (this.visibility.value) {
+      this.formData.visibility = this.visibility.value;
+    }
+
+    if (this.degressif.value) {
+      this.formData.degressif = this.degressif.value;
+    }
+
+    if (this.visuel.value) {
+      this.formData.visuel = this.visuel.value;
+    }
+
+    if (this.retouraucalme.value) {
+      this.formData.retouraucalme = this.retouraucalme.value;
+    }
+
+    if (this.repetitionexercice.value) {
+      this.formData.repetitionexercice = this.repetitionexercice.value;
     }
   }
 
@@ -107,8 +135,17 @@ export class ExerciceFormComponent implements OnInit {
     this.setFormDataValue();
     this.formData.categories = this.categoriesService.chipsSelectedForOperation;
     this.formData.materiels = this.materielsService.materielsSelected;
+
     this.categoriesService.setChipsSelectedForOperationValue(null);
     this.exercicesService.createExercice(this.formData);
+  }
+
+  removeMateriel(materiel: Materiel): void {
+    const list = this.materielsService.materielsSelected;
+    const index = list.findIndex(item => item.id === materiel.id);
+    if (index >= 0) {
+      list.splice(index, 1);
+    }
   }
 
   openMatDialog() {
@@ -116,6 +153,17 @@ export class ExerciceFormComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';
     this.matDialog.open(MaterielsSharedComponent, dialogConfig);
+  }
+
+  onRegimeSelected(event, item: string) {
+    if (event.checked) {
+      this.regimeSelected.push(item);
+    } else {
+      const index = this.regimeSelected.indexOf(item);
+      if (index >= 0 ) {
+        this.regimeSelected.splice(index, 1);
+      }
+    }
   }
 
 }

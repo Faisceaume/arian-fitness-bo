@@ -3,6 +3,7 @@ import { Pathologie } from './pathologie';
 import { PathologiesService } from './pathologies.service';
 import { MatTableDataSource, MatSort, MatDialogConfig, MatDialog } from '@angular/material';
 import { PathologiesCrudComponent } from './pathologies-crud/pathologies-crud.component';
+import { CategoriesService } from '../categories/categories.service';
 
 @Component({
   selector: 'app-pathologies',
@@ -12,10 +13,12 @@ import { PathologiesCrudComponent } from './pathologies-crud/pathologies-crud.co
 export class PathologiesComponent implements OnInit {
 
   pathologies: Pathologie[];
-  displayedColumns: string[] = ['nom', 'date', 'acronyme', 'action'];
+  displayedColumns: string[] = ['nom', 'date', 'acronyme', 'mat_cat', 'exe_cat', 'action'];
   dataSource: MatTableDataSource<Pathologie>;
 
-  constructor(private pathologiesService: PathologiesService, private matDialog: MatDialog) { }
+  constructor(private pathologiesService: PathologiesService,
+              private matDialog: MatDialog,
+              private categoriesService: CategoriesService) { }
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -29,12 +32,13 @@ export class PathologiesComponent implements OnInit {
   }
 
   onDelete(pathologie: Pathologie) {
-    if (confirm('Vraiment Supprimer ?')) {
+    if (confirm('Confirmer la suppression ?')) {
       this.pathologiesService.deletePathologie(pathologie);
     }
   }
 
   onCreate() {
+    this.categoriesService.resetChipsSelectedElement();
     this.openMatDialog(null);
   }
 

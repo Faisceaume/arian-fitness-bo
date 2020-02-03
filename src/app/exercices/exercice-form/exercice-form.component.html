@@ -17,7 +17,7 @@
           <input matInput placeholder="Numéro" formControlName="numero" type="number" required>
         </mat-form-field>
 
-        <mat-form-field fxFlex="90">
+        <mat-form-field fxFlex="80">
           <input matInput placeholder="Nom de l'exercice" formControlName="nom" required>
         </mat-form-field>
 
@@ -25,20 +25,44 @@
           <input matInput placeholder="Durée (min)" formControlName="duree">
         </mat-form-field>
 
-        <mat-form-field fxFlex="90">
-          <input matInput placeholder="Descriptif" formControlName="descriptif">
+        <mat-form-field fxFlex="20">
+          <input matInput placeholder="Consigne Courte" formControlName="consignecourte" required>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="80">
+          <input matInput placeholder="Consigne Longue" formControlName="consignelongue" required>
         </mat-form-field>
 
         <div fxLayout="row" fxFlex="100">
           <div fxFlex="100" fxLayout="column">
             <div>
+              <label class="dark-chip"> Genre :</label>
+              <mat-radio-group color="warn" formControlName="genre">
+                <mat-radio-button value="H" class="span-radio-button">
+                  Homme
+                </mat-radio-button>
+                <mat-radio-button value="F" class="span-radio-button">
+                  Femme
+                </mat-radio-button>
+                <mat-radio-button value="H&F" class="span-radio-button">
+                  Homme & Femme
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
               <label class="dark-chip"> Age :</label>
               <mat-radio-group color="warn" formControlName="age">
+                <mat-radio-button value="TOUT" class="span-radio-button">
+                  Tout âge
+                </mat-radio-button>
                 <mat-radio-button value="SUP20" class="span-radio-button">
-                  À partir de 20 ans
+                  > 20 ans
                 </mat-radio-button>
                 <mat-radio-button value="INF50" class="span-radio-button">
-                  Jusqu'à 49 ans
+                  < 50 ans
+                </mat-radio-button>
+                <mat-radio-button value="SUP20&INF50" class="span-radio-button">
+                  > 20 and & < 50 ans
                 </mat-radio-button>
               </mat-radio-group>
             </div>
@@ -53,23 +77,15 @@
                   </mat-radio-button>
               </mat-radio-group>
             </div>
-            <div>
+
+            <div class="regime">
               <label class="dark-chip"> Régime :</label>
-              <mat-radio-group color="warn" formControlName="regime">
-                <mat-radio-button value="concentrique" class="span-radio-button">
-                  Concentrique
-                </mat-radio-button>
-                <mat-radio-button value="pliométrique" class="span-radio-button">
-                  Pliométrique
-                </mat-radio-button>
-                <mat-radio-button value="isométrique" class="span-radio-button">
-                  Isométrique
-                </mat-radio-button>
-                <mat-radio-button value="excentrique" class="span-radio-button">
-                  Excentrique
-                </mat-radio-button>
-              </mat-radio-group>
+              <mat-checkbox
+              color="warn"
+              *ngFor="let regime of listes.listeRegimes"
+              (change)="onRegimeSelected($event, regime)">{{ regime }}</mat-checkbox    >
             </div>
+
             <div>
               <label class="dark-chip"> Senior :</label>
               <mat-radio-group color="warn" formControlName="senior">
@@ -102,19 +118,19 @@
               <label class="dark-chip"> Pathologie :</label>
               <mat-radio-group color="warn" formControlName="pathologie">
                 <mat-radio-button value="sans" class="span-radio-button">
-                  uniquement sans pathologie
+                  Uniquement sans pathologie
                 </mat-radio-button>
                 <mat-radio-button value="avec" class="span-radio-button">
-                  uniquement avec pathologies
+                  Uniquement avec pathologies
                 </mat-radio-button>
                 <mat-radio-button value="tous" class="span-radio-button">
-                  avec ou sans pathologie
+                  Avec ou sans pathologie
                 </mat-radio-button>
               </mat-radio-group>
             </div>
             <div>
-              <label class="dark-chip"> Niveau Maximum:</label>
-              <mat-radio-group color="warn" formControlName="niveaumax">
+              <label class="dark-chip"> Niveau :</label>
+              <mat-radio-group color="warn" formControlName="niveau">
                 <mat-radio-button *ngFor="let niveau of niveaux" [value]="niveau" class="span-radio-button">
                   N {{ niveau.acronyme }}
                 </mat-radio-button>
@@ -142,6 +158,12 @@
       <ng-template matStepLabel>ème étape</ng-template>
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Visibilité &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="visibility"></mat-slide-toggle>
+        </div>
 
         <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
           <label fxFlex="50" fxLayoutAlign="end start">Accès salle de sport &nbsp; </label>
@@ -189,7 +211,7 @@
 
         <mat-form-field fxFlex="100" *ngIf="retouraucalme.value">
           <mat-label>Nombre de Répétitions Retour au Calme</mat-label>
-          <mat-select formControlName="nbrerepetitionechauffement">
+          <mat-select formControlName="nbrerepetretourcalme">
             <mat-option *ngFor="let repetecalme of listes.nbrerepetretourcalme" matNativeControl [value]="repetecalme">
                 {{repetecalme}}
             </mat-option>
@@ -200,11 +222,11 @@
         <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
           <label fxFlex="50" fxLayoutAlign="end start">Fourchettes de Répétitions Précisées pour l'Exercice &nbsp; </label>
           <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
-            [formControl]="repetitionsexercice">
+            [formControl]="repetitionexercice">
           </mat-slide-toggle>
         </div>
 
-        <mat-form-field fxFlex="100" *ngIf="repetitionsexercice.value">
+        <mat-form-field fxFlex="100" *ngIf="repetitionexercice.value">
           <mat-label>Nombre de Répétitions Précisées pour l'exercice</mat-label>
           <mat-select formControlName="nbrerepetitionexercice">
             <mat-option *ngFor="let repetexo of listes.nbrerepetexercice" matNativeControl [value]="repetexo">
@@ -249,20 +271,21 @@
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
-        <mat-form-field fxFlex="50">
-          <input matInput placeholder="Consigne" formControlName="consigne">
-        </mat-form-field>
-
         <app-categories [noeud]="'exe_cat'"></app-categories>
 
         <section fxFlex="100" class="materiel">
-            <mat-label class="black">Gestion des matériels : </mat-label>
-          <mat-chip-list aria-label="Fish selection">
-            <mat-chip *ngFor="let materiel of materielsService.materielsSelected">{{ materiel.nom }}</mat-chip>
+          <mat-chip-list aria-label="Sélection de Matériels">
+            <mat-chip class="dark-chip">Matériels de l'exercice :</mat-chip>
+            <mat-chip *ngFor="let materiel of materielsService.materielsSelected">
+              {{ materiel.nom }}
+              <mat-icon (click)="removeMateriel(materiel)">close</mat-icon>
+            </mat-chip>
+            <mat-chip>
+              <button mat-icon-button (click)="openMatDialog()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </mat-chip>
           </mat-chip-list>
-          <button mat-icon-button (click)="openMatDialog()">
-            <mat-icon>add</mat-icon>
-          </button>
         </section>
 
       </div>

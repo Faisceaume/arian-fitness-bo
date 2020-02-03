@@ -1,11 +1,11 @@
 <div>
-    <form [formGroup]="questionnairesForm" (ngSubmit)="onAdd()" fxLayout="row" fxLayoutAlign="space-around">
-        <div>
-            <mat-form-field>
+    <form [formGroup]="questionnairesForm" (ngSubmit)="onAdd()" fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex="80">
+            <mat-form-field fxFlex>
                 <input matInput type="text" formControlName="name" placeholder="Nom du questionnaire">
             </mat-form-field>
         </div>
-        <div>
+        <div fxFlex="20">
             <button type="submit" [disabled]="questionnairesForm.invalid" mat-fab color="warn"><mat-icon>save</mat-icon> </button>
         </div>
     </form>

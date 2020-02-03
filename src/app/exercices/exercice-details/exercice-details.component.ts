@@ -9,6 +9,7 @@ import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { MaterielsSharedComponent } from 'src/app/shared/materiels-shared/materiels-shared.component';
 import { Materiel } from 'src/app/materiels/materiel';
+import { Listes } from 'src/app/shared/listes';
 
 @Component({
   selector: 'app-exercice-details',
@@ -20,10 +21,26 @@ export class ExerciceDetailsComponent implements OnInit {
   isLinear = false;
   formData: Exercice;
   niveaux: Niveau[];
+  niveauSelected: Niveau;
   toChangeNiveau: boolean;
+
+  regimeSelected: string[]  = [];
+  regimeNotSelected: string[] = [];
+  allRegime = new Listes().listeRegimes;
+  regimeUpdate: string[] = [];
   // toggle slide
   echauffementControl = new FormControl();
   accessalledesportControl = new FormControl();
+
+
+  // new section
+  visibility = new FormControl();
+  degressif = new FormControl();
+  visuel = new FormControl();
+  retouraucalme = new FormControl();
+  listes: Listes;
+  repetitionexercice = new FormControl();
+  showSeniotRepetList: boolean;
 
   constructor(private route: ActivatedRoute,
               private exercicesService: ExercicesService,
@@ -33,23 +50,54 @@ export class ExerciceDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.listes = new Listes();
     const id = this.route.snapshot.params.id;
     this.exercicesService.getSingleExercice(id).then((item: Exercice) => {
       this.formData = item;
+      this.niveauSelected = item.niveau;
+      this.regimeSelected = item.regime;
       this.materielsService.materielsSelected = this.formData.materiels;
+
       this.echauffementControl.setValue(item.echauffement);
       this.accessalledesportControl.setValue(item.accessalledesport);
+      this.repetitionexercice.setValue(item.repetitionexercice);
+      this.visibility.setValue(item.visibility);
+      this.degressif.setValue(item.degressif);
+      this.visuel.setValue(item.visuel);
+      this.retouraucalme.setValue(item.retouraucalme);
+
+      if (item.niveau) {
+        this.showSeniotRepetList = item.niveau.acronyme === 'S80+' ? true  : false;
+      }
+  }).then(() => {
+    this.allRegime.forEach(item => {
+      const index = this.regimeSelected.indexOf(item);
+      if (index < 0) {
+        this.regimeNotSelected.push(item);
+      }
     });
+  });
 
     this.niveauxService.getAllNiveaux();
     this.niveauxService.niveauxSubject.subscribe(data => {
-    this.niveaux = data;
-  });
+          this.niveaux = data;
+      });
+  }
+
+  removeMateriel(materiel: Materiel): void {
+    const list = this.materielsService.materielsSelected;
+    const index = list.findIndex(item => item.id === materiel.id);
+    if (index >= 0) {
+      list.splice(index, 1);
+    }
+    this.exercicesService.newUpdateVersion(this.formData, 'materiels', list);
   }
 
   updateFiel(attribut: string, value: any) {
     this.exercicesService.newUpdateVersion(this.formData, attribut, value);
+    if (attribut === 'niveau') {
+        this.showSeniotRepetList = value.acronyme === 'S80+' ? true : false;
+    }
   }
 
   onDelete(materiel: Materiel) {
@@ -64,4 +112,23 @@ export class ExerciceDetailsComponent implements OnInit {
     dialogConfig.data = {currentMateriel: this.formData};
     this.matDialog.open(MaterielsSharedComponent, dialogConfig);
   }
+
+  onUpdateRegime(event, item: string) {
+    if (event.checked) {
+      this.regimeSelected.push(item);
+      const index = this.regimeNotSelected.indexOf(item);
+      if (index >= 0) {
+        this.regimeNotSelected.splice(index, 1);
+      }
+
+    } else {
+      this.regimeNotSelected.push(item);
+      const index = this.regimeSelected.indexOf(item);
+      if (index >= 0) {
+        this.regimeSelected.splice(index, 1);
+      }
+    }
+    this.updateFiel('regime', this.regimeSelected);
+  }
+
 }

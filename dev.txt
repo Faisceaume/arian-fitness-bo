@@ -77,6 +77,62 @@ arian-fitness.appspot.com
 
 
 
+
+
+
+
+
+OK -> Consigne courte et longue
+OK -> (4 CAS DE FIGURES)Je dois pouvoir cocher « à partir de 20 ans » et « jusqu’à 49 ans » Je dois pouvoir ne saisir aucune tranche d’âge.
+OK -> Genre pour l'exercice à 3 état : H, F , H&F - par défault les deux
+
+
+CALL LOUNIS 1/2/20
+
+
+
+EXERCICES
+
+Je dois pouvoir cliquer plusieurs régimes de contraction, actuellement pas possible.
+Le niveau ne change pas dans la liste des exercices, malgré q’il ait été changé dans la première étape de modifications.
+
+Les exercices doivent être rattachés à un sexe, aussi il faudra vraisemblablement une règle (?) pour certains exercices, qui seront exclus de l’entraînement en SDS si l’utilisateur est un homme, mais inclus dans la SDS si c’est une femme.
+si je clique pour un exercice « Uniquement senior » et « uniquement pathologie » y’a-t-il un conflit?
+Si je clique sur niveau S80+, un utilisateur plus jeune, de niveau 2 et sujet à une pathologie sera-t-il concerné par l’exercice?
+Pour le nombre de répétions précisés, est-il possible d’avoir par défaut « 8 à 15 répétitions pour atteindre l’échec musculaire, la brûlure » (actuellement 45 secondes)
+Il me faudrait une fourchette « 8 à 15 répétitions » tout court, « sans l’échec la brûlure » pour les séniors et pour les autres.
+J’ai saisi un exercice sénior (le 7), mais je n’ai pas eu la liste des fourchettes de répétitions Séniors.
+PATHOLOGIE:
+-> Consigne courte et longue
+
+- revoir ergonomie pou rentrer les catégories de matériel, plusieurs bugs notables
+
+-> Pour le nombre de répétions précisés, est-il possible d’avoir par défaut « 8 à 15 répétitions pour atteindre l’échec musculaire, la brûlure » (actuellement 45 secondes)
+
+-> Je dois pouvoir cliquer plusieurs régimes de contraction, actuellement pas possible.
+-> Bug : Edition des niveaux d'exercice
+-> Il me faudrait une fourchette « 8 à 15 répétitions » tout court, « sans l’échec la brûlure » pour les séniors et pour les autres.
+-> J’ai saisi un exercice sénior (le 7), mais je n’ai pas eu la liste des fourchettes de répétitions Séniors.
+
+
+
+
+
+
+CALL LOUNIS 31/01
+
+OK - Liste matériel ordre alphabétique
+OK - Niveau plutot que Niveau maximum
+
+
+- Mettre l'icone visibility: boolean dans exercice
+
+
+- Update selection/déselection des catégories de matériel affiliées à un exercice
+- Bug : Doublement des pathologies ??? 2X Nuque -> supression d'une pathologie impossible
+
+
+
 - ERROR : Suppression de 3 matériel lors du chantier des catégories
 OK - Champs durée de l'exercice : ne pas mettre de 0 à l'ouverture du formulaire
 OK - Champs durée de l'exercice : ne pas mettre de 0 à l'ouverture du formulaire
@@ -92,20 +148,20 @@ OK - Champs "senior" à 3 états dans les exercies :
     - exercice pour tout le monde, tous les âges
 OK - Boolean pour les contraintes d'age (x2) : géré en string
 OK - Menu Check box pour "Regime de contraction" : Concentrique / Pliométrique / Isométrique / Excentrique
+OK - Envoyer toutes les listes de select du formulaire exercice à Lounis pour correction
+OK - Consigne : Text long
+OK - Catégories :
+  - pour la durée de la catégorie : menu select : 5 minutes / 7 minutes 30 / 10 minutes
+  - pour le temps de repos : menu select : 30 secondes / 60 secondes / 90 secondes / 120 secondes
+OK - Appliquer CATÉGORIE de Matériel && d'Exercices aux Pathologies
 
 
 
 
 CALL LOUNIS 28/01
-- Appliquer CATÉGORIE de Matériel aux Pathologies
-
-- Envoyer toutes les listes de select du formulaire exercice à Lounis pour correction
 
 
-- Consigne : Text area car champs long
-- Catégories :
-  - pour la durée de la catégorie : menu select : 5 minutes / 7 minutes 30 / 10 minutes
-  - pour le temps de repos : menu select : 30 secondes / 60 secondes / 90 secondes / 120 secondes
+- Conditions sur l'affichage des titres "Catégories" ne fonctionne pas.
 
 
 

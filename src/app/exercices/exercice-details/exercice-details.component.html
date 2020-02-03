@@ -8,185 +8,321 @@
 <mat-horizontal-stepper [linear]="isLinear" #stepper *ngIf="formData && niveaux">
 
   <mat-step>
-      <ng-template matStepLabel>1 ère Etape</ng-template>
+      <ng-template matStepLabel>ère étape</ng-template>
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
-        <mat-form-field fxFlex="22">
-          <input matInput [(ngModel)]="formData.numero"
-          (ngModelChange)="updateFiel('numero',formData.numero)"
-          placeholder="numero" required>
+        <mat-form-field fxFlex="10">
+          <input matInput placeholder="Numéro" type="number" required
+          [(ngModel)]="formData.numero"
+          (ngModelChange)="updateFiel('numero', formData.numero)">
         </mat-form-field>
 
-        <mat-form-field fxFlex="34">
-          <input matInput [(ngModel)]="formData.nom"
-          (ngModelChange)="updateFiel('nom',formData.nom)"
-          placeholder="nom" required>
+        <mat-form-field fxFlex="80">
+          <input matInput placeholder="Nom de l'exercice" required
+          [(ngModel)]="formData.nom"
+          (ngModelChange)="updateFiel('nom', formData.nom)">
         </mat-form-field>
 
-        <mat-form-field fxFlex="22">
-          <input matInput [(ngModel)]="formData.duree"
-          (ngModelChange)="updateFiel('duree',formData.duree)"
-          placeholder="duree (min)" required>
+        <mat-form-field fxFlex="10">
+          <input matInput placeholder="Durée (min)"
+          [(ngModel)]="formData.duree"
+          (ngModelChange)="updateFiel('duree', formData.duree)">
         </mat-form-field>
 
-        <mat-form-field fxFlex="22">
-          <input matInput [(ngModel)]="formData.position"
-          (ngModelChange)="updateFiel('position',formData.position)"
-          placeholder="position" required>
+        <mat-form-field fxFlex="20">
+          <input matInput placeholder="Consigne Courte"  required
+          [(ngModel)]="formData.consignecourte"
+          (ngModelChange)="updateFiel('consignecourte', formData.consignecourte)">
         </mat-form-field>
 
-        <mat-form-field fxFlex="50">
-          <input matInput [(ngModel)]="formData.descriptif"
-          (ngModelChange)="updateFiel('descriptif',formData.descriptif)"
-          placeholder="descriptif" required>
+        <mat-form-field fxFlex="80">
+          <input matInput placeholder="Consigne Longue"  required
+          [(ngModel)]="formData.consignelongue"
+          (ngModelChange)="updateFiel('consignelongue', formData.consignelongue)">
         </mat-form-field>
 
-        <mat-form-field fxFlex="50" *ngIf="toChangeNiveau">
-          <mat-label>Niveau</mat-label>
-          <mat-select
-          [(ngModel)]="formData.niveaumax"
-          (ngModelChange)="updateFiel('niveau',formData.niveaumax)"
-          required>
-            <mat-option *ngFor="let niveau of niveaux" [value]="niveau">
-              {{niveau.nom}}
+        <div fxLayout="row" fxFlex="100">
+          <div fxFlex="100" fxLayout="column">
+            <div>
+              <label class="dark-chip"> Age :</label>
+              <mat-radio-group color="warn"
+              [(ngModel)]="formData.age"
+              (ngModelChange)="updateFiel('age', formData.age)">
+                <mat-radio-button value="SUP20" class="span-radio-button">
+                  À partir de 20 ans
+                </mat-radio-button>
+                <mat-radio-button value="INF50" class="span-radio-button">
+                  Jusqu'à 49 ans
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div>
+              <label class="dark-chip"> Type :</label>
+              <mat-radio-group color="warn"
+              [(ngModel)]="formData.type"
+              (ngModelChange)="updateFiel('type', formData.type)">
+                  <mat-radio-button value="global" class="span-radio-button">
+                    Global
+                  </mat-radio-button>
+                  <mat-radio-button value="analytique" class="span-radio-button">
+                    Analytique
+                  </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="regime">
+              <label class="dark-chip"> Régime :</label>
+              <mat-checkbox checked="true"
+              color="warn"
+              *ngFor="let regime of regimeSelected;"
+              (change)="onUpdateRegime($event, regime)">{{ regime }}</mat-checkbox>
+              <mat-checkbox
+              color="warn"
+              *ngFor="let regime of regimeNotSelected"
+              (change)="onUpdateRegime($event, regime)">{{ regime }}</mat-checkbox>
+            </div>
+
+            <div>
+              <label class="dark-chip"> Senior :</label>
+              <mat-radio-group color="warn"
+              [(ngModel)]="formData.senior"
+              (ngModelChange)="updateFiel('senior', formData.senior)">
+                <mat-radio-button value="non" class="span-radio-button">
+                  Uniquement pour non senior
+                </mat-radio-button>
+                <mat-radio-button value="oui" class="span-radio-button">
+                  Uniquement pour senior
+                </mat-radio-button>
+                <mat-radio-button value="tous" class="span-radio-button">
+                  Pour toute personne
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div>
+              <label class="dark-chip"> Position :</label>
+              <mat-radio-group color="warn"
+              [(ngModel)]="formData.position"
+              (ngModelChange)="updateFiel('position', formData.position)">
+                <mat-radio-button value="debout" class="span-radio-button">
+                  Debout
+                </mat-radio-button>
+                <mat-radio-button value="coucheventre" class="span-radio-button">
+                  Couché sur le ventre
+                </mat-radio-button>
+                <mat-radio-button value="couchedos" class="span-radio-button">
+                  Couché sur le dos
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div>
+              <label class="dark-chip"> Pathologie :</label>
+              <mat-radio-group color="warn"
+              [(ngModel)]="formData.pathologie"
+              (ngModelChange)="updateFiel('pathologie', formData.pathologie)">
+                <mat-radio-button value="sans" class="span-radio-button">
+                  Uniquement sans pathologie
+                </mat-radio-button>
+                <mat-radio-button value="avec" class="span-radio-button">
+                  Uniquement avec pathologies
+                </mat-radio-button>
+                <mat-radio-button value="tous" class="span-radio-button">
+                  Avec ou sans pathologie
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div *ngIf="niveauSelected">
+              <label class="dark-chip"> Niveau : </label>
+              <span class="bulle-acro" *ngIf="!toChangeNiveau">N {{ formData.niveau.acronyme}} </span>
+
+              <button mat-icon-button (click)="toChangeNiveau = true" *ngIf="!toChangeNiveau">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-radio-group color="warn"
+              [(ngModel)]="formData.niveau"
+              (ngModelChange)="updateFiel('niveau', formData.niveau)"
+              *ngIf="toChangeNiveau">
+                <mat-radio-button *ngFor="let niveau of niveaux"
+                [value]="niveau" class="span-radio-button">
+                  N {{ niveau.acronyme }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div fxFlex="20" class="btnClass" fxLayoutAlign="end end">
+            <button mat-fab matStepperNext color="warn">
+              <mat-icon>navigate_next</mat-icon>
+            </button>
+          </div>
+
+        </div>
+      </div>
+  </mat-step>
+
+
+
+  <mat-step>
+      <ng-template matStepLabel>ème étape</ng-template>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Visibilité &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="visibility"
+            (change)="updateFiel('visibility', visibility.value)"></mat-slide-toggle>
+        </div>
+
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Accès salle de sport &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="accessalledesportControl"
+            (change)="updateFiel('accessalledesport', accessalledesportControl.value)"></mat-slide-toggle>
+        </div>
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Dégressif &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="degressif"
+            (change)="updateFiel('degressif', degressif.value)"></mat-slide-toggle>
+        </div>
+
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Visuel &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="visuel"
+            (change)="updateFiel('visuel', visuel.value)"></mat-slide-toggle>
+        </div>
+
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Echauffement &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="echauffementControl"
+            (change)="updateFiel('echauffement', echauffementControl.value)">
+          </mat-slide-toggle>
+        </div>
+
+        <mat-form-field fxFlex="100" *ngIf="echauffementControl.value">
+          <mat-label>Nombre de Répétitions Échauffement</mat-label>
+          <mat-select [(ngModel)]="formData.nbrerepetitionechauffement"
+          (ngModelChange)="updateFiel('nbrerepetitionechauffement', formData.nbrerepetitionechauffement)">
+            <mat-option *ngFor="let repetechauff of listes.nbrerepetechauffement" matNativeControl [value]="repetechauff">
+                {{repetechauff}}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
-        <section fxFlex="40" *ngIf="!toChangeNiveau" class="sectionNiveau">
-          <mat-label> Niveau : {{ formData.niveaumax.nom}} </mat-label>
-          <span matBadge="{{ formData.niveaumax.nombre }}" matBadgeOverlap="false"></span>
-          <button mat-button (click)="toChangeNiveau = true">
-            <mat-icon>close</mat-icon>
-          </button>
-        </section>
 
-        <section fxFlex="100">
-          <label class="dark-chip"> Type :</label>
-          <mat-radio-group color="warn"
-          [(ngModel)]="formData.type"
-          (ngModelChange)="updateFiel('type',formData.type)"
-          required>
-              <mat-radio-button value="global">
-                Global
-              </mat-radio-button>
-              <mat-radio-button value="analytique">
-                Analytique
-              </mat-radio-button>
-          </mat-radio-group>
-        </section>
-      </div>
-
-    <div class="btnClass">
-      <button mat-button matStepperNext>
-        <mat-icon>navigate_next</mat-icon>
-      </button>
-    </div>
-  </mat-step>
-
-  <mat-step>
-
-      <ng-template matStepLabel>2ème Etape</ng-template>
-
-      <div fxLayout="row wrap" fxLayoutAlign="start start">
-
-        <mat-form-field fxFlex="25">
-          <input matInput [(ngModel)]="formData.ageminimal"
-          (ngModelChange)="updateFiel('ageminimal',formData.ageminimal)"
-          placeholder="Age minimal" required>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="25">
-          <input matInput [(ngModel)]="formData.agemaximal"
-          (ngModelChange)="updateFiel('agemaximal',formData.agemaximal)"
-          placeholder="Age maximal"  required>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="25">
-          <input matInput [(ngModel)]="formData.nbrrepetitionsenior"
-          (ngModelChange)="updateFiel('nbrrepetitionsenior',formData.nbrrepetitionsenior)"
-          placeholder="nombre repetition senior"  required>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="25">
-          <input matInput [(ngModel)]="formData.nbrerepetitionechauffement"
-          (ngModelChange)="updateFiel('nbrerepetitionechauffement',formData.nbrerepetitionechauffement)"
-          placeholder="nombre repitition echauff"  required>
-        </mat-form-field>
-
-        <div fxLayout="row"  [ngStyle]="{'padding':'10px'}">
-          <div [ngStyle]="{'padding-right':'30px'}">
-            <label>Echauffement &nbsp; </label>
-            <mat-slide-toggle
-              color="warn"
-              [formControl]="echauffementControl"
-              (change)="updateFiel('echauffement',echauffementControl.value)">
-            </mat-slide-toggle>
-          </div >
-          <div [ngStyle]="{'padding-left':'20px'}">
-            <label>Accès salle de sport &nbsp; </label>
-            <mat-slide-toggle
-              color="warn"
-              [formControl]="accessalledesportControl"
-              (change)="updateFiel('accessalledesport',accessalledesportControl.value)"></mat-slide-toggle>
-          </div>
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Retour au calme &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="retouraucalme"
+            (change)="updateFiel('retouraucalme', retouraucalme.value)">
+          </mat-slide-toggle>
         </div>
 
+        <mat-form-field fxFlex="100" *ngIf="retouraucalme.value">
+          <mat-label>Nombre de Répétitions Retour au Calme</mat-label>
+          <mat-select [(ngModel)]="formData.nbrerepetretourcalme"
+          (ngModelChange)="updateFiel('nbrerepetretourcalme', formData.nbrerepetretourcalme)">
+            <mat-option *ngFor="let repetecalme of listes.nbrerepetretourcalme" matNativeControl [value]="repetecalme">
+                {{repetecalme}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Fourchettes de Répétitions Précisées pour l'Exercice &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="repetitionexercice"
+            (change)="updateFiel('repetitionexercice', repetitionexercice.value)">
+          </mat-slide-toggle>
+        </div>
+
+        <mat-form-field fxFlex="100" *ngIf="repetitionexercice.value">
+          <mat-label>Nombre de Répétitions Précisées pour l'exercice</mat-label>
+          <mat-select [(ngModel)]="formData.nbrerepetitionexercice"
+          (ngModelChange)="updateFiel('nbrerepetitionexercice', formData.nbrerepetitionexercice)">
+            <mat-option *ngFor="let repetexo of listes.nbrerepetexercice" matNativeControl [value]="repetexo">
+                {{repetexo}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+
+        <mat-form-field fxFlex="100" *ngIf="showSeniotRepetList">
+          <mat-label>Nombre de Répétitions Sénior</mat-label>
+          <mat-select [(ngModel)]="formData.nbrrepetitionsenior"
+          (ngModelChange)="updateFiel('nbrrepetitionsenior', formData.nbrrepetitionsenior)">
+            <mat-option *ngFor="let repetsenior of listes.nbrerepetsenior" matNativeControl [value]="repetsenior">
+                {{repetsenior}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
       </div>
 
-    <div class="btnClass">
-      <button mat-button matStepperPrevious>
-        <mat-icon>navigate_before</mat-icon>
-      </button>
-      <button mat-button matStepperNext>
-        <mat-icon>navigate_next</mat-icon>
-      </button>
+    <div fxLayout="row" fxFlex="100">
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="start end">
+        <button mat-icon-button matStepperPrevious color="black">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </div>
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="end start">
+        <button mat-fab matStepperNext color="warn">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </div>
     </div>
+
   </mat-step>
 
   <mat-step>
-      <ng-template matStepLabel>3ème Etape</ng-template>
+
+      <ng-template matStepLabel>ème étape</ng-template>
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
-
-        <mat-form-field fxFlex="50">
-          <input matInput [(ngModel)]="formData.regime"
-          (ngModelChange)="updateFiel('regime',formData.regime)"
-          placeholder="regime"  required>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="50">
-          <input matInput [(ngModel)]="formData.consigne"
-          (ngModelChange)="updateFiel('consigne',formData.consigne)"
-          placeholder="consigne"  required>
-        </mat-form-field>
-
-        <app-categories [noeud]="'exe_cat'"
-        [currentExercice]="formData"
-        [chipsSelectedInput]="formData.categories"></app-categories>
+        <app-categories
+          [ngStyle]="{'padding':'10px 0'}"
+          [noeud]="'exe_cat'"
+          [currentExercice]="formData"
+          [chipsSelectedInput]="formData.categories"></app-categories>
 
         <section fxFlex="100" class="materiel">
-            <mat-label class="black">Gestion des matériels : </mat-label>
-            <mat-chip-list aria-label="Fish selection">
-              <mat-chip *ngFor="let materiel of materielsService.materielsSelected">
-                {{ materiel.nom }}
-                <mat-icon (click)="onDelete(materiel)">cancel</mat-icon>
-              </mat-chip>
-            </mat-chip-list>
-            <button mat-icon-button (click)="openMatDialog()">
-              <mat-icon>add</mat-icon>
-            </button>
+          <mat-chip-list aria-label="Sélection de Matériels">
+            <mat-chip class="dark-chip">Matériels de l'exercice :</mat-chip>
+            <mat-chip *ngFor="let materiel of materielsService.materielsSelected">
+              {{ materiel.nom }}
+              <mat-icon (click)="removeMateriel(materiel)">close</mat-icon>
+            </mat-chip>
+            <mat-chip>
+              <button mat-icon-button (click)="openMatDialog()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </mat-chip>
+          </mat-chip-list>
         </section>
 
       </div>
 
-    <div class="btnClass">
-      <button mat-button matStepperPrevious>
-        <mat-icon>navigate_before</mat-icon>
-      </button>
-
+    <div fxLayout="row" fxFlex="100">
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="start end">
+        <button mat-icon-button matStepperPrevious color="black">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </div>
     </div>
+
   </mat-step>
 
 </mat-horizontal-stepper>

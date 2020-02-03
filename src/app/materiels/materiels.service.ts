@@ -33,7 +33,7 @@ export class MaterielsService {
   }
 
   getAllMateriels() {
-    this.firestore.collection('materiels')
+    this.firestore.collection('materiels', ref => ref.orderBy('nom'))
                   .snapshotChanges().subscribe( data => {
        this.materiels = data.map( e => {
         const anotherData = e.payload.doc.data() as Materiel;

@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Questionnaires } from './questionnaires';
 import { Subject } from 'rxjs';
 import { Questions } from './questions';
+import { ResolveEnd, Router } from '@angular/router';
 
 
 @Injectable({
@@ -19,12 +20,12 @@ export class QuestionnairesService {
   singleQuestion: Questions;
   singleQuestionSubject = new Subject<Questions>();
 
-  constructor(private db: AngularFirestore) { }
+  constructor(private db: AngularFirestore, private router: Router) { }
 
 
 
 
-  
+
   /*********************************************/
   /*********************************************/
   /************** EMIT SUBJECT ******************/
@@ -86,7 +87,9 @@ export class QuestionnairesService {
     batch.set(ref1, data);
     batch.set(ref2, data);
 
-    batch.commit().then(() => console.log('Questions crées avec succès'));
+    batch.commit().then(() => console.log('Question crée avec succès'));
+    this.router.navigate(['./../questionnaires' ]);
+
   }
 
 
