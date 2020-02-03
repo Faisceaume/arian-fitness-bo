@@ -49,17 +49,21 @@ export class ExerciceFormComponent implements OnInit {
     this.listes = new Listes();
 
     this.firstFormGroup = this.formBuilder.group({
+        age: ['SUP20'],
+        consignecourte: ['', Validators.required],
+        consignelongue: ['', Validators.required],
+        duree: [null],
+        genre: ['H&F', Validators.required],
+        niveau: [null, Validators.required],
         numero: [null, Validators.required],
         nom: ['', Validators.required],
-        type: ['global', Validators.required],
-        consigne: ['', Validators.required],
-        niveau: [null, Validators.required],
-        duree: [null],
-        position: ['debout'],
-        regime: ['concentrique'],
-        senior: ['non'],
         pathologie: ['sans'],
-        age: ['SUP20']
+        position: ['debout'],
+        regimecon: [],
+        regimeplio: [],
+        regimeexc: [],
+        senior: ['non'],
+        type: ['global', Validators.required],
       });
 
     this.secondFormGroup = this.formBuilder.group({

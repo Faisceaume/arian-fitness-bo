@@ -16,6 +16,7 @@ export class Listes {
   ];
 
   nbrerepetsenior = [
+    '8 à 15 répétitions',
     '15 à 20 répétitions',
     '10 à 15 répétitions',
     '6 à 15 par côté',
@@ -30,6 +31,7 @@ export class Listes {
   ];
 
   nbrerepetexercice = [
+    '8 à 15 répétitions',
     '8 à 15 répétitions pour atteindre la brûlure ou l’échec musculaire',
     '8 à 15 répétitions par côté pour atteindre la brûlure ou l’échec musculaire.',
     '5 à 12 répétitions ',

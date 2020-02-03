@@ -40,7 +40,7 @@ export class ExercicesService {
   }
 
   getAllExercices() {
-    this.firestore.collection('exercices')
+    this.firestore.collection('exercices', ref => ref.orderBy('numero'))
                   .snapshotChanges().subscribe( data => {
        this.exercices = data.map( e => {
         const anotherData = e.payload.doc.data() as Exercice;

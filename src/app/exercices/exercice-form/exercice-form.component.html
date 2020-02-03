@@ -17,7 +17,7 @@
           <input matInput placeholder="Numéro" formControlName="numero" type="number" required>
         </mat-form-field>
 
-        <mat-form-field fxFlex="90">
+        <mat-form-field fxFlex="80">
           <input matInput placeholder="Nom de l'exercice" formControlName="nom" required>
         </mat-form-field>
 
@@ -25,20 +25,44 @@
           <input matInput placeholder="Durée (min)" formControlName="duree">
         </mat-form-field>
 
-        <mat-form-field fxFlex="90">
-          <input matInput placeholder="Consigne" formControlName="consigne" required>
+        <mat-form-field fxFlex="20">
+          <input matInput placeholder="Consigne Courte" formControlName="consignecourte" required>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="80">
+          <input matInput placeholder="Consigne Longue" formControlName="consignelongue" required>
         </mat-form-field>
 
         <div fxLayout="row" fxFlex="100">
           <div fxFlex="100" fxLayout="column">
             <div>
+              <label class="dark-chip"> Genre :</label>
+              <mat-radio-group color="warn" formControlName="genre">
+                <mat-radio-button value="H" class="span-radio-button">
+                  Homme
+                </mat-radio-button>
+                <mat-radio-button value="F" class="span-radio-button">
+                  Femme
+                </mat-radio-button>
+                <mat-radio-button value="H&F" class="span-radio-button">
+                  Homme & Femme
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
               <label class="dark-chip"> Age :</label>
               <mat-radio-group color="warn" formControlName="age">
+                <mat-radio-button value="TOUT" class="span-radio-button">
+                  Tout âge
+                </mat-radio-button>
                 <mat-radio-button value="SUP20" class="span-radio-button">
-                  À partir de 20 ans
+                  > 20 ans
                 </mat-radio-button>
                 <mat-radio-button value="INF50" class="span-radio-button">
-                  Jusqu'à 49 ans
+                  < 50 ans
+                </mat-radio-button>
+                <mat-radio-button value="SUP20&INF50" class="span-radio-button">
+                  > 20 and & < 50 ans
                 </mat-radio-button>
               </mat-radio-group>
             </div>
@@ -55,7 +79,13 @@
             </div>
             <div>
               <label class="dark-chip"> Régime :</label>
-              <mat-radio-group color="warn" formControlName="regime">
+              <mat-checkbox formControlName="regimecon">Concentrique</mat-checkbox>
+              <mat-checkbox formControlName="regimeplio">Pliométrique</mat-checkbox>
+              <mat-checkbox formControlName="regimeiso">Isométrique</mat-checkbox>
+              <mat-checkbox formControlName="regimeexc">Excentrique</mat-checkbox>
+
+
+              <!-- <mat-radio-group color="warn" formControlName="regime">
                 <mat-radio-button value="concentrique" class="span-radio-button">
                   Concentrique
                 </mat-radio-button>
@@ -68,7 +98,7 @@
                 <mat-radio-button value="excentrique" class="span-radio-button">
                   Excentrique
                 </mat-radio-button>
-              </mat-radio-group>
+              </mat-radio-group> -->
             </div>
             <div>
               <label class="dark-chip"> Senior :</label>

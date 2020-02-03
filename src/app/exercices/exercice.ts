@@ -6,10 +6,12 @@ export class Exercice {
   accessalledesport: boolean;
   age: string;
   categories: Categorie[];
-  consigne: string;
+  consignecourte: string;
+  consignelongue: string;
   duree: number;
   degressif: boolean;
   echauffement: boolean;
+  genre: string;
   id: string;
   materiels: Materiel[];
   nbrerepetitionechauffement: number;
