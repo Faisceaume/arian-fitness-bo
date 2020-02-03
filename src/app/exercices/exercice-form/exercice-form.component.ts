@@ -62,6 +62,7 @@ export class ExerciceFormComponent implements OnInit {
         regimecon: [],
         regimeplio: [],
         regimeexc: [],
+        regimeiso: [],
         senior: ['non'],
         type: ['global', Validators.required],
       });
