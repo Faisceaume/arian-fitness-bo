@@ -7,6 +7,8 @@ import { Questions } from '../questions';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
+import * as firebase from 'firebase';
+
 @Component({
   selector: 'app-questions',
   templateUrl: './questions.component.html',
@@ -36,7 +38,6 @@ export class QuestionsComponent implements OnInit {
     this.questionnairesService.questionnairesListSubject.subscribe(data => {
       this.questionnairesList = data;
     });
-
   }
 
 
@@ -109,10 +110,26 @@ export class QuestionsComponent implements OnInit {
     const idQuestionnaire = this.dataSource.data[prevIndex].idOfQuestionnaire;
     const idPrevIndex = this.dataSource.data[prevIndex].id;
     const idCurrentIndex = this.dataSource.data[event.currentIndex].id;
+    const prev = prevIndex + 1;
+    const current = event.currentIndex + 1;
+    const length = this.dataSource.data.length;
     moveItemInArray(event.container.data, prevIndex, event.currentIndex);
-    console.log(event);
-    this.questionnairesService.updateOrdreField(idQuestionnaire, idPrevIndex, event.currentIndex + 1);
-    this.questionnairesService.updateOrdreField(idQuestionnaire, idCurrentIndex, prevIndex + 1);
+
+    if ( prev > current ) {
+      for(let i = current; i < length; i++) {
+        const idCurrent = this.dataSource.data[i].id;
+        this.questionnairesService.updateOrdreField(idQuestionnaire, idCurrent, i + 1);
+      }
+      this.questionnairesService.updateOrdreField(idQuestionnaire, idPrevIndex, event.currentIndex + 1);
+    } else if ( prev < current ) {
+      console.log(prev, current);
+      for (let i = prev-1; i < current - 1; i++) {
+        const idCurrent = this.dataSource.data[i].id;
+        this.questionnairesService.updateOrdreField(idQuestionnaire, idCurrent, i + 1);
+      }
+      this.questionnairesService.updateOrdreField(idQuestionnaire, idPrevIndex, event.currentIndex + 1);
+    } else { 
+    }
     this.dataSource.data = this.dataDrag = event.container.data;
   }
 }
