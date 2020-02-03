@@ -35,6 +35,7 @@ export class ExerciceFormComponent implements OnInit {
   visibility = new FormControl();
   showSeniotRepetList = false;
   listes: Listes;
+  regimeSelected: string[]  = [];
 
   constructor(private exercicesService: ExercicesService,
               private formBuilder: FormBuilder,
@@ -49,17 +50,19 @@ export class ExerciceFormComponent implements OnInit {
     this.listes = new Listes();
 
     this.firstFormGroup = this.formBuilder.group({
+        age: ['SUP20'],
+        consignecourte: ['', Validators.required],
+        consignelongue: ['', Validators.required],
+        duree: [null],
+        genre: ['H&F', Validators.required],
+        niveau: [null, Validators.required],
         numero: [null, Validators.required],
         nom: ['', Validators.required],
-        type: ['global', Validators.required],
-        consigne: ['', Validators.required],
-        niveau: [null, Validators.required],
-        duree: [null],
-        position: ['debout'],
-        regime: ['concentrique'],
-        senior: ['non'],
         pathologie: ['sans'],
-        age: ['SUP20']
+        position: ['debout'],
+        regime: [],
+        senior: ['non'],
+        type: ['global', Validators.required],
       });
 
     this.secondFormGroup = this.formBuilder.group({
@@ -70,7 +73,7 @@ export class ExerciceFormComponent implements OnInit {
         echauffement: [false],
         nbrerepetitionechauffement: [0],
         nbrrepetitionsenior: [0],
-        nbrerepetitionexercice: [0],
+        nbrerepetitionexercice: [this.listes.nbrerepetexercice[1]],
         repetitionexercice: [false, Validators.required],
         nbrerepetretourcalme: ['2 minutes', Validators.required],
         retouraucalme: [false, Validators.required],
@@ -97,6 +100,8 @@ export class ExerciceFormComponent implements OnInit {
       ...this.secondFormGroup.value,
       ...this.thirdFormGroup.value,
     } as Exercice;
+
+    this.formData.regime = this.regimeSelected;
 
     if (this.echauffementControl.value) {
       this.formData.echauffement = this.echauffementControl.value;
@@ -148,6 +153,17 @@ export class ExerciceFormComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';
     this.matDialog.open(MaterielsSharedComponent, dialogConfig);
+  }
+
+  onRegimeSelected(event, item: string) {
+    if (event.checked) {
+      this.regimeSelected.push(item);
+    } else {
+      const index = this.regimeSelected.indexOf(item);
+      if (index >= 0 ) {
+        this.regimeSelected.splice(index, 1);
+      }
+    }
   }
 
 }

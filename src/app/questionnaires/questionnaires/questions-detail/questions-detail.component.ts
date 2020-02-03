@@ -31,11 +31,9 @@ export class QuestionsDetailComponent implements OnInit {
       this.questionForm = this.formBuilder.group({
         question: [this.questionSingle.question, Validators.required],
         reponses: this.formBuilder.array(this.questionSingle.reponses, Validators.required),
-        ordre: [this.questionSingle.ordre, Validators.required],
         active: [this.questionSingle.active, Validators.required]
       });
       this.isDisplayed = true;
-
     });
   }
 
@@ -48,6 +46,7 @@ export class QuestionsDetailComponent implements OnInit {
     data.id = this.questionSingle.id;
     data.idOfQuestionnaire = this.questionSingle.idOfQuestionnaire;
     data.timestamp = new Date().getTime();
+    data.ordre = this.questionSingle.ordre;
     console.log(data);
     this.questionnairesService.updateQuestion(data);
     this.route.navigate(['/questionnaires']);

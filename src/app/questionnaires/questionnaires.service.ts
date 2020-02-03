@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { Questions } from './questions';
 import { ResolveEnd, Router } from '@angular/router';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +21,10 @@ export class QuestionnairesService {
   singleQuestionSubject = new Subject<Questions>();
 
   constructor(private db: AngularFirestore, private router: Router) { }
+
+
+
+
 
   /*********************************************/
   /*********************************************/
@@ -37,6 +42,9 @@ export class QuestionnairesService {
   emitSingleQuestionSubject() {
     this.singleQuestionSubject.next( this.singleQuestion );
   }
+
+
+
 
 
 
@@ -85,6 +93,10 @@ export class QuestionnairesService {
   }
 
 
+
+
+
+
   /*********************************************/
   /*********************************************/
   /******************* GET *********************/
@@ -122,6 +134,10 @@ export class QuestionnairesService {
       this.emitSingleQuestionSubject();
     });
   }
+
+
+
+
 
 
   /*********************************************/
@@ -177,6 +193,9 @@ export class QuestionnairesService {
     batch.commit().then(() => console.log('Update field ordre success'));
 
   }
+
+
+
 
 
   /*********************************************/
