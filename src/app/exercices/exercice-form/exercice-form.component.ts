@@ -53,7 +53,6 @@ export class ExerciceFormComponent implements OnInit {
         age: ['SUP20'],
         consignecourte: ['', Validators.required],
         consignelongue: ['', Validators.required],
-        duree: [null],
         genre: ['H&F', Validators.required],
         niveau: [null, Validators.required],
         numero: [null, Validators.required],

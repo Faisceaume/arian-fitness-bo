@@ -8,7 +8,6 @@ export class Exercice {
   categories: Categorie[];
   consignecourte: string;
   consignelongue: string;
-  duree: number;
   degressif: boolean;
   echauffement: boolean;
   genre: string;
