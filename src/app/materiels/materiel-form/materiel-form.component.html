@@ -18,26 +18,27 @@
           name="nom" #nom="ngModel" [(ngModel)]="formData.nom" id="nom" required>
       </mat-form-field>
 
-      <div fxLayout="row wrap" [ngStyle]="{'padding':'10px'}">
-        <div>
-          <label>Poste Fixe </label>
-          <mat-slide-toggle color="warn"
-            [formControl]="posteFixeControl">
-          </mat-slide-toggle>
-        </div>
-        <div [ngStyle]="{'padding-left':'30px'}">
-          <label>Visibilité </label>
-          <mat-slide-toggle color="warn"
-            [formControl]="visibilityControl">
-          </mat-slide-toggle>
-        </div>
+      <div [ngStyle]="{'padding':'10px 15px 20px'}">
+        <label [ngStyle]="{'padding-right':'10px'}">Visibilité </label>
+        <mat-slide-toggle color="warn"
+          [formControl]="visibilityControl">
+        </mat-slide-toggle>
       </div>
 
-      <button mat-fab type="submit" color="warn"
-        [ngStyle]="{'margin':'10px'}"
-			  [disabled]="!form1.form.valid">
-			  <mat-icon>save</mat-icon>
-		  </button>
+      <div fxLayout="row">
+
+        <button mat-fab type="button" color="black"
+          [ngStyle]="{'margin':'10px 5px 10px 10px'}"
+          (click)="goBack()">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+
+        <button mat-fab type="submit" color="warn"
+          [ngStyle]="{'margin':'10px 0 10px 5px'}"
+          [disabled]="!form1.form.valid">
+          <mat-icon>save</mat-icon>
+        </button>
+      </div>
 
     </div>
   </form>

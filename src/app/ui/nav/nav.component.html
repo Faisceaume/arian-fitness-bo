@@ -6,29 +6,36 @@
   <mat-icon>menu</mat-icon>
 </button>
 
-
-<mat-menu #menu="matMenu" yPosition="below" xPosition="before">
+<mat-menu #menu="matMenu" yPosition="below" xPosition="before" class="indide-menu">
 
   <button mat-menu-item routerLink="./home">
+    <mat-icon>home</mat-icon>
     <span>Accueil</span>
   </button>
-  <button mat-menu-item routerLink="./materiels">
-    <span>Matériels</span>
-  </button>
   <button mat-menu-item routerLink="./exercices">
+    <mat-icon>explicit</mat-icon>
     <span>Excercices</span>
   </button>
+  <button mat-menu-item routerLink="./materiels">
+    <mat-icon>fitness_center</mat-icon>
+    <span>Matériels</span>
+  </button>
   <button mat-menu-item routerLink="./objectifs">
+    <mat-icon>assignment</mat-icon>
     <span>Objectifs</span>
   </button>
-  <button mat-menu-item routerLink="./pathologies">
-    <span>Pathologies</span>
-  </button>
   <button mat-menu-item routerLink="./niveaux">
+    <mat-icon>bookmarks</mat-icon>
     <span>Niveaux</span>
   </button>
+  <button mat-menu-item routerLink="./pathologies">
+    <mat-icon>healing</mat-icon>
+    <span>Pathologies</span>
+  </button>
   <button mat-menu-item routerLink="./questionnaires">
+      <mat-icon>question_answer</mat-icon>
     <span>Questionnaires</span>
+
   </button>
 
   <mat-divider></mat-divider>
@@ -36,7 +43,7 @@
   <!-- *ngIf="auth.user | async as user; else login" -->
   <button  mat-menu-item (click)="logout()">
     <mat-icon>power_settings_new</mat-icon>
-    <span>Log out</span>
+    <span>Sign out</span>
   </button>
   <ng-template #login>
     <button mat-menu-item  routerLink ='/login'>

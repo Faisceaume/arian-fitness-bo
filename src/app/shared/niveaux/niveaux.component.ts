@@ -12,8 +12,8 @@ import { NiveauxCrudComponent } from './niveaux-crud/niveaux-crud.component';
 export class NiveauxComponent implements OnInit {
 
   niveaux: Niveau[];
-  displayedColumns: string[] = ['nom', 'date', 'nombre', 'repetitionexercice',
-                               'nbrsemaine', 'nbrsemainemodereprise', 'action'];
+  displayedColumns: string[] = ['nom', 'acronyme', 'nombre', 'repetitionexercice',
+                               'nbrsemaine', 'action'];
   dataSource: MatTableDataSource<Niveau>;
 
   constructor(private niveauxService: NiveauxService, private matDialog: MatDialog) { }
@@ -30,6 +30,9 @@ export class NiveauxComponent implements OnInit {
   }
 
   onDelete(niveau: Niveau) {
+    if (confirm('Confirmer la suppression ?')) {
+      this.niveauxService.deleteNiveau(niveau);
+    }
   }
 
   onCreate() {

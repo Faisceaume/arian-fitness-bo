@@ -1,1 +1,65 @@
-<p>niveaux-crud works!</p>
+<div>
+
+  <div fxLayout="row">
+    <div  fxFlex="80" fxLayoutAlign="start start">
+      <h2 *ngIf="toCreate" class="h2-modal">Ajouter une nouveau niveau</h2>
+      <h2 *ngIf="!toCreate" class="h2-modal">Editer le niveau</h2>
+    </div>
+    <div  fxFlex="20" fxLayoutAlign="end start">
+      <button mat-icon-button class="button-right-modal"
+        (click)="closeDialog()" type="button">
+          <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <form #form="ngForm" autocomplete="off" (ngSubmit)="onSubmit()">
+
+    <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+      <mat-form-field fxFlex="80">
+        <input matInput placeholder="Nom du niveau" type="text" name="nom"
+        [(ngModel)]="formData.nom"
+        (ngModelChange)="updateField('nom', formData.nom)" required>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="20">
+        <input matInput placeholder="Acronyme" type="text" name="acronyme" maxlength="4"
+        [(ngModel)]="formData.acronyme"
+        (ngModelChange)="updateField('acronyme', formData.acronyme)" required>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="33">
+        <input matInput placeholder="Nombre/Ordre du niveau" type="number" name="nombre"
+        [(ngModel)]="formData.nombre"
+        (ngModelChange)="updateField('nombre', formData.nombre)" required>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="33">
+        <input matInput placeholder="Nombre de semaines" type="number" name="nbrsemaine"
+        [(ngModel)]="formData.nbrsemaine"
+        (ngModelChange)="updateField('nbrsemaine', formData.nbrsemaine)" required>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="33">
+        <mat-label>Répétition des exercices</mat-label>
+        <select matNativeControl required
+          [(ngModel)]="formData.repetitionexercice" name="repetitionexercice"
+          (ngModelChange)="updateField('repetitionexercice', formData.repetitionexercice)">
+            <option value="10-20">10 à 20 répétitions</option>
+            <option value="06-20">6 à 20 répétitions</option>
+            <option value="05-25">5 à 25 répétitions</option>
+            <option value="15-20">15 à 20 répétitions</option>
+        </select>
+      </mat-form-field>
+
+      <button mat-fab
+        *ngIf="toCreate" color="warn" type="submit"
+        [ngStyle]="{'margin':'10px'}"
+			  [disabled]="!form.valid">
+			    <mat-icon>save</mat-icon>
+		  </button>
+
+    </div>
+  </form>
+</div>

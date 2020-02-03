@@ -1,25 +1,288 @@
-<div class="mattab" *ngIf="categories">
-      <form #form1="ngForm" autocomplete="off" (ngSubmit)="onSubmit()" class="text-center">
-        <div fxLayout="column" fxLayoutAlign="start center" class="divlog">
+<button mat-icon-button
+  routerLink="/exercices"
+  type="button"
+  class="button-right">
+    <mat-icon>close</mat-icon>
+</button>
 
-          <mat-form-field>
-            <input matInput placeholder="nom " type="text" name="nom"
-            #nom="ngModel" [(ngModel)]="formData.nom" id="nom" required>
-          </mat-form-field>
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
 
-          <mat-form-field class="example-full-width">
-            <textarea matInput placeholder="Description"
-            name="description" #description="ngModel"
-            rows="7"
-            [(ngModel)]="formData.description" required></textarea>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>ère étape</ng-template>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+        <mat-form-field fxFlex="10">
+          <input matInput placeholder="Numéro" formControlName="numero" type="number" required>
         </mat-form-field>
 
-        <app-categories [noeud]="'exerc_cat'"></app-categories>
+        <mat-form-field fxFlex="90">
+          <input matInput placeholder="Nom de l'exercice" formControlName="nom" required>
+        </mat-form-field>
 
-          <button mat-raised-button color="warn" type="submit" [disabled]="form1.invalid">Valider</button>
+        <mat-form-field fxFlex="10">
+          <input matInput placeholder="Durée (min)" formControlName="duree">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="90">
+          <input matInput placeholder="Descriptif" formControlName="descriptif">
+        </mat-form-field>
+
+        <div fxLayout="row" fxFlex="100">
+          <div fxFlex="100" fxLayout="column">
+            <div>
+              <label class="dark-chip"> Age :</label>
+              <mat-radio-group color="warn" formControlName="age">
+                <mat-radio-button value="SUP20" class="span-radio-button">
+                  À partir de 20 ans
+                </mat-radio-button>
+                <mat-radio-button value="INF50" class="span-radio-button">
+                  Jusqu'à 49 ans
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
+              <label class="dark-chip"> Type :</label>
+              <mat-radio-group color="warn" formControlName="type">
+                  <mat-radio-button value="global" class="span-radio-button">
+                    Global
+                  </mat-radio-button>
+                  <mat-radio-button value="analytique" class="span-radio-button">
+                    Analytique
+                  </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
+              <label class="dark-chip"> Régime :</label>
+              <mat-radio-group color="warn" formControlName="regime">
+                <mat-radio-button value="concentrique" class="span-radio-button">
+                  Concentrique
+                </mat-radio-button>
+                <mat-radio-button value="pliométrique" class="span-radio-button">
+                  Pliométrique
+                </mat-radio-button>
+                <mat-radio-button value="isométrique" class="span-radio-button">
+                  Isométrique
+                </mat-radio-button>
+                <mat-radio-button value="excentrique" class="span-radio-button">
+                  Excentrique
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
+              <label class="dark-chip"> Senior :</label>
+              <mat-radio-group color="warn" formControlName="senior">
+                <mat-radio-button value="non" class="span-radio-button">
+                  Uniquement pour non senior
+                </mat-radio-button>
+                <mat-radio-button value="oui" class="span-radio-button">
+                  Uniquement pour senior
+                </mat-radio-button>
+                <mat-radio-button value="tous" class="span-radio-button">
+                  Pour toute personne
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
+              <label class="dark-chip"> Position :</label>
+              <mat-radio-group color="warn" formControlName="position">
+                <mat-radio-button value="debout" class="span-radio-button">
+                  Debout
+                </mat-radio-button>
+                <mat-radio-button value="coucheventre" class="span-radio-button">
+                  Couché sur le ventre
+                </mat-radio-button>
+                <mat-radio-button value="couchedos" class="span-radio-button">
+                  Couché sur le dos
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
+              <label class="dark-chip"> Pathologie :</label>
+              <mat-radio-group color="warn" formControlName="pathologie">
+                <mat-radio-button value="sans" class="span-radio-button">
+                  uniquement sans pathologie
+                </mat-radio-button>
+                <mat-radio-button value="avec" class="span-radio-button">
+                  uniquement avec pathologies
+                </mat-radio-button>
+                <mat-radio-button value="tous" class="span-radio-button">
+                  avec ou sans pathologie
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
+              <label class="dark-chip"> Niveau Maximum:</label>
+              <mat-radio-group color="warn" formControlName="niveaumax">
+                <mat-radio-button *ngFor="let niveau of niveaux" [value]="niveau" class="span-radio-button">
+                  N {{ niveau.acronyme }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div fxFlex="20" class="btnClass" fxLayoutAlign="end end">
+            <button mat-fab matStepperNext color="warn" [disabled]="firstFormGroup.invalid">
+              <mat-icon>navigate_next</mat-icon>
+            </button>
+          </div>
+
         </div>
-      </form>
-      <button mat-icon-button color="accent" (click)="openMatDialog()">
-        <mat-icon>add</mat-icon>
-      </button>
-</div>
+      </div>
+    </form>
+  </mat-step>
+
+
+
+
+
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>ème étape</ng-template>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Accès salle de sport &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="accessalledesportControl"></mat-slide-toggle>
+        </div>
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Dégressif &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="degressif"></mat-slide-toggle>
+        </div>
+
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Visuel &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="visuel"></mat-slide-toggle>
+        </div>
+
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Echauffement &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="echauffementControl">
+          </mat-slide-toggle>
+        </div>
+
+        <mat-form-field fxFlex="100" *ngIf="echauffementControl.value">
+          <mat-label>Nombre de Répétitions Échauffement</mat-label>
+          <mat-select formControlName="nbrerepetitionechauffement">
+            <mat-option *ngFor="let repetechauff of listes.nbrerepetechauffement" matNativeControl [value]="repetechauff">
+                {{repetechauff}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Retour au calme &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="retouraucalme">
+          </mat-slide-toggle>
+        </div>
+
+        <mat-form-field fxFlex="100" *ngIf="retouraucalme.value">
+          <mat-label>Nombre de Répétitions Retour au Calme</mat-label>
+          <mat-select formControlName="nbrerepetitionechauffement">
+            <mat-option *ngFor="let repetecalme of listes.nbrerepetretourcalme" matNativeControl [value]="repetecalme">
+                {{repetecalme}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Fourchettes de Répétitions Précisées pour l'Exercice &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="repetitionsexercice">
+          </mat-slide-toggle>
+        </div>
+
+        <mat-form-field fxFlex="100" *ngIf="repetitionsexercice.value">
+          <mat-label>Nombre de Répétitions Précisées pour l'exercice</mat-label>
+          <mat-select formControlName="nbrerepetitionexercice">
+            <mat-option *ngFor="let repetexo of listes.nbrerepetexercice" matNativeControl [value]="repetexo">
+                {{repetexo}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+
+        <mat-form-field fxFlex="100" *ngIf="showSeniotRepetList">
+          <mat-label>Nombre de Répétitions Sénior</mat-label>
+          <mat-select formControlName="nbrrepetitionsenior">
+            <mat-option *ngFor="let repetsenior of listes.nbrerepetsenior" matNativeControl [value]="repetsenior">
+                {{repetsenior}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+      </div>
+    </form>
+
+    <div fxLayout="row" fxFlex="100">
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="start end">
+        <button mat-icon-button matStepperPrevious color="black">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </div>
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="end start">
+        <button mat-fab matStepperNext color="warn" [disabled]="secondFormGroup.invalid || firstFormGroup.invalid">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </div>
+    </div>
+
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup">
+    <form [formGroup]="thirdFormGroup">
+      <ng-template matStepLabel>ème étape</ng-template>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+        <mat-form-field fxFlex="50">
+          <input matInput placeholder="Consigne" formControlName="consigne">
+        </mat-form-field>
+
+        <app-categories [noeud]="'exe_cat'"></app-categories>
+
+        <section fxFlex="100" class="materiel">
+            <mat-label class="black">Gestion des matériels : </mat-label>
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip *ngFor="let materiel of materielsService.materielsSelected">{{ materiel.nom }}</mat-chip>
+          </mat-chip-list>
+          <button mat-icon-button (click)="openMatDialog()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </section>
+
+      </div>
+    </form>
+
+    <div fxLayout="row" fxFlex="100">
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="start end">
+        <button mat-icon-button matStepperPrevious color="black">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </div>
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="end start">
+        <button mat-fab matStepperNext color="warn" type="submit" (click)="onSubmit()"
+          [disabled]="firstFormGroup.invalid || secondFormGroup.invalid || thirdFormGroup.invalid">
+            <mat-icon>save</mat-icon>
+        </button>
+      </div>
+    </div>
+
+  </mat-step>
+
+</mat-horizontal-stepper>
+

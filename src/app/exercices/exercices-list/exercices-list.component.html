@@ -1,30 +1,117 @@
-<h3>Exercice Section</h3>
+<button mat-icon-button
+  routerLink="/exercices/exercice-form"
+  type="button"
+  class="button-right">
+    <mat-icon>add</mat-icon>
+</button>
 
-<button mat-raised-button color="warn" routerLink="/exercices/exercice-form">Create</button>
-<div class="container" fxLayout="row wrap" fxLayoutGap="3px"
-[ngStyle]="{ 'margin-top':'20px' }" *ngIf="allExercice">
+<div [ngStyle]="{'padding':'0 10px'}">
 
-  <mat-card class="example-card" *ngFor="let exercice of allExercice">
-      <mat-card-header>
-        <mat-card-title>{{ exercice.nom }} </mat-card-title>
-        <mat-card-subtitle>{{ exercice.timestamp | date: 'M/dd' }} </mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <p>
-          {{ exercice.description}}
-        </p>
-        <mat-list role="list">
-          <mat-list-item *ngFor="let item of exercice.categories">{{ item.nom }}</mat-list-item>
-        </mat-list>
+  <h2>Liste des Exercices</h2>
 
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-icon-button color="accent" [routerLink]="['/exercices', exercice.id]">
+  <table mat-table [dataSource]="dataSource" matSort [ngStyle]="{'box-shadow': 'none !important'}">
+
+    <!-- Numéro Column -->
+    <ng-container matColumnDef="numero">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> #</th>
+      <td mat-cell *matCellDef="let element"> {{element.numero}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="nom">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom</th>
+      <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+    </ng-container>
+
+    <!-- Durée Column -->
+    <ng-container matColumnDef="duree">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Durée</th>
+      <td mat-cell *matCellDef="let element"> {{element.duree}} </td>
+    </ng-container>
+
+    <!-- Age minimal Column -->
+    <ng-container matColumnDef="ageminimal">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Age min.</th>
+      <td mat-cell *matCellDef="let element"> {{element.ageminimal}} </td>
+    </ng-container>
+
+    <!-- Age maximal Column -->
+    <ng-container matColumnDef="agemaximal">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Age max.</th>
+      <td mat-cell *matCellDef="let element"> {{element.agemaximal}} </td>
+    </ng-container>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Position</th>
+      <td mat-cell *matCellDef="let element">
+        <!-- {{element.position}}  -->
+        <mat-icon class="icon-but" *ngIf="element.position=='coucheventre'" (click)="updateAnyField('debout','position', element)">airline_seat_flat</mat-icon>
+        <mat-icon class="icon-but" *ngIf="element.position=='debout'" (click)="updateAnyField('couchedos','position', element)">accessibility</mat-icon>
+        <mat-icon class="icon-but" *ngIf="element.position=='couchedos'" (click)="updateAnyField('coucheventre','position', element)">check</mat-icon>
+      </td>
+    </ng-container>
+
+    <!-- Type Column -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Type</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-icon class="icon-but" *ngIf="element.type=='global'" (click)="updateAnyField('analytique','type', element)">fingerprint</mat-icon>
+        <mat-icon class="icon-but" *ngIf="element.type=='analytique'" (click)="updateAnyField('global','type', element)">fiber_manual_record</mat-icon>
+      </td>
+    </ng-container>
+
+    <!-- Echauffement Column -->
+    <ng-container matColumnDef="echauffement">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Echauffement </th>
+      <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
+        <mat-icon class="icon-but" *ngIf="element.echauffement" (click)="updateField(true,'echauffement', element)">check</mat-icon>
+        <mat-icon class="icon-but" *ngIf="!element.echauffement" (click)="updateField(false,'echauffement', element)">close</mat-icon>
+      </td>
+    </ng-container>
+
+    <!-- Accès salle sport Column -->
+    <ng-container matColumnDef="accessalledesport">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Salle sport </th>
+      <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
+        <mat-icon class="icon-but" *ngIf="element.accessalledesport"
+                  (click)="updateField(true,'accessalledesport', element)">check</mat-icon>
+        <mat-icon class="icon-but" *ngIf="!element.accessalledesport"
+                  (click)="updateField(false,'accessalledesport', element)">close</mat-icon>
+      </td>
+    </ng-container>
+
+    <!-- Date Column -->
+    <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Timestamp</th>
+        <td mat-cell *matCellDef="let element" class="timestamp"> {{element.timestamp | date}} </td>
+    </ng-container>
+
+    <!-- Niveau Column -->
+    <ng-container matColumnDef="niveau">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Niveau</th>
+      <td mat-cell *matCellDef="let element">
+        <span class="bulle-acro">{{element.niveaumax.acronyme}}</span>
+      </td>
+    </ng-container>
+
+    <!-- action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+      <td mat-cell *matCellDef="let element" [ngStyle]="{'text-align':'right'}">
+        <button mat-icon-button [routerLink]="['/exercices', element.id]">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="accent" (click)="onDelete(exercice)">
+        <button mat-icon-button (click)="onDelete(element)">
           <mat-icon>delete</mat-icon>
         </button>
-      </mat-card-actions>
-  </mat-card>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
 </div>
+
+

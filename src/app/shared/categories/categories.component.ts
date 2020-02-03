@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent} from '@angular/material/chips';
 import { Categorie } from './categorie';
 import { CategoriesService } from './categories.service';
 import { Materiel } from 'src/app/materiels/materiel';
@@ -20,7 +19,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
 
   @Input() noeud: string;
-  @Input() chipsSelectedInput?: Categorie[];
+  @Input() chipsSelectedInput?: any;
   @Input() currentMateriel: Materiel;
   @Input() currentExercice: Exercice;
 
@@ -58,8 +57,6 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   addChip(item: Categorie) {
-    // this.chipsSelected[item.id] = item;
-    // console.log(this.chipsSelected);
     this.chipsSelected.push(item);
   }
 

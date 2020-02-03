@@ -11,6 +11,7 @@ export class MaterielsService {
 
   materiels: Materiel[];
   materielSubject = new Subject<any[]>();
+  materielsSelected: Materiel[] = [];
 
   constructor(private firestore: AngularFirestore,
               private router: Router) { }
@@ -73,4 +74,21 @@ export class MaterielsService {
     batch.commit().then(() => {
     }).catch((error) => { console.error('Error updzting document: ', error); });
   }
+
+
+  addMaterielSelected(item: Materiel) {
+    this.materielsSelected.push(item);
+  }
+
+  deleteMaterielSelected(item: Materiel) {
+    const index = this.materielsSelected.findIndex(it => it.id === item.id);
+    if (index >= 0) {
+      this.materielsSelected.splice(index, 1);
+    }
+  }
+
+  resetMaterielSelected() {
+    this.materielsSelected = [];
+  }
+
 }

@@ -1,11 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { Materiel } from '../materiel';
 import { FormControl } from '@angular/forms';
 import { MaterielsService } from '../materiels.service';
 import { Categorie } from 'src/app/shared/categories/categorie';
 import { CategoriesService } from 'src/app/shared/categories/categories.service';
-import { CategoriesCrudComponent } from 'src/app/shared/categories/categories-crud/categories-crud.component';
-import { MatDialogConfig, MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-materiel-form',
@@ -22,7 +21,7 @@ export class MaterielFormComponent implements OnInit {
   posteFixeControl = new FormControl();
   visibilityControl = new FormControl();
 
-  constructor(private materielsService: MaterielsService,
+  constructor(private location: Location, private materielsService: MaterielsService,
               public categoriesService: CategoriesService) { }
 
   ngOnInit() {
@@ -54,7 +53,9 @@ export class MaterielFormComponent implements OnInit {
     this.materielsService.createMateriel(this.formData);
   }
 
-
+  goBack(): void {
+    this.location.back();
+  }
 
 
 }
