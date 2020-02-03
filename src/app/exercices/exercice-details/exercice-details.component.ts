@@ -23,6 +23,11 @@ export class ExerciceDetailsComponent implements OnInit {
   niveaux: Niveau[];
   niveauSelected: Niveau;
   toChangeNiveau: boolean;
+
+  regimeSelected: string[]  = [];
+  regimeNotSelected: string[] = [];
+  allRegime = new Listes().listeRegimes;
+  regimeUpdate: string[] = [];
   // toggle slide
   echauffementControl = new FormControl();
   accessalledesportControl = new FormControl();
@@ -50,6 +55,7 @@ export class ExerciceDetailsComponent implements OnInit {
     this.exercicesService.getSingleExercice(id).then((item: Exercice) => {
       this.formData = item;
       this.niveauSelected = item.niveau;
+      this.regimeSelected = item.regime;
       this.materielsService.materielsSelected = this.formData.materiels;
 
       this.echauffementControl.setValue(item.echauffement);
@@ -60,13 +66,22 @@ export class ExerciceDetailsComponent implements OnInit {
       this.visuel.setValue(item.visuel);
       this.retouraucalme.setValue(item.retouraucalme);
 
-      this.showSeniotRepetList = item.niveau ? item.niveau.acronyme === 'S80+' ? true : false : false;
+      if (item.niveau) {
+        this.showSeniotRepetList = item.niveau.acronyme === 'S80+' ? true  : false;
+      }
+  }).then(() => {
+    this.allRegime.forEach(item => {
+      const index = this.regimeSelected.indexOf(item);
+      if (index < 0) {
+        this.regimeNotSelected.push(item);
+      }
+    });
+  });
 
-      this.niveauxService.getAllNiveaux();
-      this.niveauxService.niveauxSubject.subscribe(data => {
+    this.niveauxService.getAllNiveaux();
+    this.niveauxService.niveauxSubject.subscribe(data => {
           this.niveaux = data;
       });
-  });
   }
 
   removeMateriel(materiel: Materiel): void {
@@ -80,6 +95,9 @@ export class ExerciceDetailsComponent implements OnInit {
 
   updateFiel(attribut: string, value: any) {
     this.exercicesService.newUpdateVersion(this.formData, attribut, value);
+    if (attribut === 'niveau') {
+        this.showSeniotRepetList = value.acronyme === 'S80+' ? true : false;
+    }
   }
 
   onDelete(materiel: Materiel) {
@@ -94,4 +112,23 @@ export class ExerciceDetailsComponent implements OnInit {
     dialogConfig.data = {currentMateriel: this.formData};
     this.matDialog.open(MaterielsSharedComponent, dialogConfig);
   }
+
+  onUpdateRegime(event, item: string) {
+    if (event.checked) {
+      this.regimeSelected.push(item);
+      const index = this.regimeNotSelected.indexOf(item);
+      if (index >= 0) {
+        this.regimeNotSelected.splice(index, 1);
+      }
+
+    } else {
+      this.regimeNotSelected.push(item);
+      const index = this.regimeSelected.indexOf(item);
+      if (index >= 0) {
+        this.regimeSelected.splice(index, 1);
+      }
+    }
+    this.updateFiel('regime', this.regimeSelected);
+  }
+
 }

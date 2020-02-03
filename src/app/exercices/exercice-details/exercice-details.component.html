@@ -5,7 +5,7 @@
     <mat-icon>close</mat-icon>
 </button>
 
-<mat-horizontal-stepper [linear]="isLinear" #stepper *ngIf="formData">
+<mat-horizontal-stepper [linear]="isLinear" #stepper *ngIf="formData && niveaux">
 
   <mat-step>
       <ng-template matStepLabel>ère étape</ng-template>
@@ -18,7 +18,7 @@
           (ngModelChange)="updateFiel('numero', formData.numero)">
         </mat-form-field>
 
-        <mat-form-field fxFlex="90">
+        <mat-form-field fxFlex="80">
           <input matInput placeholder="Nom de l'exercice" required
           [(ngModel)]="formData.nom"
           (ngModelChange)="updateFiel('nom', formData.nom)">
@@ -30,10 +30,16 @@
           (ngModelChange)="updateFiel('duree', formData.duree)">
         </mat-form-field>
 
-        <mat-form-field fxFlex="90">
-          <input matInput placeholder="Consigne" required
-          [(ngModel)]="formData.consigne"
-          (ngModelChange)="updateFiel('consigne', formData.consigne)">
+        <mat-form-field fxFlex="20">
+          <input matInput placeholder="Consigne Courte"  required
+          [(ngModel)]="formData.consignecourte"
+          (ngModelChange)="updateFiel('consignecourte', formData.consignecourte)">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="80">
+          <input matInput placeholder="Consigne Longue"  required
+          [(ngModel)]="formData.consignelongue"
+          (ngModelChange)="updateFiel('consignelongue', formData.consignelongue)">
         </mat-form-field>
 
         <div fxLayout="row" fxFlex="100">
@@ -66,24 +72,16 @@
               </mat-radio-group>
             </div>
 
-            <div>
+            <div class="regime">
               <label class="dark-chip"> Régime :</label>
-              <mat-radio-group color="warn"
-              [(ngModel)]="formData.regime"
-              (ngModelChange)="updateFiel('regime', formData.regime)">
-                <mat-radio-button value="concentrique" class="span-radio-button">
-                  Concentrique
-                </mat-radio-button>
-                <mat-radio-button value="pliométrique" class="span-radio-button">
-                  Pliométrique
-                </mat-radio-button>
-                <mat-radio-button value="isométrique" class="span-radio-button">
-                  Isométrique
-                </mat-radio-button>
-                <mat-radio-button value="excentrique" class="span-radio-button">
-                  Excentrique
-                </mat-radio-button>
-              </mat-radio-group>
+              <mat-checkbox checked="true"
+              color="warn"
+              *ngFor="let regime of regimeSelected;"
+              (change)="onUpdateRegime($event, regime)">{{ regime }}</mat-checkbox>
+              <mat-checkbox
+              color="warn"
+              *ngFor="let regime of regimeNotSelected"
+              (change)="onUpdateRegime($event, regime)">{{ regime }}</mat-checkbox>
             </div>
 
             <div>
@@ -145,7 +143,7 @@
                 <mat-icon>close</mat-icon>
               </button>
               <mat-radio-group color="warn"
-              [(value)]="niveauSelected"
+              [(ngModel)]="formData.niveau"
               (ngModelChange)="updateFiel('niveau', formData.niveau)"
               *ngIf="toChangeNiveau">
                 <mat-radio-button *ngFor="let niveau of niveaux"

@@ -35,6 +35,7 @@ export class ExerciceFormComponent implements OnInit {
   visibility = new FormControl();
   showSeniotRepetList = false;
   listes: Listes;
+  regimeSelected: string[]  = [];
 
   constructor(private exercicesService: ExercicesService,
               private formBuilder: FormBuilder,
@@ -59,10 +60,7 @@ export class ExerciceFormComponent implements OnInit {
         nom: ['', Validators.required],
         pathologie: ['sans'],
         position: ['debout'],
-        regimecon: [],
-        regimeplio: [],
-        regimeexc: [],
-        regimeiso: [],
+        regime: [],
         senior: ['non'],
         type: ['global', Validators.required],
       });
@@ -75,7 +73,7 @@ export class ExerciceFormComponent implements OnInit {
         echauffement: [false],
         nbrerepetitionechauffement: [0],
         nbrrepetitionsenior: [0],
-        nbrerepetitionexercice: [0],
+        nbrerepetitionexercice: [this.listes.nbrerepetexercice[1]],
         repetitionexercice: [false, Validators.required],
         nbrerepetretourcalme: ['2 minutes', Validators.required],
         retouraucalme: [false, Validators.required],
@@ -102,6 +100,8 @@ export class ExerciceFormComponent implements OnInit {
       ...this.secondFormGroup.value,
       ...this.thirdFormGroup.value,
     } as Exercice;
+
+    this.formData.regime = this.regimeSelected;
 
     if (this.echauffementControl.value) {
       this.formData.echauffement = this.echauffementControl.value;
@@ -153,6 +153,17 @@ export class ExerciceFormComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';
     this.matDialog.open(MaterielsSharedComponent, dialogConfig);
+  }
+
+  onRegimeSelected(event, item: string) {
+    if (event.checked) {
+      this.regimeSelected.push(item);
+    } else {
+      const index = this.regimeSelected.indexOf(item);
+      if (index >= 0 ) {
+        this.regimeSelected.splice(index, 1);
+      }
+    }
   }
 
 }

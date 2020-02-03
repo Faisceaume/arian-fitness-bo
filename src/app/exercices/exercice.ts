@@ -23,7 +23,7 @@ export class Exercice {
   numero: number;
   pathologie: string;
   position: string;
-  regime: string;
+  regime: string[];
   repetitionexercice: boolean;
   retouraucalme: boolean;
   senior: string;

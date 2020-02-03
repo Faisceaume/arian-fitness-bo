@@ -77,29 +77,15 @@
                   </mat-radio-button>
               </mat-radio-group>
             </div>
-            <div>
+
+            <div class="regime">
               <label class="dark-chip"> Régime :</label>
-              <mat-checkbox formControlName="regimecon">Concentrique</mat-checkbox>
-              <mat-checkbox formControlName="regimeplio">Pliométrique</mat-checkbox>
-              <mat-checkbox formControlName="regimeiso">Isométrique</mat-checkbox>
-              <mat-checkbox formControlName="regimeexc">Excentrique</mat-checkbox>
-
-
-              <!-- <mat-radio-group color="warn" formControlName="regime">
-                <mat-radio-button value="concentrique" class="span-radio-button">
-                  Concentrique
-                </mat-radio-button>
-                <mat-radio-button value="pliométrique" class="span-radio-button">
-                  Pliométrique
-                </mat-radio-button>
-                <mat-radio-button value="isométrique" class="span-radio-button">
-                  Isométrique
-                </mat-radio-button>
-                <mat-radio-button value="excentrique" class="span-radio-button">
-                  Excentrique
-                </mat-radio-button>
-              </mat-radio-group> -->
+              <mat-checkbox
+              color="warn"
+              *ngFor="let regime of listes.listeRegimes"
+              (change)="onRegimeSelected($event, regime)">{{ regime }}</mat-checkbox    >
             </div>
+
             <div>
               <label class="dark-chip"> Senior :</label>
               <mat-radio-group color="warn" formControlName="senior">

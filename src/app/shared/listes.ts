@@ -56,5 +56,12 @@ export class Listes {
     '120 secondes'
   ];
 
+  listeRegimes = [
+    'Concentrique',
+    'Pliométrique',
+    'Isométrique',
+    'Excentrique'
+  ];
+
 
 }
