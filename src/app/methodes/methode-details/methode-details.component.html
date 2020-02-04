@@ -12,7 +12,7 @@
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
-        <mat-form-field fxFlex="80">
+        <mat-form-field fxFlex="60">
           <input matInput placeholder="Nom de la méthode" required
           [(ngModel)]="formData.nom"
           (ngModelChange)="onValueChange('nom', formData.nom)">
@@ -24,13 +24,7 @@
           (ngModelChange)="onValueChange('acronyme', formData.acronyme)">
         </mat-form-field>
 
-        <mat-form-field fxFlex="50">
-          <input matInput placeholder="Nbre série" type="text" required
-          [(ngModel)]="formData.nbrseries"
-          (ngModelChange)="onValueChange('nbrseries', formData.nbrseries)">
-        </mat-form-field>
-
-        <mat-form-field fxFlex="50">
+        <mat-form-field fxFlex="20">
           <input matInput placeholder="durée minimum (min)" type="text" required
           [(ngModel)]="formData.dureeminimum"
           (ngModelChange)="onValueChange('dureeminimum', formData.dureeminimum)">
@@ -134,6 +128,17 @@
             <mat-option *ngFor="let nombre of listes.listeNbrexercicesminimum"
             matNativeControl [value]="nombre"
             >
+                {{nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+          <mat-label>Nombre Série d'exercice</mat-label>
+          <mat-select [(ngModel)]="formData.nbrseries"
+          (ngModelChange)="onValueChange('nbrseries', formData.nbrseries)">
+            <mat-option *ngFor="let nombre of listes.listeNbrexparserie"
+            matNativeControl [value]="nombre">
                 {{nombre}}
             </mat-option>
           </mat-select>

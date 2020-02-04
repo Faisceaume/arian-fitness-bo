@@ -1,4 +1,5 @@
 import { Niveau } from '../shared/niveaux/niveau';
+import { Series } from '../shared/series';
 
 export class Methode {
   id: string; // id
@@ -17,6 +18,8 @@ export class Methode {
   senior: boolean;
   global: boolean;
   ordreexercicemodifiable: boolean;
+  custom: boolean;
 
+  serieexercice?: Series[];
   timestamp: string;
 }

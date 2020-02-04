@@ -45,7 +45,11 @@ export class CategoriesComponent implements OnInit, OnDestroy {
               private matDialog: MatDialog) { }
 
   ngOnInit() {
-    this.categoriesService.getAllCategories(this.noeud);
+    if (this.noeud) {
+      this.categoriesService.getAllCategories(this.noeud);
+    } else {
+      this.categoriesService.getAllCategories('exe_cat');
+    }
     this.categoriesService.categorieSubject.subscribe(data => {
       this.categories = data;
       if (this.chipsSelectedInput) {
@@ -119,6 +123,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
               this.chipsSelected) :
             this.pathologiesService.newUpdateVersion(this.currentPathologie, 'materielsCategorie',
               this.chipsSelected);
+        } else if (this.categoriesService.index >= 0) {
+          this.categoriesService.listeOfSeries[this.categoriesService.index].categories = this.chipsSelected;
         }
         this.categoriesService.setChipsSelectedForOperationValue(this.chipsSelected);
   }
@@ -127,7 +133,12 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';
-    dialogConfig.data = this.noeud;
+    if (this.noeud) {
+      dialogConfig.data = this.noeud;
+    } else {
+      dialogConfig.data = 'exe_cat';
+    }
+
     this.matDialog.open(CategoriesCrudComponent, dialogConfig);
   }
 

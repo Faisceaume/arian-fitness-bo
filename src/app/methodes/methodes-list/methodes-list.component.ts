@@ -36,7 +36,9 @@ dataSource: MatTableDataSource<Methode>;
   }
 
   onDelete(element: Methode) {
-    this.methodesService.deleteMethode(element);
+    if (confirm('confirmer la suppression ?')) {
+      this.methodesService.deleteMethode(element);
+    }
   }
 
   updateAnyField(value: string, attribut: string, element: Methode) {
