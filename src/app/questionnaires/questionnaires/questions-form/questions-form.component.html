@@ -20,11 +20,11 @@
             <mat-slide-toggle formControlName="active" color="warn"></mat-slide-toggle>
           </div>
           <div fxFlex="50" [ngStyle]="{'padding':'10px 0'}">
-            <button mat-button color="black"
-              (click)="onAddReponse(); $event.preventDefault();">
-                <mat-icon>add</mat-icon>
-                Ajouter une réponse
-            </button>
+              <button mat-button color="black"
+                (click)="onAddReponse(); $event.preventDefault();">
+                  <mat-icon>add</mat-icon>
+                  Ajouter une réponse
+              </button>
           </div>
         </div>
 
@@ -41,6 +41,7 @@
               <button type="button" mat-button (click)="removeReponse(i)"><mat-icon>delete</mat-icon></button>
             </div>
           </div>
+          
         </div>
 
         <div [ngStyle]="{'padding':'10px'}">

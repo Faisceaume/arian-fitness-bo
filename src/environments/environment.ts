@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  firebaseConfig : {
+  firebaseConfig: {
     apiKey: 'AIzaSyCX4If627Xrx1wSIdogAsgrSHjNeawAsyw',
     authDomain: 'arian-fitness-dev.firebaseapp.com',
     databaseURL: 'https://arian-fitness-dev.firebaseio.com',
