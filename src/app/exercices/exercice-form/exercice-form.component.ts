@@ -51,7 +51,7 @@ export class ExerciceFormComponent implements OnInit {
 
     this.firstFormGroup = this.formBuilder.group({
         age: ['SUP20'],
-        consignecourte: ['', Validators.required],
+        consignecourte: [''],
         consignelongue: ['', Validators.required],
         duree: [null],
         genre: ['H&F', Validators.required],

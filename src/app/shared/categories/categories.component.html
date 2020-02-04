@@ -3,7 +3,10 @@
   <mat-chip
     *ngFor="let cat of categories"
     [selectable]="selectable"
-    [ngStyle]="{'background-color': !cat.selected ? '#fff' : ''}"
+    [ngStyle]="{
+                  'color': cat.selected ? '#FFF' : '',
+                  'background-color': cat.selected ? '#000' : ''
+                }"
     (click)="selectMe(cat)">
       <span class="cercle-acro">{{ cat.acronyme }} </span> : {{cat.nom}}
   </mat-chip>

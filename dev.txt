@@ -79,6 +79,14 @@ arian-fitness.appspot.com
 
 
 
+CALL LOUNIS 3/2
+
+- Affiliation des catégories aux patthologies : probleme avec le système actuel
+- Enlever la date de la vue liste des pathologies
+- Enlever le champs durée des exercices
+- Revalider tous les champs entre exercice-form et exercice-details
+- mettre ordre alaphabétique pour les catégories d'exercices
+
 
 
 
