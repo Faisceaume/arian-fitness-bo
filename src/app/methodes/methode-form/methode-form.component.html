@@ -1,0 +1,137 @@
+<button mat-icon-button
+  routerLink="/methodes"
+  type="button"
+  class="button-right">
+    <mat-icon>close</mat-icon>
+</button>
+
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>ère étape</ng-template>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+        <mat-form-field fxFlex="80">
+          <input matInput placeholder="Nom de la méthode" formControlName="nom" required>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="20">
+          <input matInput placeholder="Acronyme" formControlName="acronyme" type="text" required>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50">
+          <input matInput placeholder="Nbre série" formControlName="nbrseries" type="text" required>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50">
+          <input matInput placeholder="durée minimum (min)" formControlName="dureeminimum" type="text" required>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+          <input matInput placeholder="Consigne" formControlName="consigne" required>
+        </mat-form-field>
+
+
+        <div fxLayout="row" fxFlex="100">
+          <div fxFlex="100" fxLayout="column">
+
+            <div>
+              <label class="dark-chip"> Orientation :</label>
+              <mat-radio-group color="warn" formControlName="orientation">
+                <mat-radio-button value="renforcement" class="span-radio-button">
+                  Renforcement
+                </mat-radio-button>
+                <mat-radio-button value="cardio" class="span-radio-button">
+                  Cardio
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div>
+              <label class="dark-chip"> Niveau :</label>
+              <mat-radio-group color="warn" formControlName="niveau">
+                <mat-radio-button *ngFor="let niveau of niveaux" [value]="niveau" class="span-radio-button">
+                  N {{ niveau.acronyme }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div fxFlex="20" class="btnClass" fxLayoutAlign="end end">
+            <button mat-fab matStepperNext color="warn" [disabled]="firstFormGroup.invalid">
+              <mat-icon>navigate_next</mat-icon>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>ème étape</ng-template>
+
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Senior &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="seniorControl"></mat-slide-toggle>
+        </div>
+
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Ordre exercice modifiable &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="ordreexercicemodifiableControl"></mat-slide-toggle>
+        </div>
+
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Global &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="globalControl"></mat-slide-toggle>
+        </div>
+
+        <mat-form-field fxFlex="100">
+          <mat-label>Exparserie</mat-label>
+          <mat-select formControlName="nbrexparserie">
+            <mat-option *ngFor="let nombre of listes.listeNbrexparserie"
+            matNativeControl [value]="nombre">
+                {{nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+          <mat-label>Exercice Minimum</mat-label>
+          <mat-select formControlName="nbrexercicesminimum">
+            <mat-option *ngFor="let nombre of listes.listeNbrexercicesminimum"
+            matNativeControl [value]="nombre">
+                {{nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </form>
+
+    <div fxLayout="row" fxFlex="100">
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="start end">
+        <button mat-icon-button matStepperPrevious color="black">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </div>
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="end start">
+        <button mat-fab matStepperNext color="warn" type="submit" (click)="onSubmit()"
+          [disabled]="firstFormGroup.invalid || secondFormGroup.invalid">
+            <mat-icon>save</mat-icon>
+        </button>
+      </div>
+    </div>
+
+  </mat-step>
+
+</mat-horizontal-stepper>
+

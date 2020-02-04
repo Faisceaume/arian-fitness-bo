@@ -35,7 +35,7 @@ export class CategoriesService {
   }
 
   getAllCategories(noeud: string) {
-    this.firestore.collection(noeud)
+    this.firestore.collection(noeud, ref => ref.orderBy('nom'))
                   .snapshotChanges().subscribe( data => {
        this.categories = data.map( e => {
         const anotherData = e.payload.doc.data() as Categorie;

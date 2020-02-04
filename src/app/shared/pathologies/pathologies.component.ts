@@ -13,7 +13,7 @@ import { CategoriesService } from '../categories/categories.service';
 export class PathologiesComponent implements OnInit {
 
   pathologies: Pathologie[];
-  displayedColumns: string[] = ['nom', 'date', 'acronyme', 'mat_cat', 'exe_cat', 'action'];
+  displayedColumns: string[] = ['nom', 'acronyme', 'mat_cat', 'exe_cat', 'action'];
   dataSource: MatTableDataSource<Pathologie>;
 
   constructor(private pathologiesService: PathologiesService,

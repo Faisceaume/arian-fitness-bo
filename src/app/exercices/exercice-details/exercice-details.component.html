@@ -12,7 +12,7 @@
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
-        <mat-form-field fxFlex="10">
+        <mat-form-field fxFlex="20">
           <input matInput placeholder="Numéro" type="number" required
           [(ngModel)]="formData.numero"
           (ngModelChange)="updateFiel('numero', formData.numero)">
@@ -22,12 +22,6 @@
           <input matInput placeholder="Nom de l'exercice" required
           [(ngModel)]="formData.nom"
           (ngModelChange)="updateFiel('nom', formData.nom)">
-        </mat-form-field>
-
-        <mat-form-field fxFlex="10">
-          <input matInput placeholder="Durée (min)"
-          [(ngModel)]="formData.duree"
-          (ngModelChange)="updateFiel('duree', formData.duree)">
         </mat-form-field>
 
         <mat-form-field fxFlex="20">
@@ -44,6 +38,22 @@
 
         <div fxLayout="row" fxFlex="100">
           <div fxFlex="100" fxLayout="column">
+            <div>
+              <label class="dark-chip"> Genre :</label>
+              <mat-radio-group color="warn"
+              [(ngModel)]="formData.genre"
+              (ngModelChange)="updateFiel('genre', formData.genre)">
+                <mat-radio-button value="H" class="span-radio-button">
+                  Homme
+                </mat-radio-button>
+                <mat-radio-button value="F" class="span-radio-button">
+                  Femme
+                </mat-radio-button>
+                <mat-radio-button value="H&F" class="span-radio-button">
+                  Homme & Femme
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
             <div>
               <label class="dark-chip"> Age :</label>
               <mat-radio-group color="warn"
