@@ -1,0 +1,90 @@
+<button mat-icon-button
+  routerLink="/methodes/methode-form"
+  type="button"
+  class="button-right">
+    <mat-icon>add</mat-icon>
+</button>
+
+<div [ngStyle]="{'padding':'0 10px'}">
+
+  <h2>Liste des Methodes</h2>
+
+  <table mat-table [dataSource]="dataSource" matSort [ngStyle]="{'box-shadow': 'none !important'}">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="nom">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom</th>
+      <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+    </ng-container>
+
+    <!-- Numéro Column -->
+    <ng-container matColumnDef="acronyme">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Acronyme</th>
+      <td mat-cell *matCellDef="let element"> {{element.acronyme}} </td>
+    </ng-container>
+
+    <!-- Type Column -->
+    <ng-container matColumnDef="orientation">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Orientation</th>
+      <td mat-cell *matCellDef="let element">
+        <label *ngIf="element.orientation=='renforcement'" (click)="updateAnyField('cardio','orientation', element)">Renforcement</label>
+        <label *ngIf="element.orientation=='cardio'" (click)="updateAnyField('renforcement','orientation', element)">Cardio</label>
+      </td>
+    </ng-container>
+
+    <!-- Date Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date</th>
+      <td mat-cell *matCellDef="let element" class="timestamp"> {{element.timestamp | date:'d/MM' }} </td>
+    </ng-container>
+
+    <!-- Durée Column -->
+    <ng-container matColumnDef="dureeminimum">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Duree minimum</th>
+      <td mat-cell *matCellDef="let element"> {{element.dureeminimum}} </td>
+    </ng-container>
+
+    <!-- Echauffement Column -->
+    <ng-container matColumnDef="senior">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Senior </th>
+      <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
+        <mat-icon class="icon-but" *ngIf="element.senior" (click)="updateField(true,'senior', element)">check</mat-icon>
+        <mat-icon class="icon-but" *ngIf="!element.senior" (click)="updateField(false,'senior', element)">close</mat-icon>
+      </td>
+    </ng-container>
+
+    <!-- Echauffement Column -->
+    <ng-container matColumnDef="global">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Global </th>
+      <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
+        <mat-icon class="icon-but" *ngIf="element.global" (click)="updateField(true,'global', element)">check</mat-icon>
+        <mat-icon class="icon-but" *ngIf="!element.global" (click)="updateField(false,'global', element)">close</mat-icon>
+      </td>
+    </ng-container>
+
+    <!-- Niveau Column -->
+    <ng-container matColumnDef="niveau">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Niveau</th>
+      <td mat-cell *matCellDef="let element">
+        <span class="bulle-acro" *ngIf="element.niveau">N {{element.niveau.acronyme}}</span>
+      </td>
+    </ng-container>
+
+    <!-- action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+      <td mat-cell *matCellDef="let element" [ngStyle]="{'text-align':'right'}">
+        <button mat-icon-button [routerLink]="['/methodes', element.id]">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="onDelete(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+</div>
