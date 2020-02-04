@@ -31,6 +31,13 @@
 
         <div fxLayout="row" fxFlex="100">
           <div fxFlex="100" fxLayout="column">
+            <div class="regime">
+              <label class="dark-chip"> Régime :</label>
+              <mat-checkbox
+              color="warn"
+              *ngFor="let regime of listes.listeRegimes"
+              (change)="onRegimeSelected($event, regime)">{{ regime }}</mat-checkbox    >
+            </div>
             <div>
               <label class="dark-chip"> Genre :</label>
               <mat-radio-group color="warn" formControlName="genre">
@@ -72,14 +79,6 @@
                     Analytique
                   </mat-radio-button>
               </mat-radio-group>
-            </div>
-
-            <div class="regime">
-              <label class="dark-chip"> Régime :</label>
-              <mat-checkbox
-              color="warn"
-              *ngFor="let regime of listes.listeRegimes"
-              (change)="onRegimeSelected($event, regime)">{{ regime }}</mat-checkbox    >
             </div>
 
             <div>
