@@ -3,8 +3,7 @@ import { Categorie } from './categorie';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Materiel } from 'src/app/materiels/materiel';
-import { PathologiesService } from '../pathologies/pathologies.service';
+import { Series } from '../series';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +16,10 @@ export class CategoriesService {
 
   matCatChipsSelected: Categorie[] = [ ];
   exeCatChipsSelected: Categorie[] = [ ];
+
+  // section de series des exercices
+  listeOfSeries: Series[] = [];
+  index: number;
 
   constructor(private firestore: AngularFirestore,
               private router: Router) { }
@@ -142,6 +145,19 @@ export class CategoriesService {
     batch.delete(nextDocument1);
     batch.commit().then(() => {
     }).catch((error) => { console.error('Error updating document: ', error); });
+  }
+
+
+  // Gestion des series d'exercice
+  initialiseListeOfSeries(nombreElement: number) {
+    this.listeOfSeries = [];
+    for (let index = 0; index < nombreElement; index++) {
+      this.listeOfSeries[index] = new Series();
+    }
+  }
+
+  setIndexValue(item: number) {
+    this.index = item;
   }
 
 }
