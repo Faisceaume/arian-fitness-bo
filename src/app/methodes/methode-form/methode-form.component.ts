@@ -24,7 +24,6 @@ export class MethodeFormComponent implements OnInit {
   seniorControl = new FormControl();
   ordreexercicemodifiableControl = new FormControl();
   globalControl = new FormControl();
-  customControl = new FormControl();
   niveaux: Niveau[];
   listes: Listes;
 
@@ -77,9 +76,8 @@ export class MethodeFormComponent implements OnInit {
     this.formData.senior = this.seniorControl.value ? true : false;
     this.formData.ordreexercicemodifiable = this.ordreexercicemodifiableControl.value ? true : false;
     this.formData.global = this.globalControl.value ? true : false;
-    this.formData.custom = this.customControl.value ? true : false;
 
-    if (this.customControl.value) {
+    if (this.categoriesService.listeOfSeries.length > 0) {
       const serieexercice = this.categoriesService.listeOfSeries.map((obj) => {
         return Object.assign({}, obj);
       });

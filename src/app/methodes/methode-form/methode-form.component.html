@@ -92,14 +92,8 @@
             [formControl]="globalControl"></mat-slide-toggle>
         </div>
 
-        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
-          <label fxFlex="50" fxLayoutAlign="end start">Custom &nbsp; </label>
-          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
-            [formControl]="customControl"></mat-slide-toggle>
-        </div>
-
         <mat-form-field fxFlex="100">
-          <mat-label>Exparserie</mat-label>
+          <mat-label>Nombre d'exercices par sérieTapez un message</mat-label>
           <mat-select formControlName="nbrexparserie">
             <mat-option *ngFor="let nombre of listes.listeNbrexparserie"
             matNativeControl [value]="nombre">
@@ -109,7 +103,7 @@
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
-          <mat-label>Exercice Minimum</mat-label>
+          <mat-label>Nombre d'exercices minimumTapez un message</mat-label>
           <mat-select formControlName="nbrexercicesminimum">
             <mat-option *ngFor="let nombre of listes.listeNbrexercicesminimum"
             matNativeControl [value]="nombre">
@@ -118,7 +112,7 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100" *ngIf="customControl.value">
+        <mat-form-field fxFlex="100">
           <mat-label>Nombre Série d'exercice</mat-label>
           <mat-select formControlName="nbrseries">
             <mat-option *ngFor="let nombre of listes.listeNbrexparserie"
@@ -154,7 +148,14 @@
     *ngFor="let item of [].constructor(nbrdeserie); let i = index">
 
     <h3>Série d'exercice N°{{ i+1 }}</h3>
-    <mat-form-field fxFlex="100">
+
+    <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+      <label fxFlex="50" fxLayoutAlign="end start">Custom &nbsp; </label>
+      <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+      [(ngModel)]="categoriesService.listeOfSeries[i].custom"></mat-slide-toggle>
+    </div>
+
+    <mat-form-field fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].custom">
       <mat-label>Temps de travail</mat-label>
       <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].travail">
         <mat-option *ngFor="let nombre of listes.listeTemps"
@@ -164,7 +165,7 @@
       </mat-select>
     </mat-form-field>
 
-      <mat-form-field fxFlex="100">
+      <mat-form-field fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].custom">
         <mat-label>Temps de repos</mat-label>
         <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].repos">
           <mat-option *ngFor="let nombre of listes.listeTemps"
@@ -175,7 +176,7 @@
       </mat-form-field>
 
       <div fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}"
-      *ngIf="categoriesService.listeOfSeries[i].categories">
+      *ngIf="categoriesService.listeOfSeries[i].categories && categoriesService.listeOfSeries[i].custom">
         <div fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].categories.length!=0">
           <h4 class="h4-modal">Catégories d'exercices</h4>
           <mat-chip-list>
@@ -188,7 +189,9 @@
         </div>
       </div>
 
-      <button mat-icon-button type="button" (click)="fonction(i)">
+      <button mat-icon-button type="button"
+      *ngIf="categoriesService.listeOfSeries[i].custom"
+      (click)="fonction(i)">
         <mat-icon>add</mat-icon>
       </button>
     </div>

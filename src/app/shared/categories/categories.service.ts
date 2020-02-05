@@ -151,7 +151,7 @@ export class CategoriesService {
   // Gestion des series d'exercice
   initialiseListeOfSeries(nombreElement: number) {
     this.listeOfSeries = [];
-    for (let index = 0; index <= nombreElement; index++) {
+    for (let index = 0; index < nombreElement; index++) {
       this.listeOfSeries[index] = new Series();
     }
   }

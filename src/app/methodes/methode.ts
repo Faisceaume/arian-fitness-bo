@@ -18,7 +18,6 @@ export class Methode {
   senior: boolean;
   global: boolean;
   ordreexercicemodifiable: boolean;
-  custom: boolean;
 
   serieexercice?: Series[];
   timestamp: string;
