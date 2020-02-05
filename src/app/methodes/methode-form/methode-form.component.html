@@ -47,6 +47,21 @@
             </div>
 
             <div>
+              <label class="dark-chip"> Senior :</label>
+              <mat-radio-group color="warn" formControlName="senior">
+                <mat-radio-button value="uniquement" class="span-radio-button">
+                  Seniors uniquement
+                </mat-radio-button>
+                <mat-radio-button value="hors" class="span-radio-button">
+                  Pour les non-seniors
+                </mat-radio-button>
+                <mat-radio-button value="avec" class="span-radio-button">
+                  Pour tout le monde (seniors compris)
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div>
               <label class="dark-chip"> Niveau :</label>
               <mat-radio-group color="warn" formControlName="niveau">
                 <mat-radio-button *ngFor="let niveau of niveaux" [value]="niveau" class="span-radio-button">
@@ -74,26 +89,20 @@
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
-        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
-          <label fxFlex="50" fxLayoutAlign="end start">Senior &nbsp; </label>
-          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
-            [formControl]="seniorControl"></mat-slide-toggle>
-        </div>
-
-        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+        <div fxFlex="50" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
           <label fxFlex="50" fxLayoutAlign="end start">Ordre exercice modifiable &nbsp; </label>
           <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
             [formControl]="ordreexercicemodifiableControl"></mat-slide-toggle>
         </div>
 
-        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+        <div fxFlex="50" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
           <label fxFlex="50" fxLayoutAlign="end start">Global &nbsp; </label>
           <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
             [formControl]="globalControl"></mat-slide-toggle>
         </div>
 
-        <mat-form-field fxFlex="100">
-          <mat-label>Nombre d'exercices par sérieTapez un message</mat-label>
+        <mat-form-field fxFlex="50">
+          <mat-label>Nombre d'exercices par série</mat-label>
           <mat-select formControlName="nbrexparserie">
             <mat-option *ngFor="let nombre of listes.listeNbrexparserie"
             matNativeControl [value]="nombre">
@@ -102,8 +111,8 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-          <mat-label>Nombre d'exercices minimumTapez un message</mat-label>
+        <mat-form-field fxFlex="50">
+          <mat-label>Nombre d'exercices minimum</mat-label>
           <mat-select formControlName="nbrexercicesminimum">
             <mat-option *ngFor="let nombre of listes.listeNbrexercicesminimum"
             matNativeControl [value]="nombre">
@@ -113,7 +122,7 @@
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
-          <mat-label>Nombre Série d'exercice</mat-label>
+          <mat-label>Nombre de séries d'exercices</mat-label>
           <mat-select formControlName="nbrseries">
             <mat-option *ngFor="let nombre of listes.listeNbrexparserie"
             matNativeControl [value]="nombre">
@@ -125,18 +134,21 @@
     </form>
 
     <div fxLayout="row" fxFlex="100">
+
       <div fxFlex="50" class="btnClass" fxLayoutAlign="start end">
         <button mat-icon-button matStepperPrevious color="black">
           <mat-icon>navigate_before</mat-icon>
         </button>
       </div>
-      <div fxFlex="50" class="btnClass" fxLayoutAlign="end start">
+
+
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="end end">
         <button mat-fab matStepperNext color="warn"
-        (click)="onSubmit()"
-        [disabled]="firstFormGroup.invalid || secondFormGroup.invalid">
-            <mat-icon>save</mat-icon>
+          [disabled]="firstFormGroup.invalid || secondFormGroup.invalid">
+          <mat-icon>navigate_next</mat-icon>
         </button>
       </div>
+
     </div>
 
   </mat-step>
@@ -147,15 +159,27 @@
     <div fxLayout="row wrap" fxLayoutAlign="center center"
     *ngFor="let item of [].constructor(nbrdeserie); let i = index">
 
-    <h3>Série d'exercice N°{{ i+1 }}</h3>
-
-    <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
-      <label fxFlex="50" fxLayoutAlign="end start">Custom &nbsp; </label>
-      <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
-      [(ngModel)]="categoriesService.listeOfSeries[i].custom"></mat-slide-toggle>
+    <div fxFlex="33" fxLayoutAlign="end start" [ngStyle]="{'padding':'10px 0'}">
+      <span class="bulle-acro" [ngStyle]="{'margin':'0 10px'}">{{ i+1 }}</span>
+      <span [ngStyle]="{'margin':'2px 10px 0'}">Série d'exercices n°{{ i+1 }} :</span>
     </div>
 
-    <mat-form-field fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].custom">
+    <div fxFlex="33" fxLayout="row" fxLayoutAlign="start start">
+      <label fxLayoutAlign="start start">Custom &nbsp; </label>
+      <mat-slide-toggle color="warn"
+        [(ngModel)]="categoriesService.listeOfSeries[i].custom"></mat-slide-toggle>
+    </div>
+
+    <div fxFlex="33">
+      <button mat-button type="button"
+        *ngIf="categoriesService.listeOfSeries[i].custom"
+        (click)="fonction(i)">
+          <mat-icon>add</mat-icon> Ajouter des catégories d'exercices à cette série
+      </button>
+    </div>
+
+
+    <mat-form-field fxFlex="50" *ngIf="categoriesService.listeOfSeries[i].custom">
       <mat-label>Temps de travail</mat-label>
       <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].travail">
         <mat-option *ngFor="let nombre of listes.listeTemps"
@@ -165,17 +189,17 @@
       </mat-select>
     </mat-form-field>
 
-      <mat-form-field fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].custom">
-        <mat-label>Temps de repos</mat-label>
-        <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].repos">
-          <mat-option *ngFor="let nombre of listes.listeTemps"
-          matNativeControl [value]="nombre">
-              {{nombre}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+    <mat-form-field fxFlex="50" *ngIf="categoriesService.listeOfSeries[i].custom">
+      <mat-label>Temps de repos</mat-label>
+      <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].repos">
+        <mat-option *ngFor="let nombre of listes.listeTemps"
+        matNativeControl [value]="nombre">
+            {{nombre}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-      <div fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}"
+    <div fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}"
       *ngIf="categoriesService.listeOfSeries[i].categories && categoriesService.listeOfSeries[i].custom">
         <div fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].categories.length!=0">
           <h4 class="h4-modal">Catégories d'exercices</h4>
@@ -187,14 +211,9 @@
             </mat-chip>
           </mat-chip-list>
         </div>
-      </div>
-
-      <button mat-icon-button type="button"
-      *ngIf="categoriesService.listeOfSeries[i].custom"
-      (click)="fonction(i)">
-        <mat-icon>add</mat-icon>
-      </button>
     </div>
+
+  </div>
 
     <div fxLayout="row" fxFlex="100">
       <div fxFlex="50" class="btnClass" fxLayoutAlign="start end">

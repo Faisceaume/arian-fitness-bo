@@ -46,6 +46,7 @@ export class MethodeFormComponent implements OnInit {
       consigne: ['', Validators.required],
       orientation: ['renforcement', Validators.required],
       niveau: ['', Validators.required],
+      senior : ['avec', Validators.required]
     });
 
     this.secondFormGroup = this.formBuilder.group({
