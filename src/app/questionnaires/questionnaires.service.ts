@@ -228,6 +228,8 @@ export class QuestionnairesService {
     batch.delete(ref1);
     batch.delete(ref2);
 
-    batch.commit().then(() => console.log('Suppression de la question ok'));
+    batch.commit().then(() => {
+      console.log('Suppression de la question ok');
+    });
   }
 }
