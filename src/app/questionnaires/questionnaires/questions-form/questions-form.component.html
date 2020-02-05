@@ -20,11 +20,11 @@
             <mat-slide-toggle formControlName="active" color="warn"></mat-slide-toggle>
           </div>
           <div fxFlex="50" [ngStyle]="{'padding':'10px 0'}">
-            <button mat-button color="black"
-              (click)="onAddReponse(); $event.preventDefault();">
-                <mat-icon>add</mat-icon>
-                Ajouter une réponse
-            </button>
+              <button mat-button color="black"
+                (click)="onAddReponse(); $event.preventDefault();">
+                  <mat-icon>add</mat-icon>
+                  Ajouter une réponse
+              </button>
           </div>
         </div>
 
@@ -32,14 +32,6 @@
 
 
         <div formArrayName="reponses" fxLayout="row wrap" [ngStyle]="{'padding':'10px'}">
-
-          <!-- <div fxFlex="100" [ngStyle]="{'padding':'10px 0'}">
-            <button mat-button color="black"
-              (click)="onAddReponse(); $event.preventDefault();">
-                <mat-icon>add</mat-icon>
-                Ajouter une réponse
-            </button>
-          </div> -->
 
           <div class="reponse" *ngFor="let reponse of getReponses().controls; let i = index;" fxLayout="column">
             <div fxFlex="100">
@@ -49,6 +41,7 @@
               <button type="button" mat-button (click)="removeReponse(i)"><mat-icon>delete</mat-icon></button>
             </div>
           </div>
+          
         </div>
 
         <div [ngStyle]="{'padding':'10px'}">

@@ -1,5 +1,6 @@
 import { Niveau } from '../shared/niveaux/niveau';
 import { Series } from '../shared/series';
+import { Objectif } from '../shared/objectifs/objectif';
 
 export class Methode {
   id: string; // id
@@ -15,10 +16,11 @@ export class Methode {
   nbrexparserie: number; // list entre 1 et 10
   nbrexercicesminimum: number; //  list entre 1 et 12
 
-  senior: boolean;
+  senior: string;
   global: boolean;
   ordreexercicemodifiable: boolean;
 
+  objectifs: Objectif[];
   serieexercice?: Series[];
   timestamp: string;
 }

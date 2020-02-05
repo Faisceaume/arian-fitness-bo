@@ -12,8 +12,8 @@ import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { environment } from '../environments/environment';
 // import { environment } from '../environments/environment.prod';
+import { environment } from '../environments/environment';
 
 import { AuthComponent } from './auth/auth.component';
 import { AccueilComponent } from './accueil/accueil.component';
