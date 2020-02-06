@@ -61,6 +61,8 @@ h4.h4-modal {
 .cercle-acro, .button-cercle {
   border: 1px solid #333;
   border-radius: 10px;
+  background-color: #FFF;
+  color: #000;
   margin: 0 5px;
   padding: 3px 5px;
   font-size: 0.9em;

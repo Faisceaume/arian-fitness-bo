@@ -34,7 +34,7 @@
             <div class="regime">
               <label class="dark-chip"> Régime :</label>
               <mat-checkbox
-              color="warn"
+              color="warn" class="span-radio-button"
               *ngFor="let regime of listes.listeRegimes"
               (change)="onRegimeSelected($event, regime)">{{ regime }}</mat-checkbox    >
             </div>
@@ -58,14 +58,14 @@
                 <mat-radio-button value="TOUT" class="span-radio-button">
                   Tout âge
                 </mat-radio-button>
-                <mat-radio-button value="SUP20" class="span-radio-button">
-                  > 20 ans
+                <mat-radio-button value="SUP19" class="span-radio-button">
+                  > 19 ans
                 </mat-radio-button>
                 <mat-radio-button value="INF50" class="span-radio-button">
                   < 50 ans
                 </mat-radio-button>
-                <mat-radio-button value="SUP20&INF50" class="span-radio-button">
-                  > 20 and & < 50 ans
+                <mat-radio-button value="SUP19&INF50" class="span-radio-button">
+                  > 19 & < 50 ans
                 </mat-radio-button>
               </mat-radio-group>
             </div>
