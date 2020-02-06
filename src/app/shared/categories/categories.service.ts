@@ -156,6 +156,10 @@ export class CategoriesService {
     }
   }
 
+  setListeOfSerie(liste: Series[]) {
+    this.listeOfSeries = liste;
+  }
+
   setIndexValue(item: number) {
     this.index = item;
   }

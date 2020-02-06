@@ -69,6 +69,20 @@
                 </mat-radio-button>
               </mat-radio-group>
             </div>
+
+            <div class="objectif">
+              <label class="dark-chip"> Objectifs :</label>
+              <mat-checkbox
+              color="warn"
+              *ngFor="let objectif of objectifs"
+              (change)="onObjectifSelected($event, objectif)"
+              checked="true">{{ objectif.nom }}</mat-checkbox>
+              <mat-checkbox
+              color="warn"
+              *ngFor="let objectif of objectifsNotSelected"
+              (change)="onObjectifSelected($event, objectif)"
+              >{{ objectif.nom }}</mat-checkbox>
+            </div>
           </div>
 
           <div fxFlex="20" class="btnClass" fxLayoutAlign="end end">

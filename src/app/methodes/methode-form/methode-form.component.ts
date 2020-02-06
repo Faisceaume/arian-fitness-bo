@@ -9,6 +9,8 @@ import { CategoriesService } from 'src/app/shared/categories/categories.service'
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { CategoriesComponent } from 'src/app/shared/categories/categories.component';
 import { Categorie } from 'src/app/shared/categories/categorie';
+import { Objectif } from 'src/app/shared/objectifs/objectif';
+import { ObjectifsService } from 'src/app/shared/objectifs/objectifs.service';
 
 @Component({
   selector: 'app-methode-form',
@@ -21,21 +23,23 @@ export class MethodeFormComponent implements OnInit {
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
-  seniorControl = new FormControl();
   ordreexercicemodifiableControl = new FormControl();
   globalControl = new FormControl();
   niveaux: Niveau[];
   listes: Listes;
+  objectifs: Objectif[];
+  objectifsSelected: Objectif[];
+  objectifsNotSelected: Objectif[] = [];
 
   // pour les séries d'exercice
   nbrdeserie: number;
-  // listeDesSeries: Series[] = [];
 
   constructor(private formBuilder: FormBuilder,
               private niveauxService: NiveauxService,
               private methodesService: MethodesService,
               public categoriesService: CategoriesService,
-              private matDialog: MatDialog) { }
+              private matDialog: MatDialog,
+              private objectifsService: ObjectifsService) { }
 
   ngOnInit() {
     this.listes = new Listes();
@@ -60,6 +64,12 @@ export class MethodeFormComponent implements OnInit {
       this.niveaux = data;
     });
 
+    this.objectifsService.getAllObjectifs();
+    this.objectifsService.objectifSubject.subscribe(data => {
+      this.objectifs = data;
+      this.objectifsSelected = data;
+    });
+
     this.secondFormGroup.get('nbrseries').valueChanges.subscribe((item: number) => {
       this.nbrdeserie = item;
       this.categoriesService.initialiseListeOfSeries(item);
@@ -74,7 +84,7 @@ export class MethodeFormComponent implements OnInit {
       ...this.secondFormGroup.value,
     } as Methode;
 
-    this.formData.senior = this.seniorControl.value ? true : false;
+    this.formData.objectifs = this.objectifsSelected;
     this.formData.ordreexercicemodifiable = this.ordreexercicemodifiableControl.value ? true : false;
     this.formData.global = this.globalControl.value ? true : false;
 
@@ -108,6 +118,22 @@ export class MethodeFormComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';
     this.matDialog.open(CategoriesComponent, dialogConfig);
+  }
+
+  onObjectifSelected(event, item: Objectif) {
+    if (event.checked) {
+      this.objectifsSelected.push(item);
+      const index = this.objectifsNotSelected.findIndex(it => it.id === item.id);
+      if (index >= 0 ) {
+        this.objectifsNotSelected.splice(index, 1);
+      }
+    } else {
+      this.objectifsNotSelected.push(item);
+      const index = this.objectifsSelected.findIndex(it => it.id === item.id);
+      if (index >= 0 ) {
+        this.objectifsSelected.splice(index, 1);
+      }
+    }
   }
 
 }
