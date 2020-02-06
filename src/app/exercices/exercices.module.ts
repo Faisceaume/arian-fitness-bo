@@ -5,11 +5,12 @@ import { ExerciceDetailsComponent } from './exercice-details/exercice-details.co
 import { ExercicesListComponent } from './exercices-list/exercices-list.component';
 import { ExercicesRoutingModule } from './exercices-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { ExercicesSeriesComponent } from './exercices-series/exercices-series.component';
 
 
 
 @NgModule({
-  declarations: [ExerciceFormComponent, ExerciceDetailsComponent, ExercicesListComponent],
+  declarations: [ExerciceFormComponent, ExerciceDetailsComponent, ExercicesListComponent, ExercicesSeriesComponent],
   imports: [
     SharedModule,
     CommonModule,
