@@ -69,4 +69,5 @@ mat-checkbox{
   padding: 10px;
   margin: 5px 0;
   -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;
+  border: 1px dotted #ccc;
 }

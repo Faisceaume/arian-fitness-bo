@@ -71,6 +71,8 @@ arian-fitness.appspot.com
 
 CALL LOUNIS 10/2
 
+- variable à trois états pour les méthodes : Heure de pointe / Hors heure de pointe / Toutes heures
+
 Dans la construction des séries customs dans les méthodes, on commence par définit
 1- le temps de repos
 2- le nombre d'exercice pour la série,
@@ -78,6 +80,7 @@ Dans la construction des séries customs dans les méthodes, on commence par dé
 
 Doit on également préciser l'ordre ?
 - Boolea, ordre modifiable propre à la série custom
+
 
 
 CALL LOUNIS 6/2
