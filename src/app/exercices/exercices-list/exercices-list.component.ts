@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
+import {MatPaginator} from '@angular/material/paginator';
 import { Exercice } from '../exercice';
 import { Subscription } from 'rxjs';
 import { ExercicesService } from '../exercices.service';
@@ -34,12 +35,14 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
   }
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
     this.exercicesService.getAllExercices();
     this.exerciceSubscription = this.exercicesService.exerciceSubject.subscribe(data => {
       this.dataSource = new MatTableDataSource<Exercice>(data);
       this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     });
   }
 
@@ -66,6 +69,11 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
     } else {
       this.exercicesService.newUpdateVersion(element, attribut, true);
     }
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   ngOnDestroy(): void {
