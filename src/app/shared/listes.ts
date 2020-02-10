@@ -5,8 +5,10 @@ export class Listes {
     '10',
     '15',
     '20',
+    '10 secondes',
     '15 secondes',
-    '10 secondes'
+    '30 secondes',
+    '30 secondes côté',
   ];
 
   nbrerepetretourcalme = [

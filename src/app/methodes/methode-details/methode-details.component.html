@@ -20,7 +20,7 @@
 
         <mat-form-field fxFlex="40">
           <input matInput placeholder="Acronyme" type="text" required
-          [(ngModel)]="formData.acronyme"
+          [(ngModel)]="formData.acronyme" maxlength="4"
           (ngModelChange)="onValueChange('acronyme', formData.acronyme)">
         </mat-form-field>
 
@@ -34,12 +34,6 @@
           </mat-select>
         </mat-form-field>
 
-
-        <mat-form-field fxFlex="100">
-          <input matInput placeholder="Consigne" required
-          [(ngModel)]="formData.consigne"
-          (ngModelChange)="onValueChange('consigne', formData.consigne)">
-        </mat-form-field>
 
         <div fxLayout="row" fxFlex="100">
           <div fxFlex="100" fxLayout="column">
@@ -111,15 +105,20 @@
   <mat-step>
       <ng-template matStepLabel>ème étape</ng-template>
 
-
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
-        <div fxFlex="50" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
-          <label fxFlex="50" fxLayoutAlign="end start">Global &nbsp; </label>
-          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxLayoutAlign="start start">Global &nbsp; </label>
+          <mat-slide-toggle fxLayoutAlign="start start" color="warn"
             [formControl]="globalControl"
             (change)="onValueChange('global', globalControl.value)"></mat-slide-toggle>
         </div>
+
+        <mat-form-field fxFlex="100">
+          <input matInput placeholder="Consigne"
+          [(ngModel)]="formData.consigne"
+          (ngModelChange)="onValueChange('consigne', formData.consigne)">
+        </mat-form-field>
 
         <mat-form-field fxFlex="100">
           <mat-label>Nombre de séries</mat-label>
@@ -165,84 +164,83 @@
 
   </mat-step>
 
-  <mat-step *ngIf="nbrdeserie">
+  <mat-step *ngIf="nbrdeserie && categoriesService.listeOfSeries !== undefined">
     <ng-template matStepLabel>ème étape</ng-template>
 
-    <div fxLayout="row wrap" fxLayoutAlign="center center"
-    *ngFor="let item of [].constructor(nbrdeserie); let i = index">
+    <div fxLayout="row wrap" fxLayoutAlign="start center" *ngFor="let item of [].constructor(nbrdeserie); let i = index" class="serie-exe">
 
-    <div fxFlex="33" fxLayoutAlign="end start" [ngStyle]="{'padding':'10px 0'}">
-      <span class="bulle-acro" [ngStyle]="{'margin':'0 10px'}">{{ i+1 }}</span>
-      <span [ngStyle]="{'margin':'0 5px 0','font-weight':'bolder','font-size':'1.2em'}">Série d'exercices n°{{ i+1 }} :</span>
-    </div>
+      <div fxFlex="50" fxLayoutAlign="start start" [ngStyle]="{'padding':'10px 0'}">
+        <span class="bulle-acro" [ngStyle]="{'margin':'0 10px'}">{{ i+1 }}</span>
+        <span [ngStyle]="{'margin':'0 5px 0','font-weight':'bolder','font-size':'1.2em'}">Série n°{{ i+1 }}</span>
+      </div>
 
-    <div fxFlex="33" fxLayout="row" fxLayoutAlign="start start">
-      <label fxLayoutAlign="start start">Custom &nbsp; </label>
-      <mat-slide-toggle color="warn"
-        [(ngModel)]="categoriesService.listeOfSeries[i].custom"></mat-slide-toggle>
-    </div>
+      <div fxFlex="50" fxLayout="row" fxLayoutAlign="end start">
+        <label fxLayoutAlign="start start">Custom &nbsp; </label>
+        <mat-slide-toggle color="warn"
+          [(ngModel)]="categoriesService.listeOfSeries[i].custom"></mat-slide-toggle>
+      </div>
 
-    <mat-form-field fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].custom">
-      <mat-label>Temps de repos</mat-label>
-      <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].repos">
-        <mat-option *ngFor="let nombre of listes.listeTemps"
-        matNativeControl [value]="nombre">
-            {{nombre}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field fxFlex="35" *ngIf="categoriesService.listeOfSeries[i].custom">
+        <mat-label>Temps de repos</mat-label>
+        <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].repos">
+          <mat-option *ngFor="let nombre of listes.listeTemps"
+          matNativeControl [value]="nombre">
+              {{nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <div fxFlex="30" *ngIf="categoriesService.listeOfSeries[i].custom" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
-      <label fxFlex="50" fxLayoutAlign="end start">Ordre exercice modifiable &nbsp; </label>
-      <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
-        [(ngModel)]="categoriesService.listeOfSeries[i].ordreexercicemodifiable"></mat-slide-toggle>
-    </div>
+      <mat-form-field fxFlex="35" *ngIf="categoriesService.listeOfSeries[i].custom">
+        <mat-label>Nombre d'exercices par série</mat-label>
+        <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].nbrexparserie">
+          <mat-option *ngFor="let nombre of listes.listeNbrexparserie"
+          matNativeControl [value]="nombre">
+              {{nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field fxFlex="70" *ngIf="categoriesService.listeOfSeries[i].custom">
-      <mat-label>Nombre d'exercices par série</mat-label>
-      <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].nbrexparserie">
-        <mat-option *ngFor="let nombre of listes.listeNbrexparserie"
-        matNativeControl [value]="nombre">
-            {{nombre}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <div fxFlex="30" *ngIf="categoriesService.listeOfSeries[i].custom" fxLayout="row" fxLayoutAlign="end start" [ngStyle]="{'margin-bottom':'10px'}">
+        <label fxLayoutAlign="end start">Ordre modifiable &nbsp; </label>
+        <mat-slide-toggle fxLayoutAlign="end start" color="warn"
+          [(ngModel)]="categoriesService.listeOfSeries[i].ordreexercicemodifiable"></mat-slide-toggle>
+      </div>
 
-    <div fxFlex="33">
-      <button mat-button type="button"
-        *ngIf="categoriesService.listeOfSeries[i].custom"
-        (click)="fonction(i)">
-          <mat-icon>add</mat-icon> Ajouter des catégories d'exercices à cette série
-      </button>
-    </div>
+      <div fxFlex="100" fxLayoutAlign="end start">
+        <button mat-button type="button"
+          *ngIf="categoriesService.listeOfSeries[i].custom"
+          (click)="fonction(i)">
+            <mat-icon>add</mat-icon> Ajouter des catégories d'exercices
+        </button>
+      </div>
 
-    <div fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}"
-      *ngIf="categoriesService.listeOfSeries[i].categories && categoriesService.listeOfSeries[i].custom">
-        <div fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].categories.length!=0">
-          <h4 class="h4-modal">Catégories d'exercices</h4>
-          <mat-chip-list>
-            <mat-chip *ngFor="let cat of categoriesService.listeOfSeries[i].categories">
-              <div fxLayout="row wrap" fxLayoutAlign="center center">
-                <div fxFlex="50">
-                    {{ cat.nom }}
-                  <span class="acronyme">{{ cat.acronyme }}</span>
-                  <mat-icon (click)="onDeleteCategorie(cat, i)">cancel</mat-icon>
-                </div>
-                <mat-form-field fxFlex="50" *ngIf="categoriesService.listeOfSeries[i].custom">
+      <div fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}"
+        *ngIf="categoriesService.listeOfSeries[i].categories && categoriesService.listeOfSeries[i].custom">
+          <div fxFlex="100" fxLayout="row wrap" *ngIf="categoriesService.listeOfSeries[i].categories.length!=0">
+            <div fxFlex="100" *ngFor="let cat of categoriesService.listeOfSeries[i].categories; let j = index" fxLayout="row wrap" fxLayoutAlign="center center"
+              style="border-bottom:1px dashed #ccc">
+              <div fxFlex="10" fxLayoutAlign="center center">
+                <span><strong>{{ j+1 }}</strong></span>
+              </div>
+              <div fxFlex="30">
+                <span class="cercle-acro">{{ cat.acronyme }}</span>
+                <span>{{ cat.nom }}</span>
+              </div>
+              <div fxFlex="50">
+                <mat-form-field fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].custom">
                   <mat-label>Temps de travail</mat-label>
                   <mat-select [(ngModel)]="cat.tempstravailmethode">
-                    <mat-option *ngFor="let nombre of listes.listeTemps"
-                    matNativeControl [value]="nombre">
-                        {{nombre}}
-                    </mat-option>
+                    <mat-option *ngFor="let nombre of listes.listeTemps" matNativeControl [value]="nombre">{{nombre}}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
-            </mat-chip>
-          </mat-chip-list>
-        </div>
-
-
+              <div fxFlex="10" fxLayoutAlign="end start">
+                <button mat-icon-button type="button">
+                  <mat-icon (click)="onDeleteCategorie(cat, i)">cancel</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
     </div>
 
   </div>
