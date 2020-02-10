@@ -75,9 +75,24 @@
           <input matInput type="text" formControlName="nom" placeholder="Nom de la série d'exercices fixe">
       </mat-form-field>
 
+      <div>
+        <label class="dark-chip"> Senior :</label>
+        <mat-radio-group color="warn" formControlName="senior">
+          <mat-radio-button value="uniquement" class="span-radio-button">
+            Seniors uniquement
+          </mat-radio-button>
+          <mat-radio-button value="hors" class="span-radio-button">
+            Pour les non-seniors
+          </mat-radio-button>
+          <mat-radio-button value="avec" class="span-radio-button">
+            Pour tout le monde (seniors compris)
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
       <mat-form-field fxFlex="50">
           <mat-label>Objectif jour</mat-label>
-          <mat-select formControlName="objectifJour" multiple>
+          <mat-select formControlName="objectifJour">
             <mat-option color="warn"
               *ngFor="let objectif of objectifs"
               [value]="objectif.nom">{{ objectif.nom }}
@@ -148,4 +163,10 @@
 
         </form>
     </div>
+</div>
+
+
+
+<div *ngIf="selectExercices">
+
 </div>
