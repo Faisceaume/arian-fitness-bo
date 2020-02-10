@@ -24,7 +24,6 @@
           (ngModelChange)="onValueChange('acronyme', formData.acronyme)">
         </mat-form-field>
 
-
         <mat-form-field fxFlex="20">
           <input matInput placeholder="durée minimum (min)" type="text" required
           [(ngModel)]="formData.dureeminimum"
@@ -36,7 +35,6 @@
           [(ngModel)]="formData.consigne"
           (ngModelChange)="onValueChange('consigne', formData.consigne)">
         </mat-form-field>
-
 
         <div fxLayout="row" fxFlex="100">
           <div fxFlex="100" fxLayout="column">
@@ -199,7 +197,7 @@
 
     <div fxFlex="33" fxLayoutAlign="end start" [ngStyle]="{'padding':'10px 0'}">
       <span class="bulle-acro" [ngStyle]="{'margin':'0 10px'}">{{ i+1 }}</span>
-      <span [ngStyle]="{'margin':'2px 10px 0'}">Série d'exercices n°{{ i+1 }} :</span>
+      <span [ngStyle]="{'margin':'0 5px 0','font-weight':'bolder','font-size':'1.2em'}">Série d'exercices n°{{ i+1 }} :</span>
     </div>
 
     <div fxFlex="33" fxLayout="row" fxLayoutAlign="start start">

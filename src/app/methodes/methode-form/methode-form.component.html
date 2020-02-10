@@ -13,17 +13,17 @@
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
-        <mat-form-field fxFlex="60">
+        <mat-form-field fxFlex="70">
           <input matInput placeholder="Nom de la méthode" formControlName="nom" required>
         </mat-form-field>
 
-        <mat-form-field fxFlex="20">
+        <mat-form-field fxFlex="10">
           <input matInput placeholder="Acronyme" formControlName="acronyme" type="text" required>
         </mat-form-field>
 
 
         <mat-form-field fxFlex="20">
-          <input matInput placeholder="durée minimum (min)" formControlName="dureeminimum" type="text" required>
+          <input matInput placeholder="Durée maximum (min)" formControlName="dureemaximum" type="number">
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
@@ -33,6 +33,15 @@
 
         <div fxLayout="row" fxFlex="100">
           <div fxFlex="100" fxLayout="column">
+
+            <div>
+              <label class="dark-chip"> Niveau :</label>
+              <mat-radio-group color="warn" formControlName="niveau">
+                <mat-radio-button *ngFor="let niveau of niveaux" [value]="niveau" class="span-radio-button">
+                  N {{ niveau.acronyme }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
 
             <div>
               <label class="dark-chip"> Orientation :</label>
@@ -61,28 +70,23 @@
               </mat-radio-group>
             </div>
 
-            <div>
-              <label class="dark-chip"> Niveau :</label>
-              <mat-radio-group color="warn" formControlName="niveau">
-                <mat-radio-button *ngFor="let niveau of niveaux" [value]="niveau" class="span-radio-button">
-                  N {{ niveau.acronyme }}
-                </mat-radio-button>
-              </mat-radio-group>
-            </div>
-
-            <div class="objectif">
-              <label class="dark-chip"> Objectifs :</label>
-              <mat-checkbox
-              color="warn"
-              *ngFor="let objectif of objectifs"
-              (change)="onObjectifSelected($event, objectif)"
-              checked="true">{{ objectif.nom }}</mat-checkbox>
-              <mat-checkbox
-              color="warn"
-              *ngFor="let objectif of objectifsNotSelected"
-              (change)="onObjectifSelected($event, objectif)"
-              >{{ objectif.nom }}</mat-checkbox>
-            </div>
+            <!-- <div class="objectif" fxLayout="column">
+              <div>
+                <label class="dark-chip"> Objectifs :</label>
+              </div>
+              <div style="margin-top:10px" fxLayout="row wrap">
+                <mat-checkbox color="warn" class="span-radio-button" fxFlex
+                  *ngFor="let objectif of objectifs"
+                  (change)="onObjectifSelected($event, objectif)" checked="true">
+                    {{ objectif.nom }}
+                </mat-checkbox>
+                <mat-checkbox color="warn" class="span-radio-button" fxFlex
+                  *ngFor="let objectif of objectifsNotSelected"
+                  (change)="onObjectifSelected($event, objectif)">
+                    {{ objectif.nom }}
+                </mat-checkbox>
+              </div>
+            </div> -->
           </div>
 
           <div fxFlex="20" class="btnClass" fxLayoutAlign="end end">
@@ -136,7 +140,7 @@
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
-          <mat-label>Nombre de séries d'exercices</mat-label>
+          <mat-label>Nombre de séries</mat-label>
           <mat-select formControlName="nbrseries">
             <mat-option *ngFor="let nombre of listes.listeNbrexparserie"
             matNativeControl [value]="nombre">
@@ -154,7 +158,6 @@
           <mat-icon>navigate_before</mat-icon>
         </button>
       </div>
-
 
       <div fxFlex="50" class="btnClass" fxLayoutAlign="end end">
         <button mat-fab matStepperNext color="warn"
@@ -175,7 +178,7 @@
 
     <div fxFlex="33" fxLayoutAlign="end start" [ngStyle]="{'padding':'10px 0'}">
       <span class="bulle-acro" [ngStyle]="{'margin':'0 10px'}">{{ i+1 }}</span>
-      <span [ngStyle]="{'margin':'2px 10px 0'}">Série d'exercices n°{{ i+1 }} :</span>
+      <span [ngStyle]="{'margin':'0 5px 0','font-weight':'bolder','font-size':'1.2em'}">Série n°{{ i+1 }} :</span>
     </div>
 
     <div fxFlex="33" fxLayout="row" fxLayoutAlign="start start">

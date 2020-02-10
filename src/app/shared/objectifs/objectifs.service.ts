@@ -25,7 +25,7 @@ createObjectif(objectif: Objectif): void {
 }
 
 getAllObjectifs(): void {
-  this.firestore.collection('objectifs')
+  this.firestore.collection('objectifs', ref => ref.orderBy('nom'))
                 .snapshotChanges().subscribe( data => {
     this.objectifs = data.map( e => {
       const anotherData = e.payload.doc.data() as Objectif;
