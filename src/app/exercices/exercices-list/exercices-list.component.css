@@ -9,3 +9,8 @@ th.mat-sort-header-sorted {
 h3{
   text-align: center;
 }
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}

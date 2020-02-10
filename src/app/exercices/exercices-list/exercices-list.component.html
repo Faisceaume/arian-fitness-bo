@@ -8,7 +8,10 @@
 <div [ngStyle]="{'padding':'0 10px'}">
 
   <h2>Liste des Exercices</h2>
-
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+  </mat-form-field>
   <table mat-table [dataSource]="dataSource" matSort [ngStyle]="{'box-shadow': 'none !important'}">
 
     <!-- Numéro Column -->
@@ -122,5 +125,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-
+  <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
 </div>

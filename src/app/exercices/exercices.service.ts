@@ -41,7 +41,7 @@ export class ExercicesService {
       });
     }).then(() => {
           console.log('Batch Commited');
-          this.router.navigate(['exercices']);
+          this.router.navigate(['/exercices', currentid]);
     }).catch((error) => { console.error('Error creating document: ', error); });
   }
 
