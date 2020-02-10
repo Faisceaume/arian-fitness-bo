@@ -37,11 +37,11 @@ export class MethodeDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.listes = new Listes();
     const id = this.route.snapshot.params.id;
+    this.categoriesService.initialiseListeOfSeries(1);
     this.methodesService.getSingleMethode(id).then(item => {
       this.formData = item;
       this.nbrdeserie = item.nbrseries;
       this.categoriesService.setListeOfSerie(item.serieexercice as Series[]);
-      this.ordreexercicemodifiableControl.setValue(item.ordreexercicemodifiable);
       this.globalControl.setValue(item.global);
     }).then(() => {
 
