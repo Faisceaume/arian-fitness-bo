@@ -36,7 +36,7 @@ dataSource: MatTableDataSource<Methode>;
   }
 
   onDelete(element: Methode) {
-    if (confirm('confirmer la suppression ?')) {
+    if (confirm('Confirmer la suppression de cette méthode?')) {
       this.methodesService.deleteMethode(element);
     }
   }

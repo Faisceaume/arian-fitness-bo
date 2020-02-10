@@ -62,3 +62,11 @@ mat-checkbox{
   color:  #999 !important;
 
 }
+
+
+.serie-exe {
+  background-color: #eee;
+  padding: 10px;
+  margin: 5px 0;
+  -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;
+}
