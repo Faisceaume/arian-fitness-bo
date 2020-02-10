@@ -27,7 +27,7 @@ createMethode(methode: Methode): void {
 
     batch.commit().then(() => {
       console.log('Batch Commited');
-      this.router.navigate(['/methodes']);
+      this.router.navigate(['/methodes', currentid]);
     }).catch((error) => { console.error('Error creating document: ', error); });
   }
 

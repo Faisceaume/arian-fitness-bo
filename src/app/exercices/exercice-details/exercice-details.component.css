@@ -33,8 +33,7 @@ mat-horizontal-stepper {
 }
 
 .regime {
-  margin-top: 20px ;
-  color:  #999 !important;
+  margin-top: 10px ;
   font-weight: bolder;
   font-size: 0.9em;
 }
@@ -42,5 +41,4 @@ mat-horizontal-stepper {
 mat-checkbox{
   padding: 0 10px;
   margin-top: 20px;
-  color:  #999 !important;
 }

@@ -13,6 +13,12 @@ export class ExercicesService {
   exercices: Exercice[];
   exerciceSubject = new Subject<any[]>();
 
+  serieExerciceFixe: any[];
+  serieExerciceFixeSubject = new Subject<any[]>();
+
+  oneSerieExerciceFixe: any;
+  oneSerieExerciceFixeSubject = new Subject<any>();
+
   constructor(private firestore: AngularFirestore,
               private router: Router,
               private categoriesService: CategoriesService) { }
@@ -81,4 +87,71 @@ export class ExercicesService {
     batch.commit().then(() => {
     }).catch((error) => { console.error('Error updzting document: ', error); });
   }
+
+
+  /////////////////////////////////////////////
+  ////////////////////////////////////////////
+  /////////////// CREATE ////////////////////
+  ///////////////////////////////////////////
+
+  emitSerieExercieFixe() {
+    this.serieExerciceFixeSubject.next( this.serieExerciceFixe );
+  }
+  emitOneSerieExerciceFixe() {
+    this.oneSerieExerciceFixeSubject.next( this.oneSerieExerciceFixe );
+  }
+
+  createSerieExercice(dataArg: any) {
+    const batch = this.firestore.firestore.batch();
+    const idRef = this.firestore.createId();
+    const data = Object.assign(dataArg, {id: idRef, timestamp: new Date().getTime()});
+    const ref = this.firestore.firestore.collection('serieexercicefixe').doc( idRef );
+    batch.set(ref, data);
+    batch.commit().then(() => console.log('Serie exercice crée!!!'));
+  }
+
+  /////////////////////////////////////////////
+  ////////////////////////////////////////////
+  /////////////// READ //////////////////////
+  ///////////////////////////////////////////
+
+  getAllSerieExercice() {
+    this.firestore.collection('serieexercicefixe').snapshotChanges().subscribe(data => {
+      this.serieExerciceFixe = data.map(e => {
+        return  e.payload.doc.data();
+      });
+      this.emitSerieExercieFixe();
+    });
+  }
+
+  getOneSerieExercice(id) {
+    this.firestore.collection('serieexercicefixe').doc(id).get().subscribe(data => {
+      this.oneSerieExerciceFixe = data.data();
+      this.emitOneSerieExerciceFixe();
+    });
+  }
+
+  /////////////////////////////////////////////
+  ////////////////////////////////////////////
+  /////////////// UPDATE //////////////////////
+  ///////////////////////////////////////////
+  updateSerieExerciceFixe(idArg, dataArg) {
+    const batch = this.firestore.firestore.batch();
+    const ref = this.firestore.firestore.collection('serieexercicefixe').doc( idArg );
+    const data = Object.assign(dataArg, {id: idArg, timestamp: new Date().getTime()});
+    batch.update(ref, data);
+    batch.commit().then(() => console.log('Update serie fixe success'));
+  }
+
+  /////////////////////////////////////////////
+  ////////////////////////////////////////////
+  /////////////// DELETE //////////////////////
+  ///////////////////////////////////////////
+  deleteSerieExerciceFixe(id) {
+    const batch = this.firestore.firestore.batch();
+    const ref = this.firestore.firestore.collection('serieexercicefixe').doc(id);
+    batch.delete(ref);
+    batch.commit().then(() => console.log('Suppression de la serie d\'exercice fixe réussi '));
+  }
+
 }

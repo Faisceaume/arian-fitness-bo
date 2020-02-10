@@ -40,7 +40,7 @@ export class PathologiesService {
 }
 
 getAllPathologies(): void {
-  this.firestore.collection('pathologies')
+  this.firestore.collection('pathologies', ref => ref.orderBy('nom'))
               .snapshotChanges().subscribe( data => {
    this.pathologies = data.map( e => {
     const anotherData = e.payload.doc.data() as Pathologie;

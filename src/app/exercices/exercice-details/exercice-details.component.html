@@ -38,6 +38,35 @@
 
         <div fxLayout="row" fxFlex="100">
           <div fxFlex="100" fxLayout="column">
+
+            <div *ngIf="niveauSelected">
+              <label class="dark-chip"> Niveau : </label>
+              <span class="bulle-acro" *ngIf="!toChangeNiveau">N {{ formData.niveau.acronyme}} </span>
+
+              <button mat-icon-button (click)="toChangeNiveau = true" *ngIf="!toChangeNiveau">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-radio-group color="warn"
+              [(ngModel)]="formData.niveau"
+              (ngModelChange)="updateFiel('niveau', formData.niveau)"
+              *ngIf="toChangeNiveau">
+                <mat-radio-button *ngFor="let niveau of niveaux"
+                [value]="niveau" class="span-radio-button">
+                  N {{ niveau.acronyme }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="regime">
+              <label class="dark-chip"> Régime :</label>
+              <mat-checkbox checked="true" color="warn" class="span-radio-button"
+                *ngFor="let regime of regimeSelected;"
+                (change)="onUpdateRegime($event, regime)">{{ regime }}</mat-checkbox>
+              <mat-checkbox color="warn" class="span-radio-button"
+                *ngFor="let regime of regimeNotSelected"
+                (change)="onUpdateRegime($event, regime)">{{ regime }}</mat-checkbox>
+            </div>
+
             <div>
               <label class="dark-chip"> Genre :</label>
               <mat-radio-group color="warn"
@@ -54,16 +83,23 @@
                 </mat-radio-button>
               </mat-radio-group>
             </div>
+
             <div>
               <label class="dark-chip"> Age :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.age"
               (ngModelChange)="updateFiel('age', formData.age)">
-                <mat-radio-button value="SUP20" class="span-radio-button">
-                  À partir de 20 ans
+                <mat-radio-button value="TOUT" class="span-radio-button">
+                  Tout âge
+                </mat-radio-button>
+                <mat-radio-button value="SUP19" class="span-radio-button">
+                  > 19 ans
                 </mat-radio-button>
                 <mat-radio-button value="INF50" class="span-radio-button">
-                  Jusqu'à 49 ans
+                  < 50 ans
+                </mat-radio-button>
+                <mat-radio-button value="SUP19&INF50" class="span-radio-button">
+                  > 19 & < 50 ans
                 </mat-radio-button>
               </mat-radio-group>
             </div>
@@ -80,18 +116,6 @@
                     Analytique
                   </mat-radio-button>
               </mat-radio-group>
-            </div>
-
-            <div class="regime">
-              <label class="dark-chip"> Régime :</label>
-              <mat-checkbox checked="true"
-              color="warn"
-              *ngFor="let regime of regimeSelected;"
-              (change)="onUpdateRegime($event, regime)">{{ regime }}</mat-checkbox>
-              <mat-checkbox
-              color="warn"
-              *ngFor="let regime of regimeNotSelected"
-              (change)="onUpdateRegime($event, regime)">{{ regime }}</mat-checkbox>
             </div>
 
             <div>
@@ -145,23 +169,6 @@
               </mat-radio-group>
             </div>
 
-            <div *ngIf="niveauSelected">
-              <label class="dark-chip"> Niveau : </label>
-              <span class="bulle-acro" *ngIf="!toChangeNiveau">N {{ formData.niveau.acronyme}} </span>
-
-              <button mat-icon-button (click)="toChangeNiveau = true" *ngIf="!toChangeNiveau">
-                <mat-icon>close</mat-icon>
-              </button>
-              <mat-radio-group color="warn"
-              [(ngModel)]="formData.niveau"
-              (ngModelChange)="updateFiel('niveau', formData.niveau)"
-              *ngIf="toChangeNiveau">
-                <mat-radio-button *ngFor="let niveau of niveaux"
-                [value]="niveau" class="span-radio-button">
-                  N {{ niveau.acronyme }}
-                </mat-radio-button>
-              </mat-radio-group>
-            </div>
           </div>
 
           <div fxFlex="20" class="btnClass" fxLayoutAlign="end end">

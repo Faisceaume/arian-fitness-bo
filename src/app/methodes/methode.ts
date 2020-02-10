@@ -7,7 +7,7 @@ export class Methode {
   nom: string;
   acronyme: string; // (4 caract max)
   orientation: string; // radio button :renforcement ou cardio
-  dureeminimum: number; // en min
+  dureemaximum: number; // en min
   niveau: Niveau; // liste des niveaux
   consigne: string;
 
