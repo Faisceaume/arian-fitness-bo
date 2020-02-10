@@ -12,7 +12,7 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 })
 export class ExercicesSeriesComponent implements OnInit {
 
-  idOneSerie: string; 
+  idOneSerie: string;
   isdisplayedAdd = false;
   isDisplayEdit = false;
   isDispalayList = true;
@@ -63,19 +63,8 @@ export class ExercicesSeriesComponent implements OnInit {
     });
   }
 
-  displayAdd() {
-    this.isdisplayedAdd = true;
-    this.isDisplayEdit = this.isDispalayList = false;
-  }
-  hiddenAdd() {
-    this.isdisplayedAdd = this.isDisplayEdit = false;
-    this.isDispalayList = true;
-  }
-  hiddenEdit() {
-    this.isDisplayEdit = this.isdisplayedAdd = false;
-    this.isDispalayList = true;
-  }
 
+  /* ADD, EDIT, DELETE */
   onSubmit() {
     const data = this.serieFormAdd.value;
     this.exerciceService.createSerieExercice(data);
@@ -106,6 +95,21 @@ export class ExercicesSeriesComponent implements OnInit {
     const data = this.serieFormEdit.value;
     this.exerciceService.updateSerieExerciceFixe(this.idOneSerie, data);
     this.hiddenEdit();
+  }
+
+
+  /* AFFICHAGE */
+  displayAdd() {
+    this.isdisplayedAdd = true;
+    this.isDisplayEdit = this.isDispalayList = false;
+  }
+  hiddenAdd() {
+    this.isdisplayedAdd = this.isDisplayEdit = false;
+    this.isDispalayList = true;
+  }
+  hiddenEdit() {
+    this.isDisplayEdit = this.isdisplayedAdd = false;
+    this.isDispalayList = true;
   }
 
 }

@@ -28,10 +28,8 @@
 
             <ng-container matColumnDef="idPathologie">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Pathologie</mat-header-cell>
-                <mat-cell *matCellDef="let element;" class="timestamp"> {{element.idPathologie}} </mat-cell>
+                <mat-cell *matCellDef="let element;"> {{element.idPathologie}} </mat-cell>
             </ng-container>
-
-                
 
             <ng-container matColumnDef="action">
                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
@@ -56,13 +54,22 @@
 
 
 
+
+
+
+
+
+
+
 <div *ngIf="isdisplayedAdd ">
+
     <button mat-icon-button
     (click)="hiddenAdd()"
     type="button"
     class="button-right">
         <mat-icon>close</mat-icon>
     </button>
+
     <h2>Ajouter une série d'exercice</h2>
 
     <div style="padding: 0 10px;">
@@ -99,13 +106,22 @@
 
 
 
+
+
+
+
+
+
+
 <div *ngIf="isDisplayEdit">
+
     <button mat-icon-button
     (click)="hiddenEdit()"
     type="button"
     class="button-right">
         <mat-icon>close</mat-icon>
     </button>
+    
     <h2>Editer une série d'exercice</h2>
 
     <div style="padding: 0 10px;">
@@ -125,7 +141,7 @@
             <mat-form-field style="padding: 10px; width: 95%">
                 <mat-label>Pathologie</mat-label>
                 <mat-select formControlName="idPathologie" multiple>
-                  <mat-option *ngFor="let pathology of pathologies" [value]="pathology.id">{{pathology.details}}</mat-option>
+                  <mat-option *ngFor="let pathology of pathologies" [value]="pathology">{{pathology.details}}</mat-option>
                 </mat-select>
             </mat-form-field>
 
