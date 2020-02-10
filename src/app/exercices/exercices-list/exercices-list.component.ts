@@ -17,7 +17,6 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
                                 'niveau',
                                 'nom',
                                 'date',
-                                'duree',
                                 'age',
                                 'position',
                                 'type',

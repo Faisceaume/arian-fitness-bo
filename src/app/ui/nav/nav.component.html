@@ -1,10 +1,10 @@
 <button id="mainmenu" mat-icon-button class="main-menu-trigger-button"
   color="black"
   [matMenuTriggerFor]="menu"
-  [ngStyle.xs]="{ 'left':'20px', 'top':'20px' }"
-  >
-  <mat-icon>menu</mat-icon>
+  [ngStyle.xs]="{ 'left':'20px', 'top':'20px' }">
+    <mat-icon>menu</mat-icon>
 </button>
+
 
 <mat-menu #menu="matMenu" yPosition="below" xPosition="before" class="indide-menu">
 
@@ -12,7 +12,7 @@
     <mat-icon>home</mat-icon>
     <span>Accueil</span>
   </button>
-  <button mat-menu-item routerLink="./exercices">
+  <button mat-menu-item [matMenuTriggerFor]="menuexercices">
     <mat-icon>explicit</mat-icon>
     <span>Exercices</span>
   </button>
@@ -52,3 +52,33 @@
   </ng-template>
 
 </mat-menu>
+
+
+
+
+<mat-menu #menuexercices="matMenu">
+  <button mat-menu-item routerLink="./exercices/exercice-form">
+    <mat-icon>add</mat-icon>
+    <span>Nouvel exercice</span>
+  </button>
+  <button mat-menu-item routerLink="./exercices">
+    <mat-icon>list</mat-icon>
+    <span>Listes des exercices</span>
+  </button>
+  <button mat-menu-item routerLink="./methodes">
+    <mat-icon>view_day</mat-icon>
+    <span>Listes des méthodes</span>
+  </button>
+  <button mat-menu-item routerLink="./methodes/methode-form">
+    <mat-icon>add</mat-icon>
+    <span>Nouvelle Méthode</span>
+  </button>
+  <button mat-menu-item routerLink="./exercices/series">
+    <mat-icon>playlist_add</mat-icon>
+    <span>Série Fixe</span>
+  </button>
+</mat-menu>
+
+
+
+

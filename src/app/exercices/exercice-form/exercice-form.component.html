@@ -13,7 +13,7 @@
 
       <div fxLayout="row wrap" fxLayoutAlign="start start">
 
-        <mat-form-field fxFlex="10">
+        <mat-form-field fxFlex="20">
           <input matInput placeholder="Numéro" formControlName="numero" type="number" required>
         </mat-form-field>
 
@@ -21,12 +21,8 @@
           <input matInput placeholder="Nom de l'exercice" formControlName="nom" required>
         </mat-form-field>
 
-        <mat-form-field fxFlex="10">
-          <input matInput placeholder="Durée (min)" formControlName="duree">
-        </mat-form-field>
-
         <mat-form-field fxFlex="20">
-          <input matInput placeholder="Consigne Courte" formControlName="consignecourte" required>
+          <input matInput placeholder="Consigne Courte" formControlName="consignecourte">
         </mat-form-field>
 
         <mat-form-field fxFlex="80">
@@ -35,6 +31,13 @@
 
         <div fxLayout="row" fxFlex="100">
           <div fxFlex="100" fxLayout="column">
+            <div class="regime">
+              <label class="dark-chip"> Régime :</label>
+              <mat-checkbox
+              color="warn" class="span-radio-button"
+              *ngFor="let regime of listes.listeRegimes"
+              (change)="onRegimeSelected($event, regime)">{{ regime }}</mat-checkbox    >
+            </div>
             <div>
               <label class="dark-chip"> Genre :</label>
               <mat-radio-group color="warn" formControlName="genre">
@@ -55,14 +58,14 @@
                 <mat-radio-button value="TOUT" class="span-radio-button">
                   Tout âge
                 </mat-radio-button>
-                <mat-radio-button value="SUP20" class="span-radio-button">
-                  > 20 ans
+                <mat-radio-button value="SUP19" class="span-radio-button">
+                  > 19 ans
                 </mat-radio-button>
                 <mat-radio-button value="INF50" class="span-radio-button">
                   < 50 ans
                 </mat-radio-button>
-                <mat-radio-button value="SUP20&INF50" class="span-radio-button">
-                  > 20 and & < 50 ans
+                <mat-radio-button value="SUP19&INF50" class="span-radio-button">
+                  > 19 & < 50 ans
                 </mat-radio-button>
               </mat-radio-group>
             </div>
@@ -76,14 +79,6 @@
                     Analytique
                   </mat-radio-button>
               </mat-radio-group>
-            </div>
-
-            <div class="regime">
-              <label class="dark-chip"> Régime :</label>
-              <mat-checkbox
-              color="warn"
-              *ngFor="let regime of listes.listeRegimes"
-              (change)="onRegimeSelected($event, regime)">{{ regime }}</mat-checkbox    >
             </div>
 
             <div>

@@ -64,4 +64,50 @@ export class Listes {
   ];
 
 
+  // section methodes
+  listeNbrexparserie = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ];
+
+  listeNbrexercicesminimum = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ];
+
+  listeTemps = [
+    10,
+    15,
+    20,
+    30,
+    45,
+    60,
+    90,
+    120,
+    150,
+    180,
+    210
+  ];
+
+
 }

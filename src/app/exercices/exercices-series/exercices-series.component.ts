@@ -25,6 +25,7 @@ export class ExercicesSeriesComponent implements OnInit {
   displayedColumns: string[] = ['nom','timestamp', 'objectifJour', 'idPathologie', 'action'];
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   dataIsLoad = false;
+  selectExercices = false;
 
   constructor(
     private formBuilder: FormBuilder,

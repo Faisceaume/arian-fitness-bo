@@ -1,0 +1,263 @@
+<button mat-icon-button
+  routerLink="/methodes"
+  type="button"
+  class="button-right">
+    <mat-icon>close</mat-icon>
+</button>
+
+<mat-horizontal-stepper [linear]="isLinear" #stepper *ngIf="formData">
+
+  <mat-step>
+      <ng-template matStepLabel>ère étape</ng-template>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+        <mat-form-field fxFlex="60">
+          <input matInput placeholder="Nom de la méthode" required
+          [(ngModel)]="formData.nom"
+          (ngModelChange)="onValueChange('nom', formData.nom)">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="20">
+          <input matInput placeholder="Acronyme" type="text" required
+          [(ngModel)]="formData.acronyme"
+          (ngModelChange)="onValueChange('acronyme', formData.acronyme)">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="20">
+          <input matInput placeholder="durée minimum (min)" type="text" required
+          [(ngModel)]="formData.dureeminimum"
+          (ngModelChange)="onValueChange('dureeminimum', formData.dureeminimum)">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+          <input matInput placeholder="Consigne" required
+          [(ngModel)]="formData.consigne"
+          (ngModelChange)="onValueChange('consigne', formData.consigne)">
+        </mat-form-field>
+
+        <div fxLayout="row" fxFlex="100">
+          <div fxFlex="100" fxLayout="column">
+
+            <div>
+              <label class="dark-chip"> Orientation :</label>
+              <mat-radio-group color="warn"
+              [(ngModel)]="formData.orientation"
+              (ngModelChange)="onValueChange('orientation', formData.orientation)">
+                <mat-radio-button value="renforcement" class="span-radio-button">
+                  Renforcement
+                </mat-radio-button>
+                <mat-radio-button value="cardio" class="span-radio-button">
+                  Cardio
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div>
+              <label class="dark-chip"> Senior :</label>
+              <mat-radio-group color="warn"
+              [(ngModel)]="formData.senior"
+              (ngModelChange)="onValueChange('senior', formData.senior)">
+                <mat-radio-button value="uniquement" class="span-radio-button">
+                  Seniors uniquement
+                </mat-radio-button>
+                <mat-radio-button value="hors" class="span-radio-button">
+                  Pour les non-seniors
+                </mat-radio-button>
+                <mat-radio-button value="avec" class="span-radio-button">
+                  Pour tout le monde (seniors compris)
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div>
+              <label class="dark-chip"> Niveau : </label>
+              <span class="bulle-acro" *ngIf="!toChangeNiveau">N {{ formData.niveau.acronyme}} </span>
+
+              <button mat-icon-button (click)="toChangeNiveau = true" *ngIf="!toChangeNiveau">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-radio-group color="warn"
+              [(ngModel)]="formData.niveau"
+              (ngModelChange)="onValueChange('niveau', formData.niveau)"
+              *ngIf="toChangeNiveau">
+                <mat-radio-button *ngFor="let niveau of niveaux"
+                [value]="niveau" class="span-radio-button">
+                  N {{ niveau.acronyme }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="objectif">
+              <label class="dark-chip"> Objectifs :</label>
+              <mat-checkbox
+              color="warn"
+              *ngFor="let objectif of objectifsSelected"
+              (change)="onObjectifSelected($event, objectif)"
+              checked="true">{{ objectif.nom }}</mat-checkbox>
+              <mat-checkbox
+              color="warn"
+              *ngFor="let objectif of objectifsNotSelected"
+              (change)="onObjectifSelected($event, objectif)"
+              >{{ objectif.nom }}</mat-checkbox>
+            </div>
+          </div>
+
+          <div fxFlex="20" class="btnClass" fxLayoutAlign="end end">
+            <button mat-fab matStepperNext color="warn">
+              <mat-icon>navigate_next</mat-icon>
+            </button>
+          </div>
+
+        </div>
+      </div>
+  </mat-step>
+
+  <mat-step>
+      <ng-template matStepLabel>ème étape</ng-template>
+
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+        <div fxFlex="50" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Ordre exercice modifiable &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="ordreexercicemodifiableControl"
+            (change)="onValueChange('ordreexercicemodifiable', ordreexercicemodifiableControl.value)"></mat-slide-toggle>
+        </div>
+
+        <div fxFlex="50" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Global &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="globalControl"
+            (change)="onValueChange('global', globalControl.value)"></mat-slide-toggle>
+        </div>
+
+        <mat-form-field fxFlex="50">
+          <mat-label>Nombre d'exercices par série</mat-label>
+          <mat-select [(ngModel)]="formData.nbrexparserie"
+          (ngModelChange)="onValueChange('nbrexparserie', formData.nbrexparserie)">
+            <mat-option *ngFor="let nombre of listes.listeNbrexparserie"
+            matNativeControl [value]="nombre">
+                {{nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50">
+          <mat-label>Nombre d'exercices minimum</mat-label>
+          <mat-select [(ngModel)]="formData.nbrexercicesminimum"
+          (ngModelChange)="onValueChange('nbrexercicesminimum', formData.nbrexercicesminimum)">
+            <mat-option *ngFor="let nombre of listes.listeNbrexercicesminimum"
+            matNativeControl [value]="nombre">
+                {{nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+          <mat-label>Nombre de séries d'exercices</mat-label>
+          <mat-select
+          disabled="true"
+          [(ngModel)]="formData.nbrseries"
+          (ngModelChange)="onValueChange('nbrseries', formData.nbrseries)">
+            <mat-option *ngFor="let nombre of listes.listeNbrexparserie"
+            matNativeControl [value]="nombre">
+                {{nombre}}
+            </mat-option>
+          </mat-select
+          >
+        </mat-form-field>
+      </div>
+
+    <div fxLayout="row" fxFlex="100">
+
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="start end">
+        <button mat-icon-button matStepperPrevious color="black">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </div>
+
+
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="end end">
+        <button mat-fab matStepperNext color="warn">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </div>
+
+    </div>
+
+  </mat-step>
+
+  <mat-step *ngIf="nbrdeserie">
+    <ng-template matStepLabel>ème étape</ng-template>
+
+    <div fxLayout="row wrap" fxLayoutAlign="center center"
+    *ngFor="let item of [].constructor(nbrdeserie); let i = index">
+
+    <div fxFlex="33" fxLayoutAlign="end start" [ngStyle]="{'padding':'10px 0'}">
+      <span class="bulle-acro" [ngStyle]="{'margin':'0 10px'}">{{ i+1 }}</span>
+      <span [ngStyle]="{'margin':'0 5px 0','font-weight':'bolder','font-size':'1.2em'}">Série d'exercices n°{{ i+1 }} :</span>
+    </div>
+
+    <div fxFlex="33" fxLayout="row" fxLayoutAlign="start start">
+      <label fxLayoutAlign="start start">Custom &nbsp; </label>
+      <mat-slide-toggle color="warn"
+        [(ngModel)]="categoriesService.listeOfSeries[i].custom"></mat-slide-toggle>
+    </div>
+
+    <div fxFlex="33">
+      <button mat-button type="button"
+        *ngIf="categoriesService.listeOfSeries[i].custom"
+        (click)="fonction(i)">
+          <mat-icon>add</mat-icon> Ajouter des catégories d'exercices à cette série
+      </button>
+    </div>
+
+
+    <mat-form-field fxFlex="50" *ngIf="categoriesService.listeOfSeries[i].custom">
+      <mat-label>Temps de travail</mat-label>
+      <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].travail">
+        <mat-option *ngFor="let nombre of listes.listeTemps"
+        matNativeControl [value]="nombre">
+            {{nombre}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="50" *ngIf="categoriesService.listeOfSeries[i].custom">
+      <mat-label>Temps de repos</mat-label>
+      <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].repos">
+        <mat-option *ngFor="let nombre of listes.listeTemps"
+        matNativeControl [value]="nombre">
+            {{nombre}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div fxFlex="100" [ngStyle]="{'margin':'0 0 30px'}"
+      *ngIf="categoriesService.listeOfSeries[i].categories && categoriesService.listeOfSeries[i].custom">
+        <div fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].categories.length!=0">
+          <h4 class="h4-modal">Catégories d'exercices</h4>
+          <mat-chip-list>
+            <mat-chip *ngFor="let cat of categoriesService.listeOfSeries[i].categories">
+              {{ cat.nom }}
+              <span class="acronyme">{{ cat.acronyme }}</span>
+              <mat-icon (click)="onDeleteCategorie(cat, i)">cancel</mat-icon>
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+    </div>
+
+  </div>
+
+    <div fxLayout="row" fxFlex="100">
+      <div fxFlex="50" class="btnClass" fxLayoutAlign="start end">
+        <button mat-icon-button matStepperPrevious color="black">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-step>
+
+</mat-horizontal-stepper>

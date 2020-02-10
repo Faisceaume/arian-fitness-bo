@@ -50,10 +50,9 @@ export class ExerciceFormComponent implements OnInit {
     this.listes = new Listes();
 
     this.firstFormGroup = this.formBuilder.group({
-        age: ['SUP20'],
-        consignecourte: ['', Validators.required],
+        age: ['TOUT'],
+        consignecourte: [''],
         consignelongue: ['', Validators.required],
-        duree: [null],
         genre: ['H&F', Validators.required],
         niveau: [null, Validators.required],
         numero: [null, Validators.required],

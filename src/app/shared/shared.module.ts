@@ -89,7 +89,8 @@ entryComponents: [CategoriesCrudComponent,
                   ObjectifsCrudComponent,
                   NiveauxCrudComponent,
                   PathologiesCrudComponent,
-                  MaterielsSharedComponent]
+                  MaterielsSharedComponent,
+                  CategoriesComponent]
 })
 export class SharedModule {
 

@@ -28,13 +28,10 @@
           </mat-expansion-panel-header>
 
           <div>
-            <div fxLayout="row" fxLayoutAlign="space-between">
-              <button (click)="onAddQuestion(questionnaire.id)" type="button" mat-button>Add question <mat-icon>add</mat-icon></button>
-            </div>
 
             <div>
-          
-          
+
+
               <mat-table
                 #table
                 [dataSource]="dataSource"
@@ -45,7 +42,7 @@
                 (cdkDropListDropped)="onListDrop($event)"
                 matSort
               >
-          
+
                 <ng-container matColumnDef="ordre">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Ordre</mat-header-cell>
                   <mat-cell *matCellDef="let element;"> {{ element.ordre }} </mat-cell>
@@ -106,7 +103,7 @@
 
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row cdkDrag [cdkDragData]="row" *matRowDef="let row; columns: displayedColumns;"></mat-row>
-          
+
               </mat-table>
             </div>
 
