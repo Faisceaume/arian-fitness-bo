@@ -5,37 +5,41 @@
     <mat-icon>close</mat-icon>
 </button>
 
-<mat-horizontal-stepper [linear]="isLinear" #stepper>
 
-  <mat-step [stepControl]="firstFormGroup">
-    <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>ère étape</ng-template>
+<form [formGroup]="firstFormGroup">
 
-      <div fxLayout="row wrap" fxLayoutAlign="start start">
+  <div fxLayout="row wrap" fxLayoutAlign="start start" style="padding:10px">
 
-        <mat-form-field fxFlex="70">
-          <input matInput placeholder="Nom de la méthode" formControlName="nom" required>
-        </mat-form-field>
+    <h2 fxFlex="100">Ajouter une nouvelle méthode</h2>
 
-        <mat-form-field fxFlex="10">
-          <input matInput placeholder="Acronyme" formControlName="acronyme" type="text" required>
-        </mat-form-field>
+    <mat-form-field fxFlex="70">
+      <input matInput placeholder="Nom de la méthode" formControlName="nom" required>
+    </mat-form-field>
 
+    <mat-form-field fxFlex="30">
+      <input matInput placeholder="Acronyme" formControlName="acronyme" type="text" required>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="20">
-          <input matInput placeholder="Durée maximum (min)" formControlName="dureemaximum" type="number">
-        </mat-form-field>
+    <!-- <mat-form-field fxFlex="20">
+      <input matInput placeholder="Durée maximum (min)" formControlName="dureemaximum" type="number">
+    </mat-form-field> -->
 
-          <div fxFlex="100" class="btnClass" fxLayoutAlign="end end">
-            <button mat-fab  color="warn"
-            [disabled]="firstFormGroup.invalid"
-            (click)="onSubmit()">
-              <mat-icon>navigate_next</mat-icon>
-            </button>
-          </div>
+    <mat-form-field fxFlex="100">
+      <mat-label>Durée</mat-label>
+      <mat-select formControlName="duree">
+        <mat-option *ngFor="let duree of listes.dureemethodes" matNativeControl [value]="duree">
+            {{ duree }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-        </div>
-    </form>
-  </mat-step>
+      <div fxFlex="100" fxLayoutAlign="end end">
+        <button mat-fab  color="warn"
+        [disabled]="firstFormGroup.invalid"
+        (click)="onSubmit()">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </div>
 
-</mat-horizontal-stepper>
+    </div>
+</form>

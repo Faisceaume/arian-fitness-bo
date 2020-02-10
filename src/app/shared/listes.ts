@@ -63,6 +63,11 @@ export class Listes {
     'Excentrique'
   ];
 
+  dureemethodes = [
+    '7 minutes 30',
+    '15 minutes',
+    '30 minutes'
+  ];
 
   // section methodes
   listeNbrexparserie = [
