@@ -9,4 +9,5 @@ export class Categorie {
   matids: string[];
   exeids: string[];
   pathologieids: string[];
+  tempstravailmethode?: string;
 }

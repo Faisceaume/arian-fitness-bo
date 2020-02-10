@@ -25,9 +25,9 @@
         </mat-form-field>
 
         <mat-form-field fxFlex="20">
-          <input matInput placeholder="durée minimum (min)" type="text" required
-          [(ngModel)]="formData.dureeminimum"
-          (ngModelChange)="onValueChange('dureeminimum', formData.dureeminimum)">
+          <input matInput placeholder="durée dureemaximum (min)" type="text" required
+          [(ngModel)]="formData.dureemaximum"
+          (ngModelChange)="onValueChange('dureemaximum', formData.dureemaximum)">
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
@@ -87,20 +87,6 @@
                 </mat-radio-button>
               </mat-radio-group>
             </div>
-
-            <div class="objectif">
-              <label class="dark-chip"> Objectifs :</label>
-              <mat-checkbox
-              color="warn"
-              *ngFor="let objectif of objectifsSelected"
-              (change)="onObjectifSelected($event, objectif)"
-              checked="true">{{ objectif.nom }}</mat-checkbox>
-              <mat-checkbox
-              color="warn"
-              *ngFor="let objectif of objectifsNotSelected"
-              (change)="onObjectifSelected($event, objectif)"
-              >{{ objectif.nom }}</mat-checkbox>
-            </div>
           </div>
 
           <div fxFlex="20" class="btnClass" fxLayoutAlign="end end">
@@ -158,7 +144,6 @@
         <mat-form-field fxFlex="100">
           <mat-label>Nombre de séries d'exercices</mat-label>
           <mat-select
-          disabled="true"
           [(ngModel)]="formData.nbrseries"
           (ngModelChange)="onValueChange('nbrseries', formData.nbrseries)">
             <mat-option *ngFor="let nombre of listes.listeNbrexparserie"
@@ -214,18 +199,7 @@
       </button>
     </div>
 
-
-    <mat-form-field fxFlex="50" *ngIf="categoriesService.listeOfSeries[i].custom">
-      <mat-label>Temps de travail</mat-label>
-      <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].travail">
-        <mat-option *ngFor="let nombre of listes.listeTemps"
-        matNativeControl [value]="nombre">
-            {{nombre}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field fxFlex="50" *ngIf="categoriesService.listeOfSeries[i].custom">
+    <mat-form-field fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].custom">
       <mat-label>Temps de repos</mat-label>
       <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].repos">
         <mat-option *ngFor="let nombre of listes.listeTemps"
@@ -240,11 +214,26 @@
         <div fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].categories.length!=0">
           <h4 class="h4-modal">Catégories d'exercices</h4>
           <mat-chip-list>
-            <mat-chip *ngFor="let cat of categoriesService.listeOfSeries[i].categories">
-              {{ cat.nom }}
-              <span class="acronyme">{{ cat.acronyme }}</span>
-              <mat-icon (click)="onDeleteCategorie(cat, i)">cancel</mat-icon>
-            </mat-chip>
+
+              <mat-chip *ngFor="let cat of categoriesService.listeOfSeries[i].categories" >
+                <div fxLayout="row wrap" fxLayoutAlign="center center">
+                <div fxFlex="50">
+                  {{ cat.nom }}
+                <span class="acronyme">{{ cat.acronyme }}</span>
+                <mat-icon (click)="onDeleteCategorie(cat, i)">cancel</mat-icon>
+                </div>
+                <mat-form-field fxFlex="50" *ngIf="categoriesService.listeOfSeries[i].custom">
+                  <mat-label>Temps de travail</mat-label>
+                  <mat-select [(ngModel)]="cat.tempstravailmethode">
+                    <mat-option *ngFor="let nombre of listes.listeTemps"
+                    matNativeControl [value]="nombre">
+                        {{nombre}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              </mat-chip>
+
           </mat-chip-list>
         </div>
     </div>
