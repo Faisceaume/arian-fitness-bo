@@ -58,7 +58,6 @@ export class MethodeFormComponent implements OnInit {
       ...this.secondFormGroup.value,
     } as Methode;
 
-    this.formData.ordreexercicemodifiable = this.ordreexercicemodifiableControl.value ? true : false;
     this.formData.global = this.globalControl.value ? true : false;
 
   }

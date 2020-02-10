@@ -69,6 +69,17 @@ arian-fitness.appspot.com
 
 
 
+CALL LOUNIS 10/2
+
+Dans la construction des séries customs dans les méthodes, on commence par définit
+1- le temps de repos
+2- le nombre d'exercice pour la série,
+3- la catégorie d'exercice à affilier à la plage d'exerice avec son temps de travail
+
+Doit on également préciser l'ordre ?
+- Boolea, ordre modifiable propre à la série custom
+
+
 CALL LOUNIS 6/2
 
 - Méthodes : Durée minimum devient Durée : choix entre : 7 minutes 30 / 15 minutes / 30 minutes
