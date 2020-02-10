@@ -22,7 +22,7 @@ export class ExerciceDetailsComponent implements OnInit {
   formData: Exercice;
   niveaux: Niveau[];
   niveauSelected: Niveau;
-  toChangeNiveau: boolean;
+  toChangeNiveau = false;
 
   regimeSelected: string[]  = [];
   regimeNotSelected: string[] = [];
@@ -54,7 +54,7 @@ export class ExerciceDetailsComponent implements OnInit {
     const id = this.route.snapshot.params.id;
     this.exercicesService.getSingleExercice(id).then((item: Exercice) => {
       this.formData = item;
-      this.niveauSelected = item.niveau;
+      this.niveauSelected = item.niveau ? item.niveau : null ;
       this.regimeSelected = item.regime;
       this.materielsService.materielsSelected = this.formData.materiels;
 
