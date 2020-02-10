@@ -39,17 +39,19 @@
         <div fxLayout="row" fxFlex="100">
           <div fxFlex="100" fxLayout="column">
 
-            <div *ngIf="niveauSelected">
+            <div>
               <label class="dark-chip"> Niveau : </label>
-              <span class="bulle-acro" *ngIf="!toChangeNiveau">N {{ formData.niveau.acronyme}} </span>
+              <span class="bulle-acro"
+              *ngIf="(!toChangeNiveau && formData.niveau)">N {{ formData.niveau.acronyme}} </span>
 
-              <button mat-icon-button (click)="toChangeNiveau = true" *ngIf="!toChangeNiveau">
+              <button mat-icon-button (click)="toChangeNiveau = true"
+              *ngIf="!toChangeNiveau && niveauSelected">
                 <mat-icon>close</mat-icon>
               </button>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.niveau"
               (ngModelChange)="updateFiel('niveau', formData.niveau)"
-              *ngIf="toChangeNiveau">
+              *ngIf="toChangeNiveau || !niveauSelected">
                 <mat-radio-button *ngFor="let niveau of niveaux"
                 [value]="niveau" class="span-radio-button">
                   N {{ niveau.acronyme }}

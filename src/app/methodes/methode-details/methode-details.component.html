@@ -18,17 +18,22 @@
           (ngModelChange)="onValueChange('nom', formData.nom)">
         </mat-form-field>
 
-        <mat-form-field fxFlex="20">
+        <mat-form-field fxFlex="40">
           <input matInput placeholder="Acronyme" type="text" required
           [(ngModel)]="formData.acronyme"
           (ngModelChange)="onValueChange('acronyme', formData.acronyme)">
         </mat-form-field>
 
-        <mat-form-field fxFlex="20">
-          <input matInput placeholder="durée dureemaximum (min)" type="text" required
-          [(ngModel)]="formData.dureemaximum"
-          (ngModelChange)="onValueChange('dureemaximum', formData.dureemaximum)">
+
+        <mat-form-field fxFlex="100">
+          <mat-label>Durée</mat-label>
+          <mat-select [(ngModel)]="formData.duree" (ngModelChange)="onValueChange('duree', formData.duree)">
+            <mat-option *ngFor="let duree of listes.dureemethodes" matNativeControl [value]="duree">
+                {{ duree }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
+
 
         <mat-form-field fxFlex="100">
           <input matInput placeholder="Consigne" required
@@ -38,6 +43,27 @@
 
         <div fxLayout="row" fxFlex="100">
           <div fxFlex="100" fxLayout="column">
+
+            <div>
+              <label class="dark-chip"> Niveau : </label>
+              <span class="bulle-acro" *ngIf="!toChangeNiveau && formData.niveau">N {{ formData.niveau.acronyme}} </span>
+
+              <button mat-icon-button
+                (click)="toChangeNiveau = true"
+                *ngIf="!toChangeNiveau && formData.niveau">
+                  <mat-icon>close</mat-icon>
+              </button>
+
+              <mat-radio-group color="warn"
+                [(ngModel)]="formData.niveau"
+                (ngModelChange)="onValueChange('niveau', formData.niveau)"
+                *ngIf="!formData.niveau">
+                <mat-radio-button *ngFor="let niveau of niveaux"
+                [value]="niveau" class="span-radio-button">
+                  N {{ niveau.acronyme }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
 
             <div>
               <label class="dark-chip"> Orientation :</label>
@@ -70,23 +96,6 @@
               </mat-radio-group>
             </div>
 
-            <div>
-              <label class="dark-chip"> Niveau : </label>
-              <span class="bulle-acro" *ngIf="!toChangeNiveau">N {{ formData.niveau.acronyme}} </span>
-
-              <button mat-icon-button (click)="toChangeNiveau = true" *ngIf="!toChangeNiveau">
-                <mat-icon>close</mat-icon>
-              </button>
-              <mat-radio-group color="warn"
-              [(ngModel)]="formData.niveau"
-              (ngModelChange)="onValueChange('niveau', formData.niveau)"
-              *ngIf="toChangeNiveau">
-                <mat-radio-button *ngFor="let niveau of niveaux"
-                [value]="niveau" class="span-radio-button">
-                  N {{ niveau.acronyme }}
-                </mat-radio-button>
-              </mat-radio-group>
-            </div>
           </div>
 
           <div fxFlex="20" class="btnClass" fxLayoutAlign="end end">

@@ -30,16 +30,19 @@ export class MethodeFormComponent implements OnInit {
               public categoriesService: CategoriesService) { }
 
   ngOnInit() {
+
+    this.listes = new Listes();
+
     this.firstFormGroup = this.formBuilder.group({
       nom: ['', Validators.required],
       acronyme: ['', Validators.required],
-      dureemaximum: ['', Validators.required]
+      duree: ['']
     });
 
     this.secondFormGroup = this.formBuilder.group({
       consigne: ['', Validators.required],
       orientation: ['renforcement', Validators.required],
-      niveau: ['', Validators.required],
+      niveau: [null, Validators.required],
       senior : ['avec', Validators.required],
       nbrexparserie: [null, Validators.required],
       nbrexercicesminimum: [null, Validators.required],
