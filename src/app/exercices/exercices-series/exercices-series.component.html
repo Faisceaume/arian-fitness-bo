@@ -77,13 +77,13 @@
     <div fxLayout="row wrap" style="padding: 0 10px;">
 
       <mat-form-field fxFlex="100">
-          <input matInput type="text" formControlName="nom" placeholder="Nom de la série d'exercices fixe">
+          <input matInput type="text" formControlName="nom" placeholder="Nom de la série d'exercices fixe" required>
       </mat-form-field>
 
-      <mat-form-field fxFlex="50">
+      <!-- <mat-form-field fxFlex="50">
           <mat-label>Objectif jour</mat-label>
-          <mat-select formControlName="objectifJour" multiple>
-            <mat-option color="warn"
+          <mat-select formControlName="objectifJour">
+            <mat-option color="warn" required
               *ngFor="let objectif of objectifs"
               [value]="objectif.nom">{{ objectif.nom }}
             </mat-option>
@@ -92,18 +92,17 @@
 
       <mat-form-field fxFlex="50" style="padding: 0 0 0 10px">
           <mat-label>Pathologie</mat-label>
-          <mat-select formControlName="idPathologie" multiple>
-            <mat-option color="warn"
+          <mat-select formControlName="idPathologie">
+            <mat-option color="warn" required
               *ngFor="let pathology of pathologies"
               [value]="pathology.id">
                 {{pathology.details}}
             </mat-option>
           </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <div [ngStyle]="{'padding':'10px'}">
-          <button type="submit" mat-fab color="warn"
-            [disabled]="serieFormAdd.invalid">
+          <button type="submit" mat-fab color="warn" [disabled]="serieFormAdd.invalid">
               <mat-icon>keyboard_arrow_right</mat-icon>
           </button>
       </div>
@@ -119,13 +118,10 @@
 
 <div *ngIf="isDisplayEdit">
 
-    <button mat-icon-button
-    (click)="hiddenEdit()"
-    type="button"
-    class="button-right">
-        <mat-icon>close</mat-icon>
+    <button mat-icon-button (click)="hiddenEdit()" type="button" class="button-right">
+      <mat-icon>close</mat-icon>
     </button>
-    
+
     <h2>Editer une série d'exercice</h2>
 
     <div style="padding: 0 10px;">
@@ -220,7 +216,7 @@
     </div>
     </div>
 
-    
-    
+
+
 
 </div>
