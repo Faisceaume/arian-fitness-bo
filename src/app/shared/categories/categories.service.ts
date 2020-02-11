@@ -167,9 +167,6 @@ export class CategoriesService {
   pushCategorieOnListe(categorie: Categorie): void {
     if (this.listeOfSeries[this.index].nbrexparserie > this.listeOfSeries[this.index].categories.length) {
       this.listeOfSeries[this.index].categories.push(categorie);
-      if (this.listeOfSeries[this.index].nbrexparserie === this.listeOfSeries[this.index].categories.length) {
-        alert('Nombre de Categories atteint');
-      }
     }
   }
 
