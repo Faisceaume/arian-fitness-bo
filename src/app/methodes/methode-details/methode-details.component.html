@@ -225,7 +225,7 @@
 
       <div fxFlex="100" fxLayoutAlign="end start">
         <button mat-button type="button"
-          *ngIf="categoriesService.listeOfSeries[i].custom"
+          *ngIf="categoriesService.listeOfSeries[i].custom && categoriesService.listeOfSeries[i].nbrexparserie"
           (click)="fonction(i)">
             <mat-icon>add</mat-icon> Ajouter des catégories d'exercices
         </button>
