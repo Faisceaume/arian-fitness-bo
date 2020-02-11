@@ -10,6 +10,7 @@ export class Methode {
   duree: number; // en min
   niveau: Niveau; // liste des niveaux
   consigne: string;
+  heuredepointe: string;
   nbrseries: number; // list
   nbrexercicesminimumparcategorie: number; //  list entre 1 et 12
   senior: string;

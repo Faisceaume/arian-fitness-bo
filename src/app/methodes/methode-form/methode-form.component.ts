@@ -47,6 +47,7 @@ export class MethodeFormComponent implements OnInit {
       nbrexparserie: [null, Validators.required],
       nbrexercicesminimum: [null, Validators.required],
       nbrseries: [null, Validators.required],
+      heuredepointe: ['tout', Validators.required]
     });
 
     this.categoriesService.listeOfSeries = [];
