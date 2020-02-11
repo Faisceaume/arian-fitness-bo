@@ -19,6 +19,8 @@ import { AuthComponent } from './auth/auth.component';
 import { AccueilComponent } from './accueil/accueil.component';
 import { UiModule } from './ui/ui.module';
 import { QuestionnairesModule } from './questionnaires/questionnaires.module';
+import {MatDialogRef} from '@angular/material/dialog';
+
 
 
 @NgModule({
@@ -40,7 +42,12 @@ import { QuestionnairesModule } from './questionnaires/questionnaires.module';
     BrowserAnimationsModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    },
+  ],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

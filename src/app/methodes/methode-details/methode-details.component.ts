@@ -71,8 +71,6 @@ export class MethodeDetailsComponent implements OnInit, OnDestroy {
   openMatDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
-    dialogConfig.width = '80%';
-    dialogConfig.data = null;
     this.matDialog.open(CategoriesComponent, dialogConfig);
   }
 

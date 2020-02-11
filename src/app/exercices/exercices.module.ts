@@ -8,13 +8,12 @@ import { SharedModule } from '../shared/shared.module';
 import { ExercicesSeriesComponent } from './exercices-series/exercices-series.component';
 
 
-
 @NgModule({
   declarations: [ExerciceFormComponent, ExerciceDetailsComponent, ExercicesListComponent, ExercicesSeriesComponent],
   imports: [
     SharedModule,
     CommonModule,
-    ExercicesRoutingModule
+    ExercicesRoutingModule,
   ]
 })
 export class ExercicesModule { }

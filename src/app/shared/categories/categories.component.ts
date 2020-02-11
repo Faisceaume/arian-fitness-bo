@@ -6,7 +6,7 @@ import { Materiel } from 'src/app/materiels/materiel';
 import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { Exercice } from 'src/app/exercices/exercice';
 import { ExercicesService } from 'src/app/exercices/exercices.service';
-import { MatDialogConfig, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogConfig, MatDialog, MatDialogRef } from '@angular/material';
 import { CategoriesCrudComponent } from './categories-crud/categories-crud.component';
 import { Pathologie } from '../pathologies/pathologie';
 import { PathologiesService } from '../pathologies/pathologies.service';
@@ -40,7 +40,6 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   constructor(private categoriesService: CategoriesService,
               public dialogRef: MatDialogRef<CategoriesComponent>,
-              @Inject(MAT_DIALOG_DATA) private data: any,
               private materielsService: MaterielsService,
               private exercicesService: ExercicesService,
               private pathologiesService: PathologiesService,
