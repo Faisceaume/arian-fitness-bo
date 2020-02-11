@@ -90,6 +90,23 @@
               </mat-radio-group>
             </div>
 
+            <div>
+              <label class="dark-chip"> Heure de pointe :</label>
+              <mat-radio-group color="warn"
+              [(ngModel)]="formData.heuredepointe"
+              (ngModelChange)="onValueChange('heuredepointe', formData.heuredepointe)">
+                <mat-radio-button value="oui" class="span-radio-button">
+                  Oui
+                </mat-radio-button>
+                <mat-radio-button value="non" class="span-radio-button">
+                  Non
+                </mat-radio-button>
+                <mat-radio-button value="tout" class="span-radio-button">
+                  Toute heure
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
           </div>
 
           <div fxFlex="20" class="btnClass" fxLayoutAlign="end end">
@@ -208,7 +225,7 @@
 
       <div fxFlex="100" fxLayoutAlign="end start">
         <button mat-button type="button"
-          *ngIf="categoriesService.listeOfSeries[i].custom"
+          *ngIf="categoriesService.listeOfSeries[i].custom && categoriesService.listeOfSeries[i].nbrexparserie"
           (click)="fonction(i)">
             <mat-icon>add</mat-icon> Ajouter des catégories d'exercices
         </button>
