@@ -5,6 +5,10 @@
     <mat-icon>close</mat-icon>
 </button>
 
+<div class="nom-formulaire" *ngIf="formData">
+  <h2>Exercice : <strong>{{ formData.nom }}</strong></h2>
+</div>
+
 <mat-horizontal-stepper [linear]="isLinear" #stepper *ngIf="formData && niveaux">
 
   <mat-step>
