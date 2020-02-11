@@ -5,6 +5,6 @@ export class Series {
   travail: number;
   repos: number;
   ordreexercicemodifiable = false;
-  categories: Categorie[];
+  categories: Categorie[] = [];
   nbrexparserie: number;
 }

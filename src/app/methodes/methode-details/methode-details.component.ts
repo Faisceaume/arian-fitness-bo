@@ -40,6 +40,9 @@ export class MethodeDetailsComponent implements OnInit, OnDestroy {
     this.methodesService.getSingleMethode(id).then(item => {
       this.formData = item;
       this.nbrdeserie = item.nbrseries;
+      if (item.serieexercice === undefined) {
+        this.formData.nbrseries = null;
+      }
       this.categoriesService.setListeOfSerie(item.serieexercice as Series[]);
       this.globalControl.setValue(item.global);
     }).then(() => {
