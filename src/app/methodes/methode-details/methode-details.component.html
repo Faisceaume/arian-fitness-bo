@@ -181,7 +181,7 @@
 
   </mat-step>
 
-  <mat-step *ngIf="nbrdeserie">
+  <mat-step *ngIf="nbrdeserie && categoriesService.listeOfSeries !== undefined">
     <ng-template matStepLabel>ème étape</ng-template>
 
     <div fxLayout="row wrap" fxLayoutAlign="start center" *ngFor="let item of [].constructor(nbrdeserie); let i = index" class="serie-exe">

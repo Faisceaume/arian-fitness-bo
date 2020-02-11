@@ -164,4 +164,20 @@ export class CategoriesService {
     this.index = item;
   }
 
+  pushCategorieOnListe(categorie: Categorie) {
+    if (this.listeOfSeries[this.index].nbrexparserie > this.listeOfSeries[this.index].categories.length) {
+      this.listeOfSeries[this.index].categories.push(categorie);
+      if (this.listeOfSeries[this.index].nbrexparserie === this.listeOfSeries[this.index].categories.length) {
+        alert('Nombre de Categorie atteint');
+      }
+    }
+  }
+
+  removeCategorieOnListe(categorie: Categorie) {
+    const position = this.listeOfSeries[this.index].categories.findIndex(it => it.id === categorie.id);
+    if (position >= 0) {
+      this.listeOfSeries[this.index].categories.splice(position, 1);
+    }
+  }
+
 }

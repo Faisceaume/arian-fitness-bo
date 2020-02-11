@@ -95,6 +95,11 @@ export class CategoriesComponent implements OnInit, OnDestroy {
           item.selected = false;
           this.deleteChip(item);
 
+          if (this.categoriesService.index >= 0) {
+            // this.categoriesService.listeOfSeries[this.categoriesService.index].categories = this.chipsSelected;
+            this.categoriesService.removeCategorieOnListe(item);
+          }
+
           // Operation for Pathologies Section
           this.noeud === 'exe_cat' ? this.categoriesService.removeExeCatChipsSelected(item) :
            this.categoriesService.removeMatCatChipsSelected(item);
@@ -104,6 +109,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         } else {
           item.selected = true;
           this.addChip(item);
+          if (this.categoriesService.index >= 0) {
+            // this.categoriesService.listeOfSeries[this.categoriesService.index].categories = this.chipsSelected;
+            this.categoriesService.pushCategorieOnListe(item);
+          }
 
           // Operation for Pathologies Section
           this.noeud === 'exe_cat' ? this.categoriesService.addChipsForExeCatChipsSelected(item) :
@@ -123,8 +132,6 @@ export class CategoriesComponent implements OnInit, OnDestroy {
               this.chipsSelected) :
             this.pathologiesService.newUpdateVersion(this.currentPathologie, 'materielsCategorie',
               this.chipsSelected);
-        } else if (this.categoriesService.index >= 0) {
-          this.categoriesService.listeOfSeries[this.categoriesService.index].categories = this.chipsSelected;
         }
         this.categoriesService.setChipsSelectedForOperationValue(this.chipsSelected);
   }
