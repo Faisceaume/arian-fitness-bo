@@ -105,7 +105,7 @@ export class ExercicesService {
     const batch = this.firestore.firestore.batch();
     const idRef = this.firestore.createId();
     const data = Object.assign(dataArg, {id: idRef, timestamp: new Date().getTime()});
-    const ref = this.firestore.firestore.collection('serieexercicefixe').doc( idRef );
+    const ref = this.firestore.firestore.collection('seriesfixes').doc( idRef );
     batch.set(ref, data);
     batch.commit().then(() => console.log('Serie exercice crée!!!'));
   }
@@ -116,7 +116,7 @@ export class ExercicesService {
   ///////////////////////////////////////////
 
   getAllSerieExercice() {
-    this.firestore.collection('serieexercicefixe').snapshotChanges().subscribe(data => {
+    this.firestore.collection('seriesfixes').snapshotChanges().subscribe(data => {
       this.serieExerciceFixe = data.map(e => {
         return  e.payload.doc.data();
       });
@@ -125,7 +125,7 @@ export class ExercicesService {
   }
 
   getOneSerieExercice(id) {
-    this.firestore.collection('serieexercicefixe').doc(id).get().subscribe(data => {
+    this.firestore.collection('seriesfixes').doc(id).get().subscribe(data => {
       this.oneSerieExerciceFixe = data.data();
       this.emitOneSerieExerciceFixe();
     });
@@ -137,7 +137,7 @@ export class ExercicesService {
   ///////////////////////////////////////////
   updateSerieExerciceFixe(idArg, dataArg) {
     const batch = this.firestore.firestore.batch();
-    const ref = this.firestore.firestore.collection('serieexercicefixe').doc( idArg );
+    const ref = this.firestore.firestore.collection('seriesfixes').doc( idArg );
     const data = Object.assign(dataArg, {id: idArg, timestamp: new Date().getTime()});
     batch.update(ref, data);
     batch.commit().then(() => console.log('Update serie fixe success'));
@@ -149,7 +149,7 @@ export class ExercicesService {
   ///////////////////////////////////////////
   deleteSerieExerciceFixe(id) {
     const batch = this.firestore.firestore.batch();
-    const ref = this.firestore.firestore.collection('serieexercicefixe').doc(id);
+    const ref = this.firestore.firestore.collection('seriesfixes').doc(id);
     batch.delete(ref);
     batch.commit().then(() => console.log('Suppression de la serie d\'exercice fixe réussi '));
   }

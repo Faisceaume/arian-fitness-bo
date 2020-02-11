@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Inject } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { Categorie } from './categorie';
 import { CategoriesService } from './categories.service';
@@ -6,7 +6,7 @@ import { Materiel } from 'src/app/materiels/materiel';
 import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { Exercice } from 'src/app/exercices/exercice';
 import { ExercicesService } from 'src/app/exercices/exercices.service';
-import { MatDialogConfig, MatDialog } from '@angular/material';
+import { MatDialogConfig, MatDialog, MatDialogRef } from '@angular/material';
 import { CategoriesCrudComponent } from './categories-crud/categories-crud.component';
 import { Pathologie } from '../pathologies/pathologie';
 import { PathologiesService } from '../pathologies/pathologies.service';
@@ -39,6 +39,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   formData: Categorie;
 
   constructor(private categoriesService: CategoriesService,
+              public dialogRef: MatDialogRef<CategoriesComponent>,
               private materielsService: MaterielsService,
               private exercicesService: ExercicesService,
               private pathologiesService: PathologiesService,
@@ -112,6 +113,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
           if (this.categoriesService.index >= 0) {
             // this.categoriesService.listeOfSeries[this.categoriesService.index].categories = this.chipsSelected;
             this.categoriesService.pushCategorieOnListe(item);
+            if (this.categoriesService.listeOfSeries[this.categoriesService.index].nbrexparserie
+                === this.categoriesService.listeOfSeries[this.categoriesService.index].categories.length) {
+                this.dialogRef.close();
+            }
           }
 
           // Operation for Pathologies Section

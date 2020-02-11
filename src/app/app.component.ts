@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {
     this.authService.isAdminSubject.subscribe((admin) => {
       this.isAdmin = admin;
     });
-    console.log(this.isAdmin);
     this.afauth.auth.onAuthStateChanged(
       (user) => {
         if (user) {

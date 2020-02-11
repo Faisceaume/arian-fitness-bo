@@ -21,6 +21,11 @@
                 <mat-cell *matCellDef="let element;" class="timestamp"> {{element.timestamp | date }} </mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="senior">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Senior</mat-header-cell>
+              <mat-cell *matCellDef="let element;"> {{ element.senior }} </mat-cell>
+          </ng-container>
+
             <ng-container matColumnDef="objectifJour">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Objectif du jour</mat-header-cell>
                 <mat-cell *matCellDef="let element;"> {{ element.objectifJour }} </mat-cell>
@@ -28,7 +33,7 @@
 
             <ng-container matColumnDef="idPathologie">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Pathologie</mat-header-cell>
-                <mat-cell *matCellDef="let element;" class="timestamp"> {{element.idPathologie}} </mat-cell>
+                <mat-cell *matCellDef="let element;"> {{element.idPathologie}} </mat-cell>
             </ng-container>
 
 
@@ -58,7 +63,7 @@
 
 <div *ngIf="isdisplayedAdd ">
 
-  <button mat-icon-button
+    <button mat-icon-button
     (click)="hiddenAdd()"
     type="button"
     class="button-right">
@@ -72,13 +77,13 @@
     <div fxLayout="row wrap" style="padding: 0 10px;">
 
       <mat-form-field fxFlex="100">
-          <input matInput type="text" formControlName="nom" placeholder="Nom de la série d'exercices fixe">
+          <input matInput type="text" formControlName="nom" placeholder="Nom de la série d'exercices fixe" required>
       </mat-form-field>
 
-      <mat-form-field fxFlex="50">
+      <!-- <mat-form-field fxFlex="50">
           <mat-label>Objectif jour</mat-label>
-          <mat-select formControlName="objectifJour" multiple>
-            <mat-option color="warn"
+          <mat-select formControlName="objectifJour">
+            <mat-option color="warn" required
               *ngFor="let objectif of objectifs"
               [value]="objectif.nom">{{ objectif.nom }}
             </mat-option>
@@ -87,19 +92,18 @@
 
       <mat-form-field fxFlex="50" style="padding: 0 0 0 10px">
           <mat-label>Pathologie</mat-label>
-          <mat-select formControlName="idPathologie" multiple>
-            <mat-option color="warn"
+          <mat-select formControlName="idPathologie">
+            <mat-option color="warn" required
               *ngFor="let pathology of pathologies"
               [value]="pathology.id">
                 {{pathology.details}}
             </mat-option>
           </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <div [ngStyle]="{'padding':'10px'}">
-          <button type="submit" mat-fab color="warn"
-            [disabled]="serieFormAdd.invalid">
-              <mat-icon>save</mat-icon>
+          <button type="submit" mat-fab color="warn" [disabled]="serieFormAdd.invalid">
+              <mat-icon>keyboard_arrow_right</mat-icon>
           </button>
       </div>
     </div>
@@ -109,13 +113,15 @@
 
 
 
+
+
+
 <div *ngIf="isDisplayEdit">
-    <button mat-icon-button
-    (click)="hiddenEdit()"
-    type="button"
-    class="button-right">
-        <mat-icon>close</mat-icon>
+
+    <button mat-icon-button (click)="hiddenEdit()" type="button" class="button-right">
+      <mat-icon>close</mat-icon>
     </button>
+
     <h2>Editer une série d'exercice</h2>
 
     <div style="padding: 0 10px;">
@@ -125,9 +131,24 @@
                 <input matInput type="text" formControlName="nom" placeholder="nom">
             </mat-form-field>
 
+            <div>
+              <label class="dark-chip"> Senior :</label>
+              <mat-radio-group color="warn" formControlName="senior">
+                <mat-radio-button value="uniquement" class="span-radio-button">
+                  Seniors uniquement
+                </mat-radio-button>
+                <mat-radio-button value="hors" class="span-radio-button">
+                  Pour les non-seniors
+                </mat-radio-button>
+                <mat-radio-button value="avec" class="span-radio-button">
+                  Pour tout le monde (seniors compris)
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
             <mat-form-field style="padding: 10px; width: 95%">
                 <mat-label>Objectif jour</mat-label>
-                <mat-select formControlName="objectifJour" multiple>
+                <mat-select formControlName="objectifJour">
                   <mat-option *ngFor="let objectif of objectifs" [value]="objectif.nom">{{ objectif.nom }}</mat-option>
                 </mat-select>
             </mat-form-field>
@@ -142,7 +163,7 @@
             <div [ngStyle]="{'padding':'10px'}">
                 <button type="submit" mat-fab color="warn"
                   [disabled]="serieFormEdit.invalid">
-                    <mat-icon>save</mat-icon>
+                    <mat-icon>keyboard_arrow_right</mat-icon>
                 </button>
             </div>
 
@@ -153,5 +174,49 @@
 
 
 <div *ngIf="selectExercices">
+
+  <button mat-icon-button
+    (click)="returnToAdd()"
+    type="button"
+    class="button-right">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+
+    <h2>Ajouter exercices</h2>
+
+    <div fxLayout="column">
+
+      <form action="" *ngIf="isDisplayFormExo" [formGroup]="exerciceForm">
+        <mat-form-field fxFlex="80">
+          <input matInput placeholder="Exercices" formControlName="exercice" (keyup)="applyFilter($event.target.value)" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let exercice of exerciceList" [value]="exercice">
+              <span>{{ exercice.nom }}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <button type="button" (click)="onAddExercice()" [disabled]="exerciceForm.invalid" mat-button fxFlex="20">
+          Add
+        </button>
+      </form>
+
+      <div [ngStyle]="{'padding':'10px'}">
+        <mat-list>
+          <mat-list-item fxFlex="50" *ngFor="let exercice of exerciceAdded; let i = index;">
+            <div fxFlex="90"> {{ exercice.nom }} </div>
+            <div fxFlex="10"><button (click)="clearExo(i)" mat-button color="warn"><mat-icon>clear</mat-icon></button></div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+      <div [ngStyle]="{'padding':'10px'}">
+        <button [disabled]="!exerciceAddLenght" (click)="onAddSerieFixe()" type="submit" mat-fab color="warn">
+            <mat-icon>save</mat-icon>
+        </button>
+    </div>
+    </div>
+
+
+
 
 </div>
