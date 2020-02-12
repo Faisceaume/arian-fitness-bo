@@ -117,8 +117,8 @@ export class ExercicesService {
       id: idRef,
       nom: data.nom,
       senior: data.senior,
+      type: data.type,
       pathology: data.pathology,
-      objectifJour: data.objectifJour,
       timestamp: data.timestamp
     });
     batch.commit().then(() => {
@@ -183,7 +183,7 @@ export class ExercicesService {
       nom: data.nom,
       senior: data.senior,
       pathology: data.pathology,
-      objectifJour: data.objectifJour,
+      type: data.type,
       timestamp: data.timestamp
     });
     batch.commit().then(() => {

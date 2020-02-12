@@ -21,7 +21,7 @@ export class ExercicesSeriesComponent implements OnInit {
   objectifs: any[];
   dataSource: MatTableDataSource<any>;
   exerciceSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['nom', 'timestamp', 'senior', 'objectifJour', 'action'];
+  displayedColumns: string[] = ['nom', 'timestamp', 'senior', 'type', 'action'];
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   /*  */
   listes: Listes;
@@ -88,7 +88,7 @@ export class ExercicesSeriesComponent implements OnInit {
     this.formulaire = this.formBuilder.group({
       nom: ['', Validators.required],
       senior: ['', Validators.required],
-      objectifJour: [this.objectifs, Validators.required],
+      type: ['', Validators.required],
       pathology: [this.pathologies, Validators.required],
       exercices: ['', Validators.required]
     });
@@ -154,7 +154,7 @@ export class ExercicesSeriesComponent implements OnInit {
       this.formulaire = this.formBuilder.group({
         nom: [data.nom, Validators.required],
         senior: [data.senior, Validators.required],
-        objectifJour: [data.objectifJour, Validators.required],
+        type: [data.type, Validators.required],
         pathology: [data.pathology, Validators.required],
         exercices: ['', Validators.required]
       });

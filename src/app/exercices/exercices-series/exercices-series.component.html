@@ -26,9 +26,9 @@
               <mat-cell *matCellDef="let element;"> {{ element.senior }} </mat-cell>
           </ng-container>
 
-            <ng-container matColumnDef="objectifJour">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Objectif du jour</mat-header-cell>
-                <mat-cell *matCellDef="let element;"> {{ element.objectifJour }} </mat-cell>
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+                <mat-cell *matCellDef="let element;"> {{ element.type }} </mat-cell>
             </ng-container>
 
             <!-- <ng-container matColumnDef="pathology">
@@ -64,8 +64,8 @@
       <mat-icon>close</mat-icon>
   </button>
 
-<h2 *ngIf="isClickToAdd"><span> Ajouter une série d'exercice : </span> <button color="warn" mat-button> {{ nom }} </button></h2>
-  <h2 *ngIf="isClickToEdit"> <span> Éditer la série : </span> <button color="warn" mat-button> {{ nom }} </button>  </h2>
+  <h2 *ngIf="isClickToEdit"> Éditer la série <strong>{{ nom }}</strong>  </h2>
+  <h2 *ngIf="isClickToAdd"> Ajouter une série d'exercice : <strong>{{ nom }}</strong> </h2>
 
   <div fxLayout="column" style="padding: 0 10px;">
 
@@ -99,7 +99,7 @@
         </div>
         <div fxFlex="100">
           <label class="dark-chip"> Type :</label>
-          <mat-radio-group color="warn" formControlName="senior">
+          <mat-radio-group color="warn" formControlName="type">
             <mat-radio-button value="echauffement" class="span-radio-button">
               Echauffement
             </mat-radio-button>
@@ -112,15 +112,7 @@
           </mat-radio-group>
         </div>
         <div fxFlex="100">
-          <mat-form-field fxFlex="50" style="padding: 10px;">
-            <mat-label>Objectif jour</mat-label>
-            <mat-select formControlName="objectifJour">
-              <mat-option color="warn" *ngFor="let objectif of objectifs" [value]="objectif.nom">
-                {{ objectif.nom }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field color="warn" fxFlex="50" style="padding: 10px">
+          <mat-form-field color="warn" fxFlex="100" style="padding: 10px">
             <mat-label>Pathologie</mat-label>
             <mat-select formControlName="pathology" multiple>
               <mat-option *ngFor="let pathology of pathologies" [value]="pathology.id">
@@ -162,13 +154,6 @@
               </div>
           </div>
         </div>
-
-
-        <!-- <div [ngStyle]="{'padding':'10px'}">
-          <button (click)="hidePart()" type="button" color="black" mat-fab>
-            <mat-icon>keyboard_arrow_left</mat-icon>
-          </button>
-        </div> -->
 
         <div fxFlex="100" [ngStyle]="{'padding':'10px'}" fxLayoutAlign="end start">
           <button [disabled]="formulaire.invalid || disabled2" type="submit" mat-fab color="warn">

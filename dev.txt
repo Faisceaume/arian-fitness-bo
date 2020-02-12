@@ -70,7 +70,7 @@ arian-fitness.appspot.com
 
 RDV LOUNIS 12/02
 
-- Bug edition niveau methode : à la suppression le radio des niveau n'apparaît
+- Bug edition niveau methode : à la suppression le radio des niveaux n'apparaît pas
 - Séries Fixes : retirer la liste Objectif Jour
 - Séries Fixes : Pathologies : multiselect
 - Série Fixe : Champs Consigne pour toute la série fixes

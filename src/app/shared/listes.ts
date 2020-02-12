@@ -111,24 +111,6 @@ export class Listes {
     12
   ];
 
-  listeObjectifsJour = [
-    'FB',
-    'FPH',
-    'FPL',
-    'K',
-    'L',
-    'L1',
-    'L2',
-    'MAR',
-    'POS',
-    'T',
-    'T1',
-    'T2',
-    'T3',
-    'TPH',
-    'TPL',
-  ];
-
   listeTemps = [
     10,
     15,
