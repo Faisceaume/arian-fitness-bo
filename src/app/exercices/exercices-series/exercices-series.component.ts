@@ -44,6 +44,7 @@ export class ExercicesSeriesComponent implements OnInit {
   nomIsEntered: boolean;
   disabled = true;
   disabled2 = false;
+  nom = '';
 
   /* Edit */
   idToEdit: string;
@@ -103,6 +104,7 @@ export class ExercicesSeriesComponent implements OnInit {
     this.nomIsEntered = false;
     this.exerciceAdded = [];
     this.initForm();
+    this.nom = '';
   }
   goToFormForAdd() {
     this.displayForm = this.isClickToAdd = true;
@@ -116,6 +118,7 @@ export class ExercicesSeriesComponent implements OnInit {
   showPart() {
     this.part2 = true;
     this.part1 = false;
+    this.nom = this.formulaire.get('nom').value;
     if (this.isClickToEdit) {
       this.exerciceService.getSerieExerciceFromExercice(this.idToEdit);
       this.exerciceService.oneSerieFixeFromExerciceSubject.subscribe(data => {
