@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { PathologiesService } from '../../shared/pathologies/pathologies.service';
 import { ObjectifsService } from 'src/app/shared/objectifs/objectifs.service';
 import { ExercicesService } from '../exercices.service';
@@ -15,43 +15,46 @@ import {map, startWith} from 'rxjs/operators';
 })
 export class ExercicesSeriesComponent implements OnInit {
 
-  idOneSerie: string;
-  isdisplayedAdd = false;
-  isDisplayEdit = false;
-  isDispalayList = true;
-  serieFormAdd: FormGroup;
-  serieFormEdit: FormGroup;
-  serieExerciceFixe: any;
+  /*  */
   pathologies: any[];
   objectifs: any[];
   dataSource: MatTableDataSource<any>;
   exerciceSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['nom', 'timestamp', 'senior', 'objectifJour', 'idPathologie', 'action'];
+  displayedColumns: string[] = ['nom', 'timestamp', 'senior', 'objectifJour', 'pathology', 'action'];
   @ViewChild(MatSort, {static: false}) sort: MatSort;
-  dataIsLoad = false;
-  selectExercices = false;
+  /*  */
+
   exerciceList: any[];
-  filteredExercice: Observable<any[]>;
-  exerciceForm: FormGroup;
-  exerciceAdded: any[];
+
+  /* Affichage  && Navigation */
+  displayList = true;
+  displayForm = false;
+  /*  */
+  isClickToEdit = false;
+  isClickToAdd = false;
+
+  exerciceAdded = [];
   exerciceAddLenght: number;
-  isDisplayFormExo = false;
-  isFromEdit = false;
+
+  /* formulaire */
+  formulaire: FormGroup;
+  part1 = true;
+  part2 = false;
+  nomIsEntered: boolean;
+  disabled = true;
+  disabled2 = false;
+
+  /* Edit */
+  idToEdit: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private pathologiesService: PathologiesService,
     private objectifService: ObjectifsService,
     private exerciceService: ExercicesService
-    ) {
-      /*this.filteredExercice = this.exerciceCtrl.valueChanges.pipe(
-        startWith(''),
-        map(exercice => exercice ? this._filterExercices(exercice) : this.exerciceList.slice() )
-      );*/
-     }
+    ) {}
 
   ngOnInit() {
-
     this.exerciceService.getAllSerieExercice();
     this.exerciceService.serieExerciceFixeSubject.subscribe(data => {
       this.dataSource = new MatTableDataSource( data );
@@ -69,147 +72,159 @@ export class ExercicesSeriesComponent implements OnInit {
       this.objectifs = data;
     });
 
-    this.initForm();
-  }
-
-  initForm() {
-    this.serieFormAdd = this.formBuilder.group({
-      nom: ['', Validators.required],
-      senior: ['', Validators.required],
-      objectifJour: [this.objectifs, Validators.required],
-      idPathologie: [this.pathologies, Validators.required]
-    });
-  }
-
-
-  /* ADD, EDIT, DELETE */
-  onSubmit() {
-    this.exerciceForm = this.formBuilder.group({
-      exercice: ['', [Validators.required] ]
-    });
-    this.selectExercices = true;
-    this.isdisplayedAdd = false;
     this.exerciceService.getAllExercices();
     this.exerciceService.exerciceSubject.subscribe(data => {
       this.exerciceSource = new MatTableDataSource( data );
       this.exerciceList = this.exerciceSource.filteredData;
-      this.isDisplayFormExo = true;
       this.exerciceAdded = [];
-      this.exerciceAddLenght = this.exerciceAdded.length;
+    });
+
+    this.initForm();
+  }
+
+  initForm() {
+    this.formulaire = this.formBuilder.group({
+      nom: ['', Validators.required],
+      senior: ['', Validators.required],
+      objectifJour: [this.objectifs, Validators.required],
+      pathology: [this.pathologies, Validators.required],
+      exercices: ['', Validators.required]
     });
   }
 
-  displayFn(exercice: any): string {
-    return exercice.nom;
-  }
 
-  applyFilter(filterValue: string) {
-    this.exerciceSource.filter = filterValue.trim().toLowerCase();
-    this.exerciceList = this.exerciceSource.filteredData;
+  /* AFFICHAGE */
+  returnTolist() {
+    this.displayForm = this.isClickToEdit = this.isClickToAdd = false;
+    this.displayList = !this.displayList;
+    this.part1 = true;
+    this.part2 = false;
+    this.nomIsEntered = false;
+    this.exerciceAdded = [];
+    this.initForm();
   }
-
-  onAddExercice() {
-    const ex =  this.exerciceForm.get('exercice').value;
-    this.exerciceAdded.push( ex );
-    this.exerciceAddLenght = this.exerciceAdded.length;
-    this.exerciceForm = this.formBuilder.group({
-      exercice: ['', Validators.required]
-    });
+  goToFormForAdd() {
+    this.displayForm = this.isClickToAdd = true;
+    this.displayList = !this.displayForm;
   }
-
-  clearExo(i) {
-    this.exerciceAdded.splice(i, 1);
-    this.exerciceAddLenght = this.exerciceAdded.length;
+  goToFormForEdit(id) {
+    this.displayForm = this.isClickToEdit = true;
+    this.displayList = !this.displayForm;
+    this.prepareEdit(id);
   }
-
-  onAddSerieFixe() {
-    if ( this.isFromEdit ) {
-      const data1 = this.serieFormEdit.value;
-      const data2 = this.exerciceAdded;
-      const data = Object.assign(data1, {exercice: data2});
-      this.exerciceService.updateSerieExerciceFixe(this.idOneSerie, data);
-      this.selectExercices = false;
-      this.isDispalayList = true;
-      this.isFromEdit = false;
-    } else {
-      const data1  = this.serieFormAdd.value;
-      const data2 = this.exerciceAdded;
-      const data = Object.assign(data1, {exercice: data2});
-      this.exerciceService.createSerieExercice(data);
-      this.returnToAdd();
-      this.initForm();
+  showPart() {
+    this.part2 = true;
+    this.part1 = false;
+    if (this.isClickToEdit) {
+      this.exerciceService.getSerieExerciceFromExercice(this.idToEdit);
+      this.exerciceService.oneSerieFixeFromExerciceSubject.subscribe(data => {
+        this.exerciceAdded = data.exercices;
+        this.formulaire.patchValue({exercices: this.exerciceAdded});
+        if ( this.exerciceAdded.length >= 1) {
+          this.disabled2 = false;
+        }
+      });
     }
   }
+  hidePart() {
+    this.part1 = true;
+    this.part2 = false;
+  }
 
-  /*private _filterExercices(value: string): any[] {
-    const filterValue = value.toLowerCase();
-    return this.exerciceList.filter(exercice => exercice.consignecourte.toLowerCase().indexOf(filterValue) === 0);
-  }*/
-
-  onEdit( id ) {
-    this.isDisplayEdit = true;
-    this.isdisplayedAdd = this.isDispalayList = false;
-    this.exerciceService.getOneSerieExercice( id );
+  /* Verification */
+  onKeyUp() {
+    if ( this.formulaire.get('nom').value !== '') {
+      this.nomIsEntered = true;
+    } else {
+      this.nomIsEntered = false;
+    }
+  }
+  activeButton() {
+    this.disabled = false;
+  }
+  prepareEdit(id) {
+    console.log( id );
+    this.exerciceService.getOneSerieExercice(id);
     this.exerciceService.oneSerieExerciceFixeSubject.subscribe(data => {
-      this.idOneSerie = data.id;
-      console.log( data );
-      this.serieFormEdit = this.formBuilder.group({
+      this.idToEdit = id;
+      this.formulaire = this.formBuilder.group({
         nom: [data.nom, Validators.required],
         senior: [data.senior, Validators.required],
         objectifJour: [data.objectifJour, Validators.required],
-        idPathologie: [data.idPathologie, Validators.required]
+        pathology: [data.pathology, Validators.required],
+        exercices: ['', Validators.required]
       });
-      this.dataIsLoad = true;
-      this.exerciceAdded = data.exercice;
-      this.exerciceAddLenght = this.exerciceAdded.length;
+      this.nomIsEntered = true;
     });
+  }
+
+
+  /* Affichage exercice et filtrage */
+  displayFn(exercice: any): string {
+    return exercice.nom;
+  }
+  applyFilter(filterValue: string) {
+    if ( filterValue === '' ) {
+      this.disabled = true;
+    } else {
+      this.disabled = false;
+    }
+    this.exerciceSource.filter = filterValue.trim().toLowerCase();
+    this.exerciceList = this.exerciceSource.filteredData;
+  }
+  onAddExercice() {
+    const ex =  this.formulaire.get('exercices').value;
+    if (ex === '') {
+
+    } else {
+      this.exerciceAdded.push( ex );
+      this.exerciceAddLenght = this.exerciceAdded.length;
+      this.formulaire.patchValue({
+        exercices: ['', Validators.required]
+      });
+      if ( this.exerciceAddLenght >= 1 ) {
+        this.disabled2 = false;
+      }
+      this.disabled = true;
+    }
+  }
+  clearExo(i) {
+    this.exerciceAdded.splice(i, 1);
+    this.exerciceAddLenght = this.exerciceAdded.length;
+    if ( this.exerciceAddLenght === 0 ) {
+      this.disabled2 = true;
+    }
+  }
+
+
+  /* ADD EDIT DELETE */
+  onAddOrEditSerieFixe() {
+    if ( this.isClickToAdd ) {
+      const data1 = this.formulaire.value;
+      const data2 = this.exerciceAdded;
+      console.log( data1, data2 );
+      this.exerciceService.createSerieExercice(data1, data2);
+      this.initForm();
+      this.returnTolist();
+    } else if ( this.isClickToEdit ) {
+      const data1  = this.formulaire.value;
+      const data2 = this.exerciceAdded;
+      console.log( data1, data2 );
+      const prom = new Promise((resolve, reject) => {
+        this.exerciceService.updateSerieExerciceFixe(this.idToEdit, data1, data2);
+        resolve();
+      });
+      prom.then(() => {
+        this.returnTolist();
+        this.initForm();
+      });
+      
+    }
   }
 
   onDelete( id ) {
     this.exerciceService.deleteSerieExerciceFixe(id);
   }
 
-  onUpdate() {
-    this.exerciceForm = this.formBuilder.group({
-      exercice: ['', [Validators.required] ]
-    });
-    this.selectExercices = true;
-    this.isDisplayEdit = false;
-    this.isFromEdit = true;
-    this.exerciceService.getAllExercices();
-    this.exerciceService.exerciceSubject.subscribe( data => {
-      this.exerciceSource = new MatTableDataSource( data );
-      this.exerciceList = this.exerciceSource.filteredData;
-      this.isDisplayFormExo = true;
-    });
-    /*const data = this.serieFormEdit.value;
-    this.exerciceService.updateSerieExerciceFixe(this.idOneSerie, data);
-    this.hiddenEdit();*/
-  }
-
-
-  /* AFFICHAGE */
-  displayAdd() {
-    this.isdisplayedAdd = true;
-    this.isDisplayEdit = this.isDispalayList = false;
-  }
-  hiddenAdd() {
-    this.isdisplayedAdd = this.isDisplayEdit = false;
-    this.isDispalayList = true;
-  }
-  hiddenEdit() {
-    this.isDisplayEdit = this.isdisplayedAdd = false;
-    this.isDispalayList = true;
-  }
-  returnToAdd() {
-    if ( this.isFromEdit ) {
-      this.isDisplayEdit = true;
-      this.selectExercices = this.isFromEdit = false;
-    } else {
-    this.isdisplayedAdd = true;
-    this.selectExercices = false;
-    this.exerciceAdded = [];
-    }
-  }
 
 }
