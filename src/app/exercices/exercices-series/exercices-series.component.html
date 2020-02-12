@@ -7,7 +7,7 @@
     </button>
 
 
-    <h2>Series d'exercices</h2>
+    <h2>Liste des séries d'exercices</h2>
 
     <div [ngStyle]="{'padding':'0 10px'}">
         <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="box-shadow: none;">
@@ -31,10 +31,12 @@
                 <mat-cell *matCellDef="let element;"> {{ element.objectifJour }} </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="pathology">
+            <!-- <ng-container matColumnDef="pathology">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Pathologie</mat-header-cell>
-                <mat-cell *matCellDef="let element;"> {{element.pathology}} </mat-cell>
-            </ng-container>
+                <mat-cell *matCellDef="let element;">
+                  {{element.pathology}}
+                </mat-cell>
+            </ng-container> -->
 
             <ng-container matColumnDef="action">
                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
@@ -63,7 +65,7 @@
   </button>
 
   <h2 *ngIf="isClickToAdd">Ajouter une série d'exercice</h2>
-  <h2 *ngIf="isClickToEdit">Modifier une série d'exercice</h2>
+  <h2 *ngIf="isClickToEdit">Éditer la série</h2>
 
   <div fxLayout="column" style="padding: 0 10px;">
 
@@ -73,7 +75,7 @@
         <mat-form-field fxFlex="100">
           <input (keyup)="onKeyUp()" matInput type="text" formControlName="nom" placeholder="Nom de la série d'exercices fixe">
         </mat-form-field>
-        <div [ngStyle]="{'padding':'10px'}">
+        <div [ngStyle]="{'padding':'10px'}" fxLayoutAlign="end start">
           <button [disabled]="!nomIsEntered" (click)="showPart(); $event.preventDefault();" type="button" mat-fab color="warn">
             <mat-icon>keyboard_arrow_right</mat-icon>
           </button>
@@ -115,45 +117,51 @@
         </div>
 
         <div style="padding: 10px" fxFlex="100" fxLayout="row wrap">
-          <mat-form-field fxFlex="80">
-            <input matInput placeholder="Exercices" formControlName="exercices" (keyup)="applyFilter($event.target.value)" [matAutocomplete]="auto">
+          <mat-form-field fxFlex="95">
+            <input matInput placeholder="Ajouter un exercice à la série" formControlName="exercices" (keyup)="applyFilter($event.target.value)" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
               <mat-option (onSelectionChange)="activeButton()" *ngFor="let exercice of exerciceList" [value]="exercice">
                 <span>{{ exercice.nom }}</span>
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-          <button type="button" [disabled]="disabled" (click)="onAddExercice(); $event.preventDefault();" mat-button fxFlex="20">
-            Add
+          <button type="button" [disabled]="disabled" mat-icon-button matSuffix
+            (click)="onAddExercice(); $event.preventDefault();">
+              <mat-icon>add</mat-icon>
           </button>
 
-          <div>
-            <div fxFlex="100">
-              <div [ngStyle]="{'padding':'10px'}">
-                <mat-list>
-                  <mat-list-item fxFlex="50" *ngFor="let exercice of exerciceAdded; let i = index;">
-                    <div fxFlex="90"> {{ exercice.nom }} </div>
-                    <div fxFlex="10"><button (click)="clearExo(i)" mat-button color="warn"><mat-icon>clear</mat-icon></button></div>
-                  </mat-list-item>
-                </mat-list>
+
+          <div fxFlex="100" [ngStyle]="{'padding':'10px'}" *ngFor="let exercice of exerciceAdded; let i = index;">
+              <div fxFlex="100" class="liste-exe">
+                <div fxFlex="5"><span class="bulle-acro">{{ i+1 }}</span></div>
+                <div fxFlex="5">
+                  <mat-icon *ngIf="exercice.visibility" color="black">visibility</mat-icon>
+                  <mat-icon *ngIf="!exercice.visibility" color="black">visibility_off</mat-icon>
+                </div>
+                <div fxFlex="80"> {{ exercice.nom }} </div>
+                <div fxFlex="5">
+                  <button [routerLink]="['./../../exercices/', exercice.id]" mat-button><mat-icon>link</mat-icon></button>
+                </div>
+                <div fxFlex="5">
+                  <button (click)="clearExo(i)" mat-button><mat-icon>clear</mat-icon></button>
+                </div>
               </div>
-            </div>
           </div>
         </div>
 
 
-        <div [ngStyle]="{'padding':'10px'}">
-          <button (click)="hidePart()" type="button" color="primary" mat-fab>
+        <!-- <div [ngStyle]="{'padding':'10px'}">
+          <button (click)="hidePart()" type="button" color="black" mat-fab>
             <mat-icon>keyboard_arrow_left</mat-icon>
           </button>
-        </div>
+        </div> -->
 
-        <div [ngStyle]="{'padding':'10px'}">
+        <div fxFlex="100" [ngStyle]="{'padding':'10px'}" fxLayoutAlign="end start">
           <button [disabled]="formulaire.invalid || disabled2" type="submit" mat-fab color="warn">
             <mat-icon>save</mat-icon>
           </button>
         </div>
-      </div> 
+      </div>
 
     </form>
 

@@ -9,6 +9,7 @@ import { PathologiesComponent } from './shared/pathologies/pathologies.component
 import { QuestionsComponent } from './questionnaires/questionnaires/questions.component';
 import { QuestionsFormComponent } from './questionnaires/questionnaires/questions-form/questions-form.component';
 import { QuestionsDetailComponent } from './questionnaires/questionnaires/questions-detail/questions-detail.component';
+import { UsersComponent } from './users/users.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path : 'objectifs', canActivate: [AuthGuardService], component : ObjectifsComponent },
   { path : 'niveaux', canActivate: [AuthGuardService], component : NiveauxComponent },
   { path : 'pathologies', canActivate: [AuthGuardService], component : PathologiesComponent },
+  { path : 'users', canActivate: [AuthGuardService], component : UsersComponent },
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
   {
     path: 'exercices', canActivate: [AuthGuardService],

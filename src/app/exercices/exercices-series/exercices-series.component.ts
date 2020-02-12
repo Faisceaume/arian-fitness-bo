@@ -20,7 +20,7 @@ export class ExercicesSeriesComponent implements OnInit {
   objectifs: any[];
   dataSource: MatTableDataSource<any>;
   exerciceSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['nom', 'timestamp', 'senior', 'objectifJour', 'pathology', 'action'];
+  displayedColumns: string[] = ['nom', 'timestamp', 'senior', 'objectifJour', 'action'];
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   /*  */
 
@@ -218,7 +218,7 @@ export class ExercicesSeriesComponent implements OnInit {
         this.returnTolist();
         this.initForm();
       });
-      
+
     }
   }
 
