@@ -87,6 +87,7 @@ export class ExercicesSeriesComponent implements OnInit {
   initForm() {
     this.formulaire = this.formBuilder.group({
       nom: ['', Validators.required],
+      consigne : ['', Validators.required],
       senior: ['', Validators.required],
       type: ['', Validators.required],
       pathology: [this.pathologies, Validators.required],
@@ -153,6 +154,7 @@ export class ExercicesSeriesComponent implements OnInit {
       this.idToEdit = id;
       this.formulaire = this.formBuilder.group({
         nom: [data.nom, Validators.required],
+        consigne: [data.consigne, Validators.required],
         senior: [data.senior, Validators.required],
         type: [data.type, Validators.required],
         pathology: [data.pathology, Validators.required],

@@ -116,6 +116,7 @@ export class ExercicesService {
     batch.set(ref, {
       id: idRef,
       nom: data.nom,
+      consigne: data.consigne,
       senior: data.senior,
       type: data.type,
       pathology: data.pathology,
@@ -181,6 +182,7 @@ export class ExercicesService {
     const data = Object.assign(dataArg1, {id: idArg, timestamp: new Date().getTime()});
     batch.update(ref, {
       nom: data.nom,
+      consigne: data.consigne,
       senior: data.senior,
       pathology: data.pathology,
       type: data.type,

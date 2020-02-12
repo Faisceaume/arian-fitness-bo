@@ -83,6 +83,11 @@
       </div>
 
       <div class="part2" *ngIf="part2" fxLayout="row wrap">
+        <div fxFlex="100"s>
+          <mat-form-field fxFlex="100">
+            <input matInput type="text" formControlName="consigne" placeholder="Préciser une consigne pour cette série d'exercice.">
+          </mat-form-field>
+        </div>
         <div fxFlex="100" style="padding:10px 0">
           <label class="dark-chip"> Senior :</label>
           <mat-radio-group color="warn" formControlName="senior">
@@ -112,7 +117,7 @@
           </mat-radio-group>
         </div>
         <div fxFlex="100">
-          <mat-form-field color="warn" fxFlex="100" style="padding: 10px">
+          <mat-form-field color="warn" fxFlex="100" style="padding: 10px 10px 0">
             <mat-label>Pathologie</mat-label>
             <mat-select formControlName="pathology" multiple>
               <mat-option *ngFor="let pathology of pathologies" [value]="pathology.id">
@@ -122,7 +127,7 @@
           </mat-form-field>
         </div>
 
-        <div style="padding: 10px" fxFlex="100" fxLayout="row wrap">
+        <div style="padding: 0px 10px" fxFlex="100" fxLayout="row wrap">
           <mat-form-field fxFlex="95">
             <input matInput placeholder="Ajouter un exercice à la série" formControlName="exercices" (keyup)="applyFilter($event.target.value)" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -137,8 +142,8 @@
           </button>
 
 
-          <div fxFlex="100" [ngStyle]="{'padding':'10px'}" *ngFor="let exercice of exerciceAdded; let i = index;">
-              <div fxFlex="100" class="liste-exe">
+          <div fxFlex="100" class="liste-exe" *ngFor="let exercice of exerciceAdded; let i = index;">
+              <div fxFlex="100">
                 <div fxFlex="5"><span class="bulle-acro">{{ i+1 }}</span></div>
                 <div fxFlex="5">
                   <mat-icon *ngIf="exercice.visibility" color="black">visibility</mat-icon>
