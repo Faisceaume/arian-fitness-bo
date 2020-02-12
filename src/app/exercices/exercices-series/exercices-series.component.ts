@@ -7,6 +7,7 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 import { Exercice } from '../exercice';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { Listes } from 'src/app/shared/listes';
 
 @Component({
   selector: 'app-exercices-series',
@@ -23,7 +24,7 @@ export class ExercicesSeriesComponent implements OnInit {
   displayedColumns: string[] = ['nom', 'timestamp', 'senior', 'objectifJour', 'action'];
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   /*  */
-
+  listes: Listes;
   exerciceList: any[];
 
   /* Affichage  && Navigation */

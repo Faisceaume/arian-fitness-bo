@@ -29,7 +29,8 @@ export class Listes {
     '20 secondes',
     '30 secondes',
     '30 secondes par côté',
-    '45 secondes'
+    '45 secondes',
+    '120 secondes'
   ];
 
   nbrerepetexercice = [
@@ -71,6 +72,14 @@ export class Listes {
     '30 minutes'
   ];
 
+  nbrseries = [
+    '1', '1 par côté',
+    '2', '2 par côté',
+    '3', '3 par côté',
+    '4', '4 par côté',
+    '5', '5 par côté'
+  ];
+
   // section methodes
   listeNbrexparserie = [
     1,
@@ -102,6 +111,24 @@ export class Listes {
     12
   ];
 
+  listeObjectifsJour = [
+    'FB',
+    'FPH',
+    'FPL',
+    'K',
+    'L',
+    'L1',
+    'L2',
+    'MAR',
+    'POS',
+    'T',
+    'T1',
+    'T2',
+    'T3',
+    'TPH',
+    'TPL',
+  ];
+
   listeTemps = [
     10,
     15,
@@ -115,6 +142,11 @@ export class Listes {
     180,
     210
   ];
+
+  tempsderepos = [
+    0, 15, 30, 45, 60
+  ];
+
 
 
 }
