@@ -64,8 +64,8 @@
       <mat-icon>close</mat-icon>
   </button>
 
-  <h2 *ngIf="isClickToAdd">Ajouter une série d'exercice</h2>
-  <h2 *ngIf="isClickToEdit">Éditer la série</h2>
+<h2 *ngIf="isClickToAdd"><span> Ajouter une série d'exercice : </span> <button color="warn" mat-button> {{ nom }} </button></h2>
+  <h2 *ngIf="isClickToEdit"> <span> Éditer la série : </span> <button color="warn" mat-button> {{ nom }} </button>  </h2>
 
   <div fxLayout="column" style="padding: 0 10px;">
 
@@ -106,10 +106,10 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field fxFlex="50" style="padding: 10px">
+          <mat-form-field color="warn" fxFlex="50" style="padding: 10px">
             <mat-label>Pathologie</mat-label>
             <mat-select formControlName="pathology" multiple>
-              <mat-option color="warn" *ngFor="let pathology of pathologies" [value]="pathology.id">
+              <mat-option *ngFor="let pathology of pathologies" [value]="pathology.id">
                 {{pathology.details}}
               </mat-option>
             </mat-select>
@@ -120,7 +120,7 @@
           <mat-form-field fxFlex="95">
             <input matInput placeholder="Ajouter un exercice à la série" formControlName="exercices" (keyup)="applyFilter($event.target.value)" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-              <mat-option (onSelectionChange)="activeButton()" *ngFor="let exercice of exerciceList" [value]="exercice">
+              <mat-option (onSelectionChange)="activeButton()" (click)="onAddExercice(); $event.preventDefault();" *ngFor="let exercice of exerciceList" [value]="exercice">
                 <span>{{ exercice.nom }}</span>
               </mat-option>
             </mat-autocomplete>
