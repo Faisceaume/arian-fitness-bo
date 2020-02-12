@@ -19,6 +19,9 @@ export class ExercicesService {
   oneSerieExerciceFixe: any;
   oneSerieExerciceFixeSubject = new Subject<any>();
 
+  oneSerieFixeFromExercice: any;
+  oneSerieFixeFromExerciceSubject = new Subject<any>();
+
   constructor(private firestore: AngularFirestore,
               private router: Router,
               private categoriesService: CategoriesService) { }
@@ -100,15 +103,45 @@ export class ExercicesService {
   emitOneSerieExerciceFixe() {
     this.oneSerieExerciceFixeSubject.next( this.oneSerieExerciceFixe );
   }
+  emitOneSerieFixeFromExerciceSubject() {
+    this.oneSerieFixeFromExerciceSubject.next( this.oneSerieFixeFromExercice );
+  }
 
-  createSerieExercice(dataArg: any) {
+  createSerieExercice(dataArg, dataArg2: Exercice[]) {
     const batch = this.firestore.firestore.batch();
     const idRef = this.firestore.createId();
-    const data = Object.assign(dataArg, {id: idRef, timestamp: new Date().getTime()});
+    let data = Object.assign({}, dataArg);
+    data = Object.assign(dataArg, {id: idRef, timestamp: new Date().getTime()});
     const ref = this.firestore.firestore.collection('seriesfixes').doc( idRef );
-    batch.set(ref, data);
-    batch.commit().then(() => console.log('Serie exercice crée!!!'));
+    batch.set(ref, {
+      id: idRef,
+      nom: data.nom,
+      senior: data.senior,
+      pathology: data.pathology,
+      objectifJour: data.objectifJour,
+      timestamp: data.timestamp
+    });
+    batch.commit().then(() => {
+      const batch2 = this.firestore.firestore.batch();
+      dataArg2.forEach(element => {
+        const data2 = Object.assign(element, {idSerieFixe: idRef});
+        const ref2 = this.firestore.firestore
+                         .collection('seriesfixes')
+                         .doc(idRef)
+                         .collection('exercice')
+                         .doc(element.id);
+        batch2.set(ref2, data2);
+      });
+      const ref3 = this.firestore.firestore.collection('exercices').doc( idRef );
+      batch2.set(ref3, {
+        id: idRef,
+        exercices: dataArg2
+      });
+      batch2.commit().then(() => console.log('Sous collection mis à jour'));
+      console.log('Serie exercice crée!!!');
+    });
   }
+
 
   /////////////////////////////////////////////
   ////////////////////////////////////////////
@@ -131,16 +164,46 @@ export class ExercicesService {
     });
   }
 
+  getSerieExerciceFromExercice(id) {
+    this.firestore.collection('exercices').doc(id).get().subscribe(data => {
+      this.oneSerieFixeFromExercice = data.data();
+      this.emitOneSerieFixeFromExerciceSubject();
+    });
+  }
+
   /////////////////////////////////////////////
   ////////////////////////////////////////////
   /////////////// UPDATE //////////////////////
   ///////////////////////////////////////////
-  updateSerieExerciceFixe(idArg, dataArg) {
+  updateSerieExerciceFixe(idArg, dataArg1, dataArg2: Exercice[]) {
     const batch = this.firestore.firestore.batch();
     const ref = this.firestore.firestore.collection('seriesfixes').doc( idArg );
-    const data = Object.assign(dataArg, {id: idArg, timestamp: new Date().getTime()});
-    batch.update(ref, data);
-    batch.commit().then(() => console.log('Update serie fixe success'));
+    const data = Object.assign(dataArg1, {id: idArg, timestamp: new Date().getTime()});
+    batch.update(ref, {
+      nom: data.nom,
+      senior: data.senior,
+      pathology: data.pathology,
+      objectifJour: data.objectifJour,
+      timestamp: data.timestamp
+    });
+    batch.commit().then(() => {
+      const batch2 = this.firestore.firestore.batch();
+      dataArg2.forEach(element => {
+        const ref2 = this.firestore.firestore
+                         .collection('seriesfixes')
+                         .doc(idArg)
+                         .collection('exercice')
+                         .doc(element.id);
+        batch2.set(ref2, element);
+      });
+      console.log( dataArg2 );
+      const ref3 = this.firestore.firestore.collection('exercices').doc( idArg );
+      batch2.update(ref3, {
+        exercices: dataArg2
+      });
+      console.log('Update serie fixe success');
+      batch2.commit().then(() => console.log('Update finish'));
+    });
   }
 
   /////////////////////////////////////////////
@@ -150,6 +213,8 @@ export class ExercicesService {
   deleteSerieExerciceFixe(id) {
     const batch = this.firestore.firestore.batch();
     const ref = this.firestore.firestore.collection('seriesfixes').doc(id);
+    const ref2 = this.firestore.firestore.collection('exercices').doc(id);
+    batch.delete(ref2);
     batch.delete(ref);
     batch.commit().then(() => console.log('Suppression de la serie d\'exercice fixe réussi '));
   }
