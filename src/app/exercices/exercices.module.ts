@@ -6,6 +6,7 @@ import { ExercicesListComponent } from './exercices-list/exercices-list.componen
 import { ExercicesRoutingModule } from './exercices-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { ExercicesSeriesComponent } from './exercices-series/exercices-series.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { ExercicesSeriesComponent } from './exercices-series/exercices-series.co
     SharedModule,
     CommonModule,
     ExercicesRoutingModule,
+    MatExpansionModule
   ]
 })
 export class ExercicesModule { }
