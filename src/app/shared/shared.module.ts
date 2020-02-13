@@ -15,7 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { MatPaginatorModule, MatSortModule } from '@angular/material';
+import { MatPaginatorModule, MatSortModule, MatNativeDateModule } from '@angular/material';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -26,6 +26,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material';
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+
 
 
 import { CategoriesComponent } from './categories/categories.component';
@@ -65,7 +67,9 @@ const modules = [
     MatChipsModule,
     MatCheckboxModule,
     MatRadioModule,
-    MatStepperModule
+    MatStepperModule,
+    MatDatepickerModule,
+    MatNativeDateModule
 ];
 
 @NgModule({
@@ -85,6 +89,9 @@ const modules = [
     ...modules,
     CategoriesComponent,
     ObjectifsComponent,
+],
+providers: [
+  MatDatepickerModule,
 ],
 entryComponents: [CategoriesCrudComponent,
                   ObjectifsCrudComponent,

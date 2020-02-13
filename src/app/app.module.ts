@@ -18,10 +18,9 @@ import { environment } from '../environments/environment';
 import { AuthComponent } from './auth/auth.component';
 import { AccueilComponent } from './accueil/accueil.component';
 import { UiModule } from './ui/ui.module';
+import { MatDialogRef } from '@angular/material/dialog';
+
 import { QuestionnairesModule } from './questionnaires/questionnaires.module';
-import {MatDialogRef} from '@angular/material/dialog';
-
-
 
 @NgModule({
   declarations: [

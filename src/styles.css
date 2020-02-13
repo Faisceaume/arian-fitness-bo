@@ -104,6 +104,7 @@ h4.h4-modal {
   padding: 5px 30px;
   text-transform: uppercase;;
   font-weight: 300 !important;
+  margin: 10px;
 }
 .nom-formulaire h2 {
   text-transform: uppercase;;

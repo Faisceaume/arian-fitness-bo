@@ -1,0 +1,13 @@
+<div fxLayoutAlign="start start">
+
+      <mat-form-field fxFlex="80">
+        <input matInput placeholder="Email" type="text" name="email"
+          [(ngModel)]="formData.email"
+          id="email" required>
+      </mat-form-field>
+      &nbsp;&nbsp;
+
+      <button mat-fab color="warn" type="button" (click)="onSubmit()" fxFlex="10">
+          <mat-icon>save</mat-icon>
+      </button>
+</div>

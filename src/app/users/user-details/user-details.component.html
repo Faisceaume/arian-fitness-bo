@@ -1,0 +1,201 @@
+
+<button mat-icon-button
+  routerLink="/users"
+  type="button"
+  class="button-right">
+    <mat-icon>close</mat-icon>
+</button>
+
+<div class="nom-formulaire" *ngIf="formData">
+  <h2>User : <strong>{{ formData.email }}</strong></h2>
+</div>
+
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="formData && niveaux">
+
+        <mat-form-field fxFlex="40">
+          <input matInput placeholder="Email" type="text" name="email"
+            [(ngModel)]="formData.email"
+            (ngModelChange)="updateField('email', formData.email)"
+            id="email" required
+            disabled="true">
+        </mat-form-field>
+
+
+        <mat-form-field fxFlex="20">
+          <input matInput placeholder="Nom" type="text" name="nom"
+            [(ngModel)]="formData.nom"
+            (ngModelChange)="updateField('nom', formData.nom)"
+            id="nom" required>
+        </mat-form-field>
+
+
+        <mat-form-field fxFlex="40">
+          <input matInput placeholder="Prenom(s)" type="text" name="prenom"
+            [(ngModel)]="formData.prenom"
+            (ngModelChange)="updateField('prenom', formData.prenom)"
+            id="prenom" required>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="30">
+          <mat-label>Genre</mat-label>
+          <mat-select
+          [(ngModel)]="formData.genre"
+          (ngModelChange)="updateField('genre', formData.genre)">
+            <mat-option value="H">H</mat-option>
+            <mat-option value="F">F</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <mat-form-field fxFlex="35">
+          <input matInput placeholder="password" type="text" name="password"
+            [(ngModel)]="formData.password"
+            (ngModelChange)="updateField('password', formData.password)"
+            id="password" required>
+        </mat-form-field>
+
+
+        <mat-form-field fxFlex="35">
+          <input matInput placeholder="Telephone" type="text" name="telephone"
+            [(ngModel)]="formData.telephone"
+            (ngModelChange)="updateField('telephone', formData.telephone)"
+            id="telephone" required>
+        </mat-form-field>
+
+
+        <mat-form-field fxFlex="50">
+          <mat-label>Date de naissance</mat-label>
+          <input matInput [matDatepicker]="picker1"
+          [formControl]="datenaissanceControl"
+          (ngModelChange)="updateField('datedenaissance', datenaissanceControl.value, true)">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+
+        <mat-form-field fxFlex="50">
+          <mat-label>Abonnement</mat-label>
+          <mat-select
+          [(ngModel)]="formData.abonnement"
+          (ngModelChange)="updateField('abonnement', formData.abonnement)">
+            <mat-option value="1">1</mat-option>
+            <mat-option value="3">3</mat-option>
+            <mat-option value="12">12</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Premium &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="premiumControl"
+            (change)="updateField('premium', premiumControl.value)">
+          </mat-slide-toggle>
+        </div>
+
+        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxFlex="50" fxLayoutAlign="end start">Senior &nbsp; </label>
+          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+            [formControl]="seniorControl"
+            (change)="updateField('senior', seniorControl.value)">
+          </mat-slide-toggle>
+        </div>
+
+        <mat-form-field fxFlex="40">
+          <mat-label>Date fin premium</mat-label>
+          <input matInput [matDatepicker]="picker2"
+          [formControl]="datefindepremiumControl"
+          (ngModelChange)="updateField('datefindepremium', datefindepremiumControl.value, true)">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+
+
+        <mat-form-field fxFlex="20">
+          <input matInput placeholder="Tarif" type="text" name="tarif"
+            [(ngModel)]="formData.tarif"
+            (ngModelChange)="updateField('tarif', formData.tarif)"
+            id="tarif" required>
+        </mat-form-field>
+
+
+        <mat-form-field fxFlex="40">
+          <mat-label>Frequence</mat-label>
+          <mat-select
+          [(ngModel)]="formData.frequence"
+          (ngModelChange)="updateField('frequence', formData.frequence)">
+            <mat-option value="2">2</mat-option>
+            <mat-option value="3">3</mat-option>
+            <mat-option value="4">4</mat-option>
+            <mat-option value="5">5</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <mat-form-field fxFlex="50">
+          <mat-label>datedernierlog</mat-label>
+          <input matInput [matDatepicker]="picker3"
+          [formControl]="datedernierlogControl"
+          (ngModelChange)="updateField('datedernierlog', datedernierlogControl.value, true)">
+          <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+          <mat-datepicker #picker3></mat-datepicker>
+        </mat-form-field>
+
+
+        <mat-form-field fxFlex="50">
+          <mat-label>datedernieremaj</mat-label>
+          <input matInput [matDatepicker]="picker4"
+          [formControl]="datedernieremajControl"
+          (ngModelChange)="updateField('datedernieremaj', datedernieremajControl.value, true)">
+          <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+          <mat-datepicker #picker4></mat-datepicker>
+        </mat-form-field>
+
+
+        <mat-form-field fxFlex="100">
+          <mat-label>Mode Reprise</mat-label>
+          <mat-select
+          [(ngModel)]="formData.modereprise"
+          (ngModelChange)="updateField('modereprise', formData.modereprise)">
+            <mat-option *ngFor="let it of modereprise" value="it">{{ it }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+
+        <div fxLayout="row" fxFlex="100">
+          <div fxFlex="100" fxLayout="column">
+
+            <div>
+              <label class="dark-chip"> Niveau : </label>
+              <span class="bulle-acro" *ngIf="!toChangeNiveau && formData.niveau">N {{ formData.niveau.acronyme}} </span>
+
+              <button mat-icon-button
+                (click)="toChangeNiveau = true"
+                *ngIf="!toChangeNiveau && formData.niveau">
+                  <mat-icon>close</mat-icon>
+              </button>
+
+              <mat-radio-group color="warn"
+                [(ngModel)]="formData.niveau"
+                (ngModelChange)="updateField('niveau', formData.niveau)"
+                *ngIf="!formData.niveau || toChangeNiveau">
+                <mat-radio-button *ngFor="let niveau of niveaux"
+                [value]="niveau" class="span-radio-button">
+                  N {{ niveau.acronyme }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+
+          <div fxFlex="20" class="btnClass" fxLayoutAlign="end end">
+            <button mat-fab  color="warn">
+              <mat-icon>navigate_next</mat-icon>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+

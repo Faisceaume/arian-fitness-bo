@@ -15,7 +15,7 @@ export class MethodesListComponent implements OnInit {
     'acronyme',
     'orientation',
     'date',
-    'dureeminimum',
+    'duree',
     'senior',
     'global',
     'niveau',
