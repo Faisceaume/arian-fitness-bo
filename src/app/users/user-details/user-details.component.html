@@ -102,7 +102,7 @@
           </mat-slide-toggle>
         </div>
 
-        <mat-form-field fxFlex="40">
+        <mat-form-field fxFlex="20">
           <mat-label>Date fin premium</mat-label>
           <input matInput [matDatepicker]="picker2"
           [formControl]="datefindepremiumControl"
@@ -132,6 +132,12 @@
           </mat-select>
         </mat-form-field>
 
+        <mat-form-field fxFlex="20">
+          <input matInput placeholder="Frequence par jour" type="number" name="frequenceparjour"
+            [(ngModel)]="formData.frequenceparjour"
+            (ngModelChange)="updateField('frequenceparjour', formData.frequenceparjour)"
+            id="frequenceparjour" required>
+        </mat-form-field>
 
         <mat-form-field fxFlex="50">
           <mat-label>datedernierlog</mat-label>
@@ -158,10 +164,37 @@
           <mat-select
           [(ngModel)]="formData.modereprise"
           (ngModelChange)="updateField('modereprise', formData.modereprise)">
-            <mat-option *ngFor="let it of modereprise" value="it">{{ it }}</mat-option>
+            <mat-option *ngFor="let it of modereprise" value="{{it}}">{{ it }}</mat-option>
           </mat-select>
         </mat-form-field>
 
+        <mat-form-field fxFlex="25">
+          <input matInput placeholder="Position parcours niveau" type="number" name="positionparcoursniveau"
+            [(ngModel)]="formData.positionparcoursniveau"
+            (ngModelChange)="updateField('positionparcoursniveau', formData.positionparcoursniveau)"
+            id="positionparcoursniveau" required>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="25">
+          <input matInput placeholder="Niveau inscription" type="text" name="niveauinscription"
+            [(ngModel)]="formData.niveauinscription"
+            (ngModelChange)="updateField('niveauinscription', formData.niveauinscription)"
+            id="niveauinscription" required>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="25">
+          <input matInput placeholder="Niveau periode Off" type="text" name="niveauavantperiodeoff"
+            [(ngModel)]="formData.niveauavantperiodeoff"
+            (ngModelChange)="updateField('niveauavantperiodeoff', formData.niveauavantperiodeoff)"
+            id="niveauavantperiodeoff" required>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="25">
+          <input matInput placeholder="Parcours Nitrition" type="text" name="parcoursnutrition"
+            [(ngModel)]="formData.parcoursnutrition"
+            (ngModelChange)="updateField('parcoursnutrition', formData.parcoursnutrition)"
+            id="parcoursnutrition" required>
+        </mat-form-field>
 
 
         <div fxLayout="row" fxFlex="100">

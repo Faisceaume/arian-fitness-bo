@@ -21,17 +21,16 @@ export class User {
  senior: boolean;
  niveau: Niveau; //  liste niveaux
  modereprise: string; // >60J<90J, >=90J<180J, >=180J, 0
+ frequenceparjour: number;
+ positionparcoursniveau: number;  // x/24
+ niveauinscription: string;
+ niveauavantperiodeoff: string;
+ parcoursnutrition: string; // x/y
 
 
  pathologies: Pathologie[]; // multi select sur le noeud pathologie
  objectif: Objectif[]; // liste noeud objectif
-
- niveauinscription: string;
- niveauavantperiodeoff: string;
- positionparcoursniveau: number;  // x/24
  trophee: string;
- frequenceparjour: number;
- parcoursnutrition: string; // x/y
 
  timestamp: string;
 }
