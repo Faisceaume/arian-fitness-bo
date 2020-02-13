@@ -4,5 +4,60 @@
   (click)="openMatDialog()">
     <mat-icon>add</mat-icon>
 </button>
-
+<div class="erreur" fxLayout="row" fxFlexAlign="center center" *ngIf="showError && usersService.asError">
+  <h3 fxFlex="90">l'utilisateur existe déjà</h3>
+  <div fxFlex="10" class="btnClass">
+    <button mat-fab color="warn" (click)="showError = false">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
 <h2>Listes des utilisateurs</h2>
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+  <!-- email Column -->
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+  </ng-container>
+
+  <!-- nom Column -->
+  <ng-container matColumnDef="nom">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+    <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+  </ng-container>
+
+  <!-- prenom Column -->
+  <ng-container matColumnDef="prenom">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Prenom </th>
+    <td mat-cell *matCellDef="let element"> {{element.prenom}} </td>
+  </ng-container>
+
+  <!-- genre Column -->
+  <ng-container matColumnDef="genre">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Genre </th>
+    <td mat-cell *matCellDef="let element"> {{element.genre}} </td>
+  </ng-container>
+
+    <!-- abonnement Column -->
+    <ng-container matColumnDef="abonnement">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Abonnement </th>
+      <td mat-cell *matCellDef="let element"> {{element.abonnement}} </td>
+    </ng-container>
+
+      <!-- action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+      <td mat-cell *matCellDef="let element" [ngStyle]="{'text-align':'right'}">
+        <button mat-icon-button [routerLink]="['/users/user-details', element.id]">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="onDelete(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

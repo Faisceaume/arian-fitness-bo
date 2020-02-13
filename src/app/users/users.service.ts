@@ -2,18 +2,24 @@ import { Injectable } from '@angular/core';
 import { User } from './user';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
+  users: User[];
+  userSubject = new Subject<any[]>();
+  asError: boolean;
+
   constructor(private firestore: AngularFirestore,
               private router: Router) { }
 
   createUser(user: User): void {
     this.getSingleUser(user.email).then((item: User) => {
-      console.log(item);
+      // this.router.navigate(['/users/user-details', item.id]);
+      this.asError = true;
     }, (error) => {
 
     const batch = this.firestore.firestore.batch();
@@ -31,8 +37,21 @@ export class UsersService {
   }
 
   getAllUsers() {
-
+        this.firestore.collection('users', ref => ref.orderBy('timestamp'))
+                  .snapshotChanges().subscribe( data => {
+       this.users = data.map( e => {
+        const anotherData = e.payload.doc.data() as User;
+        return  {
+          ...anotherData
+        } as User;
+      });
+       this.emitUserSubject();
+    });
   }
+
+  emitUserSubject() {
+    this.userSubject.next(this.users.slice());
+}
 
   getSingleUser(email: string, currentId?: string): Promise<User> {
     return new Promise<User>((resolve, reject) => {
@@ -65,5 +84,9 @@ export class UsersService {
     batch.update(nextDocument1, `${attribut}`, value);
     batch.commit().then(() => {
     }).catch((error) => { console.error('Error updzting document: ', error); });
+  }
+
+  deleteUser(user: User) {
+    this.firestore.doc('users/' + user.id).delete();
   }
 }
