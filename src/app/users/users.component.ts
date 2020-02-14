@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatSort, MatTableDataSource } from '@angular/material';
+import { UserFormComponent } from './user-form/user-form.component';
+import { UsersService } from './users.service';
+import { User } from './user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -7,9 +12,40 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersComponent implements OnInit {
 
-  constructor() { }
+  displayedColumns: string[] = ['email', 'nom', 'prenom', 'genre', 'abonnement', 'action'];
+  dataSource: MatTableDataSource<User>;
+  showError: boolean;
+
+  constructor(private matDialog: MatDialog,
+              public usersService: UsersService,
+              private router: Router) { }
+
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit() {
+    this.usersService.getAllUsers();
+    this.usersService.userSubject.subscribe(data => {
+      this.dataSource = new MatTableDataSource<User>(data);
+      this.dataSource.sort = this.sort;
+    });
   }
 
+  onEdit(user: User) {
+    this.router.navigate(['/users/user-details', user.id]);
+  }
+
+  onDelete(user: User) {
+    if (confirm('Confirmer la suppression ?')) {
+      this.usersService.deleteUser(user);
+    }
+  }
+
+  openMatDialog() {
+    this.showError = true;
+    this.usersService.asError = false;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '60%';
+    this.matDialog.open(UserFormComponent, dialogConfig);
+  }
 }

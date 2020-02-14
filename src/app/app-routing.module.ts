@@ -35,7 +35,11 @@ const routes: Routes = [
   },
   { path: 'questionnaires', canActivate: [AuthGuardService], component: QuestionsComponent },
   {path: 'question-form/:idQuestionnaire', canActivate: [AuthGuardService], component: QuestionsFormComponent},
-  {path: 'question-detail/:idQuestion', canActivate: [AuthGuardService], component: QuestionsDetailComponent}
+  {path: 'question-detail/:idQuestion', canActivate: [AuthGuardService], component: QuestionsDetailComponent},
+  {
+    path: 'users', canActivate: [AuthGuardService],
+    loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule)
+  },
 ];
 
 @NgModule({

@@ -43,6 +43,26 @@
       </mat-form-field>
       &nbsp;&nbsp;
 
+      <div fxLayout="row" fxFlex="100">
+        <div fxFlex="100" fxLayout="column">
+
+          <div class="type">
+            <label class="dark-chip"> Type :</label>
+            <mat-radio-group color="warn"
+            [(ngModel)]="formData.type"
+            (ngModelChange)="updateField('type', formData.type)"
+            [ngModelOptions]="{standalone: true}">
+              <mat-radio-button value="pathologie" class="span-radio-button">
+                Pathologie
+              </mat-radio-button>
+              <mat-radio-button value="pointfaible" class="span-radio-button">
+                Point faible
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </div>
+
       <div *ngIf="!toCreate" fxLayout="column" [ngStyle]="{'margin':'0 0 30px'}">
         <div *ngIf="formData.exercicesCategorie ? formData.exercicesCategorie.length!=0 : false">
           <h4 class="h4-modal">Catégories d'exercices</h4>

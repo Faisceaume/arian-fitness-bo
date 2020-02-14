@@ -1,5 +1,12 @@
-
-
 button {
   margin-right: 5px;
+}
+
+label {
+  padding: 6px 10px;
+  border-radius: 5px;
+}
+
+.type {
+  margin-bottom: 20px;
 }
