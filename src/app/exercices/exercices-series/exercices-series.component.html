@@ -16,6 +16,11 @@
                 <mat-cell *matCellDef="let element;"> {{ element.nom }} </mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="consigne">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Consigne</mat-header-cell>
+              <mat-cell *matCellDef="let element;"> {{ element.consigne }} </mat-cell>
+            </ng-container>
+
             <ng-container matColumnDef="timestamp">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</mat-header-cell>
                 <mat-cell *matCellDef="let element;" class="timestamp"> {{element.timestamp | date }} </mat-cell>
@@ -127,7 +132,7 @@
           </mat-form-field>
         </div>
 
-        <div style="padding: 0px 10px" fxFlex="100" fxLayout="row wrap">
+        <div *ngIf="displayEditForm" style="padding: 0px 10px" fxFlex="100" fxLayout="row wrap">
           <mat-form-field fxFlex="95">
             <input matInput placeholder="Ajouter un exercice à la série" formControlName="exercices" (keyup)="applyFilter($event.target.value)" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -142,20 +147,51 @@
           </button>
 
 
-          <div fxFlex="100" class="liste-exe" *ngFor="let exercice of exerciceAdded; let i = index;">
+          <div fxLayout="column"  fxFlex="100" formArrayName="exo" class="liste-exe" *ngFor="let ex of getExo().controls; let i = index;">
               <div fxFlex="100">
                 <div fxFlex="5"><span class="bulle-acro">{{ i+1 }}</span></div>
                 <div fxFlex="5">
-                  <mat-icon *ngIf="exercice.visibility" color="black">visibility</mat-icon>
-                  <mat-icon *ngIf="!exercice.visibility" color="black">visibility_off</mat-icon>
+                  <mat-icon *ngIf="exerciceAdded[i].visibility" color="black">visibility</mat-icon>
+                  <mat-icon *ngIf="!exerciceAdded[i].visibility" color="black">visibility_off</mat-icon>
                 </div>
-                <div fxFlex="80"> {{ exercice.nom }} </div>
+                <div fxFlex="80"> {{ exerciceAdded[i].nom }} </div>
                 <div fxFlex="5">
-                  <button [routerLink]="['./../../exercices/', exercice.id]" mat-button><mat-icon>link</mat-icon></button>
+                  <button [routerLink]="['./../../exercices/', exerciceAdded[i].id]" mat-button><mat-icon>link</mat-icon></button>
                 </div>
                 <div fxFlex="5">
                   <button (click)="clearExo(i)" mat-button><mat-icon>clear</mat-icon></button>
                 </div>
+              </div>
+              <div *ngIf="displayExercice" fxFlex="100">
+                  <div [formGroupName]="i" fxLayoutAlign="space-between">
+                    <mat-form-field>
+                      <mat-label>Nombre de repetition senior</mat-label>
+                      <mat-select formControlName="nbreReptSenior">
+                        <mat-option *ngFor="let nbr of nbreReptSenior" [value]="nbr">
+                          {{ nbr }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                      <mat-label>Nombre de séries</mat-label>
+                      <mat-select formControlName="nbreSerie">
+                        <mat-option *ngFor="let nbr of nbreSerie" [value]="nbr">
+                          {{ nbr }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                      <mat-label>Temps de repos</mat-label>
+                      <mat-select formControlName="nbreTempsDeRepos">
+                        <mat-option *ngFor="let nbr of nbreTempsDeRepos" [value]="nbr">
+                          {{ nbr }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    
+                  </div>
               </div>
           </div>
         </div>

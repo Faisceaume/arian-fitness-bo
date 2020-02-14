@@ -1,12 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { PathologiesService } from '../../shared/pathologies/pathologies.service';
-import { ObjectifsService } from 'src/app/shared/objectifs/objectifs.service';
 import { ExercicesService } from '../exercices.service';
 import { MatTableDataSource, MatSort } from '@angular/material';
-import { Exercice } from '../exercice';
-import { Observable } from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
 import { Listes } from 'src/app/shared/listes';
 
 @Component({
@@ -18,14 +14,16 @@ export class ExercicesSeriesComponent implements OnInit {
 
   /*  */
   pathologies: any[];
-  objectifs: any[];
   dataSource: MatTableDataSource<any>;
   exerciceSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['nom', 'timestamp', 'senior', 'type', 'action'];
+  displayedColumns: string[] = ['nom', 'consigne', 'timestamp', 'senior', 'type', 'action'];
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   /*  */
   listes: Listes;
   exerciceList: any[];
+  nbreReptSenior = new Listes().nbrerepetsenior;
+  nbreSerie = new Listes().nbrseries;
+  nbreTempsDeRepos = new Listes().nbrreposexercice;
 
   /* Affichage  && Navigation */
   displayList = true;
@@ -39,20 +37,24 @@ export class ExercicesSeriesComponent implements OnInit {
 
   /* formulaire */
   formulaire: FormGroup;
+  exo: FormArray;
   part1 = true;
   part2 = false;
   nomIsEntered: boolean;
   disabled = true;
   disabled2 = false;
   nom = '';
+  displayEditForm = true;
+  displayExercice = true;
 
   /* Edit */
   idToEdit: string;
 
+  /* Données pour l'exercice */
+
   constructor(
     private formBuilder: FormBuilder,
     private pathologiesService: PathologiesService,
-    private objectifService: ObjectifsService,
     private exerciceService: ExercicesService
     ) {}
 
@@ -69,19 +71,16 @@ export class ExercicesSeriesComponent implements OnInit {
       this.pathologies = data;
     });
 
-    this.objectifService.getAllObjectifs();
-    this.objectifService.objectifSubject.subscribe(data => {
-      this.objectifs = data;
-    });
-
     this.exerciceService.getAllExercices();
     this.exerciceService.exerciceSubject.subscribe(data => {
       this.exerciceSource = new MatTableDataSource( data );
       this.exerciceList = this.exerciceSource.filteredData;
       this.exerciceAdded = [];
     });
-
+    /*this.initForm2();*/
     this.initForm();
+    console.log( this.formulaire );
+    
   }
 
   initForm() {
@@ -91,10 +90,30 @@ export class ExercicesSeriesComponent implements OnInit {
       senior: ['', Validators.required],
       type: ['', Validators.required],
       pathology: [this.pathologies, Validators.required],
-      exercices: ['', Validators.required]
+      exercices: ['', Validators.required],
+      exo: this.formBuilder.array([], Validators.required)
     });
   }
 
+  getExo(): FormArray {
+    return this.formulaire.get('exo') as FormArray;
+  }
+
+  newExo(): FormGroup {
+    return this.formBuilder.group({
+      nbreReptSenior: ['', Validators.required],
+      nbreSerie: ['', Validators.required],
+      nbreTempsDeRepos: ['', Validators.required]
+    });
+  }
+
+  addExo() {
+    this.getExo().push( this.newExo() );
+  }
+
+  removeExo(i) {
+    this.getExo().removeAt( i );
+  }
 
   /* AFFICHAGE */
   returnTolist() {
@@ -114,6 +133,8 @@ export class ExercicesSeriesComponent implements OnInit {
   goToFormForEdit(id) {
     this.displayForm = this.isClickToEdit = true;
     this.displayList = !this.displayForm;
+    this.displayEditForm = false;
+    this.displayExercice = false;
     this.prepareEdit(id);
   }
   showPart() {
@@ -124,6 +145,7 @@ export class ExercicesSeriesComponent implements OnInit {
       this.exerciceService.getSerieExerciceFromExercice(this.idToEdit);
       this.exerciceService.oneSerieFixeFromExerciceSubject.subscribe(data => {
         this.exerciceAdded = data.exercices;
+        this.displayEditForm = true;
         this.formulaire.patchValue({exercices: this.exerciceAdded});
         if ( this.exerciceAdded.length >= 1) {
           this.disabled2 = false;
@@ -158,10 +180,27 @@ export class ExercicesSeriesComponent implements OnInit {
         senior: [data.senior, Validators.required],
         type: [data.type, Validators.required],
         pathology: [data.pathology, Validators.required],
+        exo: this.formBuilder.array([], Validators.required),
         exercices: ['', Validators.required]
       });
+      this.formulaire.setControl('exo', this.setControlDetailExo(data.detailExos));
+      this.displayExercice = true;
       this.nomIsEntered = true;
     });
+    
+    console.log( this.exerciceAdded );
+  }
+
+  setControlDetailExo(data: any[]): FormArray {
+    const formArray = new FormArray([], Validators.required);
+    data.forEach(s => {
+      formArray.push(this.formBuilder.group({
+        nbreReptSenior: [s.nbreReptSenior, Validators.required],
+        nbreSerie: [s.nbreSerie, Validators.required],
+        nbreTempsDeRepos: [s.nbreTempsDeRepos, Validators.required]
+      }));
+    });
+    return formArray;
   }
 
 
@@ -180,10 +219,12 @@ export class ExercicesSeriesComponent implements OnInit {
   }
   onAddExercice() {
     const ex =  this.formulaire.get('exercices').value;
+    console.log( ex );
     if (ex === '') {
 
     } else {
       this.exerciceAdded.push( ex );
+      this.addExo();
       this.exerciceAddLenght = this.exerciceAdded.length;
       this.formulaire.patchValue({
         exercices: ['', Validators.required]
@@ -196,6 +237,7 @@ export class ExercicesSeriesComponent implements OnInit {
   }
   clearExo(i) {
     this.exerciceAdded.splice(i, 1);
+    this.removeExo(i);
     this.exerciceAddLenght = this.exerciceAdded.length;
     if ( this.exerciceAddLenght === 0 ) {
       this.disabled2 = true;
@@ -208,16 +250,18 @@ export class ExercicesSeriesComponent implements OnInit {
     if ( this.isClickToAdd ) {
       const data1 = this.formulaire.value;
       const data2 = this.exerciceAdded;
-      console.log( data1, data2 );
-      this.exerciceService.createSerieExercice(data1, data2);
+      const data3 = this.formulaire.get('exo').value;
+      console.log( data3 );
+      this.exerciceService.createSerieExercice(data1, data2, data3);
       this.initForm();
       this.returnTolist();
     } else if ( this.isClickToEdit ) {
       const data1  = this.formulaire.value;
       const data2 = this.exerciceAdded;
+      const data3 = this.formulaire.get('exo').value;
       console.log( data1, data2 );
       const prom = new Promise((resolve, reject) => {
-        this.exerciceService.updateSerieExerciceFixe(this.idToEdit, data1, data2);
+        this.exerciceService.updateSerieExerciceFixe(this.idToEdit, data1, data2, data3);
         resolve();
       });
       prom.then(() => {
