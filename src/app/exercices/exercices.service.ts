@@ -126,7 +126,7 @@ export class ExercicesService {
     batch.commit().then(() => {
       const batch2 = this.firestore.firestore.batch();
       for (let i = 0; i < dataArg2.length; i++) {
-        dataArg2[i] = Object.assign(dataArg2[i], {detailExo: dataArg3[i]});
+        dataArg2[i] = Object.assign(dataArg2[i], {detailExo: dataArg3[i], n: 'exo'});
       }
       dataArg2.forEach(element => {
         const data2 = Object.assign(element, {idSerieFixe: idRef});
@@ -193,26 +193,40 @@ export class ExercicesService {
       timestamp: data.timestamp,
       detailExos: data.detailExos
     });
+ 
     batch.commit().then(() => {
       const batch2 = this.firestore.firestore.batch();
       for (let i = 0; i < dataArg2.length; i++) {
-        dataArg2[i] = Object.assign(dataArg2[i], {detailExo: dataArg3[i]});
+        dataArg2[i] = Object.assign(dataArg2[i], {idRef: idArg, detailExo: dataArg3[i], n: 'exo'});
       }
-      dataArg2.forEach(element => {
-        const ref2 = this.firestore.firestore
-                         .collection('seriesfixes')
-                         .doc(idArg)
-                         .collection('exercice')
-                         .doc(element.id);
-        batch2.set(ref2, element);
+      const query = this.firestore.firestore
+                    .collection('seriesfixes').doc( idArg )
+                    .collection('exercice').where('n', '==', 'exo');
+      const prom = new Promise((resolve, reject) => {
+        query.get().then((querySnaphot) => {
+          querySnaphot.forEach(doc => {
+            doc.ref.delete();
+            resolve();
+          });
+        });
       });
-      console.log( dataArg2 );
-      const ref3 = this.firestore.firestore.collection('exercices').doc( idArg );
-      batch2.update(ref3, {
-        exercices: dataArg2
+      prom.then(() => {
+        dataArg2.forEach(element => {
+          const ref2 = this.firestore.firestore
+                           .collection('seriesfixes')
+                           .doc(idArg)
+                           .collection('exercice')
+                           .doc(element.id);
+          batch2.set(ref2, element);
+        });
+        console.log( dataArg2 );
+        const ref3 = this.firestore.firestore.collection('exercices').doc( idArg );
+        batch2.update(ref3, {
+          exercices: dataArg2
+        });
+        console.log('Update serie fixe success');
+        batch2.commit().then(() => console.log('Update finish'));
       });
-      console.log('Update serie fixe success');
-      batch2.commit().then(() => console.log('Update finish'));
     });
   }
 
@@ -229,7 +243,6 @@ export class ExercicesService {
         querySnaphot.forEach(doc => {
           doc.ref.delete();
           resolve();
-          /*doc.data().delete();*/
         });
       });
     });

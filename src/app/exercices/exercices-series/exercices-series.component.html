@@ -80,8 +80,27 @@
         <mat-form-field fxFlex="100">
           <input (keyup)="onKeyUp()" matInput type="text" formControlName="nom" placeholder="Nom de la série d'exercices fixe">
         </mat-form-field>
+
+        <div fxFlex="100">
+          <label class="dark-chip"> Type :</label>
+          <mat-radio-group (change)="clickOnType()" color="warn" formControlName="type">
+            <mat-radio-button value="echauffement" class="span-radio-button">
+              Echauffement
+            </mat-radio-button>
+            <mat-radio-button value="calme" class="span-radio-button">
+              Retour au calme
+            </mat-radio-button>
+            <mat-radio-button value="pathologies" class="span-radio-button">
+              Traitement de pathologies
+            </mat-radio-button>
+            <mat-radio-button value="test" class="span-radio-button">
+              Test de performance
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
         <div [ngStyle]="{'padding':'10px'}" fxLayoutAlign="end start">
-          <button [disabled]="!nomIsEntered" (click)="showPart(); $event.preventDefault();" type="button" mat-fab color="warn">
+          <button [disabled]="!nomIsEntered || !typeIsChoose" (click)="showPart(); $event.preventDefault();" type="button" mat-fab color="warn">
             <mat-icon>keyboard_arrow_right</mat-icon>
           </button>
         </div>
@@ -104,20 +123,6 @@
             </mat-radio-button>
             <mat-radio-button value="avec" class="span-radio-button">
               Pour tout le monde (seniors compris)
-            </mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <div fxFlex="100">
-          <label class="dark-chip"> Type :</label>
-          <mat-radio-group color="warn" formControlName="type">
-            <mat-radio-button value="echauffement" class="span-radio-button">
-              Echauffement
-            </mat-radio-button>
-            <mat-radio-button value="calme" class="span-radio-button">
-              Retour au calme
-            </mat-radio-button>
-            <mat-radio-button value="pathologies" class="span-radio-button">
-              Traitement de pathologies
             </mat-radio-button>
           </mat-radio-group>
         </div>
@@ -164,32 +169,41 @@
               </div>
               <div *ngIf="displayExercice" fxFlex="100">
                   <div [formGroupName]="i" fxLayoutAlign="space-between">
-                    <mat-form-field>
-                      <mat-label>Nombre de repetition senior</mat-label>
-                      <mat-select formControlName="nbreReptSenior">
-                        <mat-option *ngFor="let nbr of nbreReptSenior" [value]="nbr">
-                          {{ nbr }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field>
-                      <mat-label>Nombre de séries</mat-label>
-                      <mat-select formControlName="nbreSerie">
-                        <mat-option *ngFor="let nbr of nbreSerie" [value]="nbr">
-                          {{ nbr }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field>
-                      <mat-label>Temps de repos</mat-label>
-                      <mat-select formControlName="nbreTempsDeRepos">
-                        <mat-option *ngFor="let nbr of nbreTempsDeRepos" [value]="nbr">
-                          {{ nbr }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
+                      <mat-form-field *ngIf="exos">
+                        <mat-label>Nombre de repetition senior</mat-label>
+                        <mat-select formControlName="nbreReptSenior">
+                          <mat-option *ngFor="let nbr of nbreReptSenior" [value]="nbr">
+                            {{ nbr }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+  
+                      <mat-form-field *ngIf="exos">
+                        <mat-label>Nombre de séries</mat-label>
+                        <mat-select formControlName="nbreSerie">
+                          <mat-option *ngFor="let nbr of nbreSerie" [value]="nbr">
+                            {{ nbr }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+  
+                      <mat-form-field *ngIf="exos">
+                        <mat-label>Temps de repos</mat-label>
+                        <mat-select formControlName="nbreTempsDeRepos">
+                          <mat-option *ngFor="let nbr of nbreTempsDeRepos" [value]="nbr">
+                            {{ nbr }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    
+                      <mat-form-field *ngIf="exoTest">
+                        <mat-label>Nbre Répétion Exercice</mat-label>
+                        <mat-select formControlName="nbreReptExercices">
+                          <mat-option *ngFor="let nbr of nbreReptExercices" [value]="nbr">
+                            {{ nbr }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
 
                   </div>
               </div>
