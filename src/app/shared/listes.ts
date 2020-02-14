@@ -14,6 +14,7 @@ export class Listes {
   nbrerepetretourcalme = [
     '2 minutes',
     '15 secondes',
+    '15 secondes par côté',
     '3 répétitions'
   ];
 
