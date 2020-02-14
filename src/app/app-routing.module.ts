@@ -9,6 +9,7 @@ import { PathologiesComponent } from './shared/pathologies/pathologies.component
 import { QuestionsComponent } from './questionnaires/questionnaires/questions.component';
 import { QuestionsFormComponent } from './questionnaires/questionnaires/questions-form/questions-form.component';
 import { QuestionsDetailComponent } from './questionnaires/questionnaires/questions-detail/questions-detail.component';
+import { UsersComponent } from './users/users.component';
 
 
 const routes: Routes = [

@@ -26,9 +26,9 @@
               <mat-cell *matCellDef="let element;"> {{ element.senior }} </mat-cell>
           </ng-container>
 
-            <ng-container matColumnDef="objectifJour">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Objectif du jour</mat-header-cell>
-                <mat-cell *matCellDef="let element;"> {{ element.objectifJour }} </mat-cell>
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+                <mat-cell *matCellDef="let element;"> {{ element.type }} </mat-cell>
             </ng-container>
 
             <!-- <ng-container matColumnDef="pathology">
@@ -64,8 +64,8 @@
       <mat-icon>close</mat-icon>
   </button>
 
-  <h2 *ngIf="isClickToAdd">Ajouter une série d'exercice</h2>
-  <h2 *ngIf="isClickToEdit">Éditer la série</h2>
+  <h2 *ngIf="isClickToEdit"> Éditer la série <strong>{{ nom }}</strong>  </h2>
+  <h2 *ngIf="isClickToAdd"> Ajouter une série d'exercice : <strong>{{ nom }}</strong> </h2>
 
   <div fxLayout="column" style="padding: 0 10px;">
 
@@ -83,7 +83,12 @@
       </div>
 
       <div class="part2" *ngIf="part2" fxLayout="row wrap">
-        <div fxFlex="100">
+        <div fxFlex="100"s>
+          <mat-form-field fxFlex="100">
+            <input matInput type="text" formControlName="consigne" placeholder="Préciser une consigne pour cette série d'exercice.">
+          </mat-form-field>
+        </div>
+        <div fxFlex="100" style="padding:10px 0">
           <label class="dark-chip"> Senior :</label>
           <mat-radio-group color="warn" formControlName="senior">
             <mat-radio-button value="uniquement" class="span-radio-button">
@@ -98,29 +103,35 @@
           </mat-radio-group>
         </div>
         <div fxFlex="100">
-          <mat-form-field fxFlex="50" style="padding: 10px;">
-            <mat-label>Objectif jour</mat-label>
-            <mat-select formControlName="objectifJour">
-              <mat-option color="warn" *ngFor="let objectif of objectifs" [value]="objectif.nom">
-                {{ objectif.nom }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field fxFlex="50" style="padding: 10px">
+          <label class="dark-chip"> Type :</label>
+          <mat-radio-group color="warn" formControlName="type">
+            <mat-radio-button value="echauffement" class="span-radio-button">
+              Echauffement
+            </mat-radio-button>
+            <mat-radio-button value="calme" class="span-radio-button">
+              Retour au calme
+            </mat-radio-button>
+            <mat-radio-button value="pathologies" class="span-radio-button">
+              Traitement de pathologies
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div fxFlex="100">
+          <mat-form-field color="warn" fxFlex="100" style="padding: 10px 10px 0">
             <mat-label>Pathologie</mat-label>
             <mat-select formControlName="pathology" multiple>
-              <mat-option color="warn" *ngFor="let pathology of pathologies" [value]="pathology.id">
+              <mat-option *ngFor="let pathology of pathologies" [value]="pathology.id">
                 {{pathology.details}}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
 
-        <div style="padding: 10px" fxFlex="100" fxLayout="row wrap">
+        <div style="padding: 0px 10px" fxFlex="100" fxLayout="row wrap">
           <mat-form-field fxFlex="95">
             <input matInput placeholder="Ajouter un exercice à la série" formControlName="exercices" (keyup)="applyFilter($event.target.value)" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-              <mat-option (onSelectionChange)="activeButton()" *ngFor="let exercice of exerciceList" [value]="exercice">
+              <mat-option (onSelectionChange)="activeButton()" (click)="onAddExercice(); $event.preventDefault();" *ngFor="let exercice of exerciceList" [value]="exercice">
                 <span>{{ exercice.nom }}</span>
               </mat-option>
             </mat-autocomplete>
@@ -131,8 +142,8 @@
           </button>
 
 
-          <div fxFlex="100" [ngStyle]="{'padding':'10px'}" *ngFor="let exercice of exerciceAdded; let i = index;">
-              <div fxFlex="100" class="liste-exe">
+          <div fxFlex="100" class="liste-exe" *ngFor="let exercice of exerciceAdded; let i = index;">
+              <div fxFlex="100">
                 <div fxFlex="5"><span class="bulle-acro">{{ i+1 }}</span></div>
                 <div fxFlex="5">
                   <mat-icon *ngIf="exercice.visibility" color="black">visibility</mat-icon>
@@ -148,13 +159,6 @@
               </div>
           </div>
         </div>
-
-
-        <!-- <div [ngStyle]="{'padding':'10px'}">
-          <button (click)="hidePart()" type="button" color="black" mat-fab>
-            <mat-icon>keyboard_arrow_left</mat-icon>
-          </button>
-        </div> -->
 
         <div fxFlex="100" [ngStyle]="{'padding':'10px'}" fxLayoutAlign="end start">
           <button [disabled]="formulaire.invalid || disabled2" type="submit" mat-fab color="warn">

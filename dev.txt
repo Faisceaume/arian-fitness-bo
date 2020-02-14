@@ -68,6 +68,41 @@ arian-fitness.appspot.com
 
 
 
+RDV LOUNIS 12/02
+
+- Bug edition niveau methode : à la suppression le radio des niveaux n'apparaît pas
+- Séries Fixes : retirer la liste Objectif Jour
+- Séries Fixes : Pathologies : multiselect
+- Série Fixe : Champs Consigne pour toute la série fixes
+- Séries Fixes : Pour le remplissage des exercices dans les séries fixes,
+  il faut également précisé pour cahque exerceice les chamsp suivant :
+    - nombre de repétition ou temps de travail : shared.listes.nbrerepetsenior
+    - nombre de série : sharde.listes.nbrseries
+    - temps de repos à chaque fin d'exercice : shared.listes.tempsderepos
+
+- Programme :
+  champs du formulaire :
+    - numero
+    - extra: boolean (donc 1 fois pour la semaine qd true)
+    - si extra, duree : (30, 45 ou 60)
+    - frequence : entre 1 et 5
+    - niveau: choix dans la liste des niveaux
+    - objectifs: list checkbox des objectifs
+    - semaineduniveau:
+        1- récupérer le nombre de semaine grace au niveau
+        2- Positionner le programme dans les semaines du niveau
+        exemple : [1:True,2:False,....,8:True] en checkbox ou X/Y
+    - custompointsfaibles: bollean (apparait uniquement si niv>1)
+
+    -> Remplissage des colonnes pour chaque journée du programme
+      - selection d'un échauffement dans la liste des série fixes dont le type est echauffement
+      -
+
+- Pathologies : rentrer les points faibles dans le même noeud
+  en rajoutant un type dans le formulaire : pathos / pointsfaibles
+
+- Evols : prévoir un bouton duplication de programme
+- Optimisation : sélection de plusieurs catégorie d'exe dans les pathologies
 
 CALL LOUNIS 10/2
 

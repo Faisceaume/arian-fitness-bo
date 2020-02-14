@@ -7,6 +7,7 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 import { Exercice } from '../exercice';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { Listes } from 'src/app/shared/listes';
 
 @Component({
   selector: 'app-exercices-series',
@@ -20,10 +21,10 @@ export class ExercicesSeriesComponent implements OnInit {
   objectifs: any[];
   dataSource: MatTableDataSource<any>;
   exerciceSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['nom', 'timestamp', 'senior', 'objectifJour', 'action'];
+  displayedColumns: string[] = ['nom', 'timestamp', 'senior', 'type', 'action'];
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   /*  */
-
+  listes: Listes;
   exerciceList: any[];
 
   /* Affichage  && Navigation */
@@ -43,6 +44,7 @@ export class ExercicesSeriesComponent implements OnInit {
   nomIsEntered: boolean;
   disabled = true;
   disabled2 = false;
+  nom = '';
 
   /* Edit */
   idToEdit: string;
@@ -85,8 +87,9 @@ export class ExercicesSeriesComponent implements OnInit {
   initForm() {
     this.formulaire = this.formBuilder.group({
       nom: ['', Validators.required],
+      consigne : ['', Validators.required],
       senior: ['', Validators.required],
-      objectifJour: [this.objectifs, Validators.required],
+      type: ['', Validators.required],
       pathology: [this.pathologies, Validators.required],
       exercices: ['', Validators.required]
     });
@@ -102,6 +105,7 @@ export class ExercicesSeriesComponent implements OnInit {
     this.nomIsEntered = false;
     this.exerciceAdded = [];
     this.initForm();
+    this.nom = '';
   }
   goToFormForAdd() {
     this.displayForm = this.isClickToAdd = true;
@@ -115,6 +119,7 @@ export class ExercicesSeriesComponent implements OnInit {
   showPart() {
     this.part2 = true;
     this.part1 = false;
+    this.nom = this.formulaire.get('nom').value;
     if (this.isClickToEdit) {
       this.exerciceService.getSerieExerciceFromExercice(this.idToEdit);
       this.exerciceService.oneSerieFixeFromExerciceSubject.subscribe(data => {
@@ -149,8 +154,9 @@ export class ExercicesSeriesComponent implements OnInit {
       this.idToEdit = id;
       this.formulaire = this.formBuilder.group({
         nom: [data.nom, Validators.required],
+        consigne: [data.consigne, Validators.required],
         senior: [data.senior, Validators.required],
-        objectifJour: [data.objectifJour, Validators.required],
+        type: [data.type, Validators.required],
         pathology: [data.pathology, Validators.required],
         exercices: ['', Validators.required]
       });

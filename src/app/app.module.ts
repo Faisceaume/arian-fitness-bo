@@ -21,6 +21,7 @@ import { UiModule } from './ui/ui.module';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { QuestionnairesModule } from './questionnaires/questionnaires.module';
+import { UsersModule } from './users/users.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { QuestionnairesModule } from './questionnaires/questionnaires.module';
     SharedModule,
     BrowserModule,
     QuestionnairesModule,
+    UsersModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
