@@ -77,7 +77,7 @@ RDV LOUNIS 12/02
 - Séries Fixes : Pour le remplissage des exercices dans les séries fixes,
   il faut également précisé pour cahque exerceice les chamsp suivant :
     - nombre de repétition ou temps de travail : shared.listes.nbrerepetsenior
-    - nombre de série : sharde.listes.nbrseries
+    - nombre de série : shared.listes.nbrseries
     - temps de repos à chaque fin d'exercice : shared.listes.tempsderepos
 
 - Programme :
