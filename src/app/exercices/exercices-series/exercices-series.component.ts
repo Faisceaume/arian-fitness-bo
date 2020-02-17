@@ -22,7 +22,6 @@ export class ExercicesSeriesComponent implements OnInit {
   listes: Listes;
   exerciceList: any[];
   nbreReptSenior = new Listes().nbrerepetsenior;
-  nbreSerie = new Listes().nbrseries;
   nbreTempsDeRepos = new Listes().nbrreposexercice;
 
   /* Affichage  && Navigation */
@@ -80,7 +79,6 @@ export class ExercicesSeriesComponent implements OnInit {
     /*this.initForm2();*/
     this.initForm();
     console.log( this.formulaire );
-    
   }
 
   initForm() {
@@ -187,7 +185,7 @@ export class ExercicesSeriesComponent implements OnInit {
       this.displayExercice = true;
       this.nomIsEntered = true;
     });
-    
+
     console.log( this.exerciceAdded );
   }
 

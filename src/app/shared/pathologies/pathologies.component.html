@@ -7,14 +7,23 @@
 
 <div [ngStyle]="{'padding':'0 10px'}">
 
-  <h2>Liste des Pathologies</h2>
+  <h2>Liste des pathologies et des pointes faibles</h2>
 
   <table mat-table [dataSource]="dataSource" matSort [ngStyle]="{'box-shadow': 'none !important'}">
 
     <!-- Name Column -->
     <ng-container matColumnDef="nom">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom de la pathologie</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom</th>
       <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+    </ng-container>
+
+    <!-- Type Column -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+      <td mat-cell *matCellDef="let element">
+        <span class="button-cercle" *ngIf="element.type=='pathologie'">{{element.type}}</span>
+        <!-- <span class="button-cercle" *ngIf="element.type=='pathologie'">{{element.type}}</span> -->
+      </td>
     </ng-container>
 
     <!-- Acronyme Column -->
@@ -24,12 +33,6 @@
           <span class="bulle-acro">{{element.acronyme}}</span>
         </td>
     </ng-container>
-
-    <!-- Details Column -->
-    <!-- <ng-container matColumnDef="details">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Details </th>
-      <td mat-cell *matCellDef="let element"> {{element.details}} </td>
-    </ng-container> -->
 
     <!-- Materiels Categorie Column -->
     <ng-container matColumnDef="mat_cat">

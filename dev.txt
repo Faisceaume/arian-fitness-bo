@@ -75,9 +75,10 @@ RDV LOUNIS 12/02
 - Séries Fixes : Pathologies : multiselect
 - Série Fixe : Champs Consigne pour toute la série fixes
 - Séries Fixes : Pour le remplissage des exercices dans les séries fixes,
-  il faut également précisé pour cahque exerceice les chamsp suivant :
+  il faut également précisé pour chaque exercice les champs suivant :
     - nombre de repétition ou temps de travail : shared.listes.nbrerepetsenior
-    - nombre de série : shared.listes.nbrseries
+    - nombre de série : changer shared.listes.nbrseries par listeNbrexparserie
+    - dans test de performance afficher uniquement : nbrerepetexercice
     - temps de repos à chaque fin d'exercice : shared.listes.tempsderepos
 
 - Programme :
