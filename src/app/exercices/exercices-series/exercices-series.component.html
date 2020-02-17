@@ -16,6 +16,11 @@
                 <mat-cell *matCellDef="let element;"> {{ element.nom }} </mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="consigne">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Consigne</mat-header-cell>
+              <mat-cell *matCellDef="let element;"> {{ element.consigne }} </mat-cell>
+            </ng-container>
+
             <ng-container matColumnDef="timestamp">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</mat-header-cell>
                 <mat-cell *matCellDef="let element;" class="timestamp"> {{element.timestamp | date }} </mat-cell>
@@ -75,8 +80,27 @@
         <mat-form-field fxFlex="100">
           <input (keyup)="onKeyUp()" matInput type="text" formControlName="nom" placeholder="Nom de la série d'exercices fixe">
         </mat-form-field>
+
+        <div fxFlex="100">
+          <label class="dark-chip"> Type :</label>
+          <mat-radio-group (change)="clickOnType()" color="warn" formControlName="type">
+            <mat-radio-button value="echauffement" class="span-radio-button">
+              Echauffement
+            </mat-radio-button>
+            <mat-radio-button value="calme" class="span-radio-button">
+              Retour au calme
+            </mat-radio-button>
+            <mat-radio-button value="pathologies" class="span-radio-button">
+              Traitement de pathologies
+            </mat-radio-button>
+            <mat-radio-button value="test" class="span-radio-button">
+              Test de performance
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
         <div [ngStyle]="{'padding':'10px'}" fxLayoutAlign="end start">
-          <button [disabled]="!nomIsEntered" (click)="showPart(); $event.preventDefault();" type="button" mat-fab color="warn">
+          <button [disabled]="!nomIsEntered || !typeIsChoose" (click)="showPart(); $event.preventDefault();" type="button" mat-fab color="warn">
             <mat-icon>keyboard_arrow_right</mat-icon>
           </button>
         </div>
@@ -103,20 +127,6 @@
           </mat-radio-group>
         </div>
         <div fxFlex="100">
-          <label class="dark-chip"> Type :</label>
-          <mat-radio-group color="warn" formControlName="type">
-            <mat-radio-button value="echauffement" class="span-radio-button">
-              Echauffement
-            </mat-radio-button>
-            <mat-radio-button value="calme" class="span-radio-button">
-              Retour au calme
-            </mat-radio-button>
-            <mat-radio-button value="pathologies" class="span-radio-button">
-              Traitement de pathologies
-            </mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <div fxFlex="100">
           <mat-form-field color="warn" fxFlex="100" style="padding: 10px 10px 0">
             <mat-label>Pathologie</mat-label>
             <mat-select formControlName="pathology" multiple>
@@ -127,7 +137,7 @@
           </mat-form-field>
         </div>
 
-        <div style="padding: 0px 10px" fxFlex="100" fxLayout="row wrap">
+        <div *ngIf="displayEditForm" style="padding: 0px 10px" fxFlex="100" fxLayout="row wrap">
           <mat-form-field fxFlex="95">
             <input matInput placeholder="Ajouter un exercice à la série" formControlName="exercices" (keyup)="applyFilter($event.target.value)" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -142,20 +152,60 @@
           </button>
 
 
-          <div fxFlex="100" class="liste-exe" *ngFor="let exercice of exerciceAdded; let i = index;">
+          <div fxLayout="column"  fxFlex="100" formArrayName="exo" class="liste-exe" *ngFor="let ex of getExo().controls; let i = index;">
               <div fxFlex="100">
                 <div fxFlex="5"><span class="bulle-acro">{{ i+1 }}</span></div>
                 <div fxFlex="5">
-                  <mat-icon *ngIf="exercice.visibility" color="black">visibility</mat-icon>
-                  <mat-icon *ngIf="!exercice.visibility" color="black">visibility_off</mat-icon>
+                  <mat-icon *ngIf="exerciceAdded[i].visibility" color="black">visibility</mat-icon>
+                  <mat-icon *ngIf="!exerciceAdded[i].visibility" color="black">visibility_off</mat-icon>
                 </div>
-                <div fxFlex="80"> {{ exercice.nom }} </div>
+                <div fxFlex="80"> {{ exerciceAdded[i].nom }} </div>
                 <div fxFlex="5">
-                  <button [routerLink]="['./../../exercices/', exercice.id]" mat-button><mat-icon>link</mat-icon></button>
+                  <button [routerLink]="['./../../exercices/', exerciceAdded[i].id]" mat-button><mat-icon>link</mat-icon></button>
                 </div>
                 <div fxFlex="5">
                   <button (click)="clearExo(i)" mat-button><mat-icon>clear</mat-icon></button>
                 </div>
+              </div>
+              <div *ngIf="displayExercice" fxFlex="100">
+                  <div [formGroupName]="i" fxLayoutAlign="space-between">
+                      <mat-form-field *ngIf="exos">
+                        <mat-label>Nombre de repetition senior</mat-label>
+                        <mat-select formControlName="nbreReptSenior">
+                          <mat-option *ngFor="let nbr of nbreReptSenior" [value]="nbr">
+                            {{ nbr }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                      <mat-form-field *ngIf="exos">
+                        <mat-label>Nombre de séries</mat-label>
+                        <mat-select formControlName="nbreSerie">
+                          <mat-option *ngFor="let nbr of nbreSerie" [value]="nbr">
+                            {{ nbr }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                      <mat-form-field *ngIf="exos">
+                        <mat-label>Temps de repos</mat-label>
+                        <mat-select formControlName="nbreTempsDeRepos">
+                          <mat-option *ngFor="let nbr of nbreTempsDeRepos" [value]="nbr">
+                            {{ nbr }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                      <mat-form-field *ngIf="exoTest">
+                        <mat-label>Nbre Répétion Exercice</mat-label>
+                        <mat-select formControlName="nbreReptExercices">
+                          <mat-option *ngFor="let nbr of nbreReptExercices" [value]="nbr">
+                            {{ nbr }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                  </div>
               </div>
           </div>
         </div>

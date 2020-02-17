@@ -45,6 +45,7 @@ export class Listes {
     '30 secondes',
     'Maximum de répétitions',
     'Maximum de temps',
+    'Êtes-vous capable d’exécuter cet exercice correctement?'
   ];
 
   nbrdureeexercice = [
@@ -73,13 +74,13 @@ export class Listes {
     '30 minutes'
   ];
 
-  nbrseries = [
-    '1', '1 par côté',
-    '2', '2 par côté',
-    '3', '3 par côté',
-    '4', '4 par côté',
-    '5', '5 par côté'
-  ];
+  // nbrseries = [
+  //   '1', '1 par côté',
+  //   '2', '2 par côté',
+  //   '3', '3 par côté',
+  //   '4', '4 par côté',
+  //   '5', '5 par côté'
+  // ];
 
   // section methodes
   listeNbrexparserie = [

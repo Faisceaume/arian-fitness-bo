@@ -55,14 +55,14 @@ export class UsersService {
 
   getSingleUser(email: string, currentId?: string): Promise<User> {
     return new Promise<User>((resolve, reject) => {
-      let museums: any;
+      let userurl: any;
       if (currentId) {
-        museums = this.firestore.firestore.collection('users').where('id', '==', currentId);
+        userurl = this.firestore.firestore.collection('users').where('id', '==', currentId);
       } else {
-        museums = this.firestore.firestore.collection('users').where('email', '==', email);
+        userurl = this.firestore.firestore.collection('users').where('email', '==', email);
       }
 
-      museums.get().then((querySnapshot) =>  {
+      userurl.get().then((querySnapshot) =>  {
         if (querySnapshot.size > 0) {
           querySnapshot.forEach((doc) => {
             resolve(

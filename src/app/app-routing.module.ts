@@ -19,6 +19,8 @@ const routes: Routes = [
   { path : 'objectifs', canActivate: [AuthGuardService], component : ObjectifsComponent },
   { path : 'niveaux', canActivate: [AuthGuardService], component : NiveauxComponent },
   { path : 'pathologies', canActivate: [AuthGuardService], component : PathologiesComponent },
+  { path : 'users', canActivate: [AuthGuardService], component : UsersComponent },
+  { path: '', redirectTo: '/auth', pathMatch: 'full' },
   {
     path: 'exercices', canActivate: [AuthGuardService],
     loadChildren: () => import('./exercices/exercices.module').then(mod => mod.ExercicesModule)
@@ -30,6 +32,10 @@ const routes: Routes = [
   {
     path: 'methodes', canActivate: [AuthGuardService],
     loadChildren: () => import('./methodes/methodes.module').then(mod => mod.MethodesModule)
+  },
+  {
+    path: 'programmes', canActivate: [AuthGuardService],
+    loadChildren: () => import('./programmes/programmes.module').then(mod => mod.ProgrammesModule)
   },
   { path: 'questionnaires', canActivate: [AuthGuardService], component: QuestionsComponent },
   {path: 'question-form/:idQuestionnaire', canActivate: [AuthGuardService], component: QuestionsFormComponent},
