@@ -24,6 +24,7 @@ export class ExercicesSeriesComponent implements OnInit {
   nbreReptSenior = new Listes().nbrerepetsenior;
   nbreTempsDeRepos = new Listes().nbrreposexercice;
   nbreReptExercices = new Listes().nbrerepetexercice;
+  nbreSerie = new Listes().listeNbrexparserie;
 
   /* Affichage  && Navigation */
   displayList = true;
