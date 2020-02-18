@@ -1,1 +1,102 @@
-<p>programme-details works!</p>
+<button mat-icon-button
+  routerLink="/programmes"
+  type="button"
+  class="button-right">
+    <mat-icon>close</mat-icon>
+</button>
+
+<div class="nom-formulaire" *ngIf="formData">
+  <h2>Programme : <strong>{{ formData.numero }}</strong></h2>
+</div>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="formData">
+
+        <mat-form-field fxFlex="60">
+          <input matInput placeholder="Numéro du Programme" required
+          [(ngModel)]="formData.numero"
+          (ngModelChange)="onValueChange('numero', formData.numero)">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="40">
+          <input matInput placeholder="Acronyme" type="text" required
+          [(ngModel)]="formData.acronyme" maxlength="4"
+          (ngModelChange)="onValueChange('acronyme', formData.acronyme)">
+        </mat-form-field>
+
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <label fxLayoutAlign="start start">Extra &nbsp; </label>
+          <mat-slide-toggle fxLayoutAlign="start start" color="warn"
+            [formControl]="extraControl"
+            (change)="onValueChange('extra', extraControl.value)"></mat-slide-toggle>
+        </div>
+        <mat-form-field fxFlex="100" *ngIf="extraControl.value">
+          <mat-label>la durée</mat-label>
+          <mat-select
+          [(ngModel)]="formData.duree"
+          (ngModelChange)="onValueChange('duree', formData.duree)">
+            <mat-option matNativeControl value="30">30</mat-option>
+            <mat-option matNativeControl value="45">45</mat-option>
+            <mat-option matNativeControl value="60">60</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+          <mat-label>la Fréquence</mat-label>
+          <mat-select
+          [(ngModel)]="formData.frequence"
+          (ngModelChange)="onValueChange('frequence', formData.frequence)">
+            <mat-option matNativeControl value="1">1</mat-option>
+            <mat-option matNativeControl value="5">5</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div fxLayout="row" fxFlex="100">
+          <div fxFlex="100" fxLayout="column">
+
+            <div>
+              <label class="dark-chip"> Niveau : </label>
+              <span class="bulle-acro" *ngIf="!toChangeNiveau && formData.niveau">N {{ formData.niveau.acronyme}} </span>
+
+              <button mat-icon-button
+                (click)="toChangeNiveau = true"
+                *ngIf="!toChangeNiveau && formData.niveau">
+                  <mat-icon>close</mat-icon>
+              </button>
+
+              <mat-radio-group color="warn"
+                [(ngModel)]="formData.niveau"
+                (ngModelChange)="onValueChange('niveau', formData.niveau)"
+                *ngIf="!formData.niveau || toChangeNiveau">
+                <mat-radio-button *ngFor="let niveau of niveaux"
+                [value]="niveau" class="span-radio-button">
+                  N {{ niveau.acronyme }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="customPoint" fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}"
+            *ngIf="showCustompointsfaibles">
+              <label fxLayoutAlign="start start">Custom point Faible &nbsp; </label>
+              <mat-slide-toggle fxLayoutAlign="start start" color="warn"
+                [formControl]="custompointsfaiblesControl"
+                (change)="onValueChange('custompointsfaibles', custompointsfaiblesControl.value)"></mat-slide-toggle>
+            </div>
+
+            <div class="objectif">
+              <label class="dark-chip"> Objectifs :</label>
+              <mat-checkbox
+              color="warn"
+              *ngFor="let objectif of objectifsSelected"
+              (change)="onObjectifSelected($event, objectif)"
+              checked="true">{{ objectif.nom }}</mat-checkbox>
+              <mat-checkbox
+              color="warn"
+              *ngFor="let objectif of objectifsNotSelected"
+              (change)="onObjectifSelected($event, objectif)"
+              >{{ objectif.nom }}</mat-checkbox>
+            </div>
+
+          </div>
+
+        </div>
+      </div>

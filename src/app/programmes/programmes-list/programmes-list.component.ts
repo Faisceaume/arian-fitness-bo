@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ProgrammesService } from '../programmes.service';
+import { Programme } from '../programme';
+import { MatTableDataSource, MatSort, MatDialogConfig, MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
+import { ProgrammeFormComponent } from '../programme-form/programme-form.component';
 
 @Component({
   selector: 'app-programmes-list',
@@ -7,9 +12,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProgrammesListComponent implements OnInit {
 
-  constructor() { }
+  displayedColumns: string[] = ['numero', 'acronyme', 'date', 'action'];
+  dataSource: MatTableDataSource<Programme>;
+
+  constructor(private programmesService: ProgrammesService,
+              private router: Router,
+              private matDialog: MatDialog) { }
+
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit() {
+    this.programmesService.getAllProgrammes();
+    this.programmesService.programmeSubject.subscribe(data => {
+      this.dataSource = new MatTableDataSource<Programme>(data);
+      this.dataSource.sort = this.sort;
+    });
+  }
+
+  onEdit(programme: Programme) {
+    this.router.navigate(['programmes', programme.id]);
+  }
+
+  onDelete(programme: Programme) {
+    if (confirm('Confirmer la suppression ?')) {
+      this.programmesService.deleteProgramme(programme);
+    }
+  }
+
+  openDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '80%';
+    this.matDialog.open(ProgrammeFormComponent, dialogConfig);
   }
 
 }

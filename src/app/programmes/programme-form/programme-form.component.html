@@ -1,1 +1,34 @@
-<p>programme-form works!</p>
+<div>
+
+  <div fxLayout="row">
+    <div  fxFlex="100" fxLayoutAlign="end start">
+      <button mat-icon-button class="button-right-modal"
+        (click)="closeDialog()" type="button">
+          <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <form #form="ngForm" autocomplete="off" (ngSubmit)="onSubmit()">
+
+    <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+      <mat-form-field fxFlex="80">
+        <input matInput placeholder="Numero du proramme" type="text" name="numero"
+        [(ngModel)]="formData.numero" required>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="20">
+        <input matInput placeholder="Acronyme" type="text" name="acronyme" maxlength="4"
+        [(ngModel)]="formData.acronyme" required>
+      </mat-form-field>
+
+      <button mat-fab color="warn" type="submit"
+        [ngStyle]="{'margin':'10px'}"
+			  [disabled]="!form.valid">
+			    <mat-icon>save</mat-icon>
+		  </button>
+
+    </div>
+  </form>
+</div>
