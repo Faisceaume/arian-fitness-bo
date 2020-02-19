@@ -39,6 +39,7 @@ import { ObjectifsCrudComponent } from './objectifs/objectifs-crud/objectifs-cru
 import { NiveauxCrudComponent } from './niveaux/niveaux-crud/niveaux-crud.component';
 import { PathologiesCrudComponent } from './pathologies/pathologies-crud/pathologies-crud.component';
 import { MaterielsSharedComponent } from './materiels-shared/materiels-shared.component';
+import { UploadImageComponent } from './upload-image/upload-image.component';
 
 const modules = [
     CommonModule,
@@ -81,7 +82,8 @@ const modules = [
                 ObjectifsCrudComponent,
                 NiveauxCrudComponent,
                 PathologiesCrudComponent,
-                MaterielsSharedComponent],
+                MaterielsSharedComponent,
+                UploadImageComponent],
   imports: [
     ...modules,
   ],
@@ -89,6 +91,7 @@ const modules = [
     ...modules,
     CategoriesComponent,
     ObjectifsComponent,
+    UploadImageComponent
 ],
 providers: [
   MatDatepickerModule,

@@ -26,6 +26,7 @@ export class User {
  niveauinscription: string;
  niveauavantperiodeoff: string;
  parcoursnutrition: string; // x/y
+ photo?: string;
 
 
  pathologies: Pathologie[]; // multi select sur le noeud pathologie

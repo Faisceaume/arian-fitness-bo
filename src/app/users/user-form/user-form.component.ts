@@ -43,6 +43,7 @@ export class UserFormComponent implements OnInit {
       trophee: '',
       frequenceparjour: null,
       parcoursnutrition: '',
+      photo: null,
       timestamp: '',
     } as unknown as  User;
   }
