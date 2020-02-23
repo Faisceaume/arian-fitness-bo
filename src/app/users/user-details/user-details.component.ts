@@ -1,4 +1,4 @@
-import { Component, OnInit, ɵConsole } from '@angular/core';
+import { Component, OnInit, ɵConsole, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../user';
 import { FormControl } from '@angular/forms';
@@ -11,7 +11,7 @@ import { UsersService } from '../users.service';
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.css']
 })
-export class UserDetailsComponent implements OnInit {
+export class UserDetailsComponent implements OnInit, OnDestroy {
 
   formData: User;
   premiumControl = new FormControl();
@@ -39,6 +39,12 @@ export class UserDetailsComponent implements OnInit {
       this.datefindepremiumControl.setValue(new Date(item.datefindepremium));
       this.datedernierlogControl.setValue(new Date(item.datedernierlog));
       this.datedernieremajControl.setValue(new Date(item.datedernieremaj));
+      this.usersService.currentUser = item;
+      if (item.photo) {
+        this.usersService.fileUrl = item.photo;
+      } else {
+        this.usersService.fileUrl = null;
+      }
     });
     this.niveauxService.getAllNiveaux();
     this.niveauxService.niveauxSubject.subscribe(data => {
@@ -52,5 +58,9 @@ export class UserDetailsComponent implements OnInit {
     } else {
       this.usersService.newUpdateVersion(this.formData, attribut, value);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.usersService.currentUser = null;
   }
 }

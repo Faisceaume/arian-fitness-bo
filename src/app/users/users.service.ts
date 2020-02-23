@@ -3,6 +3,7 @@ import { User } from './user';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,12 @@ export class UsersService {
   users: User[];
   userSubject = new Subject<any[]>();
   asError: boolean;
+  fileUrl: string;
+  currentUser: User;
 
   constructor(private firestore: AngularFirestore,
-              private router: Router) { }
+              private router: Router,
+              private store: AngularFireStorage) { }
 
   createUser(user: User): void {
     this.getSingleUser(user.email).then((item: User) => {
@@ -88,5 +92,51 @@ export class UsersService {
 
   deleteUser(user: User) {
     this.firestore.doc('users/' + user.id).delete();
+  }
+
+
+  // SECTION IMAGE
+
+  uploadFile(file: File) {
+    return new Promise<any>((resolve, reject) => {
+        const uniqueFileName = Date.now().toString();
+
+        const  upload =  this.store.storage.ref().child('usersImages/' + uniqueFileName + file.name).put(file);
+
+        upload.on('state_changed', (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+          }, (error) => {
+            console.log('erreur de chargement... ' + error);
+            reject();
+          }, () => {
+            upload.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                resolve(downloadURL);
+            });
+          });
+    });
+  }
+
+  deletePhoto(url: string) {
+    const storageRef =  this.store.storage.refFromURL(url);
+    storageRef.delete().then(
+              () => {
+                console.log('photo supprimée');
+              }
+            ).catch(
+              (error) => {
+                console.log('Erreur de la suppression ' + error);
+              }
+            );
+    if (this.currentUser) {
+      this.newUpdateVersion(this.currentUser, 'photo', null);
+    }
+  }
+
+  setFileUrl(url: string) {
+    this.fileUrl = url;
+    if (this.currentUser) {
+      this.newUpdateVersion(this.currentUser, 'photo', url);
+    }
   }
 }
