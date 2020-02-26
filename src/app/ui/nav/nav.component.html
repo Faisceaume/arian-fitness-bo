@@ -1,4 +1,5 @@
 <button id="mainmenu" mat-icon-button class="main-menu-trigger-button"
+  *ngIf="auth.isAdmin"
   color="black"
   [matMenuTriggerFor]="menu"
   [ngStyle.xs]="{ 'left':'20px', 'top':'20px' }">

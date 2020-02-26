@@ -68,6 +68,14 @@ arian-fitness.appspot.com
 
 
 
+CALL LOUNIS 23/02
+
+- les niveaux n'apparaissent pas dans la liste des méthodes
+
+
+
+
+
 RDV LOUNIS 12/02
 
 - Bug edition niveau methode : à la suppression le radio des niveaux n'apparaît pas
@@ -94,6 +102,8 @@ RDV LOUNIS 12/02
         2- Positionner le programme dans les semaines du niveau
         exemple : [1:True,2:False,....,8:True] en checkbox ou X/Y
     - custompointsfaibles: bollean (apparait uniquement si niv>1)
+    - Dans le remplissage d'un bloc de prgramme, certaines catégories d'exercices
+        doivent être sélectionnée avec ou sans une autre catégorie d'exercice
 
     -> Remplissage des colonnes pour chaque journée du programme
       - selection d'un échauffement dans la liste des série fixes dont le type est echauffement

@@ -1,11 +1,17 @@
 <div>
 
   <div fxLayout="row">
-    <div  fxFlex="100" fxLayoutAlign="end start">
-      <button mat-icon-button class="button-right-modal"
+    <div fxFlex="100" fxLayoutAlign="start start">
+
+      <h2 fxFlex="80" style="padding-left: 0;">Créer un nouveau programme</h2>
+
+      <div fxFlex="20" fxLayoutAlign="end start">
+        <button mat-icon-button class="button-right-modal"
         (click)="closeDialog()" type="button">
           <mat-icon>close</mat-icon>
       </button>
+      </div>
+
     </div>
   </div>
 
@@ -13,21 +19,25 @@
 
     <div fxLayout="row wrap" fxLayoutAlign="start start">
 
-      <mat-form-field fxFlex="80">
-        <input matInput placeholder="Numero du proramme" type="text" name="numero"
-        [(ngModel)]="formData.numero" required>
-      </mat-form-field>
+      <div fxFlex="100">
+        <mat-form-field fxFlex="75">
+          <input matInput placeholder="Numéro du proramme" type="text" name="numero"
+          [(ngModel)]="formData.numero" required>
+        </mat-form-field>
+        &nbsp;
+        <mat-form-field fxFlex="20">
+          <input matInput placeholder="Acronyme" type="text" name="acronyme" maxlength="4"
+          [(ngModel)]="formData.acronyme" required>
+        </mat-form-field>
+      </div>
 
-      <mat-form-field fxFlex="20">
-        <input matInput placeholder="Acronyme" type="text" name="acronyme" maxlength="4"
-        [(ngModel)]="formData.acronyme" required>
-      </mat-form-field>
-
-      <button mat-fab color="warn" type="submit"
-        [ngStyle]="{'margin':'10px'}"
-			  [disabled]="!form.valid">
-			    <mat-icon>save</mat-icon>
-		  </button>
+      <div fxLayoutAlign="end start" fxFlex="100">
+        <button mat-fab color="warn" type="submit"
+          [ngStyle]="{'margin':'10px'}"
+          [disabled]="!form.valid">
+            <mat-icon>save</mat-icon>
+        </button>
+      </div>
 
     </div>
   </form>

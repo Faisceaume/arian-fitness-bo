@@ -86,16 +86,15 @@ export class UsersService {
     });
   }
 
-  createUser(mail: string) {
-    const nextId = this.db.createId();
-    this.db.collection('users').doc( nextId ).set({email:  mail, uid: nextId, role: 'pending'});
+  createUser(mail: string, id: string) {
+    console.log(mail, id);
+    this.db.firestore.collection('users').doc( id ).set({email:  mail, uid: id, role: 'pending'});
   }
 
-  createUserG( mail: string) {
+  createUserG( mail: string, id: string) {
     return new Promise((resolve, reject) => {
-      const nextId = this.db.createId();
       console.log(mail);
-      this.db.collection('users').doc( nextId ).set({email:  mail, uid: nextId, role: 'pending'});
+      this.db.collection('users').doc( id ).set({email:  mail, uid: id, role: 'pending'});
       resolve();
     });
   }

@@ -55,6 +55,7 @@ export class Listes {
   ];
 
   nbrreposexercice = [
+    '0 seconde',
     '30 secondes',
     '60 secondes',
     '90 secondes',
