@@ -40,13 +40,12 @@ export class AuthComponent implements OnInit {
     const data = form.value;
     if (form.valid) {
       this.isRegisterLoad = true;
-      this.userService.createUser(data.email);
       this.authService.createNewUser(data.email, data.password)
       .then(res => {
+        this.userService.createUser(res.user.email, res.user.uid);
         this.isRegistered = true;
         this.isRegisterLoad = false;
         this.errorMessageInscription = '';
-        this.authService.signOutUser();
       }, err => {
        this.isRegisterLoad = false;
        this.errorMessageInscription = err;
@@ -95,8 +94,7 @@ export class AuthComponent implements OnInit {
               }
             });
           } else {
-            const maill = result.email;
-            this.userService.createUserG(maill).then(() => {
+            this.userService.createUserG(result.email, result.uid).then(() => {
               this.userService.getUserRole(result.email).then((role) => {
                 if (role === 'admin') {
                   this.authService.isAdmin = true;
@@ -105,7 +103,6 @@ export class AuthComponent implements OnInit {
                 } else {
                   this.errorMessageConnexion = 'Votre inscription est en cours de traitement.';
                   this.authService.isConnected = false;
-                  this.authService.signOutUser();
                   return;
                 }
               });

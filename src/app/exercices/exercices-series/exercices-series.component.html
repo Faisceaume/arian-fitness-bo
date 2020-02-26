@@ -168,44 +168,40 @@
                 </div>
               </div>
               <div *ngIf="displayExercice" fxFlex="100">
-                  <div [formGroupName]="i" fxLayoutAlign="space-between">
-                      <mat-form-field *ngIf="exos">
-                        <mat-label>Nombre de repetition senior</mat-label>
-                        <mat-select formControlName="nbreReptSenior">
-                          <mat-option *ngFor="let nbr of nbreReptSenior" [value]="nbr">
-                            {{ nbr }}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-
-                      <mat-form-field *ngIf="exos">
-                        <mat-label>Nombre de séries</mat-label>
-                        <mat-select formControlName="nbreSerie">
-                          <mat-option *ngFor="let nbr of nbreSerie" [value]="nbr">
-                            {{ nbr }}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-
-                      <mat-form-field *ngIf="exos">
-                        <mat-label>Temps de repos</mat-label>
-                        <mat-select formControlName="nbreTempsDeRepos">
-                          <mat-option *ngFor="let nbr of nbreTempsDeRepos" [value]="nbr">
-                            {{ nbr }}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-
-                      <mat-form-field *ngIf="exoTest">
-                        <mat-label>Nbre Répétion Exercice</mat-label>
-                        <mat-select formControlName="nbreReptExercices">
-                          <mat-option *ngFor="let nbr of nbreReptExercices" [value]="nbr">
-                            {{ nbr }}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-
-                  </div>
+                <div [formGroupName]="i" fxLayoutAlign="space-between">
+                  <mat-form-field *ngIf="exos">
+                    <mat-label>Nombre de repetition senior</mat-label>
+                    <mat-select formControlName="nbreReptSenior">
+                      <mat-option *ngFor="let nbr of nbreReptSenior" [value]="nbr">
+                        {{ nbr }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field *ngIf="exos">
+                    <mat-label>Nombre de séries</mat-label>
+                    <mat-select formControlName="nbreSerie">
+                      <mat-option *ngFor="let nbr of nbreSerie" [value]="nbr">
+                        {{ nbr }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field *ngIf="exos">
+                    <mat-label>Temps de repos</mat-label>
+                    <mat-select formControlName="nbreTempsDeRepos">
+                      <mat-option *ngFor="let nbr of nbreTempsDeRepos" [value]="nbr">
+                        {{ nbr }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field *ngIf="exoTest">
+                    <mat-label>Nbre Répétion Exercice</mat-label>
+                    <mat-select formControlName="nbreReptExercices">
+                      <mat-option *ngFor="let nbr of nbreReptExercices" [value]="nbr">
+                        {{ nbr }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
               </div>
           </div>
         </div>

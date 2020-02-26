@@ -42,7 +42,7 @@ export class ProgrammesListComponent implements OnInit {
   openDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
-    dialogConfig.width = '80%';
+    dialogConfig.width = '500px';
     this.matDialog.open(ProgrammeFormComponent, dialogConfig);
   }
 

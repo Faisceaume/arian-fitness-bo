@@ -20,6 +20,7 @@ const routes: Routes = [
   { path : 'niveaux', canActivate: [AuthGuardService], component : NiveauxComponent },
   { path : 'pathologies', canActivate: [AuthGuardService], component : PathologiesComponent },
   { path : 'users', canActivate: [AuthGuardService], component : UsersComponent },
+  { path: '', redirectTo: '/auth', pathMatch: 'full' },
   {
     path: 'exercices', canActivate: [AuthGuardService],
     loadChildren: () => import('./exercices/exercices.module').then(mod => mod.ExercicesModule)
