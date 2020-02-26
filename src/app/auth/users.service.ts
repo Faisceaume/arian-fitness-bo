@@ -87,13 +87,12 @@ export class UsersService {
   }
 
   createUser(mail: string, id: string) {
-    console.log(mail, id);
     this.db.firestore.collection('users').doc( id ).set({email:  mail, uid: id, role: 'pending'});
   }
 
   createUserG( mail: string, id: string) {
     return new Promise((resolve, reject) => {
-      console.log(mail);
+      console.log(mail + ' ' + id);
       this.db.collection('users').doc( id ).set({email:  mail, uid: id, role: 'pending'});
       resolve();
     });

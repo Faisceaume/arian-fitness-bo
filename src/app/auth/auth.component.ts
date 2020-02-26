@@ -42,12 +42,10 @@ export class AuthComponent implements OnInit {
       this.isRegisterLoad = true;
       this.authService.createNewUser(data.email, data.password)
       .then(res => {
-        console.log(res.user.uid);
         this.userService.createUser(res.user.email, res.user.uid);
         this.isRegistered = true;
         this.isRegisterLoad = false;
         this.errorMessageInscription = '';
-        this.authService.signOutUser();
       }, err => {
        this.isRegisterLoad = false;
        this.errorMessageInscription = err;
@@ -105,7 +103,6 @@ export class AuthComponent implements OnInit {
                 } else {
                   this.errorMessageConnexion = 'Votre inscription est en cours de traitement.';
                   this.authService.isConnected = false;
-                  this.authService.signOutUser();
                   return;
                 }
               });
