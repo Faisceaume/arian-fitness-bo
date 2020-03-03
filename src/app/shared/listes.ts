@@ -1,10 +1,10 @@
 export class Listes {
 
   nbrerepetechauffement = [
-    '5',
-    '10',
-    '15',
-    '20',
+    '5 répétitions',
+    '10 répétitions',
+    '15 répétitions',
+    '20 répétitions',
     '10 secondes',
     '15 secondes',
     '30 secondes',
