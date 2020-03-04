@@ -70,13 +70,14 @@ arian-fitness.appspot.com
 
 CALL LOUNIS 3/3/2020
 
+
 - SERIES Fixes
   -> Dans la liste des pathologies, retirer les points faibles.
   -> La liste appelée pour définir le nombre de répétitions dépend de :
       -> du type :
                     - echauffement (liste.nbrerepetechauffement)
                     - retour (liste.nbrerepetretourcalme)
-                    - pathos  (liste.nbrerepetsenior)
+                     - pathos  (liste.nbrerepetsenior)
                     - test : (liste.nbrerepetexercice)
 - METHODES
   -> Dans les modes édition/création des méthodes, le niveau n'est pas pris en compte

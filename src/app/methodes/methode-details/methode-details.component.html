@@ -202,9 +202,7 @@
           [(ngModel)]="categoriesService.listeOfSeries[i].custom"></mat-slide-toggle>
       </div>
 
-      <mat-form-field fxFlex="70"
-      *ngIf="categoriesService.listeOfSeries[i].custom &&
-      formData.orientation === 'cardio'">
+      <mat-form-field fxFlex="35" *ngIf="categoriesService.listeOfSeries[i].custom">
         <mat-label>Temps de repos</mat-label>
         <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].repos">
           <mat-option *ngFor="let nombre of listes.listeTemps"
@@ -214,8 +212,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field fxFlex="70" *ngIf="categoriesService.listeOfSeries[i].custom &&
-      formData.orientation === 'renforcement'">
+      <mat-form-field fxFlex="35" *ngIf="categoriesService.listeOfSeries[i].custom">
         <mat-label>Nombre d'exercices par série</mat-label>
         <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].nbrexparserie">
           <mat-option *ngFor="let nombre of listes.listeNbrexparserie"
