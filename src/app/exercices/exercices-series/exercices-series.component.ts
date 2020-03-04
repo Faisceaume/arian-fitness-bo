@@ -22,9 +22,10 @@ export class ExercicesSeriesComponent implements OnInit {
   listes: Listes;
   exerciceList: any[];
   nbreReptSenior = new Listes().nbrerepetsenior;
-  nbreTempsDeRepos = new Listes().nbrreposexercice;
   nbreReptExercices = new Listes().nbrerepetexercice;
+  nbreTempsDeRepos = new Listes().nbrreposexercice;
   nbreSerie = new Listes().listeNbrexparserie;
+
 
   /* Affichage  && Navigation */
   displayList = true;
@@ -104,7 +105,8 @@ export class ExercicesSeriesComponent implements OnInit {
       type: ['', Validators.required],
       pathology: [this.pathologies, Validators.required],
       exercices: ['', Validators.required],
-      exo: this.formBuilder.array([], Validators.required)
+      exo: this.formBuilder.array([], Validators.required),
+      nbreReptExercices: ['', Validators.required]
     });
   }
   getExo(): FormArray {
