@@ -44,7 +44,8 @@
 
             <div>
               <label class="dark-chip"> Niveau : </label>
-              <span class="bulle-acro" *ngIf="!toChangeNiveau && formData.niveau">N {{ formData.niveau.acronyme}} </span>
+              <span class="bulle-acro"
+              *ngIf="!toChangeNiveau && formData.niveau">N {{ formData.niveau.acronyme}} </span>
 
               <button mat-icon-button
                 (click)="toChangeNiveau = true"
@@ -54,6 +55,7 @@
 
               <mat-radio-group color="warn"
                 [(ngModel)]="formData.niveau"
+                (ngModelChange)="onValueChange('niveau', formData.niveau)"
                 *ngIf="!formData.niveau || toChangeNiveau">
                 <mat-radio-button *ngFor="let niveau of niveaux"
                 [value]="niveau" class="span-radio-button">
@@ -200,7 +202,9 @@
           [(ngModel)]="categoriesService.listeOfSeries[i].custom"></mat-slide-toggle>
       </div>
 
-      <mat-form-field fxFlex="35" *ngIf="categoriesService.listeOfSeries[i].custom">
+      <mat-form-field fxFlex="70"
+      *ngIf="categoriesService.listeOfSeries[i].custom &&
+      formData.orientation === 'cardio'">
         <mat-label>Temps de repos</mat-label>
         <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].repos">
           <mat-option *ngFor="let nombre of listes.listeTemps"
@@ -210,7 +214,8 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field fxFlex="35" *ngIf="categoriesService.listeOfSeries[i].custom">
+      <mat-form-field fxFlex="70" *ngIf="categoriesService.listeOfSeries[i].custom &&
+      formData.orientation === 'renforcement'">
         <mat-label>Nombre d'exercices par série</mat-label>
         <mat-select [(ngModel)]="categoriesService.listeOfSeries[i].nbrexparserie">
           <mat-option *ngFor="let nombre of listes.listeNbrexparserie"
