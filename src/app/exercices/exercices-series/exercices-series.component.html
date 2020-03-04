@@ -69,8 +69,12 @@
       <mat-icon>close</mat-icon>
   </button>
 
-  <h2 *ngIf="isClickToEdit"> Éditer la série <strong>{{ nom }}</strong>  </h2>
-  <h2 *ngIf="isClickToAdd"> Ajouter une série : <strong>{{ nom }}</strong> </h2>
+  
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <h2 *ngIf="isClickToEdit"> Éditer la série <strong>{{ nom }}</strong>  </h2>
+    <h2 *ngIf="isClickToAdd"> Ajouter une série : <strong>{{ nom }}</strong> </h2>
+    <h2 style="padding-right: 1%;"> <strong>{{ typeChoosen }} </strong> </h2>
+  </div>
 
   <div fxLayout="column" style="padding: 0 10px;">
 
@@ -159,7 +163,43 @@
                   <mat-icon *ngIf="exerciceAdded[i].visibility" color="black">visibility</mat-icon>
                   <mat-icon *ngIf="!exerciceAdded[i].visibility" color="black">visibility_off</mat-icon>
                 </div>
-                <div fxFlex="80"> {{ exerciceAdded[i].nom }} </div>
+                <div fxFlex="40"> {{ exerciceAdded[i].nom }} </div>
+                <div *ngIf="displayExercice" fxFlex="30">
+                  <div [formGroupName]="i" fxLayoutAlign="space-between">
+                    <mat-form-field *ngIf="exoEchauf">
+                      <mat-label>Répetition échauffement</mat-label>
+                      <mat-select formControlName="nbreReptEchauf">
+                        <mat-option *ngFor="let nbr of nbreReptEchauf" [value]="nbr">
+                          {{ nbr }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="exoPatho">
+                      <mat-label>Répétition pathologie</mat-label>
+                      <mat-select formControlName="nbreReptPatho">
+                        <mat-option *ngFor="let nbr of nbreReptPatho" [value]="nbr">
+                          {{ nbr }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="exoCalme">
+                      <mat-label>Répétition retour au calme</mat-label>
+                      <mat-select formControlName="nbreReptCalme">
+                        <mat-option *ngFor="let nbr of nbreReptCalme" [value]="nbr">
+                          {{ nbr }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="exoTest">
+                      <mat-label>Nbre Répétion Exercice</mat-label>
+                      <mat-select formControlName="nbreReptExercices">
+                        <mat-option *ngFor="let nbr of nbreReptExercices" [value]="nbr">
+                          {{ nbr }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
                 <div fxFlex="5">
                   <button [routerLink]="['./../../exercices/', exerciceAdded[i].id]" mat-button><mat-icon>link</mat-icon></button>
                 </div>
@@ -167,28 +207,28 @@
                   <button (click)="clearExo(i)" mat-button><mat-icon>clear</mat-icon></button>
                 </div>
               </div>
-              <div *ngIf="displayExercice" fxFlex="100">
+              <!--<div *ngIf="displayExercice" fxFlex="100">
                 <div [formGroupName]="i" fxLayoutAlign="space-between">
-                  <mat-form-field *ngIf="exos">
-                    <mat-label>Nombre de repetition senior</mat-label>
-                    <mat-select formControlName="nbreReptSenior">
-                      <mat-option *ngFor="let nbr of nbreReptSenior" [value]="nbr">
+                  <mat-form-field *ngIf="exoEchauf">
+                    <mat-label>Répetition échauffement</mat-label>
+                    <mat-select formControlName="nbreReptEchauf">
+                      <mat-option *ngFor="let nbr of nbreReptEchauf" [value]="nbr">
                         {{ nbr }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <mat-form-field *ngIf="exos">
-                    <mat-label>Nombre de séries</mat-label>
-                    <mat-select formControlName="nbreSerie">
-                      <mat-option *ngFor="let nbr of nbreSerie" [value]="nbr">
+                  <mat-form-field *ngIf="exoPatho">
+                    <mat-label>Répétition pathologie</mat-label>
+                    <mat-select formControlName="nbreReptPatho">
+                      <mat-option *ngFor="let nbr of nbreReptPatho" [value]="nbr">
                         {{ nbr }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <mat-form-field *ngIf="exos">
-                    <mat-label>Temps de repos</mat-label>
-                    <mat-select formControlName="nbreTempsDeRepos">
-                      <mat-option *ngFor="let nbr of nbreTempsDeRepos" [value]="nbr">
+                  <mat-form-field *ngIf="exoCalme">
+                    <mat-label>Répétition retour au calme</mat-label>
+                    <mat-select formControlName="nbreReptCalme">
+                      <mat-option *ngFor="let nbr of nbreReptCalme" [value]="nbr">
                         {{ nbr }}
                       </mat-option>
                     </mat-select>
@@ -202,7 +242,7 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-              </div>
+              </div> -->
           </div>
         </div>
 

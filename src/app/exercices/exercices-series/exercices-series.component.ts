@@ -21,10 +21,10 @@ export class ExercicesSeriesComponent implements OnInit {
   /*  */
   listes: Listes;
   exerciceList: any[];
-  nbreReptSenior = new Listes().nbrerepetsenior;
-  nbreTempsDeRepos = new Listes().nbrreposexercice;
+  nbreReptEchauf = new Listes().nbrerepetechauffement;
+  nbreReptCalme = new Listes().nbrerepetretourcalme;
   nbreReptExercices = new Listes().nbrerepetexercice;
-  nbreSerie = new Listes().listeNbrexparserie;
+  nbreReptPatho = new Listes().nbrerepetsenior;
 
   /* Affichage  && Navigation */
   displayList = true;
@@ -34,6 +34,9 @@ export class ExercicesSeriesComponent implements OnInit {
   isClickToAdd = false;
   /* */
   exos = false;
+  exoEchauf = false;
+  exoCalme = false;
+  exoPatho = false;
   exoTest = false;
   /* */
   formOther = 0;
@@ -55,6 +58,7 @@ export class ExercicesSeriesComponent implements OnInit {
   disabled = true;
   disabled2 = false;
   nom = '';
+  typeChoosen = '';
   displayEditForm = true;
   displayExercice = true;
   dataType = '';
@@ -110,24 +114,54 @@ export class ExercicesSeriesComponent implements OnInit {
   getExo(): FormArray {
     return this.formulaire.get('exo') as FormArray;
   }
+
+  /*
   newExo(): FormGroup {
     return this.formBuilder.group({
       nbreReptSenior: ['', Validators.required],
       nbreSerie: ['', Validators.required],
       nbreTempsDeRepos: ['', Validators.required]
     });
-  }
+  }*/
   newExoTest(): FormGroup {
     return this.formBuilder.group({
       nbreReptExercices: ['', Validators.required]
     });
   }
+  newExoEchauf(): FormGroup {
+    return this.formBuilder.group({
+      nbreReptEchauf: ['', Validators.required]
+    });
+  }
+  newExoCalme(): FormGroup {
+    return this.formBuilder.group({
+      nbreReptCalme: ['', Validators.required]
+    });
+  }
+  newExoPatho(): FormGroup {
+    return this.formBuilder.group({
+      nbreReptPatho: ['', Validators.required]
+    });
+  }
+  /*
   addExo() {
     this.getExo().push( this.newExo() );
     this.formOther = 1;
-  }
+  }*/
   addExoTest() {
     this.getExo().push( this.newExoTest() );
+    this.formTest = 1;
+  }
+  addExoEchauf() {
+    this.getExo().push( this.newExoEchauf() );
+    this.formTest = 1;
+  }
+  addExoCalme() {
+    this.getExo().push( this.newExoCalme() );
+    this.formTest = 1;
+  }
+  addExoPatho() {
+    this.getExo().push( this.newExoPatho() );
     this.formTest = 1;
   }
   removeExo(i) {
@@ -151,8 +185,9 @@ export class ExercicesSeriesComponent implements OnInit {
     this.exerciceAdded = [];
     this.initForm();
     this.nom = '';
+    this.typeChoosen = '';
     this.exos = false;
-    this.exoTest = false;
+    this.exoTest = this.exoPatho = this.exoCalme = this.exoEchauf = false;
     this.typeIsChoose = false;
     this.displayEditForm = true;
     this.dataType = '';
@@ -175,14 +210,24 @@ export class ExercicesSeriesComponent implements OnInit {
     this.part2 = true;
     this.part1 = false;
     this.nom = this.formulaire.get('nom').value;
+    this.typeChoosen = this.formulaire.get('type').value;
     const type = this.formulaire.get('type').value;
     if ( type === 'test' ) {
       this.exoTest = true;
+      this.exoCalme = this.exoEchauf = this.exoPatho = false;
       this.exos = false;
+    } else if (type === 'calme') {
+      this.exoCalme = true;
+      this.exoTest = this.exoEchauf = this.exoPatho = false;
+      console.log('ok2');
+    } else if (type === 'echauffement') {
+      this.exoEchauf = true;
+      this.exoTest = this.exoCalme = this.exoPatho = false;
     } else {
-      this.exos = true;
-      this.exoTest = false;
+      this.exoPatho = true;
+      this.exoTest = this.exoCalme = this.exoEchauf = false;
     }
+
     if (this.isClickToEdit) {
       this.exerciceService.getSerieExerciceFromExercice(this.idToEdit);
       this.exerciceService.oneSerieFixeFromExerciceSubject.subscribe(data => {
@@ -202,14 +247,8 @@ export class ExercicesSeriesComponent implements OnInit {
     this.part2 = false;
   }
 
-  setControlDetailExo3(): FormArray {
+  setControlDetailExo(): FormArray {
     const formArray = new FormArray([], Validators.required);
-    return formArray;
-  }
-
-  setControlDetailExo4(): FormArray {
-    const formArray = new FormArray([], Validators.required);
-
     return formArray;
   }
 
@@ -234,18 +273,25 @@ export class ExercicesSeriesComponent implements OnInit {
 
     if ( this.isClickToEdit ) {
       if ( this.dataType !== type ) {
-        if ( type === 'test' ) {
-          console.log( this.dataType, type, '1' );
-          this.exos = false;
+        if (type === 'calme') {
+          this.exoCalme = true;
+          this.exoEchauf = this.exoPatho = this.exoTest = false;
+          this.formulaire.setControl('exo', this.setControlDetailExo());
+        } else if (type === 'echauffement') {
+          console.log('ok echauf');
+          this.exoEchauf = true;
+          this.exoCalme = this.exoPatho = this.exoTest = false;
+          this.formulaire.setControl('exo', this.setControlDetailExo());
+        } else if (type === 'pathologies') {
+          console.log('ok patho');
+          this.exoPatho = true;
+          this.exoCalme = this.exoEchauf = this.exoTest = false;
+          this.formulaire.setControl('exo', this.setControlDetailExo());
+        } else if (type === 'test') {
+          console.log('ok test');
           this.exoTest = true;
-          this.formulaire.setControl('exo', this.setControlDetailExo4());
-        } else if ( (this.dataType === 'test') && (type !== 'test') ) {
-          console.log( this.dataType, type, '2' );
-          this.exos = true;
-          this.exoTest = false;
-          this.formulaire.setControl('exo', this.setControlDetailExo4());
-        } else {
-
+          this.exoCalme = this.exoEchauf = this.exoPatho = false;
+          this.formulaire.setControl('exo', this.setControlDetailExo());
         }
       }
     }
@@ -271,45 +317,77 @@ export class ExercicesSeriesComponent implements OnInit {
   }
   onAddExercice() {
     const ex =  this.formulaire.get('exercices').value;
-    console.log( ex );
-    if (ex === '') {
-
+    const type = this.formulaire.get('type').value;
+    if (this.typeChoosen === 'test') {
+      if ( this.isClickToEdit && this.once) {
+        if (this.dataType !== type) {
+          this.exerciceAdded = [];
+          this.once = false;
+        }
+      }
+      this.exoTest = true;
+      this.exoEchauf = this.exoCalme = this.exoPatho = false;
+      this.addExoTest();
+      this.exerciceAdded.push( ex );
+      this.exerciceAddLenght = this.exerciceAdded.length;
+      this.formulaire.patchValue({
+        exercices: ['', Validators.required]
+      });
+    } else if (this.typeChoosen === 'echauffement') {
+      if ( this.isClickToEdit ) {
+        if (  (this.dataType === 'test') && (type !== 'test') && this.once  ) {
+          this.exerciceAdded = [];
+          this.once = false;
+        }
+      }
+      /*this.addExo();*/
+      this.exoEchauf = true;
+      this.exoTest = this.exoCalme = this.exoPatho = false;
+      this.addExoEchauf();
+      this.exerciceAdded.push( ex );
+      this.exerciceAddLenght = this.exerciceAdded.length;
+      this.formulaire.patchValue({
+        exercices: ['', Validators.required]
+      });
+    } else if (this.typeChoosen === 'calme' ) {
+      if ( this.isClickToEdit && this.once) {
+        if (this.dataType !== type) {
+          this.exerciceAdded = [];
+          this.once = false;
+        }
+      }
+      this.exoCalme = true;
+      this.exoTest = this.exoEchauf = this.exoPatho = false;
+      this.addExoCalme();
+      this.exerciceAdded.push( ex );
+      this.exerciceAddLenght = this.exerciceAdded.length;
+      this.formulaire.patchValue({
+        exercices: ['', Validators.required]
+      });
     } else {
-      const type = this.formulaire.get('type').value;
-      if (type === 'test') {
-        if ( this.isClickToEdit && this.once) {
-          if (this.dataType !== type) {
-            this.exerciceAdded = [];
-            this.once = false;
-          }
+      if ( this.isClickToEdit && this.once) {
+        if (this.dataType !== type) {
+          this.exerciceAdded = [];
+          this.once = false;
         }
-        this.addExoTest();
-        this.exerciceAdded.push( ex );
-        this.exerciceAddLenght = this.exerciceAdded.length;
-        this.formulaire.patchValue({
-          exercices: ['', Validators.required]
-        });
-      } else {
-        if ( this.isClickToEdit ) {
-          if (  (this.dataType === 'test') && (type !== 'test') && this.once  ) {
-            this.exerciceAdded = [];
-            this.once = false;
-          }
-        }
-        this.addExo();
-        this.exerciceAdded.push( ex );
-        this.exerciceAddLenght = this.exerciceAdded.length;
-        this.formulaire.patchValue({
-          exercices: ['', Validators.required]
-        });
       }
-
-      if ( this.exerciceAddLenght >= 1 ) {
-        this.disabled2 = false;
-      }
-      this.disabled = true;
+      this.exoPatho = true;
+      this.exoTest = this.exoEchauf = this.exoCalme = false;
+      this.addExoPatho();
+      this.exerciceAdded.push( ex );
+      this.exerciceAddLenght = this.exerciceAdded.length;
+      this.formulaire.patchValue({
+        exercices: ['', Validators.required]
+      });
     }
+
+
+    if ( this.exerciceAddLenght >= 1 ) {
+      this.disabled2 = false;
+    }
+    this.disabled = true;
   }
+
   clearExo(i) {
     this.exerciceAdded.splice(i, 1);
     this.removeExo(i);
@@ -341,16 +419,20 @@ export class ExercicesSeriesComponent implements OnInit {
         exercices: ['', Validators.required]
       });
       if (data.type === 'test') {
-        this.formulaire.setControl('exo', this.setControlDetailExo2(data.detailExos));
+        this.formulaire.setControl('exo', this.setControlDetailExoTest(data.detailExos));
+      } else if (data.type === 'echauffement') {
+        this.formulaire.setControl('exo', this.setControlDetailExoEchauf(data.detailExos));
+      } else if (data.type === 'calme' ) {
+        this.formulaire.setControl('exo', this.setControlDetailExoCalme(data.detailExos));
       } else {
-        this.formulaire.setControl('exo', this.setControlDetailExo(data.detailExos));
+        this.formulaire.setControl('exo', this.setControlDetailExoPatho(data.detailExos));
       }
       this.displayExercice = true;
       this.nomIsEntered = true;
     });
     console.log( this.exerciceAdded );
   }
-  setControlDetailExo(data: any[]): FormArray {
+  /*setControlDetailExo1(data: any[]): FormArray {
     const formArray = new FormArray([], Validators.required);
     data.forEach(s => {
       formArray.push(this.formBuilder.group({
@@ -360,13 +442,43 @@ export class ExercicesSeriesComponent implements OnInit {
       }));
     });
     return formArray;
-  }
+  }*/
 
-  setControlDetailExo2(data: any[]): FormArray {
+  setControlDetailExoTest(data: any[]): FormArray {
     const formArray = new FormArray([], Validators.required);
     data.forEach(s => {
       formArray.push(this.formBuilder.group({
         nbreReptExercices: [s.nbreReptExercices, Validators.required],
+      }));
+    });
+    return formArray;
+  }
+
+  setControlDetailExoEchauf(data: any[]): FormArray {
+    const formArray = new FormArray([], Validators.required);
+    data.forEach(s => {
+      formArray.push(this.formBuilder.group({
+        nbreReptEchauf: [s.nbreReptEchauf, Validators.required],
+      }));
+    });
+    return formArray;
+  }
+
+  setControlDetailExoCalme(data: any[]): FormArray {
+    const formArray = new FormArray([], Validators.required);
+    data.forEach(s => {
+      formArray.push(this.formBuilder.group({
+        nbreReptCalme: [s.nbreReptCalme, Validators.required],
+      }));
+    });
+    return formArray;
+  }
+
+  setControlDetailExoPatho(data: any[]): FormArray {
+    const formArray = new FormArray([], Validators.required);
+    data.forEach(s => {
+      formArray.push(this.formBuilder.group({
+        nbreReptPatho: [s.nbreReptPatho, Validators.required],
       }));
     });
     return formArray;
