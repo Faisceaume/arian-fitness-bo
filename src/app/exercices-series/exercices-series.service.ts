@@ -50,6 +50,27 @@ export class ExercicesSeriesService {
     }).catch((error) => { console.error('Error updzting document: ', error); });
   }
 
+  deleteExerciceSerie(element: ExerciceSerie) {
+
+    element.exercices.forEach(current => {
+      // on supprime la sous-collection
+      this.firestore.firestore.collection('seriesfixes').doc(element.id).collection('exercices')
+        .doc(current.exercice.id).delete();
+
+      // on supprime la serie fixe dans le noeud racine de exercice
+      this.exercicesService.getSingleExercice(current.exercice.id).then((exe: Exercice) => {
+        const seriefixeid = exe.seriefixeid;
+        const index = seriefixeid.findIndex(it => it === element.id);
+        if (index >= 0) {
+          seriefixeid.splice(index, 1);
+          this.exercicesService.newUpdateVersion(exe, 'seriefixeid', seriefixeid);
+        }
+        });
+
+    });
+    this.firestore.doc('seriesfixes/' + element.id).delete();
+  }
+
   // DENORMALISATION SERIEFIXE => EXERCICE
 
   addSerieFixeOnExercice(exercice: Exercice, exerciceSerie: ExerciceSerie) {
