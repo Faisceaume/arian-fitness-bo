@@ -1,9 +1,11 @@
+import { ExercicesSeriesService } from './exercices-series.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort, MatDialogConfig, MatDialog } from '@angular/material';
 import { Listes } from 'src/app/shared/listes';
 import { SerieFormComponent } from './serie-form/serie-form.component';
 import { ExercicesService } from '../exercices/exercices.service';
 import { Router } from '@angular/router';
+import { ExerciceSerie } from './exercice-serie';
 
 @Component({
   selector: 'app-exercices-series',
@@ -29,6 +31,7 @@ export class ExercicesSeriesComponent implements OnInit {
   constructor(
     private matDialog: MatDialog,
     private exerciceService: ExercicesService,
+    private exercicesSeriesService: ExercicesSeriesService,
     private router: Router
     ) {}
 
@@ -40,8 +43,10 @@ export class ExercicesSeriesComponent implements OnInit {
     });
   }
 
-  onDelete( id ) {
-    this.exerciceService.deleteSerieExerciceFixe(id);
+  onDelete(element: ExerciceSerie) {
+    if (confirm('Confirmation de la suppression')) {
+      this.exercicesSeriesService.deleteExerciceSerie(element);
+    }
   }
 
   onEdit(element: any) {
