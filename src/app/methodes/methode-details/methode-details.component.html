@@ -248,11 +248,19 @@
                 <span class="cercle-acro">{{ cat.acronyme }}</span>
                 <span>{{ cat.nom }}</span>
               </div>
-              <div fxFlex="50">
+              <div fxFlex="50" *ngIf="formData.orientation === 'cardio'" >
                 <mat-form-field fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].custom">
                   <mat-label>Temps de travail</mat-label>
                   <mat-select [(ngModel)]="cat.tempstravailmethode">
                     <mat-option *ngFor="let nombre of listes.listeTemps" matNativeControl [value]="nombre">{{nombre}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div fxFlex="50" *ngIf="formData.orientation === 'renforcement'">
+                <mat-form-field fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].custom">
+                  <mat-label>Nombre de repetition</mat-label>
+                  <mat-select [(ngModel)]="cat.tempstravailmethode">
+                    <mat-option *ngFor="let nombre of listes.nbrerepetexercice" matNativeControl [value]="nombre">{{nombre}}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>

@@ -1,0 +1,14 @@
+label {
+  padding: 6px 10px;
+  border-radius: 5px;
+}
+
+
+.liste-exe {
+  border-bottom: 1px dashed #eee;
+  color: #999;
+}
+
+mat-form-field {
+  padding: 0 6px;
+}

@@ -30,4 +30,6 @@ export class Exercice {
   type: string;
   visibility: boolean;
   visuel: boolean;
+
+  seriefixeid?: string[];
 }

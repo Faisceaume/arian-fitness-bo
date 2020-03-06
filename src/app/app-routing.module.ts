@@ -44,6 +44,11 @@ const routes: Routes = [
     path: 'users', canActivate: [AuthGuardService],
     loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule)
   },
+  {
+    path: 'exercices-series', canActivate: [AuthGuardService],
+    loadChildren: () => import('./exercices-series/exercices-series.module')
+    .then(mod => mod.ExercicesSeriesModule)
+  },
 ];
 
 @NgModule({

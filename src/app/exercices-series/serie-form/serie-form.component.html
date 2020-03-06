@@ -1,0 +1,33 @@
+<div fxLayout="column" style="padding: 0 10px;">
+  <div class="part1" fxLayout="column">
+    <mat-form-field fxFlex="100">
+      <input matInput type="text" placeholder="Nom de la série d'exercices fixe"
+             [(ngModel)]="formData.nom">
+    </mat-form-field>
+
+    <div fxFlex="100">
+      <label class="dark-chip"> Type :</label>
+      <mat-radio-group color="warn" [(ngModel)]="formData.type">
+        <mat-radio-button value="echauffement" class="span-radio-button">
+          Echauffement
+        </mat-radio-button>
+        <mat-radio-button value="calme" class="span-radio-button">
+          Retour au calme
+        </mat-radio-button>
+        <mat-radio-button value="pathologies" class="span-radio-button">
+          Traitement de pathologies
+        </mat-radio-button>
+        <mat-radio-button value="test" class="span-radio-button">
+          Test de performance
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div [ngStyle]="{'padding':'10px'}" fxLayoutAlign="end start">
+      <button mat-fab color="warn"
+              (click)="goToEdit()">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
