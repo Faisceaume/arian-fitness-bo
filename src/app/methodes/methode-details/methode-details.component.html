@@ -155,7 +155,7 @@
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
-          <mat-label>Nombre d'exercices minimum par catégorie</mat-label>
+          <mat-label>Nombre d'exercices minimum par catégorie d'exercices</mat-label>
           <mat-select [(ngModel)]="formData.nbrexercicesminimumparcategorie"
           (ngModelChange)="onValueChange('nbrexercicesminimumparcategorie', formData.nbrexercicesminimumparcategorie)">
             <mat-option *ngFor="let nombre of listes.listeNbrexercicesminimum"
