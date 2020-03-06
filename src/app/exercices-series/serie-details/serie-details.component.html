@@ -1,0 +1,193 @@
+<button mat-icon-button routerLink="/exercices-series" class="button-right">
+  <mat-icon>close</mat-icon>
+</button>
+
+<div class="nom-formulaire" *ngIf="formData">
+  <h2> Éditer la série <strong>{{ formData.nom }}</strong>  </h2>
+</div>
+
+<div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="formData" style="padding: 5px;">
+
+      <mat-form-field fxFlex="50">
+        <input matInput type="text" placeholder="Nom de la série d'exercices fixe"
+               [(ngModel)]="formData.nom"
+               (ngModelChange)="updateField('nom', formData.nom)">
+      </mat-form-field>
+
+      <mat-form-field fxFlex="50">
+        <input matInput type="text" placeholder="Préciser une consigne pour cette série d'exercice."
+               [(ngModel)]="formData.consigne"
+               (ngModelChange)="updateField('consigne', formData.consigne)">
+      </mat-form-field>
+
+      <div fxFlex="100">
+        <label class="dark-chip"> Type :</label>
+        <mat-radio-group color="warn"
+                          [(ngModel)]="formData.type"
+                          (ngModelChange)="updateField('type', formData.type)">
+          <mat-radio-button value="echauffement" class="span-radio-button">
+            Echauffement
+          </mat-radio-button>
+          <mat-radio-button value="calme" class="span-radio-button">
+            Retour au calme
+          </mat-radio-button>
+          <mat-radio-button value="pathologies" class="span-radio-button">
+            Traitement de pathologies
+          </mat-radio-button>
+          <mat-radio-button value="test" class="span-radio-button">
+            Test de performance
+          </mat-radio-button>
+        </mat-radio-group>
+       </div>
+
+      <div fxFlex="100" style="margin-top: 20px;">
+        <label class="dark-chip"> Senior :</label>
+        <mat-radio-group color="warn"
+                         [(ngModel)]="formData.senior"
+                         (ngModelChange)="updateField('senior', formData.senior)">
+          <mat-radio-button value="uniquement" class="span-radio-button">
+            Seniors uniquement
+          </mat-radio-button>
+          <mat-radio-button value="hors" class="span-radio-button">
+            Pour les non-seniors
+          </mat-radio-button>
+          <mat-radio-button value="avec" class="span-radio-button">
+            Pour tout le monde (seniors compris)
+          </mat-radio-button>
+        </mat-radio-group>
+       </div>
+
+        <section fxFlex="100" class="materiel" style="margin-top: 20px;">
+          <mat-chip-list aria-label="Sélection de Pathologies">
+            <mat-chip class="dark-chip">Pathologies de la série :</mat-chip>
+            <mat-chip *ngFor="let item of pathologiesSelected ; let i = index" >
+              {{ item.acronyme }}
+              <mat-icon (click)="removePathologie(i)">close</mat-icon>
+            </mat-chip>
+            <mat-chip>
+              <button *ngIf="!toAddPathologie"  mat-icon-button (click)="toAddPathologie = true">
+                <mat-icon>add</mat-icon>
+              </button>
+              <button *ngIf="toAddPathologie" mat-icon-button (click)="toAddPathologie = false">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-chip>
+          </mat-chip-list>
+        </section>
+
+      <div fxFlex="100" *ngIf="toAddPathologie && pathologiesNotSelected" >
+        <mat-form-field color="warn" fxFlex="100">
+          <mat-label>Pathologies</mat-label>
+          <mat-select multiple>
+            <mat-option *ngFor="let pathology of pathologiesNotSelected" [value]="pathology"
+                        (click)="afficher(pathology)">
+              {{pathology.details}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field class="example-full-width" fxFlex="95" style="margin-top: 10px;">
+        <input type="text" placeholder="Recherche" aria-label="Assignee"
+                matInput [formControl]="myControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let option of filteredOptions | async"
+        [value]="option"
+        (click)="addExercice(option)">
+          {{option.nom}}
+        </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button type="button" mat-icon-button matSuffix
+      (click)="$event.preventDefault();">
+        <mat-icon>add</mat-icon>
+      </button>
+
+
+      <div fxFlex="100" fxLayout="row wrap" *ngIf="exercicesAvances && exercicesAvances.length != 0" >
+        <div  fxFlex="100" class="liste-exe" *ngFor="let item of exercicesAvances; let i = index" >
+          <div fxFlex="100">
+            <div fxFlex="5" style="padding-top: 15px;">
+              <span class="bulle-acro">{{ i+1 }}</span>
+            </div>
+            <div fxFlex="5" style="padding-top: 15px;">
+                <mat-icon color="black">visibility</mat-icon>
+            </div>
+            <div fxFlex="20" style="padding-top: 15px;">
+              {{ exercicesAvances[i].exercice.nom }}
+            </div>
+            <div fxFlex="20">
+
+              <mat-form-field *ngIf="formData.type === 'pathologies'" >
+                <mat-label>nbre de rept senior</mat-label>
+                <mat-select [(ngModel)]="exercicesAvances[i].nbrederepetition"
+                            (ngModelChange)="updateField('exercices', exercicesAvances)">
+                  <mat-option *ngFor="let nbr of nbreReptSenior" [value]="nbr">
+                    {{ nbr }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field *ngIf="formData.type === 'echauffement'" >
+                <mat-label>nbre de rept Echauffement</mat-label>
+                <mat-select [(ngModel)]="exercicesAvances[i].nbrederepetition"
+                            (ngModelChange)="updateField('exercices', exercicesAvances)">
+                  <mat-option *ngFor="let nbr of nbreReptEchauff" [value]="nbr">
+                    {{ nbr }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field *ngIf="formData.type === 'calme'" >
+                <mat-label>nbre de rept retour au calme</mat-label>
+                <mat-select [(ngModel)]="exercicesAvances[i].nbrederepetition"
+                            (ngModelChange)="updateField('exercices', exercicesAvances)">
+                  <mat-option *ngFor="let nbr of nbreRetourCalme" [value]="nbr">
+                    {{ nbr }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field *ngIf="formData.type === 'test'" >
+                <mat-label>nbre de rept exercice</mat-label>
+                <mat-select [(ngModel)]="exercicesAvances[i].nbrederepetition"
+                            (ngModelChange)="updateField('exercices', exercicesAvances)">
+                  <mat-option *ngFor="let nbr of nbreReptExercices" [value]="nbr">
+                    {{ nbr }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxFlex="20">
+              <mat-form-field>
+                <mat-label>Nombre de séries</mat-label>
+                <mat-select [(ngModel)]="exercicesAvances[i].nbredeserie"
+                            (ngModelChange)="updateField('exercices', exercicesAvances)">
+                  <mat-option *ngFor="let nbr of nbreSerie" [value]="nbr">
+                    {{ nbr }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxFlex="20">
+              <mat-form-field>
+                <mat-label>Temps de repos</mat-label>
+                <mat-select [(ngModel)]="exercicesAvances[i].tempsderepos"
+                            (ngModelChange)="updateField('exercices', exercicesAvances)">
+                  <mat-option *ngFor="let nbr of nbreTempsDeRepos" [value]="nbr">
+                    {{ nbr }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxFlex="5" style="padding-top: 15px;">
+              <button [routerLink]="['/exercices', exercicesAvances[i].exercice.id]" mat-button><mat-icon>link</mat-icon></button>
+            </div>
+            <div fxFlex="5" style="padding-top: 15px;">
+              <button (click)="deleteExercice(i, exercicesAvances[i].exercice)" mat-button><mat-icon>clear</mat-icon></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>

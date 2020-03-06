@@ -88,7 +88,24 @@ export class ExercicesService {
     const nextDocument1 = this.firestore.firestore.collection('exercices').doc(element.id);
     batch.update(nextDocument1, `${attribut}`, value);
     batch.commit().then(() => {
+      this.updateSubCollectionExerciceOnSerieFixe(element);
     }).catch((error) => { console.error('Error updzting document: ', error); });
+  }
+
+  updateSubCollectionExerciceOnSerieFixe(exercice: Exercice) {
+
+    this.getSingleExercice(exercice.id).then((currentExercice: Exercice) => {
+      if (currentExercice.seriefixeid) {
+        currentExercice.seriefixeid.forEach(element => {
+          const nextDocument1 = this.firestore.firestore.collection('seriesfixes')
+                            .doc(element).collection('exercices').doc(currentExercice.id);
+          const batch = this.firestore.firestore.batch();
+          batch.update(nextDocument1, currentExercice);
+          batch.commit().then(() => {
+          }).catch((error) => { console.error('Error updzting document: ', error); });
+        });
+      }
+    });
   }
 
 
@@ -193,7 +210,7 @@ export class ExercicesService {
       timestamp: data.timestamp,
       detailExos: data.detailExos
     });
- 
+
     batch.commit().then(() => {
       const batch2 = this.firestore.firestore.batch();
       for (let i = 0; i < dataArg2.length; i++) {
