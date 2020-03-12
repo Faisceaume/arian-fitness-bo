@@ -5,6 +5,7 @@ import { FormControl } from '@angular/forms';
 import { Niveau } from 'src/app/shared/niveaux/niveau';
 import { NiveauxService } from 'src/app/shared/niveaux/niveaux.service';
 import { UsersService } from '../users.service';
+import { SharedService } from 'src/app/shared/shared.service';
 
 @Component({
   selector: 'app-user-details',
@@ -27,7 +28,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private activeRoute: ActivatedRoute,
               private niveauxService: NiveauxService,
-              private usersService: UsersService) { }
+              private usersService: UsersService,
+              private sharedService: SharedService) { }
 
   ngOnInit() {
     const id = this.activeRoute.snapshot.params.id;
@@ -39,12 +41,14 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       this.datefindepremiumControl.setValue(new Date(item.datefindepremium));
       this.datedernierlogControl.setValue(new Date(item.datedernierlog));
       this.datedernieremajControl.setValue(new Date(item.datedernieremaj));
-      this.usersService.currentUser = item;
+      this.sharedService.currentUser = item;
+
       if (item.photo) {
-        this.usersService.fileUrl = item.photo;
+        this.sharedService.fileUrl = item.photo;
       } else {
-        this.usersService.fileUrl = null;
+        this.sharedService.fileUrl = null;
       }
+
     });
     this.niveauxService.getAllNiveaux();
     this.niveauxService.niveauxSubject.subscribe(data => {

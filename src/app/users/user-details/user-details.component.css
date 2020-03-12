@@ -71,3 +71,13 @@ mat-checkbox{
   -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;
   border: 1px dotted #ccc;
 }
+
+#imagelabel{
+  text-align: center;
+  background-color: black;
+  color: white;
+}
+
+#imageContainer{
+  margin-top: 20px;
+}

@@ -21,6 +21,7 @@ export class Exercice {
   nom: string;
   numero: number;
   pathologie: string;
+  photo?: string;
   position: string;
   regime: string[];
   repetitionexercice: boolean;
