@@ -21,7 +21,9 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
 
   constructor(public sharedService: SharedService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
 
   onUploadFile(file: File) {
     this.fileIsUploading = true;
@@ -98,6 +100,14 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
       this.sharedService.deletePhoto(this.sharedService.fileUrl);
       this.sharedService.fileUrl = null;
       this.fileUploaded = false;
+    }
+
+    change(e) {
+      e.target.style.border = '5px dotted black';
+    }
+
+    resetChange(e) {
+      e.target.style.border = '5px dotted #ccc';
     }
 
     ngOnDestroy(): void {
