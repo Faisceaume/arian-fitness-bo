@@ -25,7 +25,7 @@ export class SharedService {
       return new Promise<any>((resolve, reject) => {
           const uniqueFileName = Date.now().toString();
 
-          const  upload =  this.store.storage.ref().child('Images/' + uniqueFileName + file.name).put(file);
+          const  upload =  this.store.storage.ref().child('exercices/' + uniqueFileName + file.name).put(file);
 
           upload.on('state_changed', (snapshot) => {
               const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;

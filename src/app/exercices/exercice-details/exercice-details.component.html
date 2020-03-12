@@ -88,12 +88,12 @@
   <mat-step>
       <ng-template matStepLabel>ème étape</ng-template>
 
-      <div fxLayout="row wrap" fxLayoutAlign="start start">
+      <div fxLayout="row wrap" fxLayoutAlign="center start">
 
         <div fxLayout="row" fxFlex="100">
           <div fxFlex="100" fxLayout="column">
 
-            <div class="regime">
+            <div class="regime" fxLayoutAlign="center center">
               <label class="dark-chip"> Régime :</label>
               <mat-checkbox checked="true" color="warn" class="span-radio-button"
                 *ngFor="let regime of regimeSelected;"
@@ -103,7 +103,7 @@
                 (change)="onUpdateRegime($event, regime)">{{ regime }}</mat-checkbox>
             </div>
 
-            <div>
+            <div fxLayoutAlign="center center">
               <label class="dark-chip"> Genre :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.genre"
@@ -120,7 +120,7 @@
               </mat-radio-group>
             </div>
 
-            <div>
+            <div fxLayoutAlign="center center">
               <label class="dark-chip"> Age :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.age"
@@ -140,7 +140,7 @@
               </mat-radio-group>
             </div>
 
-            <div>
+            <div fxLayoutAlign="center center">
               <label class="dark-chip"> Type :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.type"
@@ -154,7 +154,7 @@
               </mat-radio-group>
             </div>
 
-            <div>
+            <div fxLayoutAlign="center center">
               <label class="dark-chip"> Senior :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.senior"
@@ -171,7 +171,7 @@
               </mat-radio-group>
             </div>
 
-            <div>
+            <div fxLayoutAlign="center center">
               <label class="dark-chip"> Position :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.position"
@@ -188,7 +188,7 @@
               </mat-radio-group>
             </div>
 
-            <div>
+            <div fxLayoutAlign="center center">
               <label class="dark-chip"> Pathologie :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.pathologie"
