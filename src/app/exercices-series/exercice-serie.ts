@@ -1,4 +1,4 @@
-import { ExerciceAvance } from './../SHARED/exercice-avance';
+import { ExerciceAvance } from './exercice-avance';
 import { Pathologie } from './../shared/pathologies/pathologie';
 
 export class ExerciceSerie {
