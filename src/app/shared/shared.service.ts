@@ -23,11 +23,17 @@ export class SharedService {
 
     uploadFile(file: File) {
       return new Promise<any>((resolve, reject) => {
-          const uniqueFileName = Date.now().toString();
+        let  upload: any;
 
-          const  upload =  this.store.storage.ref().child('Images/' + uniqueFileName + file.name).put(file);
+        if (this.currentExercice) {
+              upload =  this.store.storage.ref()
+          .child('exercices/exercice-' + this.currentExercice.id + '.jpg').put(file);
+          } else if (this.currentUser) {
+              upload =  this.store.storage.ref()
+          .child('users/user-' + this.currentExercice.id + '.jpg').put(file);
+          }
 
-          upload.on('state_changed', (snapshot) => {
+        upload.on('state_changed', (snapshot) => {
               const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
               console.log('Upload is ' + progress + '% done');
             }, (error) => {
