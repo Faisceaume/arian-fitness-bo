@@ -90,6 +90,8 @@ export class ExerciceFormComponent implements OnInit {
     this.formData.retouraucalme = false;
 
     this.formData.repetitionexercice = false;
+
+    this.formData.photo = null;
   }
 
   onSubmit(): void {

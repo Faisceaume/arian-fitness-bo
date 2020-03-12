@@ -63,6 +63,36 @@
               </mat-radio-group>
             </div>
 
+          </div>
+
+          <div fxFlex="20" class="btnClass" fxLayoutAlign="end end">
+            <button mat-fab matStepperNext color="warn">
+              <mat-icon>navigate_next</mat-icon>
+            </button>
+          </div>
+
+        </div>
+
+        <div fxFlex="100" id="imageContainer">
+          <h3 id="imagelabel"> Ajouter une image :</h3>
+          <app-upload-images
+          [size]="1000000"
+          [width]="1000"
+          [heigth]="1000"></app-upload-images>
+        </div>
+      </div>
+  </mat-step>
+
+
+
+  <mat-step>
+      <ng-template matStepLabel>ème étape</ng-template>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+        <div fxLayout="row" fxFlex="100">
+          <div fxFlex="100" fxLayout="column">
+
             <div class="regime">
               <label class="dark-chip"> Régime :</label>
               <mat-checkbox checked="true" color="warn" class="span-radio-button"
@@ -177,22 +207,7 @@
 
           </div>
 
-          <div fxFlex="20" class="btnClass" fxLayoutAlign="end end">
-            <button mat-fab matStepperNext color="warn">
-              <mat-icon>navigate_next</mat-icon>
-            </button>
-          </div>
-
         </div>
-      </div>
-  </mat-step>
-
-
-
-  <mat-step>
-      <ng-template matStepLabel>ème étape</ng-template>
-
-      <div fxLayout="row wrap" fxLayoutAlign="start start">
 
         <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
           <label fxFlex="50" fxLayoutAlign="end start">Visibilité &nbsp; </label>

@@ -42,3 +42,13 @@ mat-checkbox{
   padding: 0 10px;
   margin-top: 20px;
 }
+
+#imagelabel{
+  text-align: center;
+  background-color: black;
+  color: white;
+}
+
+#imageContainer{
+  margin-top: 20px;
+}

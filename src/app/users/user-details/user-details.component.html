@@ -223,5 +223,12 @@
 
         </div>
       </div>
+
+      <div fxFlex="100" id="imageContainer">
+        <h3 id="imagelabel"> Ajouter une image :</h3>
+        <app-upload-images
+        [size]="1000000"
+        [width]="1000"
+        [heigth]="1000"></app-upload-images>
+      </div>
     </div>
-<app-upload-image *ngIf="formData"></app-upload-image>

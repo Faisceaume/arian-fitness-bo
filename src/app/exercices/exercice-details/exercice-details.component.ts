@@ -1,3 +1,4 @@
+import { SharedService } from './../../shared/shared.service';
 import { Component, OnInit } from '@angular/core';
 import { Exercice } from '../exercice';
 import { ActivatedRoute } from '@angular/router';
@@ -46,6 +47,7 @@ export class ExerciceDetailsComponent implements OnInit {
               private exercicesService: ExercicesService,
               private niveauxService: NiveauxService,
               public materielsService: MaterielsService,
+              private sharedService: SharedService,
               private matDialog: MatDialog) {
   }
 
@@ -66,8 +68,15 @@ export class ExerciceDetailsComponent implements OnInit {
       this.visuel.setValue(item.visuel);
       this.retouraucalme.setValue(item.retouraucalme);
 
+      this.sharedService.currentExercice = item;
+
       if (item.niveau) {
         this.showSeniotRepetList = item.niveau.acronyme === 'S80+' ? true  : false;
+      }
+      if (item.photo) {
+        this.sharedService.fileUrl = item.photo;
+      } else {
+        this.sharedService.fileUrl = null;
       }
   }).then(() => {
     this.allRegime.forEach(item => {
