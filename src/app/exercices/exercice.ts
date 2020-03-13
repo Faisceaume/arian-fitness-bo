@@ -29,6 +29,7 @@ export class Exercice {
   senior: string;
   timestamp: number;
   type: string;
+  video?: string;
   visibility: boolean;
   visuel: boolean;
 

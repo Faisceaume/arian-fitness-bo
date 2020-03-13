@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { UsersService } from 'src/app/users/users.service';
 import { SharedService } from '../shared.service';
 
 @Component({
@@ -105,7 +104,7 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
     }
 
     onDeleteDrapImage() {
-      this.sharedService.deletePhoto(this.sharedService.fileUrl);
+      this.sharedService.deleteFile(this.sharedService.fileUrl);
       this.sharedService.fileUrl = null;
       this.fileUploaded = false;
     }
@@ -121,6 +120,7 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+      this.sharedService.progressValue = 0;
       this.sharedService.currentExercice = null;
       this.sharedService.currentUser = null;
     }

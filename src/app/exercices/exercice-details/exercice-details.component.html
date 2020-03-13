@@ -64,17 +64,27 @@
             </div>
 
           </div>
-
-
-
         </div>
 
-        <div fxFlex="100" id="imageContainer">
-          <h3 id="imagelabel"> Ajouter une image :</h3>
-          <app-upload-images
-          [size]="1000000"
-          [width]="1000"
-          [heigth]="1000"></app-upload-images>
+        <div fxFlex="100" id="imageContainer" fxLayout="row wrap" fxLayoutAlign="center center">
+
+          <div fxFlex="45" class="fileContent">
+              <h3 id="imagelabel"> Ajouter une image</h3>
+              <app-upload-images
+            [size]="1000000"
+            [width]="1000"
+            [heigth]="1000"></app-upload-images>
+          </div>
+
+          <div fxFlex="45">
+            <h3 id="imagelabel"> Ajouter une vidéo</h3>
+            <app-upload-videos></app-upload-videos>
+            <mat-progress-bar
+            mode="determinate"
+            [value]="sharedService.progressValue"
+            *ngIf="sharedService.isUploadingVideo" ></mat-progress-bar>
+        </div>
+
         </div>
 
         <div fxLayout="row" fxFlex="100">
@@ -107,7 +117,7 @@
                 (change)="onUpdateRegime($event, regime)">{{ regime }}</mat-checkbox>
             </div>
 
-            <div fxLayoutAlign="start start">
+            <div fxLayoutAlign="start start" style="margin-top: 10px;">
               <label class="dark-chip"> Genre :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.genre"
@@ -124,7 +134,7 @@
               </mat-radio-group>
             </div>
 
-            <div fxLayoutAlign="start start">
+            <div fxLayoutAlign="start start" style="margin-top: 10px;">
               <label class="dark-chip"> Age :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.age"
@@ -144,7 +154,7 @@
               </mat-radio-group>
             </div>
 
-            <div fxLayoutAlign="start start">
+            <div fxLayoutAlign="start start" style="margin-top: 10px;">
               <label class="dark-chip"> Type :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.type"
@@ -158,7 +168,7 @@
               </mat-radio-group>
             </div>
 
-            <div fxLayoutAlign="start start">
+            <div fxLayoutAlign="start start" style="margin-top: 10px;">
               <label class="dark-chip"> Senior :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.senior"
@@ -175,7 +185,7 @@
               </mat-radio-group>
             </div>
 
-            <div fxLayoutAlign="start start">
+            <div fxLayoutAlign="start start" style="margin-top: 10px;">
               <label class="dark-chip"> Position :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.position"
@@ -192,7 +202,7 @@
               </mat-radio-group>
             </div>
 
-            <div fxLayoutAlign="start start">
+            <div fxLayoutAlign="start start" style="margin-top: 10px; margin-bottom: 10px;">
               <label class="dark-chip"> Pathologie :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.pathologie"

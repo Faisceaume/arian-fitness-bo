@@ -1,0 +1,50 @@
+#dropzone {
+    color: #999;
+    width: 100%;
+    height: 120px;
+    max-height: 200px;
+    margin: 10px 0;
+    padding-top: 100px;
+    text-align: center;
+    background-color: #ffffff;
+    background-image: linear-gradient(224deg, #ffffff 0%, #e9e9e9 100%);
+    border: 5px dotted #ccc;
+}
+
+#dropzone:hover {
+  color: #000;
+  border-color: #bbdefb;
+  border: 5px solid #333;
+}
+
+.erreurMessage {
+  color: red;
+}
+
+
+.example-card {
+  text-align: center;
+  width: 340px;
+  max-width: 340px;
+}
+
+.del{
+width: 40%;
+margin: auto;
+}
+
+.custom{
+color: white;
+width: 140px;
+cursor: pointer;
+margin: auto;
+padding: 5px;
+display: block;
+text-align: center;
+border-radius: 20px;
+background-color: black;
+
+}
+input[type="file"] {
+display: none;
+}

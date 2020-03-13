@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Exercice } from '../exercice';
 import { ActivatedRoute } from '@angular/router';
 import { ExercicesService } from '../exercices.service';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { NiveauxService } from 'src/app/shared/niveaux/niveaux.service';
 import { Niveau } from 'src/app/shared/niveaux/niveau';
 import { MaterielsService } from 'src/app/materiels/materiels.service';
@@ -47,7 +47,7 @@ export class ExerciceDetailsComponent implements OnInit {
               private exercicesService: ExercicesService,
               private niveauxService: NiveauxService,
               public materielsService: MaterielsService,
-              private sharedService: SharedService,
+              public sharedService: SharedService,
               private matDialog: MatDialog) {
   }
 
@@ -73,10 +73,17 @@ export class ExerciceDetailsComponent implements OnInit {
       if (item.niveau) {
         this.showSeniotRepetList = item.niveau.acronyme === 'S80+' ? true  : false;
       }
+
       if (item.photo) {
         this.sharedService.fileUrl = item.photo;
       } else {
         this.sharedService.fileUrl = null;
+      }
+
+      if (item.video) {
+        this.sharedService.videoUrl = item.video;
+      } else {
+        this.sharedService.videoUrl = null;
       }
   }).then(() => {
     this.allRegime.forEach(item => {
