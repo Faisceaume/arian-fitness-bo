@@ -1,0 +1,37 @@
+<div fxLayout="column">
+    <div *ngIf="sharedService.videoUrl === null">
+      <label for="file-upload" class="custom">
+        Upload File
+    </label>
+    <input id="file-upload" type="file" (change)="detectFile($event)" accept="video/*"/>
+        <p *ngIf="fileUploaded">Fichier chargé !</p>
+        <p *ngIf="!fileIsOK" class="text-danger">Impossible de charger l'image</p>
+    </div>
+    <div *ngIf="sharedService.videoUrl === null">
+      <div id="dropzone"
+      (dragover)="change($event)"
+      (dragleave)="resetChange($event)"
+      (dragend)="false"
+      (drop)="handleDrop($event)">
+          Drop Your vidéo Here
+        </div>
+    </div>
+    <ul *ngIf="erreursMessages">
+      <li *ngFor='let erreur of erreursMessages' class="erreurMessage"> {{ erreur }} </li>
+    </ul>
+
+    <div class="del" *ngIf="sharedService.videoUrl != null">
+      <mat-card class="example-card" >
+         <!-- <img mat-card-image [src]="sharedService.fileUrl"> -->
+         <video width="320" height="240" controls>
+          <source [src]="sharedService.videoUrl" type="video/mp4">
+           Your browser does not support the video tag.
+        </video>
+          <mat-card-actions class="text-center">
+              <button mat-icon-button (click)="onDeleteDrapVideo()">
+                  <mat-icon>delete</mat-icon>
+              </button>
+          </mat-card-actions>
+      </mat-card>
+  </div>
+</div>
