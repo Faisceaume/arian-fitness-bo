@@ -27,6 +27,8 @@ import {MatRadioModule} from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 
 
 
@@ -71,7 +73,8 @@ const modules = [
     MatRadioModule,
     MatStepperModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatProgressBarModule
 ];
 
 @NgModule({

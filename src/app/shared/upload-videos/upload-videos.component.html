@@ -5,7 +5,7 @@
     </label>
     <input id="file-upload" type="file" (change)="detectFile($event)" accept="video/*"/>
         <p *ngIf="fileUploaded">Fichier chargé !</p>
-        <p *ngIf="!fileIsOK" class="text-danger">Impossible de charger l'image</p>
+        <p *ngIf="!fileIsOK" class="text-danger">Impossible de charger la vidéo</p>
     </div>
     <div *ngIf="sharedService.videoUrl === null">
       <div id="dropzone"

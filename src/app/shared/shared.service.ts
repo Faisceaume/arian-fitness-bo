@@ -16,6 +16,9 @@ export class SharedService {
   currentUser: User;
   currentExercice: Exercice;
 
+  progressValue = 0;
+  isUploadingVideo = false;
+
   constructor(private store: AngularFireStorage,
               private usersService: UsersService,
               private exercicesService: ExercicesService) { }
@@ -44,7 +47,8 @@ export class SharedService {
 
         upload.on('state_changed', (snapshot) => {
               const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              console.log('Upload is ' + progress + '% done');
+              this.progressValue = progress;
+              // console.log('Upload is ' + progress + '% done');
             }, (error) => {
               console.log('erreur de chargement... ' + error);
               reject();
@@ -68,8 +72,8 @@ export class SharedService {
                 }
               );
       if (typeFile) {
-        if (this.currentUser) {
-          this.usersService.newUpdateVersion(this.currentUser, 'video', null);
+        if (this.currentExercice) {
+          this.exercicesService.newUpdateVersion(this.currentExercice, 'video', null);
         }
       } else {
           if (this.currentUser) {

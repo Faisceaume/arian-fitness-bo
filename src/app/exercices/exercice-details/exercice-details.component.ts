@@ -47,7 +47,7 @@ export class ExerciceDetailsComponent implements OnInit {
               private exercicesService: ExercicesService,
               private niveauxService: NiveauxService,
               public materielsService: MaterielsService,
-              private sharedService: SharedService,
+              public sharedService: SharedService,
               private matDialog: MatDialog) {
   }
 

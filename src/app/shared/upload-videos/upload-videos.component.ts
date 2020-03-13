@@ -20,11 +20,13 @@ export class UploadVideosComponent implements OnInit, OnDestroy {
 
   onUploadFile(file: File) {
     this.fileIsUploading = true;
-    this.sharedService.uploadFile(file).then(
+    this.sharedService.isUploadingVideo = true;
+    this.sharedService.uploadFile(file, 'video').then(
       (url: string) => {
-         this.sharedService.setFileUrl(url);
+         this.sharedService.setVideoUrl(url);
          this.fileIsUploading = false;
          this.fileUploaded = true;
+         this.sharedService.isUploadingVideo = false;
       }
     );
   }
@@ -63,8 +65,8 @@ export class UploadVideosComponent implements OnInit, OnDestroy {
 }
 
     onDeleteDrapVideo() {
-      this.sharedService.deleteFile(this.sharedService.fileUrl, 'video');
-      this.sharedService.fileUrl = null;
+      this.sharedService.deleteFile(this.sharedService.videoUrl, 'video');
+      this.sharedService.videoUrl = null;
       this.fileUploaded = false;
     }
 
@@ -79,6 +81,7 @@ export class UploadVideosComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+      this.sharedService.progressValue = 0;
       this.sharedService.currentExercice = null;
       this.sharedService.currentUser = null;
     }
