@@ -97,7 +97,7 @@
         <div fxLayout="row" fxFlex="100">
           <div fxFlex="100" fxLayout="column">
 
-            <div class="regime" fxLayoutAlign="center center">
+            <div class="regime" fxLayoutAlign="start start">
               <label class="dark-chip"> Régime :</label>
               <mat-checkbox checked="true" color="warn" class="span-radio-button"
                 *ngFor="let regime of regimeSelected;"
@@ -107,7 +107,7 @@
                 (change)="onUpdateRegime($event, regime)">{{ regime }}</mat-checkbox>
             </div>
 
-            <div fxLayoutAlign="center center">
+            <div fxLayoutAlign="start start">
               <label class="dark-chip"> Genre :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.genre"
@@ -124,7 +124,7 @@
               </mat-radio-group>
             </div>
 
-            <div fxLayoutAlign="center center">
+            <div fxLayoutAlign="start start">
               <label class="dark-chip"> Age :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.age"
@@ -144,7 +144,7 @@
               </mat-radio-group>
             </div>
 
-            <div fxLayoutAlign="center center">
+            <div fxLayoutAlign="start start">
               <label class="dark-chip"> Type :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.type"
@@ -158,7 +158,7 @@
               </mat-radio-group>
             </div>
 
-            <div fxLayoutAlign="center center">
+            <div fxLayoutAlign="start start">
               <label class="dark-chip"> Senior :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.senior"
@@ -175,7 +175,7 @@
               </mat-radio-group>
             </div>
 
-            <div fxLayoutAlign="center center">
+            <div fxLayoutAlign="start start">
               <label class="dark-chip"> Position :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.position"
@@ -192,7 +192,7 @@
               </mat-radio-group>
             </div>
 
-            <div fxLayoutAlign="center center">
+            <div fxLayoutAlign="start start">
               <label class="dark-chip"> Pathologie :</label>
               <mat-radio-group color="warn"
               [(ngModel)]="formData.pathologie"
@@ -214,41 +214,41 @@
         </div>
 
         <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
-          <label fxFlex="50" fxLayoutAlign="end start">Visibilité &nbsp; </label>
-          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+          <mat-slide-toggle fxLayoutAlign="start start" color="warn"
             [formControl]="visibility"
             (change)="updateFiel('visibility', visibility.value)"></mat-slide-toggle>
+            <label fxLayoutAlign="end start">Visibilité &nbsp; </label>
         </div>
 
         <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
-          <label fxFlex="50" fxLayoutAlign="end start">Accès salle de sport &nbsp; </label>
-          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+          <mat-slide-toggle fxLayoutAlign="start start" color="warn"
             [formControl]="accessalledesportControl"
             (change)="updateFiel('accessalledesport', accessalledesportControl.value)"></mat-slide-toggle>
+            <label fxLayoutAlign="end start">Accès salle de sport &nbsp; </label>
         </div>
 
-        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
-          <label fxFlex="50" fxLayoutAlign="end start">Dégressif &nbsp; </label>
-          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <mat-slide-toggle fxLayoutAlign="start start" color="warn"
             [formControl]="degressif"
             (change)="updateFiel('degressif', degressif.value)"></mat-slide-toggle>
+            <label fxLayoutAlign="end start">Dégressif &nbsp; </label>
         </div>
 
 
-        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
-          <label fxFlex="50" fxLayoutAlign="end start">Visuel &nbsp; </label>
-          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <mat-slide-toggle fxLayoutAlign="start start" color="warn"
             [formControl]="visuel"
             (change)="updateFiel('visuel', visuel.value)"></mat-slide-toggle>
+            <label fxLayoutAlign="end start">Visuel &nbsp; </label>
         </div>
 
 
-        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
-          <label fxFlex="50" fxLayoutAlign="end start">Echauffement &nbsp; </label>
-          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <mat-slide-toggle fxLayoutAlign="start start" color="warn"
             [formControl]="echauffementControl"
             (change)="updateFiel('echauffement', echauffementControl.value)">
           </mat-slide-toggle>
+          <label fxLayoutAlign="end start">Echauffement &nbsp; </label>
         </div>
 
         <mat-form-field fxFlex="100" *ngIf="echauffementControl.value">
@@ -262,12 +262,12 @@
         </mat-form-field>
 
 
-        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
-          <label fxFlex="50" fxLayoutAlign="end start">Retour au calme &nbsp; </label>
-          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <mat-slide-toggle fxLayoutAlign="start start" color="warn"
             [formControl]="retouraucalme"
             (change)="updateFiel('retouraucalme', retouraucalme.value)">
           </mat-slide-toggle>
+          <label fxLayoutAlign="end start">Retour au calme &nbsp; </label>
         </div>
 
         <mat-form-field fxFlex="100" *ngIf="retouraucalme.value">
@@ -281,12 +281,12 @@
         </mat-form-field>
 
 
-        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
-          <label fxFlex="50" fxLayoutAlign="end start">Fourchettes de Répétitions Précisées pour l'Exercice &nbsp; </label>
-          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
+          <mat-slide-toggle fxLayoutAlign="start start" color="warn"
             [formControl]="repetitionexercice"
             (change)="updateFiel('repetitionexercice', repetitionexercice.value)">
           </mat-slide-toggle>
+          <label fxLayoutAlign="end start">Fourchettes de Répétitions Précisées pour l'Exercice &nbsp; </label>
         </div>
 
         <mat-form-field fxFlex="100" *ngIf="repetitionexercice.value">
