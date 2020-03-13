@@ -1,6 +1,10 @@
 <div fxLayout="column">
         <div *ngIf="sharedService.fileUrl === null">
-          <input type="file" (change)="detectFile($event)" accept="image/*" class="btn btn-info">
+          <label for="file-upload" class="custom">
+            Upload File
+        </label>
+        <input id="file-upload" type="file" (change)="detectFile($event)" accept="image/*"/>
+         <!-- <input type="file" (change)="detectFile($event)" accept="image/*" class="btn btn-info"> -->
             <p *ngIf="fileUploaded">Fichier chargé !</p>
             <p *ngIf="!fileIsOK" class="text-danger">Impossible de charger l'image</p>
         </div>

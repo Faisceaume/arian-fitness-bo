@@ -28,3 +28,19 @@
   width: 40%;
   margin: auto;
 }
+
+.custom{
+  color: white;
+  width: 140px;
+  cursor: pointer;
+  margin: auto;
+  padding: 5px;
+  display: block;
+  text-align: center;
+  border-radius: 20px;
+  background-color: black;
+
+}
+input[type="file"] {
+  display: none;
+}
