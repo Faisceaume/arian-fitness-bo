@@ -71,6 +71,7 @@ export class Listes {
 
   dureemethodes = [
     '7 minutes 30',
+    '10 minutes',
     '15 minutes',
     '30 minutes'
   ];

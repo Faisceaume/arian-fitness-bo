@@ -68,6 +68,15 @@ arian-fitness.appspot.com
 
 
 
+CALLL LOUNIS 13/3/2020
+
+- Dans  la liste des séries fixes, la suppression d'un élément ne fonctionne pas.
+
+
+
+
+
+
 CALL LOUNIS 3/3/2020
 
 
