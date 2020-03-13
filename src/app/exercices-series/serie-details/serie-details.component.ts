@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { Pathologie } from 'src/app/shared/pathologies/pathologie';
 import { ExercicesService } from 'src/app/exercices/exercices.service';
 import { Exercice } from 'src/app/exercices/exercice';
-import { ExerciceAvance } from 'src/app/SHARED/exercice-avance';
+import { ExerciceAvance } from 'src/app/exercices-series/exercice-avance';
 import { ExercicesSeriesService } from '../exercices-series.service';
 import { ActivatedRoute } from '@angular/router';
 

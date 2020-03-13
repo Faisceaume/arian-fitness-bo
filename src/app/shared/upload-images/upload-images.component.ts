@@ -38,15 +38,23 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
 
   detectFile(event) {
       const file: File = event.target.files[0];
-      this.traitementImage(file);
-    }
-
-
-  handleDrop(e) {
-    e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    this.traitementImage(file);
+      if (file.type === 'image/jpeg') {
+        this.traitementImage(file);
+      } else {
+        alert('L\'image doit être de type JPEG');
+      }
   }
+
+
+    handleDrop(e) {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (file.type === 'image/jpeg') {
+        this.traitementImage(file);
+      } else {
+        alert('L\'image doit être de type JPEG');
+      }
+    }
 
   traitementImage(file: File) {
   this.getImageDimension(window.URL.createObjectURL(file)).then(
@@ -103,10 +111,12 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
     }
 
     change(e) {
+      e.preventDefault();
       e.target.style.border = '5px dotted black';
     }
 
     resetChange(e) {
+      e.preventDefault();
       e.target.style.border = '5px dotted #ccc';
     }
 

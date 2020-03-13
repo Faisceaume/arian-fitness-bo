@@ -31,8 +31,8 @@ gcloud firestore export gs://arian-fitness.appspot.com
 // IMPORT ALL FIRESTORE DOCUMENTS
 gcloud firestore import gs://[BUCKET_NAME]/[EXPORT_PREFIX]/
 gcloud firestore import gs://arian-fitness.appspot.com/2020-01-29T13:17:17_40772/
-
 gcloud firestore import gs://arian-fitness.appspot.com/2020-02-10T10:08:14_2660/
+gcloud firestore import gs://arian-fitness.appspot.com/2020-03-12T16:07:10_33540/
 
 // IMPORT SPECIFIC FIRESTORE COLLECTIONS
 gcloud beta firestore import gs://[BUCKET_NAME]/[EXPORT_PREFIX]/ --collection-ids=[COLLECTION_ID_1],[COLLECTION_ID_2]
