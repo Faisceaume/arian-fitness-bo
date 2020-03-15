@@ -4,17 +4,36 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { ExercicesService } from '../exercices/exercices.service';
 import { Exercice } from '../exercices/exercice';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExercicesSeriesService {
 
-  exercicesSeries: ExerciceSerie[];
+  serieExerciceFixe: ExerciceSerie[];
+  serieExerciceFixeSubject = new Subject<any[]>();
 
   constructor(private firestore: AngularFirestore,
               private exercicesService: ExercicesService,
               private router: Router) { }
+
+    getAllSerieExercice() {
+      this.firestore.collection('seriesfixes')
+                  .snapshotChanges().subscribe( data => {
+       this.serieExerciceFixe = data.map( e => {
+        const anotherData = e.payload.doc.data() as ExerciceSerie;
+        return  {
+          ...anotherData
+        } as ExerciceSerie;
+        });
+       this.emitSerieExercieFixe();
+      });
+    }
+  emitSerieExercieFixe() {
+    this.serieExerciceFixeSubject.next( this.serieExerciceFixe );
+  }
+
 
   createExerciceSerie(item: ExerciceSerie) {
     const batch = this.firestore.firestore.batch();
@@ -55,10 +74,10 @@ export class ExercicesSeriesService {
     element.exercices.forEach(current => {
       // on supprime la sous-collection
       this.firestore.firestore.collection('seriesfixes').doc(element.id).collection('exercices')
-        .doc(current.exercice.id).delete();
+        .doc(current.exercice).delete();
 
       // on supprime la serie fixe dans le noeud racine de exercice
-      this.exercicesService.getSingleExercice(current.exercice.id).then((exe: Exercice) => {
+      this.exercicesService.getSingleExercice(current.exercice).then((exe: Exercice) => {
         const seriefixeid = exe.seriefixeid;
         const index = seriefixeid.findIndex(it => it === element.id);
         if (index >= 0) {
@@ -91,9 +110,9 @@ export class ExercicesSeriesService {
      }).catch((error) => { console.error('Error creating document: ', error); });
   }
 
-  deleteSerieFixeOnExercice(exercice: Exercice, exerciceSerie: ExerciceSerie) {
+  deleteSerieFixeOnExercice(exercice: string, exerciceSerie: ExerciceSerie) {
     let serieFixeId = [];
-    this.exercicesService.getSingleExercice(exercice.id).then((data: Exercice) => {
+    this.exercicesService.getSingleExercice(exercice).then((data: Exercice) => {
       serieFixeId = data.seriefixeid;
 
       const id = serieFixeId.findIndex(it => it === exerciceSerie.id);
@@ -105,7 +124,7 @@ export class ExercicesSeriesService {
 
       const batch = this.firestore.firestore.batch();
       const nextDocument1 = this.firestore.firestore.collection('seriesfixes')
-                          .doc(exerciceSerie.id).collection('exercices').doc(exercice.id);
+                          .doc(exerciceSerie.id).collection('exercices').doc(exercice);
       batch.delete(nextDocument1);
       batch.commit().then(() => {
      }).catch((error) => { console.error('Error creating document: ', error); });

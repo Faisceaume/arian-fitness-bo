@@ -13,9 +13,6 @@ export class ExercicesService {
   exercices: Exercice[];
   exerciceSubject = new Subject<any[]>();
 
-  serieExerciceFixe: any[];
-  serieExerciceFixeSubject = new Subject<any[]>();
-
   oneSerieExerciceFixe: any;
   oneSerieExerciceFixeSubject = new Subject<any>();
 
@@ -114,9 +111,6 @@ export class ExercicesService {
   /////////////// CREATE ////////////////////
   ///////////////////////////////////////////
 
-  emitSerieExercieFixe() {
-    this.serieExerciceFixeSubject.next( this.serieExerciceFixe );
-  }
   emitOneSerieExerciceFixe() {
     this.oneSerieExerciceFixeSubject.next( this.oneSerieExerciceFixe );
   }
@@ -170,14 +164,6 @@ export class ExercicesService {
   /////////////// READ //////////////////////
   ///////////////////////////////////////////
 
-  getAllSerieExercice() {
-    this.firestore.collection('seriesfixes').snapshotChanges().subscribe(data => {
-      this.serieExerciceFixe = data.map(e => {
-        return  e.payload.doc.data();
-      });
-      this.emitSerieExercieFixe();
-    });
-  }
 
   getOneSerieExercice(id) {
     this.firestore.collection('seriesfixes').doc(id).get().subscribe(data => {

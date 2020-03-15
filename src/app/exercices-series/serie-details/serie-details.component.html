@@ -111,10 +111,11 @@
               <span class="bulle-acro">{{ i+1 }}</span>
             </div>
             <div fxFlex="5" style="padding-top: 15px;">
-                <mat-icon color="black">visibility</mat-icon>
+                <mat-icon color="black" *ngIf="exercicesAvances[i].visibilityexercice" >visibility</mat-icon>
+                <mat-icon color="black" *ngIf="!exercicesAvances[i].visibilityexercice">visibility_off</mat-icon>
             </div>
             <div fxFlex="20" style="padding-top: 15px;">
-              {{ exercicesAvances[i].exercice.nom }}
+              {{ exercicesAvances[i].nomexercice }}
             </div>
             <div fxFlex="20">
 
@@ -181,7 +182,7 @@
               </mat-form-field>
             </div>
             <div fxFlex="5" style="padding-top: 15px;">
-              <button [routerLink]="['/exercices', exercicesAvances[i].exercice.id]" mat-button><mat-icon>link</mat-icon></button>
+              <button [routerLink]="['/exercices', exercicesAvances[i].exercice]" mat-button><mat-icon>link</mat-icon></button>
             </div>
             <div fxFlex="5" style="padding-top: 15px;">
               <button (click)="deleteExercice(i, exercicesAvances[i].exercice)" mat-button><mat-icon>clear</mat-icon></button>
