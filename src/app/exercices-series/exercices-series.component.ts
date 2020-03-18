@@ -1,3 +1,5 @@
+import { PathologieAvance } from './pathologie-avance';
+import { ExerciceAvance } from 'src/app/exercices-series/exercice-avance';
 import { ExercicesSeriesService } from './exercices-series.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort, MatDialogConfig, MatDialog } from '@angular/material';
@@ -25,21 +27,72 @@ export class ExercicesSeriesComponent implements OnInit {
   nbreTempsDeRepos = new Listes().nbrreposexercice;
   nbreSerie = new Listes().listeNbrexparserie;
 
-
   /* Données pour l'exercice */
 
   constructor(
     private matDialog: MatDialog,
-    private exerciceService: ExercicesService,
     private exercicesSeriesService: ExercicesSeriesService,
     private router: Router
     ) {}
 
   ngOnInit() {
-    this.exerciceService.getAllSerieExercice();
-    this.exerciceService.serieExerciceFixeSubject.subscribe(data => {
+
+    this.exercicesSeriesService.getAllSerieExercice();
+    this.exercicesSeriesService.serieExerciceFixeSubject.subscribe(data => {
       this.dataSource = new MatTableDataSource( data );
       this.dataSource.sort = this.sort;
+
+
+  // SCRIPT EXERCICE ON SERIE-FIXE
+/*
+      data.forEach((item: ExerciceSerie) => {
+            const serieExercice = item.exercices;
+            const allData: ExerciceAvance[] = [];
+
+            serieExercice.forEach((item2: any) => {
+              const exerciceAvance = new ExerciceAvance();
+              exerciceAvance.exercice = item2.exercice.id;
+              exerciceAvance.nomexercice = item2.exercice.nom;
+              exerciceAvance.visibilityexercice = item2.exercice.visibility;
+              exerciceAvance.nbrederepetition = item2.nbrederepetition;
+              exerciceAvance.nbredeserie = item2.nbredeserie;
+              exerciceAvance.tempsderepos = item2.tempsderepos;
+
+              allData.push(exerciceAvance);
+              });
+            const field = allData.map((obj) => {
+                return Object.assign({}, obj);
+              });
+            this.exercicesSeriesService.newUpdateVersion(item, 'exercices', field);
+          });
+    */
+
+
+    // SCRIPT PATHOLOGIE ON SERIE-FIXE
+    /*
+      data.forEach((item: ExerciceSerie) => {
+
+      const pathologies = item.pathologies;
+      const allData: PathologieAvance[] = [];
+
+      pathologies.forEach((item2: any) => {
+        const local = new PathologieAvance();
+        local.id = item2.id;
+        local.acronyme = item2.acronyme;
+        local.nom = item2.nom;
+
+        allData.push(local);
+      });
+
+      const field = allData.map((obj) => {
+        return Object.assign({}, obj);
+      });
+      this.exercicesSeriesService.newUpdateVersion(item, 'pathologies', field);
+    });
+    */
+
+
+
     });
   }
 

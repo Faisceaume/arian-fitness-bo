@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { PathologieAvance } from '../pathologie-avance';
 
 @Component({
   selector: 'app-serie-details',
@@ -36,7 +37,7 @@ export class SerieDetailsComponent implements OnInit {
   myControl = new FormControl();
   filteredOptions: Observable<Exercice[]>;
 
-  pathologiesSelected: Pathologie[];
+  pathologiesSelected: PathologieAvance[];
   pathologiesNotSelected: Pathologie[];
 
   constructor(private pathologiesService: PathologiesService,
@@ -86,7 +87,9 @@ export class SerieDetailsComponent implements OnInit {
 
   addExercice(exercice: Exercice) {
     const local = new ExerciceAvance();
-    local.exercice = exercice;
+    local.exercice = exercice.id;
+    local.nomexercice = exercice.nom;
+    local.visibilityexercice = exercice.visibility;
     local.nbrederepetition = '';
     local.nbredeserie = '';
     local.tempsderepos = '';
@@ -100,7 +103,7 @@ export class SerieDetailsComponent implements OnInit {
     this.exercicesSeriesService.addSerieFixeOnExercice(exercice, this.formData);
   }
 
-  deleteExercice(index: number, exercice: Exercice) {
+  deleteExercice(index: number, exercice: string) {
     this.exercicesAvances.splice(index, 1);
     const field = this.exercicesAvances.map((obj) => {
       return Object.assign({}, obj);
@@ -122,14 +125,24 @@ export class SerieDetailsComponent implements OnInit {
   // OPERATIONS SUR LES PATHOLOGIES
 
   afficher(item: Pathologie) {
-    this.pathologiesSelected.push(item);
-    this.updateField('pathologies', this.pathologiesSelected);
+    const local = new PathologieAvance();
+    local.id = item.id;
+    local.acronyme = item.acronyme;
+    local.nom = item.nom;
+    this.pathologiesSelected.push(local);
+    const value = this.pathologiesSelected.map((obj) => {
+      return Object.assign({}, obj);
+    });
+    this.updateField('pathologies', value);
     this.pathologiesSelectedChange();
   }
 
   removePathologie(id: number) {
     this.pathologiesSelected.splice(id, 1);
-    this.updateField('pathologies', this.pathologiesSelected);
+    const value = this.pathologiesSelected.map((obj) => {
+      return Object.assign({}, obj);
+    });
+    this.updateField('pathologies', value);
     this.pathologiesSelectedChange();
   }
 

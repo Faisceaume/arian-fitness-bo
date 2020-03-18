@@ -1,7 +1,7 @@
-import { Exercice } from 'src/app/exercices/exercice';
-
 export class ExerciceAvance {
-  exercice: Exercice;
+  exercice: string;
+  nomexercice: string;
+  visibilityexercice: boolean;
   nbrederepetition: string;
   nbredeserie: string;
   tempsderepos: string;
