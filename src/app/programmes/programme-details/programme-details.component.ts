@@ -265,7 +265,7 @@ export class ProgrammeDetailsComponent implements OnInit {
 
   // SECTION DE GESTION DES BLOCS DE SEANCES
   addBloc(seance: number) {
-    this.tableFormControl.push(new FormControl());
-    this.seancesOfProgramme[seance].blocs.push(new Bloc());
+   this.tableFormControl.push(new FormControl());
+   this.seancesOfProgramme[seance].blocs.push(new Bloc());
   }
 }

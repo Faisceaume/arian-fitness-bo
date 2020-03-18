@@ -191,7 +191,8 @@
               </mat-chip-list>
             </div>
 
-            <div fxFlex="100" *ngIf="seancesOfProgramme[i].toAddPathologie" style="margin:10px">
+            <div fxFlex="100" *ngIf="seancesOfProgramme[i].toAddPathologie"
+                              style="margin-top: 10px;">
               <mat-form-field color="warn" fxFlex="100">
                 <mat-label>Pathologies</mat-label>
                 <mat-select multiple>
@@ -233,25 +234,28 @@
 
               <div fxFlex="50" fxLayout="row" fxLayoutAlign="end start">
                   <button mat-icon-button
-                          (click)="addBloc()">
+                          (click)="addBloc(i)">
                     <mat-icon>add</mat-icon>
                   </button>
               </div>
             </div>
 
-            <div fxFlex="100" fxLayaout="row wrap"
+            <div fxFlex="100" fxLayout="row wrap"
                  *ngIf="seancesOfProgramme[i].blocs && seancesOfProgramme[i].blocs.length != 0" >
 
-              <div fxFlex="100" class="bloc"
-                   *ngFor="let item of seancesOfProgramme[i].blocs; let idbloc = index" >
+              <div fxFlex="100" fxLayout="row wrap" class="bloc"
+                   *ngFor="let item of seancesOfProgramme[i].blocs; let idbloc = index"
+                   style="background-color: white; padding: 10px; margin:5px">
 
-                   <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
-                    <label fxLayoutAlign="start start">Extra &nbsp; </label>
-                    <mat-slide-toggle fxLayoutAlign="start start" color="warn"
+                   <h4 fxFlex="100" style="text-align: center;">Bloc N° {{ idbloc+1 }}</h4>
+
+                   <div fxFlex="20" fxLayout="row" style="margin-top: 23px;">
+                    <label> Fusionnable </label>
+                    <mat-slide-toggle  color="warn"
                       [formControl]="tableFormControl[idbloc]"></mat-slide-toggle>
-                  </div>
+                   </div>
 
-                  <div fxFlex="100">
+                  <div fxFlex="37">
                     <label class="dark-chip"> Orientation : </label>
                     <mat-radio-group color="warn"
                       [(ngModel)]="seancesOfProgramme[i].blocs[idbloc].orientation">
@@ -264,7 +268,7 @@
                     </mat-radio-group>
                   </div>
 
-                  <mat-form-field fxFlex="100">
+                  <mat-form-field fxFlex="43">
                     <mat-label>Durée</mat-label>
                     <mat-select [(ngModel)]="seancesOfProgramme[i].blocs[idbloc].duree" >
                       <mat-option *ngFor="let duree of listeDuree" matNativeControl [value]="duree">
