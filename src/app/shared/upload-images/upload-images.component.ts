@@ -29,6 +29,7 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
     this.sharedService.uploadFile(file).then(
       (url: string) => {
          this.sharedService.setFileUrl(url);
+         this.sharedService.isImageUploadShown = false;
          this.fileIsUploading = false;
          this.fileUploaded = true;
       }
@@ -105,6 +106,7 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
 
     onDeleteDrapImage() {
       this.sharedService.deleteFile(this.sharedService.fileUrl);
+      this.sharedService.isImageUploadShown = true;
       this.sharedService.fileUrl = null;
       this.fileUploaded = false;
     }

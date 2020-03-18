@@ -75,15 +75,19 @@ export class ExerciceDetailsComponent implements OnInit {
       }
 
       if (item.photo) {
+        this.sharedService.isImageUploadShown = false;
         this.sharedService.fileUrl = item.photo;
       } else {
         this.sharedService.fileUrl = null;
+        this.sharedService.isImageUploadShown = true;
       }
 
       if (item.video) {
+        this.sharedService.isVideoUploadShown = false;
         this.sharedService.videoUrl = item.video;
       } else {
         this.sharedService.videoUrl = null;
+        this.sharedService.isVideoUploadShown = true;
       }
   }).then(() => {
     this.allRegime.forEach(item => {

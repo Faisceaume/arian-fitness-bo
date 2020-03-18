@@ -18,6 +18,8 @@ export class SharedService {
 
   progressValue = 0;
   isUploadingVideo = false;
+  isVideoUploadShown = false;
+  isImageUploadShown = false;
 
   constructor(private store: AngularFireStorage,
               private usersService: UsersService,
