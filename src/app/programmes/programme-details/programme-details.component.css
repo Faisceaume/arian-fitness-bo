@@ -60,3 +60,24 @@ mat-checkbox{
   margin-top: 20px;
   color:  #999 !important;
 }
+
+/* Section des seances*/
+h3 {
+  color: #000;
+  font-weight: bolder;
+}
+
+.programme {
+  background-color: #eee;
+  padding: 10px;
+  margin: 5px 0;
+  -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;
+  border: 1px dotted #ccc;
+}
+
+.echauffement {
+  border-radius: 10px;
+  margin: 0 0 0 5px;
+  padding: 3px 5px;
+  font-size: 0.9em;
+}
