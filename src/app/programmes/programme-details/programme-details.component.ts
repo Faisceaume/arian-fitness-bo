@@ -1,3 +1,4 @@
+import { MatDialog } from '@angular/material';
 import { Listes } from 'src/app/shared/listes';
 import { Pathologie } from './../../shared/pathologies/pathologie';
 import { Component, OnInit } from '@angular/core';
@@ -17,6 +18,7 @@ import { Bloc } from '../bloc';
 import { PathologieAvance } from 'src/app/exercices-series/pathologie-avance';
 import { CategorieAvance } from '../categorie-avance';
 import { ExerciceSerieAvance } from '../exercice-serie-avance';
+import { BlocDetailsComponent } from './bloc-details/bloc-details.component';
 
 @Component({
   selector: 'app-programme-details',
@@ -46,16 +48,13 @@ export class ProgrammeDetailsComponent implements OnInit {
   echauffSerieFixe: ExerciceSerie[];
   toAddSemaineNiveau: boolean;
 
-  // for blocs
-  listeDuree = new Listes().dureemethodes;
-  tableFormControl: any[] = [];
-
   constructor(private programmesService: ProgrammesService,
               private route: ActivatedRoute,
               private niveauxService: NiveauxService,
               private objectifsService: ObjectifsService,
               private pathologiesService: PathologiesService,
-              private exercicesSeriesService: ExercicesSeriesService) { }
+              private exercicesSeriesService: ExercicesSeriesService,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
 
@@ -95,11 +94,8 @@ export class ProgrammeDetailsComponent implements OnInit {
 
       if (item.seances) {
         this.seancesOfProgramme = item.seances as Seance[];
-        this.seancesOfProgramme.forEach((it, index) => {
+        this.seancesOfProgramme.forEach((it, seance) => {
           it.toAddPathologie = false;
-          it.blocs.forEach(bl => {
-            this.tableFormControl.push(new FormControl());
-          });
         });
       }
 
@@ -169,8 +165,9 @@ export class ProgrammeDetailsComponent implements OnInit {
     this.updateField('semaineduniveau', this.semaineNiveauSelected);
   }
 
-  deleteSemaineNiveau() {
-
+  deleteSemaineNiveau(index: number) {
+    this.semaineNiveauSelected.splice(index, 1);
+    this.updateField('semaineduniveau', this.semaineNiveauSelected);
   }
 
 
@@ -292,20 +289,17 @@ export class ProgrammeDetailsComponent implements OnInit {
 
   // SECTION DE GESTION DES BLOCS DE SEANCES
   addBloc(seance: number) {
+    const dialogRef = this.dialog.open(BlocDetailsComponent, {
+      width: '80%',
+      data: {niveau: this.formData.niveau}
+    });
 
-   this.tableFormControl.push(new FormControl());
-   this.seancesOfProgramme[seance].blocs.push(new Bloc());
-
-   this.formatClass(seance);
-
-   this.updateField('seances', this.seancesOfProgramme);
+    dialogRef.afterClosed().subscribe(result => {
+      this.seancesOfProgramme[seance].blocs.push(result);
+      this.formatClass(seance);
+      this.updateField('seances', this.seancesOfProgramme);
+    });
   }
 
-  updateBlocField(seance: number, bloc: number, attribut: string) {
-
-
-
-    console.log(this.seancesOfProgramme);
-  }
 
 }

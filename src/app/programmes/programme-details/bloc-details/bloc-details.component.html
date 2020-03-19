@@ -1,0 +1,64 @@
+<div fxLayout="row wrap" fxLayoutAlign="start start" class="bloc"
+style="background-color: white; padding: 10px; margin:5px">
+
+  <h4 fxFlex="100" style="text-align: center;">Bloc</h4>
+
+  <div fxFlex="20" fxLayout="row" style="margin-top: 23px;">
+   <label> Fusionnable </label>
+   <mat-slide-toggle  color="warn"
+     [formControl]="fusionnableControl"
+     (change)="currentBloc.fusionnable = fusionnableControl.value"
+     ></mat-slide-toggle>
+  </div>
+
+ <div fxFlex="37">
+   <label class="dark-chip"> Orientation : </label>
+   <mat-radio-group color="warn"
+     [(ngModel)]="currentBloc.orientation"
+     (ngModelChange)="updateField()">
+     <mat-radio-button value="cardio" class="span-radio-button">
+       cardio
+     </mat-radio-button>
+     <mat-radio-button value="renforcement" class="span-radio-button">
+       renforcement
+     </mat-radio-button>
+   </mat-radio-group>
+ </div>
+
+ <mat-form-field fxFlex="43">
+   <mat-label>Durée</mat-label>
+   <mat-select [(ngModel)]="currentBloc.duree"
+                (ngModelChange)="updateField()">
+     <mat-option *ngFor="let duree of listeDuree" matNativeControl [value]="duree">
+         {{ duree }}
+     </mat-option>
+   </mat-select>
+ </mat-form-field>
+
+ <div fxFlex="100" style="margin: 10px" *ngIf="methodes" >
+  <mat-chip-list #chipList aria-label="Les Méthodes">
+    <mat-chip class="dark-chip tt-upper">Les Méthodes : </mat-chip>
+    <mat-chip
+      *ngFor="let item of methodes; let i = index"
+      [ngStyle]="{
+        'color': '#FFF',
+        'background-color': '#000'
+      }">
+      {{ item.acronyme }}
+      <button  mat-icon-button (click)="deleteMethode(i)">
+          <mat-icon>close</mat-icon>
+      </button>
+    </mat-chip>
+  </mat-chip-list>
+</div>
+
+<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end end">
+    <button mat-icon-button
+            [mat-dialog-close]="currentBloc" cdkFocusInitial>
+      <mat-icon>save</mat-icon>
+    </button>
+</div>
+
+
+
+</div>
