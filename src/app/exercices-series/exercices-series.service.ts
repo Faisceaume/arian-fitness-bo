@@ -14,6 +14,9 @@ export class ExercicesSeriesService {
   serieExerciceFixe: ExerciceSerie[];
   serieExerciceFixeSubject = new Subject<any[]>();
 
+  serieExerciceFixeByType: ExerciceSerie[];
+  serieExerciceFixeByTypeSubject = new Subject<any[]>();
+
   constructor(private firestore: AngularFirestore,
               private exercicesService: ExercicesService,
               private router: Router) { }
@@ -32,6 +35,24 @@ export class ExercicesSeriesService {
     }
   emitSerieExercieFixe() {
     this.serieExerciceFixeSubject.next( this.serieExerciceFixe );
+  }
+
+
+  getAllSeriesExercicesByType(type: string) {
+    this.firestore.collection('seriesfixes', ref => ref.where('type', '==', type))
+                  .snapshotChanges().subscribe( data => {
+       this.serieExerciceFixeByType = data.map( e => {
+        const anotherData = e.payload.doc.data() as ExerciceSerie;
+        return  {
+          ...anotherData
+        } as ExerciceSerie;
+        });
+       this.emitSerieExerciceByTypeSubject();
+      });
+  }
+
+  emitSerieExerciceByTypeSubject() {
+    this.serieExerciceFixeByTypeSubject.next(this.serieExerciceFixeByType.slice());
   }
 
 
