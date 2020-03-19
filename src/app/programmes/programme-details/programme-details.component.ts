@@ -175,44 +175,33 @@ export class ProgrammeDetailsComponent implements OnInit {
   // SECTION DE GESTION DES SEANCES
 
   addPathologie(item: Pathologie, index: number) {
-    const local = new PathologieAvance();
-    local.id = item.id;
-    local.nom = item.nom;
-    local.acronyme = item.acronyme;
-    this.seancesOfProgramme[index].pathologies.push(local);
 
-    if (item.exercicesCategorie) {
-        item.exercicesCategorie.forEach(it => {
-        const i =  this.seancesOfProgramme[index].categoriesexercices
-                                        .findIndex(execat => execat.id === it.id);
-        if (i < 0) {
-          const localCat = new CategorieAvance();
-          localCat.id = it.id;
-          localCat.nom = it.nom;
-          localCat.acronyme = it.acronyme;
-          localCat.duree = it.duree;
-          this.seancesOfProgramme[index].categoriesexercices.push(localCat);
-        }
-        });
+    const position = this.seancesOfProgramme[index].pathologies.findIndex(it => it.id === item.id);
+
+    if (position < 0) {
+      const local = new PathologieAvance();
+      local.id = item.id;
+      local.nom = item.nom;
+      local.acronyme = item.acronyme;
+      this.seancesOfProgramme[index].pathologies.push(local);
+
+      if (item.exercicesCategorie) {
+          item.exercicesCategorie.forEach(it => {
+          const i =  this.seancesOfProgramme[index].categoriesexercices
+                                          .findIndex(execat => execat.id === it.id);
+          if (i < 0) {
+            const localCat = new CategorieAvance();
+            localCat.id = it.id;
+            localCat.nom = it.nom;
+            localCat.acronyme = it.acronyme;
+            localCat.duree = it.duree;
+            this.seancesOfProgramme[index].categoriesexercices.push(localCat);
+          }
+          });
+      }
+      this.formatClass(index);
+      this.updateField('seances', this.seancesOfProgramme);
     }
-    this.formatClass(index);
-/*
-    const catexe  = this.seancesOfProgramme[index].categoriesexercices.map((obj) => {
-      return Object.assign({}, obj);
-    });
-    this.seancesOfProgramme[index].categoriesexercices = catexe;
-
-    const pathol  = this.seancesOfProgramme[index].pathologies.map((obj) => {
-      return Object.assign({}, obj);
-    });
-    this.seancesOfProgramme[index].pathologies = pathol;
-
-    const bl  = this.seancesOfProgramme[index].blocs.map((obj) => {
-      return Object.assign({}, obj);
-      });
-    this.seancesOfProgramme[index].blocs = bl;
- */
-    this.updateField('seances', this.seancesOfProgramme);
   }
 
 
@@ -244,17 +233,6 @@ export class ProgrammeDetailsComponent implements OnInit {
       });
     });
     this.formatClass(index);
-/*
-    const pathol  = this.seancesOfProgramme[index].pathologies.map((obj) => {
-      return Object.assign({}, obj);
-    });
-    this.seancesOfProgramme[index].pathologies = pathol;
-
-    const bl  = this.seancesOfProgramme[index].blocs.map((obj) => {
-      return Object.assign({}, obj);
-      });
-    this.seancesOfProgramme[index].blocs = bl;
- */
     this.updateField('seances', this.seancesOfProgramme);
   }
 
