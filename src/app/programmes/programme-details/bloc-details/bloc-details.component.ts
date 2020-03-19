@@ -16,11 +16,13 @@ import { MethodeAvance } from '../../methode-avance';
 })
 export class BlocDetailsComponent implements OnInit {
 
-  listeDuree = new Listes().dureemethodes;
-  fusionnableControl = new FormControl();
   currentBloc: Bloc;
   niveau: Niveau;
   methodes: Methode[];
+  addCategorieExercice: boolean;
+  listeDuree = new Listes().dureemethodes;
+  fusionnableControl = new FormControl();
+  addBlocControl = new FormControl();
 
   constructor(public dialogRef: MatDialogRef<BlocDetailsComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -29,16 +31,17 @@ export class BlocDetailsComponent implements OnInit {
   ngOnInit() {
     this.currentBloc = new Bloc();
     this.niveau = this.data.niveau;
-    this.methodes = this.methodesService
-    .getMethodesForProgramme(this.niveau, this.currentBloc.orientation, this.currentBloc.duree);
-    this.currentBloc.methodes = [];
+    this.updateField();
+    // this.currentBloc.methodes = [];
   }
 
   updateField() {
-    this.methodes = this.methodesService
+    this.methodesService
     .getMethodesForProgramme(this.niveau, this.currentBloc.orientation, this.currentBloc.duree);
-
-    this.formatClass();
+    this.methodesService.methodesForProgrammeSubject.subscribe(data => {
+      this.methodes = data;
+      this.formatClass();
+    });
   }
 
   formatClass() {

@@ -71,6 +71,7 @@ export class Listes {
 
   dureemethodes = [
     '7 minutes 30',
+    '10 minutes',
     '15 minutes',
     '30 minutes'
   ];
@@ -158,6 +159,14 @@ export class Listes {
     22,
     23,
     24
+  ];
+
+  frequence = [
+    1,
+    2,
+    3,
+    4,
+    5
   ];
 
 }

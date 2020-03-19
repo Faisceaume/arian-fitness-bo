@@ -68,6 +68,22 @@ arian-fitness.appspot.com
 
 
 
+
+
+
+CALL LOUNIS 19/03
+
+Programme
+- Limiter les niveaux des semaines à la variable "Nombre de semaine"
+- Si Extra -> Frequence directement à 1
+- Si niveau > N1.2 (Niveau ordre = 3) -> custom point faibles
+- retirer echauffement
+
+CALLL LOUNIS 13/3/2020
+
+- Dans  la liste des séries fixes, la suppression d'un élément ne fonctionne pas.
+
+
 CALL LOUNIS 3/3/2020
 
 

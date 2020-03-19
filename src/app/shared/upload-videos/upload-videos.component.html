@@ -1,13 +1,5 @@
 <div fxLayout="column">
     <div *ngIf="sharedService.videoUrl === null">
-      <label for="file-upload" class="custom">
-        Upload File
-    </label>
-    <input id="file-upload" type="file" (change)="detectFile($event)" accept="video/*"/>
-        <p *ngIf="fileUploaded">Fichier chargé !</p>
-        <p *ngIf="!fileIsOK" class="text-danger">Impossible de charger la vidéo</p>
-    </div>
-    <div *ngIf="sharedService.videoUrl === null">
       <div id="dropzone"
       (dragover)="change($event)"
       (dragleave)="resetChange($event)"
@@ -15,6 +7,14 @@
       (drop)="handleDrop($event)">
           Drop Your vidéo Here
         </div>
+    </div>
+    <div *ngIf="sharedService.videoUrl === null">
+      <label for="file-upload" class="custom">
+        Upload File
+      </label>
+      <input id="file-upload" type="file" (change)="detectFile($event)" accept="video/*"/>
+      <p *ngIf="fileUploaded">Fichier chargé !</p>
+      <p *ngIf="!fileIsOK" class="text-danger">Impossible de charger la vidéo</p>
     </div>
     <ul *ngIf="erreursMessages">
       <li *ngFor='let erreur of erreursMessages' class="erreurMessage"> {{ erreur }} </li>

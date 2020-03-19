@@ -14,7 +14,6 @@ import { PathologiesService } from 'src/app/shared/pathologies/pathologies.servi
 import { Seance } from '../seance';
 import { ExerciceSerie } from 'src/app/exercices-series/exercice-serie';
 import { ExercicesSeriesService } from 'src/app/exercices-series/exercices-series.service';
-import { Bloc } from '../bloc';
 import { PathologieAvance } from 'src/app/exercices-series/pathologie-avance';
 import { CategorieAvance } from '../categorie-avance';
 import { ExerciceSerieAvance } from '../exercice-serie-avance';
@@ -42,6 +41,7 @@ export class ProgrammeDetailsComponent implements OnInit {
   // for seances
   seancesOfProgramme: Seance[] = [];
   allListeSemaineNiveau = new Listes().semaineduniveau;
+  listeFrequence = new Listes().frequence;
   semaineNiveauSelected: number[] = [];
   nombreSeance: number;
   pathologies: Pathologie[];
@@ -137,6 +137,14 @@ export class ProgrammeDetailsComponent implements OnInit {
         this.seancesOfProgramme[index] = new Seance();
       }
     }
+
+    if (attribut === 'extra') {
+      if (this.extraControl.value) {
+        this.formData.frequence = 1;
+        this.seancesOfProgramme = [];
+        this.seancesOfProgramme[0] = new Seance();
+      }
+    }
   }
 
   onObjectifSelected(event, item: Objectif) {
@@ -157,12 +165,18 @@ export class ProgrammeDetailsComponent implements OnInit {
   }
 
   addSemaineNiveau(item: number) {
-    const index = this.semaineNiveauSelected.findIndex(it => it === item);
-    if (index < 0 ) {
-      this.semaineNiveauSelected.push(item);
+
+    if (this.formData.nbrsemaine > this.semaineNiveauSelected.length) {
+      const index = this.semaineNiveauSelected.findIndex(it => it === item);
+      if (index < 0 ) {
+        this.semaineNiveauSelected.push(item);
+      }
+
+      this.updateField('semaineduniveau', this.semaineNiveauSelected);
+    } else {
+      alert('nombre de semaine niveau atteint');
     }
 
-    this.updateField('semaineduniveau', this.semaineNiveauSelected);
   }
 
   deleteSemaineNiveau(index: number) {
@@ -268,14 +282,16 @@ export class ProgrammeDetailsComponent implements OnInit {
   // SECTION DE GESTION DES BLOCS DE SEANCES
   addBloc(seance: number) {
     const dialogRef = this.dialog.open(BlocDetailsComponent, {
-      width: '80%',
+      width: '95%',
       data: {niveau: this.formData.niveau}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.seancesOfProgramme[seance].blocs.push(result);
-      this.formatClass(seance);
-      this.updateField('seances', this.seancesOfProgramme);
+      if (result !== undefined) {
+        this.seancesOfProgramme[seance].blocs.push(result);
+        this.formatClass(seance);
+        this.updateField('seances', this.seancesOfProgramme);
+      }
     });
   }
 

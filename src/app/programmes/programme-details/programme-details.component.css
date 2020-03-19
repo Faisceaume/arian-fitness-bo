@@ -4,7 +4,6 @@ mat-form-field {
 
 mat-radio-button {
   padding: 0 10px;
-  margin-top: 20px;
 }
 
 label {
@@ -44,10 +43,6 @@ mat-horizontal-stepper {
   padding: 5px;
 }
 
-.customPoint {
-  margin-top: 20px ;
-}
-
 .objectif {
   margin-top: 20px ;
   color:  #999 !important;
@@ -82,5 +77,20 @@ h3 {
   font-size: 0.9em;
 }
 
+.br-5 {
+  border-radius: 5px !important;
+  text-transform: uppercase;
+}
 
-/* Section des blocs de seances */
+.cat-exe-pathos-title {
+  margin: 10px 0;
+}
+
+.title-gestion-bloc {
+  background-color: #000;
+  color: #FFF;
+  text-transform: uppercase;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 0.9em;
+}

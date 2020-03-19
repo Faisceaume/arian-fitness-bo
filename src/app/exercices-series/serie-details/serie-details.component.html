@@ -8,13 +8,13 @@
 
 <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="formData" style="padding: 5px;">
 
-      <mat-form-field fxFlex="50">
+      <mat-form-field fxFlex="100">
         <input matInput type="text" placeholder="Nom de la série d'exercices fixe"
                [(ngModel)]="formData.nom"
                (ngModelChange)="updateField('nom', formData.nom)">
       </mat-form-field>
 
-      <mat-form-field fxFlex="50">
+      <mat-form-field fxFlex="100">
         <input matInput type="text" placeholder="Préciser une consigne pour cette série d'exercice."
                [(ngModel)]="formData.consigne"
                (ngModelChange)="updateField('consigne', formData.consigne)">

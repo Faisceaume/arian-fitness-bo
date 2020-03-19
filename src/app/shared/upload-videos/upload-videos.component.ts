@@ -26,6 +26,7 @@ export class UploadVideosComponent implements OnInit, OnDestroy {
          this.sharedService.setVideoUrl(url);
          this.fileIsUploading = false;
          this.fileUploaded = true;
+         this.sharedService.isVideoUploadShown = false;
          this.sharedService.isUploadingVideo = false;
       }
     );
@@ -67,6 +68,7 @@ export class UploadVideosComponent implements OnInit, OnDestroy {
     onDeleteDrapVideo() {
       this.sharedService.deleteFile(this.sharedService.videoUrl, 'video');
       this.sharedService.videoUrl = null;
+      this.sharedService.isVideoUploadShown = true;
       this.fileUploaded = false;
     }
 
