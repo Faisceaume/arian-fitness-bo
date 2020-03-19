@@ -291,6 +291,22 @@
                     </mat-chip-list>
                   </div>
 
+                  <div fxFlex="100" style="margin: 10px"
+                  *ngIf="seancesOfProgramme[i].blocs[idbloc].categoriesexercices
+                  && seancesOfProgramme[i].blocs[idbloc].categoriesexercices.length != 0" >
+                    <mat-chip-list #chipList aria-label="Les Méthodes">
+                      <mat-chip class="dark-chip tt-upper br-5">Les Catégories Exercices : </mat-chip>
+                      <mat-chip
+                        *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].categoriesexercices; let i = index"
+                        [ngStyle]="{
+                          'color': '#FFF',
+                          'background-color': '#000'
+                        }">
+                        {{ item.acronyme }}
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
+
               </div>
             </div>
           </div>

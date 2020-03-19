@@ -6,5 +6,5 @@ export class Bloc {
   fusionnable = false;
   orientation = 'cardio';
   methodes: Methode[] = [];
-  categoriesexercices: Categorie[] = [];
+  categoriesexercices?: Categorie[] = [];
 }

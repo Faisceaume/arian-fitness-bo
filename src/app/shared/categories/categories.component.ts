@@ -1,3 +1,4 @@
+import { Bloc } from './../../programmes/bloc';
 import { Component, OnInit, Input, OnDestroy, Inject } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { Categorie } from './categorie';
@@ -25,6 +26,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   @Input() currentMateriel: Materiel;
   @Input() currentExercice: Exercice;
   @Input() currentPathologie: Pathologie;
+  @Input() currentBloc: Bloc;
 
 
   chipsSelected: Categorie[] = [];

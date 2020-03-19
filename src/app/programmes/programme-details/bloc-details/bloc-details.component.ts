@@ -1,8 +1,10 @@
+import { CategorieAvance } from './../../categorie-avance';
+import { CategoriesService } from 'src/app/shared/categories/categories.service';
 import { MethodesService } from './../../../methodes/methodes.service';
 import { Niveau } from './../../../shared/niveaux/niveau';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Bloc } from '../../bloc';
 import { Listes } from 'src/app/shared/listes';
@@ -14,7 +16,7 @@ import { MethodeAvance } from '../../methode-avance';
   templateUrl: './bloc-details.component.html',
   styleUrls: ['./bloc-details.component.css']
 })
-export class BlocDetailsComponent implements OnInit {
+export class BlocDetailsComponent implements OnInit, OnDestroy {
 
   currentBloc: Bloc;
   niveau: Niveau;
@@ -26,7 +28,8 @@ export class BlocDetailsComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<BlocDetailsComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private methodesService: MethodesService) { }
+              private methodesService: MethodesService,
+              private categoriesService: CategoriesService) { }
 
   ngOnInit() {
     this.currentBloc = new Bloc();
@@ -62,7 +65,17 @@ export class BlocDetailsComponent implements OnInit {
     this.formatClass();
   }
 
-  updateBlocField(seance: number, bloc: number, attribut: string) {
+  ngOnDestroy(): void {
+    const cat = [];
+    this.categoriesService.chipsSelectedForOperation.forEach(data => {
+      const localCat = new CategorieAvance();
+      localCat.id = data.id;
+      localCat.nom = data.nom;
+      localCat.acronyme = data.acronyme;
+      localCat.duree = data.duree;
+      cat.push(Object.assign({}, localCat));
+    });
+    this.currentBloc.categoriesexercices = cat;
   }
 
 }
