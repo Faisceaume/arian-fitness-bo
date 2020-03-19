@@ -95,8 +95,11 @@ export class ProgrammeDetailsComponent implements OnInit {
 
       if (item.seances) {
         this.seancesOfProgramme = item.seances as Seance[];
-        this.seancesOfProgramme.forEach(it => {
+        this.seancesOfProgramme.forEach((it, index) => {
           it.toAddPathologie = false;
+          it.blocs.forEach(bl => {
+            this.tableFormControl.push(new FormControl());
+          });
         });
       }
 
@@ -118,7 +121,7 @@ export class ProgrammeDetailsComponent implements OnInit {
   updateField(attribut: string, value: any) {
 
     if (attribut === 'seances') {
-       value = this.seancesOfProgramme.map((obj) => {
+      value = this.seancesOfProgramme.map((obj) => {
         return Object.assign({}, obj);
       });
     }
@@ -182,8 +185,7 @@ export class ProgrammeDetailsComponent implements OnInit {
     this.seancesOfProgramme[index].pathologies.push(local);
 
     if (item.exercicesCategorie) {
-        const listeExeCat = item.exercicesCategorie;
-        listeExeCat.forEach(it => {
+        item.exercicesCategorie.forEach(it => {
         const i =  this.seancesOfProgramme[index].categoriesexercices
                                         .findIndex(execat => execat.id === it.id);
         if (i < 0) {
@@ -196,47 +198,8 @@ export class ProgrammeDetailsComponent implements OnInit {
         }
         });
     }
-
-    const catexe  = this.seancesOfProgramme[index].categoriesexercices.map((obj) => {
-      return Object.assign({}, obj);
-    });
-    this.seancesOfProgramme[index].categoriesexercices = catexe;
-
-    const patho  = this.seancesOfProgramme[index].pathologies.map((obj) => {
-      return Object.assign({}, obj);
-    });
-    this.seancesOfProgramme[index].pathologies = patho;
-
-
-    this.updateField('seances', this.seancesOfProgramme);
-  }
-
-
-  removePathologie(index: number, index2: number) {
-
-    this.seancesOfProgramme[index].pathologies.splice(index2, 1);
-    this.seancesOfProgramme[index].categoriesexercices = [];
-    this.seancesOfProgramme[index].pathologies.forEach(it => {
-
-      this.pathologiesService.getSinglePathologie(it.id).then(currentPatho => {
-        if (currentPatho.exercicesCategorie) {
-            const exeid = currentPatho.exercicesCategorie;
-            exeid.forEach(itt => {
-              const i =  this.seancesOfProgramme[index].categoriesexercices
-                            .findIndex(execat => execat.id === itt.id);
-              if (i < 0) {
-                const localCat = new CategorieAvance();
-                localCat.id = itt.id;
-                localCat.nom = itt.nom;
-                localCat.acronyme = itt.acronyme;
-                localCat.duree = itt.duree;
-                this.seancesOfProgramme[index].categoriesexercices.push(localCat);
-              }
-              });
-        }
-      });
-    });
-
+    this.formatClass(index);
+/*
     const catexe  = this.seancesOfProgramme[index].categoriesexercices.map((obj) => {
       return Object.assign({}, obj);
     });
@@ -247,6 +210,54 @@ export class ProgrammeDetailsComponent implements OnInit {
     });
     this.seancesOfProgramme[index].pathologies = pathol;
 
+    const bl  = this.seancesOfProgramme[index].blocs.map((obj) => {
+      return Object.assign({}, obj);
+      });
+    this.seancesOfProgramme[index].blocs = bl;
+ */
+    this.updateField('seances', this.seancesOfProgramme);
+  }
+
+
+  removePathologie(index: number, index2: number) {
+
+    this.seancesOfProgramme[index].pathologies.splice(index2, 1);
+
+    const taille = this.seancesOfProgramme[index].categoriesexercices.length;
+    this.seancesOfProgramme[index].categoriesexercices.splice(0, taille);
+
+    this.seancesOfProgramme[index].pathologies.forEach(it => {
+
+      this.pathologiesService.getSinglePathologie(it.id).then(currentPatho => {
+        if (currentPatho.exercicesCategorie) {
+
+            currentPatho.exercicesCategorie.forEach(itt => {
+              const i =  this.seancesOfProgramme[index].categoriesexercices
+              .findIndex(execat => execat.id === itt.id);
+              if (i < 0) {
+                  const localCat = new CategorieAvance();
+                  localCat.id = itt.id;
+                  localCat.nom = itt.nom;
+                  localCat.acronyme = itt.acronyme;
+                  localCat.duree = itt.duree;
+                  this.seancesOfProgramme[index].categoriesexercices.push(Object.assign({}, localCat));
+                }
+              });
+        }
+      });
+    });
+    this.formatClass(index);
+/*
+    const pathol  = this.seancesOfProgramme[index].pathologies.map((obj) => {
+      return Object.assign({}, obj);
+    });
+    this.seancesOfProgramme[index].pathologies = pathol;
+
+    const bl  = this.seancesOfProgramme[index].blocs.map((obj) => {
+      return Object.assign({}, obj);
+      });
+    this.seancesOfProgramme[index].blocs = bl;
+ */
     this.updateField('seances', this.seancesOfProgramme);
   }
 
@@ -262,10 +273,39 @@ export class ProgrammeDetailsComponent implements OnInit {
     this.updateField('seances', this.seancesOfProgramme);
   }
 
+  formatClass(seance: number) {
+     const execat  = this.seancesOfProgramme[seance].categoriesexercices.map((obj) => {
+      return Object.assign({}, obj);
+      });
+     this.seancesOfProgramme[seance].categoriesexercices = execat;
+
+     const pathol  = this.seancesOfProgramme[seance].pathologies.map((obj) => {
+      return Object.assign({}, obj);
+    });
+     this.seancesOfProgramme[seance].pathologies = pathol;
+
+     const bl  = this.seancesOfProgramme[seance].blocs.map((obj) => {
+      return Object.assign({}, obj);
+      });
+     this.seancesOfProgramme[seance].blocs = bl;
+  }
 
   // SECTION DE GESTION DES BLOCS DE SEANCES
   addBloc(seance: number) {
+
    this.tableFormControl.push(new FormControl());
    this.seancesOfProgramme[seance].blocs.push(new Bloc());
+
+   this.formatClass(seance);
+
+   this.updateField('seances', this.seancesOfProgramme);
   }
+
+  updateBlocField(seance: number, bloc: number, attribut: string) {
+
+
+
+    console.log(this.seancesOfProgramme);
+  }
+
 }

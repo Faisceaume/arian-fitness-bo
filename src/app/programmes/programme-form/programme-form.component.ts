@@ -31,6 +31,7 @@ export class ProgrammeFormComponent implements OnInit {
       custompointsfaibles: false,
       semaineduniveau: [],
       nbrsemaine: 1,
+      seances: [],
       timestamp: ''
     } as Programme;
 

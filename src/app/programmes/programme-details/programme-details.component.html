@@ -153,6 +153,8 @@
           </mat-chip-list>
         </div>
 
+<!-- SECTION DES SEANCES -->
+
         <div fxFlex="100" fxLayout="row wrap"
             *ngIf="seancesOfProgramme && seancesOfProgramme.length != 0" >
 
@@ -229,7 +231,8 @@
             <!-- SECTION DES BLOCS -->
             <div fxFlex="100">
               <div fxFlex="50" fxLayoutAlign="start start" [ngStyle]="{'padding':'10px 0'}">
-                <span [ngStyle]="{'margin':'0 5px 0','font-weight':'bolder','font-size':'1em'}">Gestion des blocs</span>
+                <span [ngStyle]="{'margin':'0 5px 0','font-weight':'bolder','font-size':'1em'}">
+                  Gestion des blocs</span>
               </div>
 
               <div fxFlex="50" fxLayout="row" fxLayoutAlign="end start">
@@ -252,10 +255,11 @@
                    <div fxFlex="20" fxLayout="row" style="margin-top: 23px;">
                     <label> Fusionnable </label>
                     <mat-slide-toggle  color="warn"
-                      [formControl]="tableFormControl[idbloc]"></mat-slide-toggle>
+                      [formControl]="tableFormControl[i]"
+                      ></mat-slide-toggle>
                    </div>
 
-                  <div fxFlex="37">
+                  <div fxFlex="37" *ngIf="tableFormControl && tableFormControl.length != 0" >
                     <label class="dark-chip"> Orientation : </label>
                     <mat-radio-group color="warn"
                       [(ngModel)]="seancesOfProgramme[i].blocs[idbloc].orientation">
