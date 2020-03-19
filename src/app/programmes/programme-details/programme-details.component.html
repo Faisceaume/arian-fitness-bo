@@ -11,16 +11,29 @@
 
       <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="formData">
 
-        <mat-form-field fxFlex="60">
+        <mat-form-field fxFlex="40">
           <input matInput placeholder="Numéro du Programme" required
           [(ngModel)]="formData.numero"
           (ngModelChange)="onValueChange('numero', formData.numero)">
         </mat-form-field>
 
-        <mat-form-field fxFlex="40">
+        <mat-form-field fxFlex="30">
           <input matInput placeholder="Acronyme" type="text" required
           [(ngModel)]="formData.acronyme" maxlength="4"
           (ngModelChange)="onValueChange('acronyme', formData.acronyme)">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="30">
+          <mat-label>Fréquence hebdomadaire</mat-label>
+          <mat-select
+          [(ngModel)]="formData.frequence"
+          (ngModelChange)="onValueChange('frequence', formData.frequence)">
+            <mat-option matNativeControl value="1">1</mat-option>
+            <mat-option matNativeControl value="2">2</mat-option>
+            <mat-option matNativeControl value="3">3</mat-option>
+            <mat-option matNativeControl value="4">4</mat-option>
+            <mat-option matNativeControl value="5">5</mat-option>
+          </mat-select>
         </mat-form-field>
 
         <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin-bottom':'10px'}">
@@ -37,19 +50,6 @@
             <mat-option matNativeControl value="30">30</mat-option>
             <mat-option matNativeControl value="45">45</mat-option>
             <mat-option matNativeControl value="60">60</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-          <mat-label>Préciser la fréquence hebdomadaire du programme</mat-label>
-          <mat-select
-          [(ngModel)]="formData.frequence"
-          (ngModelChange)="onValueChange('frequence', formData.frequence)">
-            <mat-option matNativeControl value="1">1</mat-option>
-            <mat-option matNativeControl value="2">2</mat-option>
-            <mat-option matNativeControl value="3">3</mat-option>
-            <mat-option matNativeControl value="4">4</mat-option>
-            <mat-option matNativeControl value="5">5</mat-option>
           </mat-select>
         </mat-form-field>
 
