@@ -1,3 +1,4 @@
+import { Niveau } from './../shared/niveaux/niveau';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
@@ -46,6 +47,20 @@ getAllMethodes(): void {
 
 emitMethodeSubject() {
     this.methodeSubject.next(this.methodes.slice());
+}
+
+getMethodesForProgramme(niveau: Niveau, orientation: string, duree: string) {
+  const data = [];
+  this.firestore.firestore.collection('methodes')
+  .where('orientation', '==', orientation)
+  .where('duree', '==', duree)
+  .where('niveau', '==', niveau)
+    .onSnapshot((querySnapshot) =>  {
+        querySnapshot.forEach((doc) =>  {
+          data.push(doc.data());
+        });
+    });
+  return data;
 }
 
 

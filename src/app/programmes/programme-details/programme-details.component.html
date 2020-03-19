@@ -120,14 +120,14 @@
           <mat-chip-list #chipList aria-label="Semaine du Niveau">
             <mat-chip class="dark-chip tt-upper">Semaine du niveau : </mat-chip>
             <mat-chip
-              *ngFor="let item of semaineNiveauSelected"
+              *ngFor="let item of semaineNiveauSelected; let i = index"
               [ngStyle]="{
                 'color': '#FFF',
                 'background-color': '#000'
               }">
               {{ item }}
               <button  mat-icon-button
-                        (click)="deleteSemaineNiveau()">
+                        (click)="deleteSemaineNiveau(i)">
                   <mat-icon>close</mat-icon>
                 </button>
             </mat-chip>
@@ -248,44 +248,42 @@
 
               <div fxFlex="100" fxLayout="row wrap" class="bloc"
                    *ngFor="let item of seancesOfProgramme[i].blocs; let idbloc = index"
-                   style="background-color: white; padding: 10px; margin:5px">
+                   style="background-color: white; padding: 15px; margin:10px">
 
                    <h4 fxFlex="100" style="text-align: center;">Bloc N° {{ idbloc+1 }}</h4>
 
-                   <div fxFlex="20" fxLayout="row" style="margin-top: 23px;">
-                    <label> Fusionnable </label>
-                    <mat-slide-toggle  color="warn"
-                      [formControl]="tableFormControl[i]"
-                      ></mat-slide-toggle>
+                   <div fxFlex="20">
+                    <label class="dark-chip">Fusionnable</label>
+                    {{ seancesOfProgramme[i].blocs[idbloc].fusionnable }}
                    </div>
 
-                  <div fxFlex="37" *ngIf="tableFormControl && tableFormControl.length != 0" >
-                    <label class="dark-chip"> Orientation : </label>
-                    <mat-radio-group color="warn"
-                      [(ngModel)]="seancesOfProgramme[i].blocs[idbloc].orientation">
-                      <mat-radio-button value="cardio" class="span-radio-button">
-                        cardio
-                      </mat-radio-button>
-                      <mat-radio-button value="renforcement" class="span-radio-button">
-                        renforcement
-                      </mat-radio-button>
-                    </mat-radio-group>
+                  <div fxFlex="37" >
+                    <label class="dark-chip">Orientation</label>
+                    {{ seancesOfProgramme[i].blocs[idbloc].orientation }}
                   </div>
 
-                  <mat-form-field fxFlex="43">
-                    <mat-label>Durée</mat-label>
-                    <mat-select [(ngModel)]="seancesOfProgramme[i].blocs[idbloc].duree" >
-                      <mat-option *ngFor="let duree of listeDuree" matNativeControl [value]="duree">
-                          {{ duree }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
+                  <div fxFlex="43">
+                    <label class="dark-chip">Durée</label>
+                    {{ seancesOfProgramme[i].blocs[idbloc].duree }}
+                  </div>
 
+                  <div fxFlex="100" style="margin: 10px"
+                  *ngIf="seancesOfProgramme[i].blocs[idbloc].methodes" >
+                    <mat-chip-list #chipList aria-label="Les Méthodes">
+                      <mat-chip class="dark-chip tt-upper">Les Méthodes : </mat-chip>
+                      <mat-chip
+                        *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].methodes; let i = index"
+                        [ngStyle]="{
+                          'color': '#FFF',
+                          'background-color': '#000'
+                        }">
+                        {{ item.acronyme }}
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
 
               </div>
-
             </div>
-
           </div>
         </div>
 
