@@ -161,4 +161,12 @@ export class Listes {
     24
   ];
 
+  frequence = [
+    1,
+    2,
+    3,
+    4,
+    5
+  ];
+
 }

@@ -14,7 +14,6 @@ import { PathologiesService } from 'src/app/shared/pathologies/pathologies.servi
 import { Seance } from '../seance';
 import { ExerciceSerie } from 'src/app/exercices-series/exercice-serie';
 import { ExercicesSeriesService } from 'src/app/exercices-series/exercices-series.service';
-import { Bloc } from '../bloc';
 import { PathologieAvance } from 'src/app/exercices-series/pathologie-avance';
 import { CategorieAvance } from '../categorie-avance';
 import { ExerciceSerieAvance } from '../exercice-serie-avance';
@@ -42,6 +41,7 @@ export class ProgrammeDetailsComponent implements OnInit {
   // for seances
   seancesOfProgramme: Seance[] = [];
   allListeSemaineNiveau = new Listes().semaineduniveau;
+  listeFrequence = new Listes().frequence;
   semaineNiveauSelected: number[] = [];
   nombreSeance: number;
   pathologies: Pathologie[];
@@ -96,8 +96,12 @@ export class ProgrammeDetailsComponent implements OnInit {
         this.seancesOfProgramme = item.seances as Seance[];
         this.seancesOfProgramme.forEach((it, seance) => {
           it.toAddPathologie = false;
+          this.getCategoriesExercices(seance);
+          this.formatClass(seance);
         });
       }
+
+
 
     }).then(() => {
       this.objectifs.forEach(item => {
@@ -137,6 +141,14 @@ export class ProgrammeDetailsComponent implements OnInit {
         this.seancesOfProgramme[index] = new Seance();
       }
     }
+
+    if (attribut === 'extra') {
+      if (this.extraControl.value) {
+        this.formData.frequence = 1;
+        this.seancesOfProgramme = [];
+        this.seancesOfProgramme[0] = new Seance();
+      }
+    }
   }
 
   onObjectifSelected(event, item: Objectif) {
@@ -157,12 +169,18 @@ export class ProgrammeDetailsComponent implements OnInit {
   }
 
   addSemaineNiveau(item: number) {
-    const index = this.semaineNiveauSelected.findIndex(it => it === item);
-    if (index < 0 ) {
-      this.semaineNiveauSelected.push(item);
+
+    if (this.formData.nbrsemaine > this.semaineNiveauSelected.length) {
+      const index = this.semaineNiveauSelected.findIndex(it => it === item);
+      if (index < 0 ) {
+        this.semaineNiveauSelected.push(item);
+      }
+
+      this.updateField('semaineduniveau', this.semaineNiveauSelected);
+    } else {
+      alert('nombre de semaine niveau atteint');
     }
 
-    this.updateField('semaineduniveau', this.semaineNiveauSelected);
   }
 
   deleteSemaineNiveau(index: number) {
@@ -236,6 +254,29 @@ export class ProgrammeDetailsComponent implements OnInit {
     this.updateField('seances', this.seancesOfProgramme);
   }
 
+  getCategoriesExercices(index: number) {
+    this.seancesOfProgramme[index].pathologies.forEach(it => {
+
+      this.pathologiesService.getSinglePathologie(it.id).then(currentPatho => {
+        if (currentPatho.exercicesCategorie) {
+
+            currentPatho.exercicesCategorie.forEach(itt => {
+              const i =  this.seancesOfProgramme[index].categoriesexercices
+              .findIndex(execat => execat.id === itt.id);
+              if (i < 0) {
+                  const localCat = new CategorieAvance();
+                  localCat.id = itt.id;
+                  localCat.nom = itt.nom;
+                  localCat.acronyme = itt.acronyme;
+                  localCat.duree = itt.duree;
+                  this.seancesOfProgramme[index].categoriesexercices.push(Object.assign({}, localCat));
+                }
+              });
+        }
+      });
+    });
+  }
+
   addEchauffement(seance: number, serie: ExerciceSerie) {
     const local = new ExerciceSerieAvance();
     local.id = serie.id;
@@ -246,6 +287,16 @@ export class ProgrammeDetailsComponent implements OnInit {
     this.seancesOfProgramme[seance].echauffement = echauff;
 
     this.updateField('seances', this.seancesOfProgramme);
+  }
+
+  deleteSeance(seance: number) {
+    if (confirm('Confirmation de la suppression')) {
+      this.seancesOfProgramme.splice(seance, 1);
+      if (this.seancesOfProgramme.length !== 0) {
+        this.formatClass(seance);
+      }
+      this.updateField('seances', this.seancesOfProgramme);
+    }
   }
 
   formatClass(seance: number) {
@@ -268,15 +319,40 @@ export class ProgrammeDetailsComponent implements OnInit {
   // SECTION DE GESTION DES BLOCS DE SEANCES
   addBloc(seance: number) {
     const dialogRef = this.dialog.open(BlocDetailsComponent, {
-      width: '80%',
+      width: '95%',
       data: {niveau: this.formData.niveau}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.seancesOfProgramme[seance].blocs.push(result);
+      if (result !== undefined) {
+        this.seancesOfProgramme[seance].blocs.push(result);
+        this.formatClass(seance);
+        this.updateField('seances', this.seancesOfProgramme);
+      }
+    });
+  }
+
+  editBloc(seance: number, bloc: number) {
+    const dialogRef = this.dialog.open(BlocDetailsComponent, {
+      width: '95%',
+      data: {niveau: this.formData.niveau, currentBloc: this.seancesOfProgramme[seance].blocs[bloc]}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.seancesOfProgramme[seance].blocs[bloc] = result;
+        this.formatClass(seance);
+        this.updateField('seances', this.seancesOfProgramme);
+      }
+    });
+  }
+
+  deleteBloc(seance: number, bloc: number) {
+    if (confirm('Confirmation de suppression ?')) {
+      this.seancesOfProgramme[seance].blocs.splice(bloc, 1);
       this.formatClass(seance);
       this.updateField('seances', this.seancesOfProgramme);
-    });
+    }
   }
 
 

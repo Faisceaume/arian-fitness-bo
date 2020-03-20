@@ -1,12 +1,13 @@
+import { CategorieAvance } from './../../categorie-avance';
+import { CategoriesService } from 'src/app/shared/categories/categories.service';
 import { MethodesService } from './../../../methodes/methodes.service';
 import { Niveau } from './../../../shared/niveaux/niveau';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Bloc } from '../../bloc';
 import { Listes } from 'src/app/shared/listes';
-import { Methode } from 'src/app/methodes/methode';
 import { MethodeAvance } from '../../methode-avance';
 
 @Component({
@@ -14,31 +15,47 @@ import { MethodeAvance } from '../../methode-avance';
   templateUrl: './bloc-details.component.html',
   styleUrls: ['./bloc-details.component.css']
 })
-export class BlocDetailsComponent implements OnInit {
+export class BlocDetailsComponent implements OnInit, OnDestroy {
 
-  listeDuree = new Listes().dureemethodes;
-  fusionnableControl = new FormControl();
   currentBloc: Bloc;
   niveau: Niveau;
-  methodes: Methode[];
+  methodes: any[];
+  addCategorieExercice: boolean;
+  listeDuree = new Listes().dureemethodes;
+  fusionnableControl = new FormControl();
+  addCategoriesControl = new FormControl();
 
   constructor(public dialogRef: MatDialogRef<BlocDetailsComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private methodesService: MethodesService) { }
+              private methodesService: MethodesService,
+              private categoriesService: CategoriesService) { }
 
   ngOnInit() {
-    this.currentBloc = new Bloc();
+
+    this.categoriesService.chipsSelectedForOperation = [];
     this.niveau = this.data.niveau;
-    this.methodes = this.methodesService
-    .getMethodesForProgramme(this.niveau, this.currentBloc.orientation, this.currentBloc.duree);
-    this.currentBloc.methodes = [];
+
+    if (this.data.currentBloc) {
+      this.currentBloc = this.data.currentBloc;
+      this.methodes = this.data.currentBloc.methodes;
+      this.fusionnableControl.setValue(this.data.currentBloc.fusionnable);
+      if (this.data.currentBloc.categoriesexercices.length !== 0) {
+        this.addCategoriesControl.setValue(true);
+      }
+    } else {
+      this.currentBloc = new Bloc();
+      this.updateField();
+    }
+
   }
 
   updateField() {
-    this.methodes = this.methodesService
+    this.methodesService
     .getMethodesForProgramme(this.niveau, this.currentBloc.orientation, this.currentBloc.duree);
-
-    this.formatClass();
+    this.methodesService.methodesForProgrammeSubject.subscribe(data => {
+      this.methodes = data;
+      this.formatClass();
+    });
   }
 
   formatClass() {
@@ -59,7 +76,25 @@ export class BlocDetailsComponent implements OnInit {
     this.formatClass();
   }
 
-  updateBlocField(seance: number, bloc: number, attribut: string) {
+  ngOnDestroy(): void {
+
+    if (this.categoriesService.chipsSelectedForOperation.length !== 0) {
+          const cat = [];
+          this.categoriesService.chipsSelectedForOperation.forEach(data => {
+          const localCat = new CategorieAvance();
+          localCat.id = data.id;
+          localCat.nom = data.nom;
+          localCat.acronyme = data.acronyme;
+          localCat.duree = data.duree;
+          cat.push(Object.assign({}, localCat));
+           });
+          this.currentBloc.categoriesexercices = cat;
+    }
+
+    if (!this.addCategoriesControl.value) {
+      this.currentBloc.categoriesexercices = [];
+    }
+
   }
 
 }

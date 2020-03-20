@@ -13,6 +13,9 @@ export class MethodesService {
   methodes: Methode[];
   methodeSubject = new Subject<any[]>();
 
+  methodesForProgramme: Methode[];
+  methodesForProgrammeSubject = new Subject<any[]>();
+
   constructor(private firestore: AngularFirestore,
               private router: Router) { }
 
@@ -50,17 +53,23 @@ emitMethodeSubject() {
 }
 
 getMethodesForProgramme(niveau: Niveau, orientation: string, duree: string) {
-  const data = [];
-  this.firestore.firestore.collection('methodes')
-  .where('orientation', '==', orientation)
+
+  this.firestore.collection('methodes', ref =>
+  ref.where('orientation', '==', orientation)
   .where('duree', '==', duree)
-  .where('niveau', '==', niveau)
-    .onSnapshot((querySnapshot) =>  {
-        querySnapshot.forEach((doc) =>  {
-          data.push(doc.data());
-        });
+  .where('niveau', '==', niveau))
+                  .snapshotChanges().subscribe( data => {
+       this.methodesForProgramme = data.map( e => {
+        const anotherData = e.payload.doc.data() as Methode;
+        return  {
+          ...anotherData
+        } as Methode;
+      });
+       this.emitMethodesForProgrammeSubject();
     });
-  return data;
+}
+emitMethodesForProgrammeSubject() {
+  this.methodesForProgrammeSubject.next(this.methodesForProgramme.slice());
 }
 
 
