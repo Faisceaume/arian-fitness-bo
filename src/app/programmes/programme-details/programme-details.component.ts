@@ -96,8 +96,12 @@ export class ProgrammeDetailsComponent implements OnInit {
         this.seancesOfProgramme = item.seances as Seance[];
         this.seancesOfProgramme.forEach((it, seance) => {
           it.toAddPathologie = false;
+          this.getCategoriesExercices(seance);
+          this.formatClass(seance);
         });
       }
+
+
 
     }).then(() => {
       this.objectifs.forEach(item => {
@@ -250,6 +254,29 @@ export class ProgrammeDetailsComponent implements OnInit {
     this.updateField('seances', this.seancesOfProgramme);
   }
 
+  getCategoriesExercices(index: number) {
+    this.seancesOfProgramme[index].pathologies.forEach(it => {
+
+      this.pathologiesService.getSinglePathologie(it.id).then(currentPatho => {
+        if (currentPatho.exercicesCategorie) {
+
+            currentPatho.exercicesCategorie.forEach(itt => {
+              const i =  this.seancesOfProgramme[index].categoriesexercices
+              .findIndex(execat => execat.id === itt.id);
+              if (i < 0) {
+                  const localCat = new CategorieAvance();
+                  localCat.id = itt.id;
+                  localCat.nom = itt.nom;
+                  localCat.acronyme = itt.acronyme;
+                  localCat.duree = itt.duree;
+                  this.seancesOfProgramme[index].categoriesexercices.push(Object.assign({}, localCat));
+                }
+              });
+        }
+      });
+    });
+  }
+
   addEchauffement(seance: number, serie: ExerciceSerie) {
     const local = new ExerciceSerieAvance();
     local.id = serie.id;
@@ -260,6 +287,16 @@ export class ProgrammeDetailsComponent implements OnInit {
     this.seancesOfProgramme[seance].echauffement = echauff;
 
     this.updateField('seances', this.seancesOfProgramme);
+  }
+
+  deleteSeance(seance: number) {
+    if (confirm('Confirmation de la suppression')) {
+      this.seancesOfProgramme.splice(seance, 1);
+      if (this.seancesOfProgramme.length !== 0) {
+        this.formatClass(seance);
+      }
+      this.updateField('seances', this.seancesOfProgramme);
+    }
   }
 
   formatClass(seance: number) {
@@ -293,6 +330,29 @@ export class ProgrammeDetailsComponent implements OnInit {
         this.updateField('seances', this.seancesOfProgramme);
       }
     });
+  }
+
+  editBloc(seance: number, bloc: number) {
+    const dialogRef = this.dialog.open(BlocDetailsComponent, {
+      width: '95%',
+      data: {niveau: this.formData.niveau, currentBloc: this.seancesOfProgramme[seance].blocs[bloc]}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.seancesOfProgramme[seance].blocs[bloc] = result;
+        this.formatClass(seance);
+        this.updateField('seances', this.seancesOfProgramme);
+      }
+    });
+  }
+
+  deleteBloc(seance: number, bloc: number) {
+    if (confirm('Confirmation de suppression ?')) {
+      this.seancesOfProgramme[seance].blocs.splice(bloc, 1);
+      this.formatClass(seance);
+      this.updateField('seances', this.seancesOfProgramme);
+    }
   }
 
 

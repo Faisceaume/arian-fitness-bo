@@ -1,12 +1,14 @@
 <div fxLayout="row wrap" fxLayoutAlign="start start" class="bloc"
 style="background-color: white; padding: 10px; margin:5px">
 
-  <h3 fxFlex="50">Nouveau Bloc</h3>
+  <h3 fxFlex="50">
+   {{ data.currentBloc ? 'Edition de Bloc' : 'Nouveau Bloc' }}
+  </h3>
 
   <div fxFlex="50" fxLayout="row" fxLayoutAlign="end end" style="margin-top: 23px;">
     <label> Ajouter Catégorie Exercice </label>
     <mat-slide-toggle  color="warn"
-      [formControl]="addBlocControl"
+      [formControl]="addCategoriesControl"
       ></mat-slide-toggle>
    </div>
 
@@ -63,7 +65,7 @@ style="background-color: white; padding: 10px; margin:5px">
           [ngStyle]="{'padding':'10px 0'}"
           [noeud]="'exe_cat'"
           [chipsSelectedInput]="currentBloc.categoriesexercices"
-          *ngIf="addBlocControl.value" ></app-categories>
+          *ngIf="addCategoriesControl.value" ></app-categories>
 
 <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end end">
     <button mat-icon-button

@@ -8,7 +8,6 @@ import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Bloc } from '../../bloc';
 import { Listes } from 'src/app/shared/listes';
-import { Methode } from 'src/app/methodes/methode';
 import { MethodeAvance } from '../../methode-avance';
 
 @Component({
@@ -20,11 +19,11 @@ export class BlocDetailsComponent implements OnInit, OnDestroy {
 
   currentBloc: Bloc;
   niveau: Niveau;
-  methodes: Methode[];
+  methodes: any[];
   addCategorieExercice: boolean;
   listeDuree = new Listes().dureemethodes;
   fusionnableControl = new FormControl();
-  addBlocControl = new FormControl();
+  addCategoriesControl = new FormControl();
 
   constructor(public dialogRef: MatDialogRef<BlocDetailsComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -32,10 +31,22 @@ export class BlocDetailsComponent implements OnInit, OnDestroy {
               private categoriesService: CategoriesService) { }
 
   ngOnInit() {
-    this.currentBloc = new Bloc();
+
+    this.categoriesService.chipsSelectedForOperation = [];
     this.niveau = this.data.niveau;
-    this.updateField();
-    // this.currentBloc.methodes = [];
+
+    if (this.data.currentBloc) {
+      this.currentBloc = this.data.currentBloc;
+      this.methodes = this.data.currentBloc.methodes;
+      this.fusionnableControl.setValue(this.data.currentBloc.fusionnable);
+      if (this.data.currentBloc.categoriesexercices.length !== 0) {
+        this.addCategoriesControl.setValue(true);
+      }
+    } else {
+      this.currentBloc = new Bloc();
+      this.updateField();
+    }
+
   }
 
   updateField() {
@@ -66,16 +77,24 @@ export class BlocDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    const cat = [];
-    this.categoriesService.chipsSelectedForOperation.forEach(data => {
-      const localCat = new CategorieAvance();
-      localCat.id = data.id;
-      localCat.nom = data.nom;
-      localCat.acronyme = data.acronyme;
-      localCat.duree = data.duree;
-      cat.push(Object.assign({}, localCat));
-    });
-    this.currentBloc.categoriesexercices = cat;
+
+    if (this.categoriesService.chipsSelectedForOperation.length !== 0) {
+          const cat = [];
+          this.categoriesService.chipsSelectedForOperation.forEach(data => {
+          const localCat = new CategorieAvance();
+          localCat.id = data.id;
+          localCat.nom = data.nom;
+          localCat.acronyme = data.acronyme;
+          localCat.duree = data.duree;
+          cat.push(Object.assign({}, localCat));
+           });
+          this.currentBloc.categoriesexercices = cat;
+    }
+
+    if (!this.addCategoriesControl.value) {
+      this.currentBloc.categoriesexercices = [];
+    }
+
   }
 
 }

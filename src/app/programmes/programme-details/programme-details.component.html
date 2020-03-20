@@ -171,7 +171,15 @@
           style="padding: 10px; margin: 10px"
           class="programme">
 
-            <h3 fxFlex="100"> SÉANCE N°{{ i+1 }} </h3>
+          <div fxFlex="50" fxLayout="column" fxLayoutAlign="start start">
+            <h3> SÉANCE N°{{ i+1 }} </h3>
+          </div>
+          <div fxFlex="50" fxLayout="column" fxLayoutAlign="start end">
+            <button mat-icon-button (click)="deleteSeance(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+
 
             <div fxFlex="100" *ngIf="seancesOfProgramme[i].echauffement" style="margin:10px 0">
               <label class="dark-chip"> Sélection de l'échauffement </label>
@@ -232,7 +240,7 @@
               </mat-chip-list>
             </div>
 
-            <div fxFlex="100" style="margin-left:10px" *ngIf="seancesOfProgramme[i].toAddPathologie">
+            <div fxFlex="100" style="margin-left:10px">
               <p class="cat-exe-pathos-title">Catégories d'exercices concernées par ces pathologies :</p>
               <mat-chip-list #chipList aria-label="Categorie Exercice">
                 <mat-chip
@@ -305,6 +313,15 @@
                         {{ item.acronyme }}
                       </mat-chip>
                     </mat-chip-list>
+                  </div>
+
+                  <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end end">
+                    <button mat-icon-button (click)="editBloc(i, idbloc)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deleteBloc(i, idbloc)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
                   </div>
 
               </div>
