@@ -128,7 +128,7 @@ export class ProgrammeDetailsComponent implements OnInit {
     this.programmesService.newUpdateVersion(this.formData, attribut, value);
 
     if (attribut === 'niveau') {
-      if (value.nombre > 1) {
+      if (value.nombre > 2) {
         this.showCustompointsfaibles = true;
       } else {
         this.showCustompointsfaibles = false;
@@ -178,7 +178,7 @@ export class ProgrammeDetailsComponent implements OnInit {
 
       this.updateField('semaineduniveau', this.semaineNiveauSelected);
     } else {
-      alert('nombre de semaine niveau atteint');
+      alert('Le nombre de semaine précisé est atteint');
     }
 
   }

@@ -50,26 +50,40 @@
           </mat-select>
         </mat-form-field>
 
-        <div fxFlex="100" fxLayout="row" [ngStyle]="{'margin':'10px'}">
-          <div fxFlex="40" style="margin-top: 20px">
-            <label class="dark-chip" style="margin-right:10px">Extra &nbsp; </label>
-            <mat-slide-toggle color="warn"
-              [formControl]="extraControl"
-              (change)="updateField('extra', extraControl.value)"></mat-slide-toggle>
-          </div>
-          <div fxFlex="60">
-            <mat-form-field *ngIf="extraControl.value">
-              <mat-label>Durée</mat-label>
-              <mat-select
-              [(ngModel)]="formData.duree"
-              (ngModelChange)="updateField('duree', formData.duree)">
-                <mat-option matNativeControl value="30">30</mat-option>
-                <mat-option matNativeControl value="45">45</mat-option>
-                <mat-option matNativeControl value="60">60</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
+        <div fxFlex="30" style="margin: 10px 0 0 10px">
+          <label class="dark-chip" style="margin-right:10px">Extra &nbsp; </label>
+          <mat-slide-toggle color="warn"
+            [formControl]="extraControl"
+            (change)="updateField('extra', extraControl.value)"></mat-slide-toggle>
         </div>
+
+        <div fxFlex="65" *ngIf="extraControl.value" fxLayoutAlign="end end" style="margin: 10px 0 0 10px">
+          <label>Durée : </label>
+          <mat-radio-group color="warn"
+          [(ngModel)]="formData.duree"
+          (ngModelChange)="updateField('duree', formData.duree)">
+            <mat-radio-button value="30" class="span-radio-button">
+              30 minutes
+            </mat-radio-button>
+            <mat-radio-button value="45" class="span-radio-button">
+              45 minutes
+            </mat-radio-button>
+            <mat-radio-button value="60" class="span-radio-button">
+              60 minutes
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <!-- <mat-form-field fxFlex="40" *ngIf="extraControl.value">
+          <mat-label>Durée</mat-label>
+          <mat-select
+          [(ngModel)]="formData.duree"
+          (ngModelChange)="updateField('duree', formData.duree)">
+            <mat-option matNativeControl value="30">30</mat-option>
+            <mat-option matNativeControl value="45">45</mat-option>
+            <mat-option matNativeControl value="60">60</mat-option>
+          </mat-select>
+        </mat-form-field> -->
 
         <div fxFlex="100" fxLayout="row" style="padding:10px;">
 
@@ -107,7 +121,7 @@
         </div>
 
         <div fxFlex="100" fxLayout="column" class="objectif" style="margin-bottom:10px">
-          <div style="margin-left:10px">
+          <div style="margin:0 10px 10px">
             <label class="dark-chip"> Objectifs</label>
           </div>
           <div>
@@ -133,7 +147,7 @@
                 'color': '#FFF',
                 'background-color': '#000'
               }">
-              {{ item }}
+              Sem. {{ item }}
               <button  mat-icon-button
                         (click)="deleteSemaineNiveau(i)">
                   <mat-icon>close</mat-icon>
@@ -174,14 +188,19 @@
           <div fxFlex="50" fxLayout="column" fxLayoutAlign="start start">
             <h3> SÉANCE N°{{ i+1 }} </h3>
           </div>
-          <div fxFlex="50" fxLayout="column" fxLayoutAlign="start end">
-            <button mat-icon-button (click)="deleteSeance(i)">
-              <mat-icon>delete</mat-icon>
+          <div fxFlex="50" fxLayout="row" fxLayoutAlign="end start">
+            <button mat-icon-button (click)="addBloc(i)"
+              matTooltip="Ajouter un bloc à la séance" matTooltipPosition="after">
+                <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteSeance(i)"
+              matTooltip="Supprimer la séance" matTooltipPosition="after">
+                <mat-icon>delete</mat-icon>
             </button>
           </div>
 
 
-            <div fxFlex="100" *ngIf="seancesOfProgramme[i].echauffement" style="margin:10px 0">
+            <!-- <div fxFlex="100" *ngIf="seancesOfProgramme[i].echauffement" style="margin:10px 0">
               <label class="dark-chip"> Sélection de l'échauffement </label>
               <span class="bulle-acro"
                     *ngIf="seancesOfProgramme[i].echauffement">
@@ -199,9 +218,9 @@
                 [value]="item"
                 (click)="addEchauffement(i, item)"> {{ item.nom }} </mat-option>
               </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
 
-            <div fxFlex="100">
+            <!-- <div fxFlex="100">
               <div fxFlex="50">
                 <span class="title-gestion-bloc">Pathologies </span>
               </div>
@@ -248,10 +267,10 @@
                   {{ item.acronyme }}
                 </mat-chip>
               </mat-chip-list>
-            </div>
+            </div> -->
 
             <!-- SECTION DES BLOCS -->
-            <div fxFlex="100">
+            <!-- <div fxFlex="100">
               <div fxFlex="50" fxLayoutAlign="start start" [ngStyle]="{'padding':'10px 0'}">
                 <span class="title-gestion-bloc">
                   Gestion des blocs</span>
@@ -263,7 +282,7 @@
                     <mat-icon>add</mat-icon>
                   </button>
               </div>
-            </div>
+            </div> -->
 
             <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start"
                  *ngIf="seancesOfProgramme[i].blocs && seancesOfProgramme[i].blocs.length != 0" >
@@ -272,22 +291,31 @@
                    *ngFor="let item of seancesOfProgramme[i].blocs; let idbloc = index"
                    style="background-color: white; padding: 15px; margin:10px">
 
-                   <div fxFlex="20" *ngIf="seancesOfProgramme[i].blocs[idbloc].fusionnable">
-                    <label>Fusionnable</label>
-                   </div>
-
-                  <div fxFlex="37" >
+                  <div fxFlex="25" fxLayoutAlign="start center">
                     <label>{{ seancesOfProgramme[i].blocs[idbloc].orientation }}</label>
                   </div>
 
-                  <div fxFlex="43">
+                   <div fxFlex="25" fxLayoutAlign="start center">
+                    <label *ngIf="seancesOfProgramme[i].blocs[idbloc].fusionnable">Fusionnable</label>
+                  </div>
+
+                  <div fxFlex="25" fxLayoutAlign="start center">
                     <label>{{ seancesOfProgramme[i].blocs[idbloc].duree }}</label>
+                  </div>
+
+                  <div fxFlex="25" fxLayoutAlign="end start">
+                    <button mat-icon-button (click)="editBloc(i, idbloc)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deleteBloc(i, idbloc)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
                   </div>
 
                   <div fxFlex="100" style="margin: 10px"
                   *ngIf="seancesOfProgramme[i].blocs[idbloc].methodes" >
                     <mat-chip-list #chipList aria-label="Les Méthodes">
-                      <mat-chip class="dark-chip tt-upper br-5">Les Méthodes : </mat-chip>
+                      <mat-chip class="tt-upper br-5">Méthodes : </mat-chip>
                       <mat-chip
                         *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].methodes; let i = index"
                         [ngStyle]="{
@@ -303,7 +331,7 @@
                   *ngIf="seancesOfProgramme[i].blocs[idbloc].categoriesexercices
                   && seancesOfProgramme[i].blocs[idbloc].categoriesexercices.length != 0" >
                     <mat-chip-list #chipList aria-label="Les Méthodes">
-                      <mat-chip class="dark-chip tt-upper br-5">Les Catégories Exercices : </mat-chip>
+                      <mat-chip class="tt-upper br-5">Catégories d'exercices : </mat-chip>
                       <mat-chip
                         *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].categoriesexercices; let i = index"
                         [ngStyle]="{
@@ -313,15 +341,6 @@
                         {{ item.acronyme }}
                       </mat-chip>
                     </mat-chip-list>
-                  </div>
-
-                  <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end end">
-                    <button mat-icon-button (click)="editBloc(i, idbloc)">
-                      <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button (click)="deleteBloc(i, idbloc)">
-                      <mat-icon>delete</mat-icon>
-                    </button>
                   </div>
 
               </div>
