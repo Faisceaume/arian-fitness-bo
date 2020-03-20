@@ -32,8 +32,6 @@ import { UsersModule } from './users/users.module';
   imports: [
     SharedModule,
     BrowserModule,
-    QuestionnairesModule,
-    UsersModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
@@ -41,7 +39,9 @@ import { UsersModule } from './users/users.module';
     ReactiveFormsModule,
     UiModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    QuestionnairesModule,
+    UsersModule,
   ],
   providers: [
     {

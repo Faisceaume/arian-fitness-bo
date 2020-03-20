@@ -32,6 +32,7 @@ export class ProgrammeDetailsComponent implements OnInit {
   extraControl = new FormControl();
   custompointsfaiblesControl = new FormControl();
   showCustompointsfaibles: boolean;
+  showObjectif: boolean;
 
   objectifsSelected: Objectif[];
   objectifsNotSelected: Objectif[] = [];
