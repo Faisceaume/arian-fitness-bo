@@ -123,8 +123,14 @@
         <div fxFlex="100" fxLayout="column" class="objectif" style="margin-bottom:10px">
           <div style="margin:0 10px 10px">
             <label class="dark-chip"> Objectifs</label>
+            <button  mat-icon-button (click)="showObjectif = true" *ngIf="!showObjectif" >
+             <mat-icon>visibility</mat-icon>
+            </button>
+            <button  mat-icon-button (click)="showObjectif = false" *ngIf="showObjectif" >
+              <mat-icon>visibility_off</mat-icon>
+             </button>
           </div>
-          <div>
+          <div *ngIf="showObjectif" >
             <mat-checkbox
             color="warn"
             *ngFor="let objectif of objectifsSelected"
