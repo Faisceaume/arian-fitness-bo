@@ -50,7 +50,7 @@
           </mat-select>
         </mat-form-field>
 
-        <div fxFlex="30" style="margin: 10px 0 0 10px">
+        <div fxFlex="30" style="margin: 10px 0 15px 10px">
           <label class="dark-chip" style="margin-right:10px">Extra &nbsp; </label>
           <mat-slide-toggle color="warn"
             [formControl]="extraControl"
@@ -85,7 +85,7 @@
           </mat-select>
         </mat-form-field> -->
 
-        <div fxFlex="100" fxLayout="row" style="padding:10px;">
+        <div fxFlex="100" fxLayout="row" style="padding:10px 10px 0;">
 
           <div fxFlex="17">
             <label class="dark-chip"> Niveau</label>
@@ -122,9 +122,9 @@
 
         <div fxFlex="100" fxLayout="column" class="objectif" style="margin-bottom:10px">
           <div style="margin:0 10px 10px">
-            <label class="dark-chip"> Objectifs</label>
+            <label class="dark-chip custom-obj"> Objectifs</label>
             <button  mat-icon-button (click)="showObjectif = true" *ngIf="!showObjectif" >
-             <mat-icon>visibility</mat-icon>
+              <mat-icon>visibility</mat-icon>
             </button>
             <button  mat-icon-button (click)="showObjectif = false" *ngIf="showObjectif" >
               <mat-icon>visibility_off</mat-icon>
@@ -191,19 +191,19 @@
           style="padding: 10px; margin: 10px"
           class="programme">
 
-          <div fxFlex="50" fxLayout="column" fxLayoutAlign="start start">
-            <h3> SÉANCE N°{{ i+1 }} </h3>
-          </div>
-          <div fxFlex="50" fxLayout="row" fxLayoutAlign="end start">
-            <button mat-icon-button (click)="addBloc(i)"
-              matTooltip="Ajouter un bloc à la séance" matTooltipPosition="after">
-                <mat-icon>add</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteSeance(i)"
-              matTooltip="Supprimer la séance" matTooltipPosition="after">
-                <mat-icon>delete</mat-icon>
-            </button>
-          </div>
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="start start">
+              <h3 class="seance"> SÉANCE N°{{ i+1 }} </h3>
+            </div>
+            <div fxFlex="50" fxLayout="row" fxLayoutAlign="end start">
+              <button mat-icon-button (click)="addBloc(i)"
+                matTooltip="Ajouter un bloc à la séance" matTooltipPosition="after">
+                  <mat-icon>add</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteSeance(i)"
+                matTooltip="Supprimer la séance" matTooltipPosition="after">
+                  <mat-icon>delete</mat-icon>
+              </button>
+            </div>
 
 
             <!-- <div fxFlex="100" *ngIf="seancesOfProgramme[i].echauffement" style="margin:10px 0">
@@ -294,8 +294,7 @@
                  *ngIf="seancesOfProgramme[i].blocs && seancesOfProgramme[i].blocs.length != 0" >
 
               <div fxFlex="100" fxLayout="row wrap" class="bloc"
-                   *ngFor="let item of seancesOfProgramme[i].blocs; let idbloc = index"
-                   style="background-color: white; padding: 15px; margin:10px">
+                   *ngFor="let item of seancesOfProgramme[i].blocs; let idbloc = index">
 
                   <div fxFlex="25" fxLayoutAlign="start center">
                     <label>{{ seancesOfProgramme[i].blocs[idbloc].orientation }}</label>
@@ -318,10 +317,10 @@
                     </button>
                   </div>
 
-                  <div fxFlex="100" style="margin: 10px"
+                  <div fxFlex="100" style="margin: 0 10px 5px"
                   *ngIf="seancesOfProgramme[i].blocs[idbloc].methodes" >
                     <mat-chip-list #chipList aria-label="Les Méthodes">
-                      <mat-chip class="tt-upper br-5">Méthodes : </mat-chip>
+                      <mat-chip class="tt-upper br-5">Méthodes</mat-chip>
                       <mat-chip
                         *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].methodes; let i = index"
                         [ngStyle]="{
@@ -333,11 +332,11 @@
                     </mat-chip-list>
                   </div>
 
-                  <div fxFlex="100" style="margin: 10px"
+                  <div fxFlex="100" style="margin: 0 10px 20px"
                   *ngIf="seancesOfProgramme[i].blocs[idbloc].categoriesexercices
                   && seancesOfProgramme[i].blocs[idbloc].categoriesexercices.length != 0" >
                     <mat-chip-list #chipList aria-label="Les Méthodes">
-                      <mat-chip class="tt-upper br-5">Catégories d'exercices : </mat-chip>
+                      <mat-chip class="tt-upper br-5">Cat. d'exe.</mat-chip>
                       <mat-chip
                         *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].categoriesexercices; let i = index"
                         [ngStyle]="{
