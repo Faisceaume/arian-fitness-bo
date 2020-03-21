@@ -130,6 +130,8 @@ export class ProgrammeDetailsComponent implements OnInit {
 
       if (value.nombre === 0) {
         this.showNombreSemaine = false;
+        this.updateField('nbrsemaine', 0);
+        this.formData.nbrsemaine = 0;
       } else {
         this.showNombreSemaine = true;
       }
