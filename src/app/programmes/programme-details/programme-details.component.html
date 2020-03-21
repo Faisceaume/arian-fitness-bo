@@ -23,7 +23,7 @@
           (ngModelChange)="updateField('acronyme', formData.acronyme)">
         </mat-form-field>
 
-        <mat-form-field fxFlex="30">
+        <mat-form-field fxFlex="30" *ngIf="showNombreSemaine" >
           <mat-label>Nombre de semaines</mat-label>
           <mat-select
           [(ngModel)]="formData.nbrsemaine"
@@ -104,6 +104,23 @@
 
         </div>
 
+        <div fxFlex="100" style="margin-top: 10px; margin-left: 10px;">
+          <label class="dark-chip"> Senior :</label>
+          <mat-radio-group color="warn"
+          [(ngModel)]="formData.genre"
+          (ngModelChange)="updateField('genre', formData.genre)">
+            <mat-radio-button value="H" class="span-radio-button">
+              Hommes et Femmes
+            </mat-radio-button>
+            <mat-radio-button value="F" class="span-radio-button">
+              Hommes
+            </mat-radio-button>
+            <mat-radio-button value="H&F" class="span-radio-button">
+              Femmes
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
         <div fxFlex="100" fxLayout="column" class="objectif" style="margin-bottom:10px">
           <div style="margin:0 10px 10px">
             <label class="dark-chip custom-obj"> Objectifs</label>
@@ -128,7 +145,7 @@
           </div>
         </div>
 
-        <div fxFlex="100" style="margin: 10px">
+        <div fxFlex="100" style="margin: 10px" *ngIf="!extraControl.value">
           <mat-chip-list #chipList aria-label="Semaine du Niveau">
             <mat-chip class="dark-chip tt-upper br-5">Semaine du niveau</mat-chip>
             <mat-chip
@@ -155,7 +172,7 @@
           </mat-chip-list>
         </div>
 
-        <div fxFlex="100" *ngIf="toAddSemaineNiveau" style="margin: 10px">
+        <div fxFlex="100" *ngIf="toAddSemaineNiveau && !extraControl.value" style="margin: 10px">
           <mat-chip-list #chipList aria-label="Semaine du Niveau">
             <mat-chip
               *ngFor="let item of allListeSemaineNiveau"

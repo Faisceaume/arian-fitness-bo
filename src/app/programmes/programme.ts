@@ -15,6 +15,7 @@ export class Programme {
   timestamp: string;
 
   semaineduniveau?: number[];
+  genre: string;
   nbrsemaine: number;
   seances: Seance[];
 }
