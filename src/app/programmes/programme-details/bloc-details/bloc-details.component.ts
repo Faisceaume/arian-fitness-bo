@@ -9,6 +9,8 @@ import { FormControl } from '@angular/forms';
 import { Bloc } from '../../bloc';
 import { Listes } from 'src/app/shared/listes';
 import { MethodeAvance } from '../../methode-avance';
+import { Methode } from 'src/app/methodes/methode';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-bloc-details',
@@ -18,12 +20,14 @@ import { MethodeAvance } from '../../methode-avance';
 export class BlocDetailsComponent implements OnInit, OnDestroy {
 
   currentBloc: Bloc;
-  niveau: Niveau;
+  niveau: Niveau[];
   methodes: any[];
   addCategorieExercice: boolean;
   listeDuree = new Listes().dureemethodes;
   fusionnableControl = new FormControl();
   addCategoriesControl = new FormControl();
+
+  listeDesMethodes: any[] = [];
 
   constructor(public dialogRef: MatDialogRef<BlocDetailsComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -37,7 +41,7 @@ export class BlocDetailsComponent implements OnInit, OnDestroy {
 
     if (this.data.currentBloc) {
       this.currentBloc = this.data.currentBloc;
-      this.methodes = this.data.currentBloc.methodes;
+      this.listeDesMethodes = this.data.currentBloc.methodes;
       this.fusionnableControl.setValue(this.data.currentBloc.fusionnable);
       if (this.data.currentBloc.categoriesexercices.length !== 0) {
         this.addCategoriesControl.setValue(true);
@@ -50,34 +54,39 @@ export class BlocDetailsComponent implements OnInit, OnDestroy {
   }
 
   updateField() {
-    this.methodesService
-    .getMethodesForProgramme(this.niveau, this.currentBloc.orientation, this.currentBloc.duree);
-    this.methodesService.methodesForProgrammeSubject.subscribe(data => {
-      this.methodes = data;
-      this.formatClass();
+    this.listeDesMethodes = [];
+    this.niveau.forEach((item: Niveau) => {
+      this.methodesService
+      .getMethodesForProgramme(item, this.currentBloc.orientation, this.currentBloc.duree);
+      this.methodesService.methodesForProgrammeSubject.subscribe((data: Methode[]) => {
+        data.forEach((it: Methode) => {
+          const position = this.listeDesMethodes.findIndex(itt => itt.id === it.id);
+          if (position < 0) {
+            this.listeDesMethodes.push(it);
+          }
+        });
+      });
     });
   }
 
   formatClass() {
     const all = [];
-    this.methodes.forEach(data => {
+    this.listeDesMethodes.forEach(data => {
       const local = new MethodeAvance();
       local.acronyme = data.acronyme;
       local.id = data.id;
       local.nom = data.nom;
       all.push(Object.assign({}, local));
     });
-
     this.currentBloc.methodes = all;
   }
 
   deleteMethode(id: number) {
-    this.methodes.splice(id, 1);
-    this.formatClass();
+    this.listeDesMethodes.splice(id, 1);
   }
 
   ngOnDestroy(): void {
-
+    this.formatClass();
     if (this.categoriesService.chipsSelectedForOperation.length !== 0) {
           const cat = [];
           this.categoriesService.chipsSelectedForOperation.forEach(data => {

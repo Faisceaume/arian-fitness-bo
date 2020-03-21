@@ -29,6 +29,7 @@ export class QuestionsFormComponent implements OnInit {
   initForm() {
     this.questionForm = this.formBuilder.group({
       question: ['', Validators.required],
+      consignes: ['', Validators.required],
       reponses: this.formBuilder.array([], Validators.required),
       active: [false, Validators.required]
     });

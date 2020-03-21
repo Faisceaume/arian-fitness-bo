@@ -35,11 +35,11 @@
    </mat-select>
  </mat-form-field>
 
- <div fxFlex="100" style="margin: 10px 0" *ngIf="methodes" >
+ <div fxFlex="100" style="margin: 10px 0" *ngIf="listeDesMethodes" >
   <mat-chip-list #chipList aria-label="Les Méthodes">
     <mat-chip class="dark-chip tt-upper">Méthodes correspondantes : </mat-chip>
     <mat-chip
-      *ngFor="let item of methodes; let i = index"
+      *ngFor="let item of listeDesMethodes; let i = index"
       [ngStyle]="{
         'color': '#FFF',
         'background-color': '#000'

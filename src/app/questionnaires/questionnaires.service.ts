@@ -74,6 +74,7 @@ export class QuestionnairesService {
     const data: Questions = {
       id: idDoc,
       question: dataArg.question,
+      consignes: dataArg.consignes,
       reponses: dataArg.reponses,
       ordre: dataArg.ordre,
       active: dataArg.active,
@@ -125,6 +126,7 @@ export class QuestionnairesService {
       this.singleQuestion = {
         id: d.data().id,
         question: d.data().question,
+        consignes: d.data().consignes,
         reponses: d.data().reponses,
         ordre: d.data().ordre,
         active: d.data().active,

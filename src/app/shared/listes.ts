@@ -169,4 +169,15 @@ export class Listes {
     5
   ];
 
+  nombresemaine = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ];
+
 }

@@ -28,14 +28,9 @@
           <mat-select
           [(ngModel)]="formData.nbrsemaine"
           (ngModelChange)="updateField('nbrsemaine', formData.nbrsemaine)">
-            <mat-option matNativeControl value="1">1</mat-option>
-            <mat-option matNativeControl value="2">2</mat-option>
-            <mat-option matNativeControl value="3">3</mat-option>
-            <mat-option matNativeControl value="4">4</mat-option>
-            <mat-option matNativeControl value="5">5</mat-option>
-            <mat-option matNativeControl value="5">6</mat-option>
-            <mat-option matNativeControl value="5">7</mat-option>
-            <mat-option matNativeControl value="5">8</mat-option>
+            <mat-option matNativeControl
+            *ngFor="let item of nombreSemaine"
+            [value]="item"> {{ item }}</mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -73,17 +68,6 @@
             </mat-radio-button>
           </mat-radio-group>
         </div>
-
-        <!-- <mat-form-field fxFlex="40" *ngIf="extraControl.value">
-          <mat-label>Durée</mat-label>
-          <mat-select
-          [(ngModel)]="formData.duree"
-          (ngModelChange)="updateField('duree', formData.duree)">
-            <mat-option matNativeControl value="30">30</mat-option>
-            <mat-option matNativeControl value="45">45</mat-option>
-            <mat-option matNativeControl value="60">60</mat-option>
-          </mat-select>
-        </mat-form-field> -->
 
         <div fxFlex="100" fxLayout="row" style="padding:10px 10px 0;">
 
@@ -204,91 +188,6 @@
                   <mat-icon>delete</mat-icon>
               </button>
             </div>
-
-
-            <!-- <div fxFlex="100" *ngIf="seancesOfProgramme[i].echauffement" style="margin:10px 0">
-              <label class="dark-chip"> Sélection de l'échauffement </label>
-              <span class="bulle-acro"
-                    *ngIf="seancesOfProgramme[i].echauffement">
-                    {{ seancesOfProgramme[i].echauffement.nom }} </span>
-              <button mat-icon-button
-              (click)="seancesOfProgramme[i].echauffement = null">
-                  <mat-icon>close</mat-icon>
-              </button>
-            </div>
-            <mat-form-field fxFlex="100" *ngIf="!seancesOfProgramme[i].echauffement">
-              <mat-label>Echauffement</mat-label>
-              <mat-select>
-                <mat-option matNativeControl
-                *ngFor="let item of echauffSerieFixe"
-                [value]="item"
-                (click)="addEchauffement(i, item)"> {{ item.nom }} </mat-option>
-              </mat-select>
-            </mat-form-field> -->
-
-            <!-- <div fxFlex="100">
-              <div fxFlex="50">
-                <span class="title-gestion-bloc">Pathologies </span>
-              </div>
-              <div fxFlex="50" fxLayoutAlign="end start">
-                <button *ngIf="!seancesOfProgramme[i].toAddPathologie"  mat-icon-button
-                        (click)="seancesOfProgramme[i].toAddPathologie = true">
-                  <mat-icon>add</mat-icon>
-                </button>
-                <button *ngIf="seancesOfProgramme[i].toAddPathologie"  mat-icon-button
-                        (click)="seancesOfProgramme[i].toAddPathologie = false">
-                  <mat-icon>clear</mat-icon>
-                </button>
-              </div>
-            </div>
-
-            <div fxFlex="100" *ngIf="seancesOfProgramme[i].toAddPathologie">
-              <mat-form-field color="warn" fxFlex="100">
-                <mat-label>Pathologies</mat-label>
-                <mat-select multiple>
-                  <mat-option *ngFor="let pathology of pathologies"
-                  [value]="pathology"
-                  (click)="addPathologie(pathology, i)">
-                    {{pathology.details}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="100">
-              <mat-chip-list #chipList aria-label="Categorie Exercice">
-                <mat-chip
-                  *ngFor="let item of seancesOfProgramme[i].pathologies ; let ii = index">
-                  {{ item.nom }}
-                  <mat-icon (click)="removePathologie(i, ii)">close</mat-icon>
-                </mat-chip>
-              </mat-chip-list>
-            </div>
-
-            <div fxFlex="100" style="margin-left:10px">
-              <p class="cat-exe-pathos-title">Catégories d'exercices concernées par ces pathologies :</p>
-              <mat-chip-list #chipList aria-label="Categorie Exercice">
-                <mat-chip
-                  *ngFor="let item of seancesOfProgramme[i].categoriesexercices">
-                  {{ item.acronyme }}
-                </mat-chip>
-              </mat-chip-list>
-            </div> -->
-
-            <!-- SECTION DES BLOCS -->
-            <!-- <div fxFlex="100">
-              <div fxFlex="50" fxLayoutAlign="start start" [ngStyle]="{'padding':'10px 0'}">
-                <span class="title-gestion-bloc">
-                  Gestion des blocs</span>
-              </div>
-
-              <div fxFlex="50" fxLayout="row" fxLayoutAlign="end start">
-                  <button mat-icon-button
-                          (click)="addBloc(i)">
-                    <mat-icon>add</mat-icon>
-                  </button>
-              </div>
-            </div> -->
 
             <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start"
                  *ngIf="seancesOfProgramme[i].blocs && seancesOfProgramme[i].blocs.length != 0" >
