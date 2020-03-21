@@ -26,6 +26,7 @@ export class ProgrammeDetailsComponent implements OnInit {
   custompointsfaiblesControl = new FormControl();
   showCustompointsfaibles: boolean;
   showObjectif: boolean;
+  showNombreSemaine = true;
 
   objectifsSelected: Objectif[];
   objectifsNotSelected: Objectif[] = [];
@@ -75,6 +76,13 @@ export class ProgrammeDetailsComponent implements OnInit {
         } else {
           this.showCustompointsfaibles = false;
         }
+
+        if (item.niveau.nombre === 0) {
+          this.showNombreSemaine = false;
+        } else {
+          this.showNombreSemaine = true;
+        }
+
         const position = this.niveaux.findIndex(it => it.id === item.niveau.id);
         this.listeNiveau = [];
         for (let index = 0; index <= position; index++) {
@@ -118,6 +126,12 @@ export class ProgrammeDetailsComponent implements OnInit {
         this.showCustompointsfaibles = true;
       } else {
         this.showCustompointsfaibles = false;
+      }
+
+      if (value.nombre === 0) {
+        this.showNombreSemaine = false;
+      } else {
+        this.showNombreSemaine = true;
       }
 
       const position = this.niveaux.findIndex(it => it.id === value.id);

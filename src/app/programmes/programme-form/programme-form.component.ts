@@ -32,6 +32,7 @@ export class ProgrammeFormComponent implements OnInit {
       semaineduniveau: [],
       nbrsemaine: 1,
       seances: [],
+      genre: 'H&F',
       timestamp: ''
     } as Programme;
 
