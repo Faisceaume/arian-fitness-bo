@@ -69,6 +69,12 @@ arian-fitness.appspot.com
 
 
 
+CALL LOUNIS 20/03
+
+- Dans les questionnaires, et plus particulièrement dans les questions, ajouter un champs facultatif "consigne".
+- Programme : le nombre de semaine du niveau bloque avant le chiffre précisé dans le nombre de semaine précisé plus haut
+- Les méthodes concernées et récupérer dynamiquement doivent également provenir des niveaux inférieur au niveau du programme précisé plus haut
+- Dans la liste des pathologies, les points faibles n'apparaissent plus
 
 
 CALL LOUNIS 19/03

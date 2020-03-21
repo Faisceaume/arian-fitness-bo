@@ -23,8 +23,8 @@ export class PathologiesComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit() {
-    this.pathologiesService.getAllPathologies();
-    this.pathologiesService.pathologieSubject.subscribe(data => {
+    this.pathologiesService.getAllPathologiesPointFaible();
+    this.pathologiesService.pathologiesPointFaibleSubject.subscribe(data => {
       this.pathologies = data;
       this.dataSource = new MatTableDataSource<Pathologie>(data);
       this.dataSource.sort = this.sort;

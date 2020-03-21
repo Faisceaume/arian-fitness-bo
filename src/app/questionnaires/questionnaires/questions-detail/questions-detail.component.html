@@ -13,6 +13,9 @@
         <mat-form-field style="padding: 10px">
           <input matInput type="text" formControlName="question" placeholder="Question...">
         </mat-form-field>
+        <mat-form-field style="padding: 10px">
+          <input matInput type="text" formControlName="consignes" placeholder="Consignes...">
+        </mat-form-field>
 
         <div fxLayoutAlign="start center" style="padding: 10px">
           <div fxFlex="20">
@@ -38,7 +41,7 @@
               <button type="button" mat-button (click)="removeReponse(i)"><mat-icon>delete</mat-icon></button>
             </div>
           </div>
-          
+
         </div>
 
         <div [ngStyle]="{'padding':'10px'}">
@@ -47,6 +50,6 @@
               <mat-icon>save</mat-icon>
           </button>
         </div>
-        
+
     </form>
 </div>

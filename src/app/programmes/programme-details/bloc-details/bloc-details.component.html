@@ -1,18 +1,23 @@
-<div fxLayout="row wrap" fxLayoutAlign="start start" class="bloc"
-style="background-color: white; padding: 10px; margin:5px">
+<div fxLayout="row wrap" fxLayoutAlign="start start" class="bloc" style="padding: 10px; margin:5px">
 
-  <h3 fxFlex="50">
+  <!-- <h3 fxFlex="50">
    {{ data.currentBloc ? 'Edition de Bloc' : 'Nouveau Bloc' }}
-  </h3>
+  </h3> -->
 
-  <div fxFlex="50" fxLayout="row" fxLayoutAlign="end end" style="margin-top: 23px;">
-    <label> Ajouter Catégorie Exercice </label>
-    <mat-slide-toggle  color="warn"
-      [formControl]="addCategoriesControl"
-      ></mat-slide-toggle>
-   </div>
+  <div fxFlex="33">
+    <mat-radio-group color="warn"
+      [(ngModel)]="currentBloc.orientation"
+      (ngModelChange)="updateField()">
+      <mat-radio-button value="cardio" class="span-radio-button">
+        Cardio
+      </mat-radio-button>
+      <mat-radio-button value="renforcement" class="span-radio-button">
+        Renforcement
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
 
-  <div fxFlex="20" fxLayout="row" style="margin-top: 23px;">
+  <div fxFlex="33" fxLayout="row" style="margin-top: 23px;">
    <label> Fusionnable </label>
    <mat-slide-toggle  color="warn"
      [formControl]="fusionnableControl"
@@ -20,21 +25,7 @@ style="background-color: white; padding: 10px; margin:5px">
      ></mat-slide-toggle>
   </div>
 
- <div fxFlex="37">
-   <label class="dark-chip"> Orientation : </label>
-   <mat-radio-group color="warn"
-     [(ngModel)]="currentBloc.orientation"
-     (ngModelChange)="updateField()">
-     <mat-radio-button value="cardio" class="span-radio-button">
-       cardio
-     </mat-radio-button>
-     <mat-radio-button value="renforcement" class="span-radio-button">
-       renforcement
-     </mat-radio-button>
-   </mat-radio-group>
- </div>
-
- <mat-form-field fxFlex="43">
+ <mat-form-field fxFlex="33">
    <mat-label>Durée</mat-label>
    <mat-select [(ngModel)]="currentBloc.duree"
                 (ngModelChange)="updateField()">
@@ -44,11 +35,11 @@ style="background-color: white; padding: 10px; margin:5px">
    </mat-select>
  </mat-form-field>
 
- <div fxFlex="100" style="margin: 10px" *ngIf="methodes" >
+ <div fxFlex="100" style="margin: 10px 0" *ngIf="listeDesMethodes" >
   <mat-chip-list #chipList aria-label="Les Méthodes">
-    <mat-chip class="dark-chip tt-upper">Les Méthodes : </mat-chip>
+    <mat-chip class="dark-chip tt-upper">Méthodes correspondantes : </mat-chip>
     <mat-chip
-      *ngFor="let item of methodes; let i = index"
+      *ngFor="let item of listeDesMethodes; let i = index"
       [ngStyle]="{
         'color': '#FFF',
         'background-color': '#000'
@@ -61,6 +52,13 @@ style="background-color: white; padding: 10px; margin:5px">
   </mat-chip-list>
 </div>
 
+<div fxFlex="100" fxLayout="row" fxLayoutAlign="start end" style="margin-top: 23px;">
+  <label> Ajouter des catégories Exercice </label>
+  <mat-slide-toggle  color="warn"
+    [formControl]="addCategoriesControl"
+    ></mat-slide-toggle>
+ </div>
+
 <app-categories
           [ngStyle]="{'padding':'10px 0'}"
           [noeud]="'exe_cat'"
@@ -68,7 +66,7 @@ style="background-color: white; padding: 10px; margin:5px">
           *ngIf="addCategoriesControl.value" ></app-categories>
 
 <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end end">
-    <button mat-icon-button
+    <button mat-fab color="warn"
             [mat-dialog-close]="currentBloc" cdkFocusInitial>
       <mat-icon>save</mat-icon>
     </button>
