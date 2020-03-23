@@ -67,6 +67,69 @@ arian-fitness@appspot.gserviceaccount.com
 arian-fitness.appspot.com
 
 
+CALL LOUNIS 22/03
+
+- Ne pas afficher les séances si le niveau n'est pas fourni
+- Ajout d'un témoin loader lorsque les méthodes sont en recherche devant les méthodes des bloc lorsque
+  et une indication "pas de méthode trouvées" si aucune de trouvées
+- déselectionner les objetifs à l'ouverture d'un nouveau programme d'entrainement
+
+- Noeud programmesnutrition
+  - titre: string
+  - objectifs
+  - parcours : array
+        pour chaque profil de user(nutritionnbrerepasjour number entre 1 et 6) définir l'étape de départ et l'étape d'arrivée
+        ou bien sélection des semaines/etapes pour faire ce parcours
+
+- Noeud aliments:
+  - Nom : string
+  - Proteine : number
+  - Glucide : number
+    - glucides simples : number
+    - glucides complexe : number
+    - lactoses : number
+  - Lipide  : number
+    - lipides saturés
+    - lipides mono insaturés
+    - lipides mono polyinsaturés
+  - ratioomega : ratio oméga 6 et oméga 3
+  - fibres
+  - kcal
+  - valide : boolean
+  - ig (indice glycémique) : number (entre 0 et 100)
+  - sodium
+  - sel
+  - timestamp
+  - source (manuelle / Opend food fact)
+
+
+- Noeud repas
+  - proteines : un seul objet TYPE ALIMENT
+  - fibres : un seul objet TYPE ALIMENT
+  - glucides : un seul objet TYPE ALIMENT
+  - lipides : un seul objet TYPE ALIMENT
+  - fruits : un seul objet TYPE ALIMENT
+  - valide : boolean
+  - timestamp
+
+
+CALL LOUNIS 21/03
+
+- Retirer le bouton corbeille de suppression d'une séance dans un programme
+- en mode extra
+- au refresh problème avec le mode extra la séance disparaît
+- Nouveau choix dans orientation des blocs : cardio / renforcement / seriefixepathos
+- qd seriefixepathos : cacher toutes les autres infos  : durée, fusionnable, methodes, cat..
+
+LW et LN >> L1 , L1A , L2L , L2I , L2F
+T1W et T1N >> T1a , T1b, T1c
+T2W et T2N >> T2a , T2b
+T3W et T3N >> T3a , T3b , T3’
+T’W et T’N >> T1’ , T2’
+
+Ci-dessus les catégories d’exercices que le user choisira rattachées aux nouvelles catégories créés en W ou N.
+La cat_exe W est celle qu’il aura choisi, la cat_exe N est une des autres non-choisi dans la liste
+Les W et N apparaîtront donc dans certains blocs de programme lorsque le programme sera « custom point faible true » .
 
 
 CALL LOUNIS 20/03
@@ -110,8 +173,7 @@ CALL LOUNIS 3/3/2020
 CALL LOUNIS 23/02
 
 - les niveaux n'apparaissent pas dans la liste des méthodes
-
-
+.
 
 
 RDV LOUNIS 12/02

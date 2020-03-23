@@ -11,49 +11,137 @@
 
       <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="formData">
 
-        <mat-form-field fxFlex="20">
-          <input matInput placeholder="Numéro" required
-          [(ngModel)]="formData.numero"
-          (ngModelChange)="updateField('numero', formData.numero)">
-        </mat-form-field>
+        <div fxFlex="100" fxLayout="row" style="padding:10px">
 
-        <mat-form-field fxFlex="20">
-          <input matInput placeholder="Acronyme" type="text" required
-          [(ngModel)]="formData.acronyme" maxlength="4"
-          (ngModelChange)="updateField('acronyme', formData.acronyme)">
-        </mat-form-field>
+          <div fxLayoutAlign="start center">
+            <label class="dark-chip"> Niveau</label>
+          </div>
 
-        <mat-form-field fxFlex="30" *ngIf="showNombreSemaine" >
-          <mat-label>Nombre de semaines</mat-label>
-          <mat-select
-          [(ngModel)]="formData.nbrsemaine"
-          (ngModelChange)="updateField('nbrsemaine', formData.nbrsemaine)">
-            <mat-option matNativeControl
-            *ngFor="let item of nombreSemaine"
-            [value]="item"> {{ item }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+          <div fxFlex="50" *ngIf="!toChangeNiveau && formData.niveau">
+            <span class="bulle-acro">
+              N {{ formData.niveau.acronyme}} </span>
+            <button mat-icon-button
+              (click)="toChangeNiveau = true"
+              *ngIf="!toChangeNiveau && formData.niveau">
+                <mat-icon>close</mat-icon>
+            </button>
+          </div>
 
-        <mat-form-field fxFlex="30">
-          <mat-label>Fréquence hebdomadaire</mat-label>
-          <mat-select
-          [(ngModel)]="formData.frequence"
-          (ngModelChange)="updateField('frequence', formData.frequence)"
-          [disabled]="extraControl.value">
-            <mat-option matNativeControl *ngFor="let item of listeFrequence"
-                        [value]="item"> {{ item }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+          <div fxFlex="50" fxLayoutAlign="start start" *ngIf="!formData.niveau || toChangeNiveau">
+            <mat-radio-group color="warn"
+              [(ngModel)]="formData.niveau"
+              (ngModelChange)="updateField('niveau', formData.niveau)">
+              <mat-radio-button *ngFor="let niveau of niveaux"
+              [value]="niveau" class="span-radio-button">
+                N {{ niveau.acronyme }}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
 
-        <div fxFlex="30" style="margin: 10px 0 15px 10px">
-          <label class="dark-chip" style="margin-right:10px">Extra &nbsp; </label>
-          <mat-slide-toggle color="warn"
-            [formControl]="extraControl"
-            (change)="updateField('extra', extraControl.value)"></mat-slide-toggle>
+          <div fxFlex="40" fxLayout="row" fxLayoutAlign="end start" *ngIf="showCustompointsfaibles">
+              <label>Custom point Faible</label>
+              <mat-slide-toggle color="warn"
+                [formControl]="custompointsfaiblesControl"
+                (change)="updateField('custompointsfaibles', custompointsfaiblesControl.value)"></mat-slide-toggle>
+          </div>
+
         </div>
 
-        <div fxFlex="65" *ngIf="extraControl.value" fxLayoutAlign="end end" style="margin: 10px 0 0 10px">
-          <label>Durée : </label>
+        <div fxFlex="100" style="margin: 10px">
+
+          <mat-form-field fxFlex="20">
+            <input matInput placeholder="Numéro" required
+            [(ngModel)]="formData.numero"
+            (ngModelChange)="updateField('numero', formData.numero)">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="20">
+            <input matInput placeholder="Acronyme" type="text" required
+            [(ngModel)]="formData.acronyme" maxlength="4"
+            (ngModelChange)="updateField('acronyme', formData.acronyme)">
+          </mat-form-field>
+
+          <div fxFlex="60" fxLayoutAlign="end start">
+            <label> Genre :</label>
+            <mat-radio-group color="warn"
+            [(ngModel)]="formData.genre"
+            (ngModelChange)="updateField('genre', formData.genre)">
+              <mat-radio-button value="H" class="span-radio-button">
+                Hommes et Femmes
+              </mat-radio-button>
+              <mat-radio-button value="F" class="span-radio-button">
+                Hommes
+              </mat-radio-button>
+              <mat-radio-button value="H&F" class="span-radio-button">
+                Femmes
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+        </div>
+
+        <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0">
+          <div style="margin:0 10px 10px">
+            <label class="dark-chip custom-obj"> Objectifs</label>
+            <button  mat-icon-button (click)="showObjectif = true" *ngIf="!showObjectif" >
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button  mat-icon-button (click)="showObjectif = false" *ngIf="showObjectif" >
+              <mat-icon>visibility_off</mat-icon>
+             </button>
+          </div>
+          <div *ngIf="showObjectif"  fxLayout="column">
+            <mat-checkbox
+            color="warn"
+            *ngFor="let objectif of objectifsSelected"
+            (change)="onObjectifSelected($event, objectif)"
+            checked="true">{{ objectif.nom }}</mat-checkbox>
+            <mat-checkbox
+            color="warn"
+            *ngFor="let objectif of objectifsNotSelected"
+            (change)="onObjectifSelected($event, objectif)"
+            >{{ objectif.nom }}</mat-checkbox>
+          </div>
+        </div>
+
+        <div fxFlex="100" style="margin:10px">
+
+          <div fxFlex="40" style="margin: 10px 0 15px 0">
+            <label class="dark-chip" style="margin-right:10px">Extra &nbsp; </label>
+            <mat-slide-toggle color="warn"
+              [formControl]="extraControl"
+              (change)="updateField('extra', extraControl.value)"></mat-slide-toggle>
+          </div>
+
+          <div fxFlex="60" fxLayoutAlign="end start">
+            <mat-form-field *ngIf="showNombreSemaine && !extraControl.value">
+              <mat-label>Nombre de semaines</mat-label>
+              <mat-select
+              [(ngModel)]="formData.nbrsemaine"
+              (ngModelChange)="updateField('nbrsemaine', formData.nbrsemaine)">
+                <mat-option matNativeControl
+                *ngFor="let item of nombreSemaine"
+                [value]="item"> {{ item }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Nombre de séances hebdomadaire</mat-label>
+              <mat-select
+              [(ngModel)]="formData.frequence"
+              (ngModelChange)="updateField('frequence', formData.frequence)"
+              [disabled]="extraControl.value">
+                <mat-option matNativeControl *ngFor="let item of listeFrequence"
+                            [value]="item"> {{ item }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+
+        <div fxFlex="100" *ngIf="extraControl.value" fxLayoutAlign="start start" style="margin: 10px 0 0 10px">
+          <label class="dark-chip">Durée</label>
           <mat-radio-group color="warn"
           [(ngModel)]="formData.duree"
           (ngModelChange)="updateField('duree', formData.duree)">
@@ -67,82 +155,6 @@
               60 minutes
             </mat-radio-button>
           </mat-radio-group>
-        </div>
-
-        <div fxFlex="100" fxLayout="row" style="padding:10px 10px 0;">
-
-          <div fxFlex="17">
-            <label class="dark-chip"> Niveau</label>
-            <span class="bulle-acro" *ngIf="!toChangeNiveau && formData.niveau">
-              N {{ formData.niveau.acronyme}} </span>
-            <button mat-icon-button
-              (click)="toChangeNiveau = true"
-              *ngIf="!toChangeNiveau && formData.niveau">
-                <mat-icon>close</mat-icon>
-            </button>
-          </div>
-
-          <div fxFlex="53">
-            <mat-radio-group color="warn"
-              [(ngModel)]="formData.niveau"
-              (ngModelChange)="updateField('niveau', formData.niveau)"
-              *ngIf="!formData.niveau || toChangeNiveau">
-              <mat-radio-button *ngFor="let niveau of niveaux"
-              [value]="niveau" class="span-radio-button">
-                N {{ niveau.acronyme }}
-              </mat-radio-button>
-            </mat-radio-group>
-          </div>
-
-          <div fxFlex="30" fxLayout="row"
-            *ngIf="showCustompointsfaibles">
-              <label>Custom point Faible</label>
-              <mat-slide-toggle color="warn"
-                [formControl]="custompointsfaiblesControl"
-                (change)="updateField('custompointsfaibles', custompointsfaiblesControl.value)"></mat-slide-toggle>
-          </div>
-
-        </div>
-
-        <div fxFlex="100" style="margin-top: 10px; margin-left: 10px;">
-          <label class="dark-chip"> Senior :</label>
-          <mat-radio-group color="warn"
-          [(ngModel)]="formData.genre"
-          (ngModelChange)="updateField('genre', formData.genre)">
-            <mat-radio-button value="H" class="span-radio-button">
-              Hommes et Femmes
-            </mat-radio-button>
-            <mat-radio-button value="F" class="span-radio-button">
-              Hommes
-            </mat-radio-button>
-            <mat-radio-button value="H&F" class="span-radio-button">
-              Femmes
-            </mat-radio-button>
-          </mat-radio-group>
-        </div>
-
-        <div fxFlex="100" fxLayout="column" class="objectif" style="margin-bottom:10px">
-          <div style="margin:0 10px 10px">
-            <label class="dark-chip custom-obj"> Objectifs</label>
-            <button  mat-icon-button (click)="showObjectif = true" *ngIf="!showObjectif" >
-              <mat-icon>visibility</mat-icon>
-            </button>
-            <button  mat-icon-button (click)="showObjectif = false" *ngIf="showObjectif" >
-              <mat-icon>visibility_off</mat-icon>
-             </button>
-          </div>
-          <div *ngIf="showObjectif" >
-            <mat-checkbox
-            color="warn"
-            *ngFor="let objectif of objectifsSelected"
-            (change)="onObjectifSelected($event, objectif)"
-            checked="true">{{ objectif.nom }}</mat-checkbox>
-            <mat-checkbox
-            color="warn"
-            *ngFor="let objectif of objectifsNotSelected"
-            (change)="onObjectifSelected($event, objectif)"
-            >{{ objectif.nom }}</mat-checkbox>
-          </div>
         </div>
 
         <div fxFlex="100" style="margin: 10px" *ngIf="!extraControl.value">
@@ -189,7 +201,7 @@
 
           <div fxFlex="100" fxLayout="row wrap"
           *ngFor="let item of seancesOfProgramme; let i = index"
-          style="padding: 10px; margin: 10px"
+          style="padding: 10px 10px 20px; margin: 10px 10px 0"
           class="programme">
 
             <div fxFlex="50" fxLayout="column" fxLayoutAlign="start start">
@@ -200,10 +212,10 @@
                 matTooltip="Ajouter un bloc à la séance" matTooltipPosition="after">
                   <mat-icon>add</mat-icon>
               </button>
-              <button mat-icon-button (click)="deleteSeance(i)"
+              <!-- <button mat-icon-button (click)="deleteSeance(i)"
                 matTooltip="Supprimer la séance" matTooltipPosition="after">
                   <mat-icon>delete</mat-icon>
-              </button>
+              </button> -->
             </div>
 
             <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start"
@@ -234,7 +246,7 @@
                   </div>
 
                   <div fxFlex="100" style="margin: 0 10px 5px"
-                  *ngIf="seancesOfProgramme[i].blocs[idbloc].methodes" >
+                  *ngIf="seancesOfProgramme[i].blocs[idbloc].methodes && seancesOfProgramme[i].blocs[idbloc].methodes.length!==0" >
                     <mat-chip-list #chipList aria-label="Les Méthodes">
                       <mat-chip class="tt-upper br-5">Méthodes</mat-chip>
                       <mat-chip

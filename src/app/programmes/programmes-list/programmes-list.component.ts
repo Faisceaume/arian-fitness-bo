@@ -12,7 +12,7 @@ import { ProgrammeFormComponent } from '../programme-form/programme-form.compone
 })
 export class ProgrammesListComponent implements OnInit {
 
-  displayedColumns: string[] = ['numero', 'acronyme', 'date', 'action'];
+  displayedColumns: string[] = ['niveau', 'numero', 'acronyme', 'genre', 'extra',  'date', 'action'];
   dataSource: MatTableDataSource<Programme>;
 
   constructor(private programmesService: ProgrammesService,
