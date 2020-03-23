@@ -219,7 +219,7 @@ export class ProgrammeDetailsComponent implements OnInit {
   addBloc(seance: number) {
     const dialogRef = this.dialog.open(BlocDetailsComponent, {
       width: '95%',
-      data: {niveau: this.listeNiveau}
+      data: {niveau: this.listeNiveau, extra: this.extraControl.value}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -234,7 +234,7 @@ export class ProgrammeDetailsComponent implements OnInit {
   editBloc(seance: number, bloc: number) {
     const dialogRef = this.dialog.open(BlocDetailsComponent, {
       width: '95%',
-      data: {niveau: this.listeNiveau, currentBloc: this.seancesOfProgramme[seance].blocs[bloc]}
+      data: {niveau: this.listeNiveau, currentBloc: this.seancesOfProgramme[seance].blocs[bloc], extra: this.extraControl.value }
     });
 
     dialogRef.afterClosed().subscribe(result => {

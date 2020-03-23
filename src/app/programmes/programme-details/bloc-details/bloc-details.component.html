@@ -1,10 +1,8 @@
-<div fxLayout="row wrap" fxLayoutAlign="start start" class="bloc" style="padding: 10px; margin:5px">
+<div fxLayout="row wrap" fxLayoutAlign="start start" class="bloc">
 
-  <!-- <h3 fxFlex="50">
-   {{ data.currentBloc ? 'Edition de Bloc' : 'Nouveau Bloc' }}
-  </h3> -->
+  <h2 fxFlex="100"> {{ data.currentBloc ? 'Editer le Bloc' : 'Ajouter un nouveau Bloc' }} </h2>
 
-  <div fxFlex="33">
+  <div fxFlex="50">
     <mat-radio-group color="warn"
       [(ngModel)]="currentBloc.orientation"
       (ngModelChange)="updateField()">
@@ -14,10 +12,13 @@
       <mat-radio-button value="renforcement" class="span-radio-button">
         Renforcement
       </mat-radio-button>
+      <mat-radio-button value="seriefixepathos" class="span-radio-button" *ngIf="data.extra">
+        Pathologies
+      </mat-radio-button>
     </mat-radio-group>
   </div>
 
-  <div fxFlex="33" fxLayout="row" style="margin-top: 23px;">
+  <div fxFlex="25" fxLayout="row" style="margin-top: 23px;" *ngIf="currentBloc.orientation!=='seriefixepathos'">
    <label> Fusionnable </label>
    <mat-slide-toggle  color="warn"
      [formControl]="fusionnableControl"
@@ -25,7 +26,7 @@
      ></mat-slide-toggle>
   </div>
 
- <mat-form-field fxFlex="33">
+ <mat-form-field fxFlex="25" *ngIf="currentBloc.orientation!=='seriefixepathos'">
    <mat-label>Durée</mat-label>
    <mat-select [(ngModel)]="currentBloc.duree"
                 (ngModelChange)="updateField()">
@@ -35,24 +36,17 @@
    </mat-select>
  </mat-form-field>
 
- <div fxFlex="100" style="margin: 10px 0" *ngIf="listeDesMethodes" >
+ <div fxFlex="100" style="margin: 10px 0" *ngIf="listeDesMethodes && currentBloc.orientation!=='seriefixepathos'">
   <mat-chip-list #chipList aria-label="Les Méthodes">
-    <mat-chip class="dark-chip tt-upper">Méthodes correspondantes : </mat-chip>
-    <mat-chip
-      *ngFor="let item of listeDesMethodes; let i = index"
-      [ngStyle]="{
-        'color': '#FFF',
-        'background-color': '#000'
-      }">
+    <mat-chip class="tt-upper">Méthodes correspondantes</mat-chip>
+    <mat-chip *ngFor="let item of listeDesMethodes; let i = index" [ngStyle]="{ 'color': '#FFF', 'background-color': '#000' }">
       {{ item.acronyme }}
-      <button  mat-icon-button (click)="deleteMethode(i)">
-          <mat-icon>close</mat-icon>
-      </button>
+      <button  mat-icon-button (click)="deleteMethode(i)"><mat-icon>close</mat-icon></button>
     </mat-chip>
   </mat-chip-list>
 </div>
 
-<div fxFlex="100" fxLayout="row" fxLayoutAlign="start end" style="margin-top: 23px;">
+<div fxFlex="100" fxLayout="row" fxLayoutAlign="start end" style="margin-top: 5px;" *ngIf="currentBloc.orientation!=='seriefixepathos'">
   <label> Ajouter des catégories Exercice </label>
   <mat-slide-toggle  color="warn"
     [formControl]="addCategoriesControl"
