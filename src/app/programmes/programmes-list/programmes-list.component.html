@@ -4,7 +4,8 @@
     <mat-icon>add</mat-icon>
 </button>
 
-<div [ngStyle]="{'padding':'0 10px'}">
+
+<div [ngStyle]="{'padding':'0 10px'}" *ngIf="dataSource" >
 
   <h2>Liste des Programmes</h2>
 
@@ -13,7 +14,7 @@
     <ng-container matColumnDef="niveau">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Niveau</th>
       <td mat-cell *matCellDef="let element">
-        <span class="bulle-acro">N{{element.niveau.acronyme}}</span>
+        <span class="bulle-acro">N{{ element.niveau? element.niveau.acronyme : ''}}</span>
       </td>
     </ng-container>
 

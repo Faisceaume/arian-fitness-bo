@@ -4,6 +4,7 @@ import { Programme } from '../programme';
 import { MatTableDataSource, MatSort, MatDialogConfig, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { ProgrammeFormComponent } from '../programme-form/programme-form.component';
+import { CategoriesService } from 'src/app/shared/categories/categories.service';
 
 @Component({
   selector: 'app-programmes-list',
@@ -17,7 +18,8 @@ export class ProgrammesListComponent implements OnInit {
 
   constructor(private programmesService: ProgrammesService,
               private router: Router,
-              private matDialog: MatDialog) { }
+              private matDialog: MatDialog,
+              private categoriesService: CategoriesService) { }
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -27,6 +29,17 @@ export class ProgrammesListComponent implements OnInit {
       this.dataSource = new MatTableDataSource<Programme>(data);
       this.dataSource.sort = this.sort;
     });
+
+/*
+    this.categoriesService.getAllCategories('exe_cat');
+    this.categoriesService.categorieSubject.subscribe(data => {
+      data.forEach(item => {
+        if (!item.duree) {
+          this.categoriesService.newUpdateVersion(item, 'duree', null, 'exe_cat');
+        }
+      });
+    });
+     */
   }
 
   onEdit(programme: Programme) {
