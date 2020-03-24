@@ -73,6 +73,12 @@ h4.h4-modal {
   cursor: pointer;
 }
 
+.mentiontimestamp {
+  color: #ccc;
+  font-size: 0.8em;
+  margin: 0;
+  padding: 0;
+}
 
 .icon-but {
   color: #666;
