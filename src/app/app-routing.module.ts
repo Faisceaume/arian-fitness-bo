@@ -46,6 +46,10 @@ const routes: Routes = [
     loadChildren: () => import('./exercices-series/exercices-series.module')
     .then(mod => mod.ExercicesSeriesModule)
   },
+  {
+    path: 'aliments', canActivate: [AuthGuardService],
+    loadChildren: () => import('./aliments/aliments.module').then(mod => mod.AlimentsModule)
+  },
 ];
 
 @NgModule({
