@@ -22,6 +22,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { QuestionnairesModule } from './questionnaires/questionnaires.module';
 import { UsersModule } from './users/users.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { UsersModule } from './users/users.module';
     AppRoutingModule,
     QuestionnairesModule,
     UsersModule,
+    HttpClientModule
   ],
   providers: [
     {

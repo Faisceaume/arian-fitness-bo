@@ -1,0 +1,8 @@
+.example-card {
+  margin: 5px;
+  cursor: pointer;
+}
+
+mat-card-title{
+  font-size: 0.4em;
+}

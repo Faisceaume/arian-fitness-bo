@@ -5,6 +5,13 @@
     <mat-icon>add</mat-icon>
 </button>
 
+<button mat-icon-button
+  type="button"
+  class="button-search"
+  routerLink="./search">
+    <mat-icon>search</mat-icon>
+</button>
+
 <div [ngStyle]="{'padding':'0 10px'}">
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
@@ -48,6 +55,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-
 
 </div>
