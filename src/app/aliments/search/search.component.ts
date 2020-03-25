@@ -9,6 +9,7 @@ import { AlimentsService } from '../aliments.service';
 export class SearchComponent implements OnInit {
 
   nomAliment: string;
+  itemSelected: any;
 
   constructor(public alimentsService: AlimentsService) { }
 
@@ -20,6 +21,6 @@ export class SearchComponent implements OnInit {
   }
 
   selected(item: any) {
-    console.log(item.nutriments);
+    this.itemSelected = item;
   }
 }
