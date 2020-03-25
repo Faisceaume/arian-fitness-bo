@@ -18,8 +18,7 @@ export class ProgrammesListComponent implements OnInit {
 
   constructor(private programmesService: ProgrammesService,
               private router: Router,
-              private matDialog: MatDialog,
-              private categoriesService: CategoriesService) { }
+              private matDialog: MatDialog) { }
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -30,16 +29,7 @@ export class ProgrammesListComponent implements OnInit {
       this.dataSource.sort = this.sort;
     });
 
-/*
-    this.categoriesService.getAllCategories('exe_cat');
-    this.categoriesService.categorieSubject.subscribe(data => {
-      data.forEach(item => {
-        if (!item.duree) {
-          this.categoriesService.newUpdateVersion(item, 'duree', null, 'exe_cat');
-        }
-      });
-    });
-     */
+
   }
 
   onEdit(programme: Programme) {
