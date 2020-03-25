@@ -1,8 +1,9 @@
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { Aliment } from './aliment';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,11 @@ export class AlimentsService {
   aliments: Aliment[];
   alimentsSubject = new Subject<any[]>();
 
+  foodsData: any;
+
   constructor(private firestore: AngularFirestore,
-              private router: Router) { }
+              private router: Router,
+              private http: HttpClient) { }
 
   createAliment(aliment: Aliment) {
     const batch = this.firestore.firestore.batch();
@@ -42,6 +46,19 @@ export class AlimentsService {
 
   emitAlimentSubject() {
     this.alimentsSubject.next(this.aliments.slice());
+  }
+
+  getAlimentForApi(libelle: string): void {
+    this.foodsData = null;
+    this.http
+    .get<any>('https://world.openfoodfacts.org/cgi/search.pl?search_terms=' + libelle + '&search_simple=1&action=process&json=1')
+    .forEach(data => {
+       this.foodsData = data;
+      // image_url  image_front_url
+     //  data.products.forEach(element => {
+     //   console.log(element);
+     // });
+    });
   }
 
   getSingleAliment(id: string) {
