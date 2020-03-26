@@ -55,6 +55,7 @@ export class BlocDetailsComponent implements OnInit, OnDestroy {
 
   updateField() {
     this.listeDesMethodes = [];
+
     this.niveau.forEach((item: Niveau) => {
       this.methodesService
       .getMethodesForProgramme(item, this.currentBloc.orientation, this.currentBloc.duree);
