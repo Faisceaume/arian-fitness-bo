@@ -40,6 +40,8 @@ export class CategoriesCrudComponent implements OnInit {
       id: null,
       nom: '',
       acronyme: '',
+      duree: null,
+      repos: null,
       timestamp: ''
     } as Categorie;
   }

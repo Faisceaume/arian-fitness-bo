@@ -10,7 +10,8 @@ export class Aliment {
   lipidessatures: number;
   lipidesmonoinsatures: number;
   lipidesmonopolyinsatures: number;
-  ratioomega: string; // ratio // oméga 6 et oméga 3
+  omega3: number;
+  omega6: number;
   fibres: number;
   kcal: number;
   valide: boolean;

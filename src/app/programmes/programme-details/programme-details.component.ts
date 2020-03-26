@@ -62,7 +62,6 @@ export class ProgrammeDetailsComponent implements OnInit {
       this.objectifs = data;
     });
 
-
     const id = this.route.snapshot.params.id;
     this.programmesService.getSingleProgramme(id).then((item: Programme) => {
       this.formData = item;
@@ -217,18 +216,26 @@ export class ProgrammeDetailsComponent implements OnInit {
 
   // SECTION DE GESTION DES BLOCS DE SEANCES
   addBloc(seance: number) {
-    const dialogRef = this.dialog.open(BlocDetailsComponent, {
-      width: '95%',
-      data: {niveau: this.listeNiveau, extra: this.extraControl.value}
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
-        this.seancesOfProgramme[seance].blocs.push(result);
-        this.formatClass(seance);
-        this.updateField('seances', this.seancesOfProgramme);
-      }
-    });
+    if (this.formData.niveau) {
+
+      const dialogRef = this.dialog.open(BlocDetailsComponent, {
+        width: '95%',
+        data: {niveau: this.listeNiveau, extra: this.extraControl.value}
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result !== undefined) {
+          this.seancesOfProgramme[seance].blocs.push(result);
+          this.formatClass(seance);
+          // console.log(result);
+          this.updateField('seances', this.seancesOfProgramme);
+        }
+      });
+
+    } else {
+      alert('Aucun niveau n\'est sélectionné sur le programme');
+    }
   }
 
   editBloc(seance: number, bloc: number) {

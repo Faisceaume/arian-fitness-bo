@@ -28,7 +28,8 @@ export class AlimentFormComponent implements OnInit {
       lipidessatures: null,
       lipidesmonoinsatures: null,
       lipidesmonopolyinsatures: null,
-      ratioomega: 'omega6', // ratio // oméga 6 et oméga 3
+      omega3: null,
+      omega6: null,
       fibres: null,
       kcal: null,
       valide: false,

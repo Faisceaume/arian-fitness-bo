@@ -28,17 +28,19 @@
 </div>
 
 <div fxLayout="row wrap" fxLayoutAlign="center center" style="padding: 10px;" *ngIf="itemSelected" >
-  <mat-card class="example-card" fxFlex="50">
-    <mat-card-header>
-      <h4>{{ itemSelected.product_name_fr }}</h4>
-      <button mat-fab color="warn" type="button" (click)=" itemSelected = null">
-        <mat-icon>close</mat-icon>
-    </button>
+  <mat-card class="example-card" fxFlex="70">
+    <mat-card-header fxLayout="row">
+      <h4 fxFlex="70">{{ itemSelected.product_name_fr }}</h4>
+      <div fxFlex="30" fxLayoutAlign="end center">
+        <button mat-icon-button type="button" (click)=" itemSelected = null">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
     </mat-card-header>
     <img mat-card-image [src]="itemSelected.image_url"
     alt="Photo of a Shiba Inu"
     width="200px"
-    height="150px">
+    height="auto">
     <mat-card-content>
       <p *ngFor="let item of itemSelected.nutriments | keyvalue" >
         <strong>{{ item.key }}</strong> : {{ item.value }}

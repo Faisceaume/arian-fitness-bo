@@ -18,7 +18,8 @@ export class ProgrammesListComponent implements OnInit {
 
   constructor(private programmesService: ProgrammesService,
               private router: Router,
-              private matDialog: MatDialog) { }
+              private matDialog: MatDialog,
+              private categoriesService: CategoriesService) { }
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -28,6 +29,8 @@ export class ProgrammesListComponent implements OnInit {
       this.dataSource = new MatTableDataSource<Programme>(data);
       this.dataSource.sort = this.sort;
     });
+
+
 
 
   }

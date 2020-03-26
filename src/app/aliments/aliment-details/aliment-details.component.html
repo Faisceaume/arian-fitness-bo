@@ -26,32 +26,23 @@
             [(ngModel)]="formData.nom"
             (ngModelChange)="updateFiel('nom', formData.nom)" required>
     </mat-form-field>
-    <p class="mentiontimestamp">Ajouté le {{ formData.timestamp | date }}</p>
-    <div fxFlex="100" fxLayoutAlign="start start" style="margin-top: 10px;">
-      <label class="dark-chip"> Source :</label>
-      <mat-radio-group color="warn"
-          [(ngModel)]="formData.source"
-             (ngModelChange)="updateFiel('source', formData.source)">
-          <mat-radio-button value="manuelle" class="span-radio-button">
-            Manuelle
-          </mat-radio-button>
-          <mat-radio-button value="opendfoodfact" class="span-radio-button">
-            Opend food fact
-          </mat-radio-button>
-      </mat-radio-group>
-    </div>
+    <p class="mentiontimestamp">
+      Ajouté le {{ formData.timestamp | date }} <br>
+      Source : {{ formData.source }} <br>
+      Ratio Omega : {{ (formData.omega6/formData.omega3) }}
+    </p>
     <div fxFlex="100" fxLayoutAlign="start start" style="margin-top: 10px;">
       <label class="dark-chip"> Ratio Omega</label>
-      <!-- <mat-radio-group color="warn"
-          [(ngModel)]="formData.ratioomega"
-             (ngModelChange)="updateFiel('ratioomega', formData.ratioomega)">
-          <mat-radio-button value="omega6" class="span-radio-button">
-            oméga 6
-          </mat-radio-button>
-          <mat-radio-button value="omega3" class="span-radio-button">
-            oméga 3
-          </mat-radio-button>
-      </mat-radio-group> -->
+      <mat-form-field fxFlex="33">
+        <input matInput placeholder="Proteines" type="number"
+              [(ngModel)]="formData.omega3"
+               (ngModelChange)="updateFiel('omega3', formData.omega3)" required>
+      </mat-form-field>
+      <mat-form-field fxFlex="33">
+        <input matInput placeholder="Proteines" type="number"
+              [(ngModel)]="formData.omega6"
+               (ngModelChange)="updateFiel('omega6', formData.omega6)" required>
+      </mat-form-field>
     </div>
     <div fxFlex="100" fxLayoutAlign="start end" style="margin:10px 0">
       <label class="dark-chip" style="margin:0 10px 0 0">Valide</label>
@@ -64,7 +55,7 @@
 
   <div fxFlex="100">
     <mat-form-field fxFlex="33">
-      <input matInput placeholder="Proteines" type="number"
+      <input matInput placeholder="Proteines / 100g" type="number"
             [(ngModel)]="formData.proteines"
              (ngModelChange)="updateFiel('proteines', formData.proteines)" required>
     </mat-form-field>
@@ -72,17 +63,17 @@
 
   <div fxFlex="100">
     <mat-form-field fxFlex="33">
-      <input matInput placeholder="Glucides" type="number"
+      <input matInput placeholder="Glucides - Carbohydrate / 100g" type="number"
               [(ngModel)]="formData.glucides"
              (ngModelChange)="updateFiel('glucides', formData.glucides)" required>
     </mat-form-field>
     <mat-form-field fxFlex="33">
-      <input matInput placeholder="Glucides simples" type="number"
+      <input matInput placeholder="Glucides simples / Sugars" type="number"
             [(ngModel)]="formData.glucidessimples"
              (ngModelChange)="updateFiel('glucidessimples', formData.glucidessimples)" required>
     </mat-form-field>
     <mat-form-field fxFlex="33">
-      <input matInput placeholder="Glucides complexe" type="number"
+      <input matInput placeholder="Glucides complexe (Carbohydrate - sugars)" type="number"
             [(ngModel)]="formData.glucidescomplexe"
              (ngModelChange)="updateFiel('glucidescomplexe', formData.glucidescomplexe)" required>
     </mat-form-field>
@@ -90,22 +81,22 @@
 
   <div fxFlex="100">
     <mat-form-field fxFlex="25">
-      <input matInput placeholder="Lipides" type="number"
+      <input matInput placeholder="Lipides / fat / 100 g" type="number"
               [(ngModel)]="formData.lipides"
             (ngModelChange)="updateFiel('lipides', formData.lipides)" required>
     </mat-form-field>
     <mat-form-field fxFlex="25">
-      <input matInput placeholder="Lipides satures" type="number"
+      <input matInput placeholder="Lipides satures / saturated-fat" type="number"
               [(ngModel)]="formData.lipidessatures"
             (ngModelChange)="updateFiel('lipidessatures', formData.lipidessatures)" required>
     </mat-form-field>
     <mat-form-field fxFlex="25">
-      <input matInput placeholder="Lipides monoinsatures" type="number"
+      <input matInput placeholder="Lipides monoinsaturés" type="number"
               [(ngModel)]="formData.lipidesmonoinsatures"
             (ngModelChange)="updateFiel('lipidesmonoinsatures', formData.lipidesmonoinsatures)" required>
     </mat-form-field>
     <mat-form-field fxFlex="25">
-      <input matInput placeholder="Lipides monopolyinsatures" type="number"
+      <input matInput placeholder="Lipides polyinsaturés" type="number"
               [(ngModel)]="formData.lipidesmonopolyinsatures"
             (ngModelChange)="updateFiel('lipidesmonopolyinsatures', formData.lipidesmonopolyinsatures)" required>
     </mat-form-field>
@@ -117,12 +108,12 @@
            (ngModelChange)="updateFiel('lactoses', formData.lactoses)" required>
   </mat-form-field>
   <mat-form-field fxFlex="25">
-    <input matInput placeholder="fibres" type="number"
+    <input matInput placeholder="Fibres / fiber" type="number"
           [(ngModel)]="formData.fibres"
            (ngModelChange)="updateFiel('fibres', formData.fibres)" required>
   </mat-form-field>
   <mat-form-field fxFlex="25">
-    <input matInput placeholder="kcal" type="number"
+    <input matInput placeholder="kcal / energy (si non  fourni on peut le calculer : 1g de lucide = 4 cal; 1g de glucides = 4 cal; 1g de proteine = 4 cal; 1g de lipides = 9 cal)" type="number"
           [(ngModel)]="formData.kcal"
            (ngModelChange)="updateFiel('kcal', formData.kcal)" required>
   </mat-form-field>
@@ -133,12 +124,12 @@
   </mat-form-field>
 
   <mat-form-field fxFlex="25">
-    <input matInput placeholder="sodium" type="number"
+    <input matInput placeholder="sodium / sodium" type="number"
             [(ngModel)]="formData.sodium"
            (ngModelChange)="updateFiel('sodium', formData.sodium)" required>
   </mat-form-field>
   <mat-form-field fxFlex="25">
-    <input matInput placeholder="sel" type="number"
+    <input matInput placeholder="sel / salt" type="number"
             [(ngModel)]="formData.sel"
            (ngModelChange)="updateFiel('sel', formData.sel)" required>
   </mat-form-field>
