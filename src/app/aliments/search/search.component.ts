@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { Aliment } from './../aliment';
 import { Component, OnInit } from '@angular/core';
 import { AlimentsService } from '../aliments.service';
 
@@ -11,7 +13,8 @@ export class SearchComponent implements OnInit {
   nomAliment: string;
   itemSelected: any;
 
-  constructor(public alimentsService: AlimentsService) { }
+  constructor(public alimentsService: AlimentsService,
+              private router: Router) { }
 
   ngOnInit() {
   }
@@ -22,5 +25,28 @@ export class SearchComponent implements OnInit {
 
   selected(item: any) {
     this.itemSelected = item;
+  }
+
+  saveAliment() {
+    const local = new Aliment();
+    local.nom = this.itemSelected.product_name_fr;
+    local.proteines = this.itemSelected.nutriments.proteins_100g ?
+                      this.itemSelected.nutriments.proteins_100g : 0;
+    local.glucides = this.itemSelected.nutriments.carbohydrates_100g ?
+                     this.itemSelected.nutriments.carbohydrates_100g : 0;
+    local.glucidessimples = this.itemSelected.nutriments.sugars ?
+                            this.itemSelected.nutriments.sugars : 0;
+    local.glucidescomplexe = local.glucides - local.glucidessimples;
+    local.lipides = this.itemSelected.nutriments.fat_100g ? this.itemSelected.nutriments.fat_100g : 0;
+    local.lipidessatures = this.itemSelected.nutriments['saturated-fat'] ?
+                            this.itemSelected.nutriments['saturated-fat'] : 0;
+    local.fibres = this.itemSelected.nutriments.fiber ? this.itemSelected.nutriments.fiber : 0;
+    local.kcal = this.itemSelected.nutriments.energy ? this.itemSelected.nutriments.energy : 0;
+    local.sodium = this.itemSelected.nutriments.sodium ? this.itemSelected.nutriments.sodium : 0;
+    local.sel = this.itemSelected.nutriments.salt ? this.itemSelected.nutriments.salt : 0;
+    local.source = 'open food fact';
+    local.image = this.itemSelected.image_url;
+    const value = Object.assign({}, local);
+    this.alimentsService.createAliment(value);
   }
 }

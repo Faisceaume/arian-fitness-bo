@@ -32,6 +32,9 @@
     <mat-card-header fxLayout="row">
       <h4 fxFlex="70">{{ itemSelected.product_name_fr }}</h4>
       <div fxFlex="30" fxLayoutAlign="end center">
+        <button mat-fab (click)="saveAliment()">
+          <mat-icon>add</mat-icon>
+        </button>
         <button mat-icon-button type="button" (click)=" itemSelected = null">
           <mat-icon>close</mat-icon>
         </button>

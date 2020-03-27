@@ -21,16 +21,21 @@ export class AlimentDetailsComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.params.id;
-    this.alimentsService.getSingleAliment(id).then((item: Aliment) => {
-      this.formData = item;
-      this.valideControl.setValue(item.valide);
-      if (item.image) {
-        this.sharedService.fileUrl = item.image;
-      } else {
-        this.sharedService.fileUrl = null;
-      }
-      this.sharedService.currentAliment = item;
-    });
+    if (id) {
+      this.alimentsService.getSingleAliment(id).then((item: Aliment) => {
+        this.formData = item;
+        if (item.source !== 'manuelle') {
+          this.sharedService.showDeleteButton = true;
+        }
+        this.valideControl.setValue(item.valide);
+        if (item.image) {
+          this.sharedService.fileUrl = item.image;
+        } else {
+          this.sharedService.fileUrl = null;
+        }
+        this.sharedService.currentAliment = item;
+      });
+    }
   }
 
   updateFiel(attribut: string, value: any) {

@@ -24,6 +24,8 @@ export class SharedService {
   isVideoUploadShown = false;
   isImageUploadShown = false;
 
+  showDeleteButton: boolean;
+
   constructor(private store: AngularFireStorage,
               private usersService: UsersService,
               private exercicesService: ExercicesService,
