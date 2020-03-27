@@ -34,12 +34,12 @@
     <div fxFlex="100" fxLayoutAlign="start start" style="margin-top: 10px;">
       <label class="dark-chip"> Ratio Omega</label>
       <mat-form-field fxFlex="33">
-        <input matInput placeholder="Proteines" type="number"
+        <input matInput placeholder="Omega 3" type="number"
               [(ngModel)]="formData.omega3"
                (ngModelChange)="updateFiel('omega3', formData.omega3)" required>
       </mat-form-field>
       <mat-form-field fxFlex="33">
-        <input matInput placeholder="Proteines" type="number"
+        <input matInput placeholder="Omega 6" type="number"
               [(ngModel)]="formData.omega6"
                (ngModelChange)="updateFiel('omega6', formData.omega6)" required>
       </mat-form-field>
@@ -113,7 +113,7 @@
            (ngModelChange)="updateFiel('fibres', formData.fibres)" required>
   </mat-form-field>
   <mat-form-field fxFlex="25">
-    <input matInput placeholder="kcal / energy (si non  fourni on peut le calculer : 1g de lucide = 4 cal; 1g de glucides = 4 cal; 1g de proteine = 4 cal; 1g de lipides = 9 cal)" type="number"
+    <input matInput placeholder="kcal / energy (si non fourni on peut le calculer : 1g de lucide = 4 cal; 1g de glucides = 4 cal; 1g de proteine = 4 cal; 1g de lipides = 9 cal)" type="number"
           [(ngModel)]="formData.kcal"
            (ngModelChange)="updateFiel('kcal', formData.kcal)" required>
   </mat-form-field>
