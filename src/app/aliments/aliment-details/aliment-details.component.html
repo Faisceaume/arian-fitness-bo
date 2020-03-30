@@ -11,7 +11,7 @@
 
 <div fxLayout="row wrap" fxLayoutAlign="start start" [ngStyle]="{'padding':'0 10px'}" *ngIf="formData">
 
-  <div fxFlex="50" fxLayout="column" style="padding: 50px 20px 0">
+  <div fxFlex="40" fxLayout="column" style="padding: 50px 20px 0">
     <mat-form-field>
       <input matInput placeholder="Nom de l'aliment" type="text"
             [(ngModel)]="formData.nom"
@@ -22,29 +22,49 @@
       Source : {{ formData.source }} <br>
       Ratio Omega : {{ (formData.omega6/formData.omega3) }}
     </p>
-    <div fxFlex="100" fxLayoutAlign="start start" style="margin-top: 10px;">
-      <label class="dark-chip"> Ratio Omega</label>
-      <mat-form-field fxFlex="33">
-        <input matInput placeholder="omega 3" type="number"
-              [(ngModel)]="formData.omega3"
-               (ngModelChange)="updateFiel('omega3', formData.omega3)" required>
-      </mat-form-field>
-      <mat-form-field fxFlex="33">
-        <input matInput placeholder="omega 6" type="number"
-              [(ngModel)]="formData.omega6"
-               (ngModelChange)="updateFiel('omega6', formData.omega6)" required>
-      </mat-form-field>
-    </div>
-    <div fxFlex="100" fxLayoutAlign="start end" style="margin:10px 0">
+    <!-- <div fxFlex="100" fxLayoutAlign="start end" style="margin:10px 0">
       <label class="dark-chip" style="margin:0 10px 0 0">Valide</label>
       <mat-slide-toggle color="warn"
         [formControl]="valideControl"
         (change)="updateFiel('valide', valideControl.value)">
       </mat-slide-toggle>
+    </div> -->
+
+    <div fxLayout="column" fxLayoutAlign="center start" class="check-aliment">
+        <div>
+          <span *ngIf="proteinesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
+          <span *ngIf="proteinesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
+          <label [ngClass]="proteinesStatut=='valide' ? 'green' : 'red'"> Protéines</label>
+        </div>
+        <div>
+          <span *ngIf="glucidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
+          <span *ngIf="glucidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
+          <label [ngClass]="glucidesStatut=='valide' ? 'green' : 'red'"> Glucides</label>
+        </div>
+        <div>
+          <span *ngIf="lipidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
+          <span *ngIf="lipidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
+          <label [ngClass]="lipidesStatut=='valide' ? 'green' : 'red'"> Lipides</label>
+        </div>
+        <div>
+          <span *ngIf="fibresSoirStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
+          <span *ngIf="fibresSoirStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
+          <label [ngClass]="fibresSoirStatut=='valide' ? 'green' : 'red'"> Fibres Soir</label>
+        </div>
+        <div>
+          <span *ngIf="fibresMidiStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
+          <span *ngIf="fibresMidiStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
+          <label [ngClass]="fibresMidiStatut=='valide' ? 'green' : 'red'"> Fibres Midi</label>
+        </div>
+        <div>
+          <span *ngIf="fibresGlucidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
+          <span *ngIf="fibresGlucidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
+          <label [ngClass]="fibresGlucidesStatut=='valide' ? 'green' : 'red'"> Fibres - Glucides</label>
+        </div>
     </div>
   </div>
 
-  <div fxFlex="50" id="imageContainer" fxLayout="column"
+  <div fxFlex="45" id="imageContainer" fxLayout="column"
     style="padding:0 50px">
     <!-- <h3> Ajouter une image</h3> -->
     <app-upload-images
@@ -127,86 +147,28 @@
   </mat-form-field>
 
   <mat-form-field fxFlex="25">
-    <input matInput placeholder="sodium / sodium" type="number"
+    <input matInput placeholder="Sodium / sodium" type="number"
             [(ngModel)]="formData.sodium"
            (ngModelChange)="updateFiel('sodium', formData.sodium)" required>
   </mat-form-field>
   <mat-form-field fxFlex="25">
-    <input matInput placeholder="sel / salt" type="number"
+    <input matInput placeholder="Sel / salt" type="number"
             [(ngModel)]="formData.sel"
            (ngModelChange)="updateFiel('sel', formData.sel)" required>
   </mat-form-field>
 
-
-  <div fxFlex="100" style="margin-bottom: 8px;">
-    <label class="dark-chip"> Protéines :</label>
-    <mat-radio-group color="warn" [(ngModel)]="proteinesStatut" disabled="true">
-      <mat-radio-button value="valide" class="span-radio-button">
-        Valide
-      </mat-radio-button>
-      <mat-radio-button value="nonvalide" class="span-radio-button">
-        Non valide
-      </mat-radio-button>
-    </mat-radio-group>
+  <div fxFlex="100" fxLayoutAlign="start start" style="margin-top: 10px;">
+    <label class="dark-chip"> Ratio Omega</label>
+    <mat-form-field fxFlex="33">
+      <input matInput placeholder="omega 3" type="number"
+            [(ngModel)]="formData.omega3"
+             (ngModelChange)="updateFiel('omega3', formData.omega3)" required>
+    </mat-form-field>
+    <mat-form-field fxFlex="33">
+      <input matInput placeholder="omega 6" type="number"
+            [(ngModel)]="formData.omega6"
+             (ngModelChange)="updateFiel('omega6', formData.omega6)" required>
+    </mat-form-field>
   </div>
 
-  <div fxFlex="100" style="margin-bottom: 8px;">
-    <label class="dark-chip"> Glucides :</label>
-    <mat-radio-group color="warn" [(ngModel)]="glucidesStatut" disabled="true">
-      <mat-radio-button value="valide" class="span-radio-button">
-        Valide
-      </mat-radio-button>
-      <mat-radio-button value="nonvalide" class="span-radio-button">
-        Non valide
-      </mat-radio-button>
-    </mat-radio-group>
-  </div>
-
-  <div fxFlex="100" style="margin-bottom: 8px;">
-    <label class="dark-chip"> Lipides :</label>
-    <mat-radio-group color="warn" [(ngModel)]="lipidesStatut" disabled="true">
-      <mat-radio-button value="valide" class="span-radio-button">
-        Valide
-      </mat-radio-button>
-      <mat-radio-button value="nonvalide" class="span-radio-button">
-        Non valide
-      </mat-radio-button>
-    </mat-radio-group>
-  </div>
-
-  <div fxFlex="100" style="margin-bottom: 8px;">
-    <label class="dark-chip"> Fibres Soir :</label>
-    <mat-radio-group color="warn" [(ngModel)]="fibresSoirStatut" disabled="true">
-      <mat-radio-button value="valide" class="span-radio-button">
-        Valide
-      </mat-radio-button>
-      <mat-radio-button value="nonvalide" class="span-radio-button">
-        Non valide
-      </mat-radio-button>
-    </mat-radio-group>
-  </div>
-
-  <div fxFlex="100" style="margin-bottom: 8px;">
-    <label class="dark-chip"> Fibres Midi :</label>
-    <mat-radio-group color="warn" [(ngModel)]="fibresMidiStatut" disabled="true">
-      <mat-radio-button value="valide" class="span-radio-button">
-        Valide
-      </mat-radio-button>
-      <mat-radio-button value="nonvalide" class="span-radio-button">
-        Non valide
-      </mat-radio-button>
-    </mat-radio-group>
-  </div>
-
-  <div fxFlex="100" style="margin-bottom: 8px;">
-    <label class="dark-chip"> Fibres - Glucides :</label>
-    <mat-radio-group color="warn" [(ngModel)]="fibresGlucidesStatut" disabled="true">
-      <mat-radio-button value="valide" class="span-radio-button">
-        Valide
-      </mat-radio-button>
-      <mat-radio-button value="nonvalide" class="span-radio-button">
-        Non valide
-      </mat-radio-button>
-    </mat-radio-group>
-  </div>
 </div>

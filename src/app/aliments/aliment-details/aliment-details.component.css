@@ -20,3 +20,16 @@ label {
 #imageContainer{
   margin-top: 20px;
 }
+
+.check-aliment {
+  font-size: 0.9em;
+  line-height: 0.8em;
+  margin:10px 0 30px;
+  padding: 0;
+}
+.check-aliment mat-icon{
+  vertical-align: middle;
+}
+.check-aliment label {
+  padding: 0;
+}
