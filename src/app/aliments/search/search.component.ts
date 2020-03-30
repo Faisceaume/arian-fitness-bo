@@ -36,7 +36,9 @@ export class SearchComponent implements OnInit {
                      this.itemSelected.nutriments.carbohydrates_100g : 0;
     local.glucidessimples = this.itemSelected.nutriments.sugars ?
                             this.itemSelected.nutriments.sugars : 0;
-    local.glucidescomplexe = local.glucides - local.glucidessimples;
+    const nb = local.glucides - local.glucidessimples;
+    const res = Math.round(nb * 100) / 100;
+    local.glucidescomplexe = res;
     local.lipides = this.itemSelected.nutriments.fat_100g ? this.itemSelected.nutriments.fat_100g : 0;
     local.lipidessatures = this.itemSelected.nutriments['saturated-fat'] ?
                             this.itemSelected.nutriments['saturated-fat'] : 0;

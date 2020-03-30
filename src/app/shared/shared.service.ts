@@ -24,8 +24,6 @@ export class SharedService {
   isVideoUploadShown = false;
   isImageUploadShown = false;
 
-  showDeleteButton: boolean;
-
   constructor(private store: AngularFireStorage,
               private usersService: UsersService,
               private exercicesService: ExercicesService,
@@ -72,16 +70,25 @@ export class SharedService {
     }
 
     deleteFile(url: string, typeFile?: string) {
-      const storageRef =  this.store.storage.refFromURL(url);
-      storageRef.delete().then(
-                () => {
-                  console.log('fichier supprimé');
-                }
-              ).catch(
-                (error) => {
-                  console.log('Erreur de la suppression ' + error);
-                }
-              );
+      let storageRef: any = '';
+      try {
+         storageRef =  this.store.storage.refFromURL(url);
+      } catch (error) {
+
+      }
+      if (storageRef !== '') {
+        storageRef.delete().then(
+          () => {
+            console.log('fichier supprimé');
+          }
+        ).catch(
+          (error) => {
+            console.log('Erreur de la suppression ' + error);
+          }
+        );
+      }
+
+
       if (typeFile) {
         if (this.currentExercice) {
           this.exercicesService.newUpdateVersion(this.currentExercice, 'video', null);
@@ -95,6 +102,7 @@ export class SharedService {
             this.alimentsService.newUpdateVersion(this.currentAliment, 'image', null);
           }
       }
+
     }
 
     setFileUrl(url: string) {

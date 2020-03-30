@@ -22,8 +22,7 @@
           <mat-card class="example-card" >
               <img mat-card-image [src]="sharedService.fileUrl">
               <mat-card-actions class="text-center">
-                  <button mat-icon-button (click)="onDeleteDrapImage()"
-                  *ngIf="!sharedService.showDeleteButton" >
+                  <button mat-icon-button (click)="onDeleteDrapImage()">
                       <mat-icon>delete</mat-icon>
                   </button>
               </mat-card-actions>
