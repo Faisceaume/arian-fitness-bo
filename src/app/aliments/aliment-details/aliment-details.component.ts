@@ -34,10 +34,6 @@ export class AlimentDetailsComponent implements OnInit {
       this.alimentsService.getSingleAliment(id).then((item: Aliment) => {
         this.formData = item;
 
-        if (item.source !== 'manuelle') {
-          this.sharedService.showDeleteButton = true;
-        }
-
         if (item.image) {
           this.sharedService.fileUrl = item.image;
         } else {
