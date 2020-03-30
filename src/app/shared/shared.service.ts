@@ -38,18 +38,18 @@ export class SharedService {
         if (typeFile) {
               if (this.currentExercice) {
                   upload =  this.store.storage.ref()
-                        .child('exercices/videos/' + this.currentExercice.id + '.mp4').put(file);
+                        .child('medias/exercices/videos/' + this.currentExercice.id + '.mp4').put(file);
               }
         } else {
               if (this.currentExercice) {
                   upload =  this.store.storage.ref()
-                        .child('exercices/images/' + this.currentExercice.id + '.jpg').put(file);
+                        .child('medias/exercices/images/' + this.currentExercice.id + '.jpg').put(file);
               } else if (this.currentUser) {
                   upload =  this.store.storage.ref()
-                        .child('users/' + this.currentExercice.id + '.jpg').put(file);
+                        .child('medias/users/' + this.currentExercice.id + '.jpg').put(file);
               } else if (this.currentAliment) {
                 upload =  this.store.storage.ref()
-                      .child('aliments/' + this.currentAliment.id + '.jpg').put(file);
+                      .child('medias/aliments/' + this.currentAliment.id + '.jpg').put(file);
             }
         }
 
