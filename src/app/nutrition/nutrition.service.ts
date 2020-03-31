@@ -110,7 +110,7 @@ export class NutritionService {
             }).catch((error) => { console.error('Error creating document: ', error); });
   }
 
-  getAllProgNuts(): void {
+  getAllProgNuts() {
     this.firestore.collection('prognuts', ref => ref.orderBy('nom'))
                 .snapshotChanges().subscribe( data => {
     this.prognuts = data.map( e => {
