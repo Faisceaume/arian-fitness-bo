@@ -10,7 +10,6 @@ import { QuestionsComponent } from './questionnaires/questionnaires/questions.co
 import { QuestionsFormComponent } from './questionnaires/questionnaires/questions-form/questions-form.component';
 import { QuestionsDetailComponent } from './questionnaires/questionnaires/questions-detail/questions-detail.component';
 
-
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path : 'auth', component : AuthComponent },
@@ -48,7 +47,7 @@ const routes: Routes = [
   },
   {
     path: 'aliments', canActivate: [AuthGuardService],
-    loadChildren: () => import('./aliments/aliments.module').then(mod => mod.AlimentsModule)
+    loadChildren: () => import('./nutrition/nutrition.module').then(mod => mod.NutritionModule)
   },
 ];
 

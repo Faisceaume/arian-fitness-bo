@@ -1,11 +1,11 @@
-import { AlimentsService } from './../aliments/aliments.service';
+import { NutritionService } from '../nutrition/nutrition.service';
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { User } from '../users/user';
 import { UsersService } from '../users/users.service';
 import { Exercice } from '../exercices/exercice';
 import { ExercicesService } from '../exercices/exercices.service';
-import { Aliment } from '../aliments/aliment';
+import { Aliment } from '../nutrition/aliment';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class SharedService {
   constructor(private store: AngularFireStorage,
               private usersService: UsersService,
               private exercicesService: ExercicesService,
-              private alimentsService: AlimentsService) { }
+              private nutritionService: NutritionService) { }
 
     // SECTION IMAGE && VIDEO
 
@@ -99,7 +99,7 @@ export class SharedService {
           } else if (this.currentExercice) {
             this.exercicesService.newUpdateVersion(this.currentExercice, 'photo', null);
           } else if (this.currentAliment) {
-            this.alimentsService.newUpdateVersion(this.currentAliment, 'image', null);
+            this.nutritionService.newUpdateVersion(this.currentAliment, 'image', null);
           }
       }
 
@@ -112,7 +112,7 @@ export class SharedService {
       } else if (this.currentExercice) {
         this.exercicesService.newUpdateVersion(this.currentExercice, 'photo', url);
       } else if (this.currentAliment) {
-        this.alimentsService.newUpdateVersion(this.currentAliment, 'image', url);
+        this.nutritionService.newUpdateVersion(this.currentAliment, 'image', url);
       }
     }
 
