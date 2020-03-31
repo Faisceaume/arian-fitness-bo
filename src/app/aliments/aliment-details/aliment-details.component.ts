@@ -14,6 +14,7 @@ export class AlimentDetailsComponent implements OnInit {
 
   formData: Aliment;
   valideControl = new FormControl();
+  ratio: number;
 
   // validation
   proteinesStatut: string;
@@ -40,6 +41,12 @@ export class AlimentDetailsComponent implements OnInit {
           this.sharedService.fileUrl = null;
         }
 
+        if (item.omega3 && item.omega6) {
+          const nb = item.omega6 / item.omega3;
+          const res = Math.round(nb * 100) / 10;
+          this.ratio = res;
+        }
+
         this.sharedService.currentAliment = item;
         this.valideControl.setValue(item.valide);
         this.allVerification(item);
@@ -51,6 +58,11 @@ export class AlimentDetailsComponent implements OnInit {
     this.alimentsService.newUpdateVersion(this.formData, attribut, value);
     this.allVerification(this.formData);
     this.allUpdate();
+    if (this.formData.omega3 && this.formData.omega6) {
+      const nb = this.formData.omega6 / this.formData.omega3;
+      const res = Math.round(nb * 100) / 10;
+      this.ratio = res;
+    }
   }
 
 
