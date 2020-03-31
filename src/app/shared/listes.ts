@@ -76,13 +76,6 @@ export class Listes {
     '30 minutes'
   ];
 
-  // nbrseries = [
-  //   '1', '1 par côté',
-  //   '2', '2 par côté',
-  //   '3', '3 par côté',
-  //   '4', '4 par côté',
-  //   '5', '5 par côté'
-  // ];
 
   // section methodes
   listeNbrexparserie = [
@@ -133,6 +126,7 @@ export class Listes {
     0, 15, 30, 45, 60
   ];
 
+
   // Section des programmes
   semaineduniveau = [
     1,
@@ -180,6 +174,8 @@ export class Listes {
     8
   ];
 
+
+  // section des programmes-nutrition
   etapesprognut = [
     'Etape 1',
     'Etape 2',
@@ -199,6 +195,13 @@ export class Listes {
     'Etape 16',
     'Etape 17',
     'Etape 18'
+  ];
+
+  nbrescenarios = [
+    1,
+    2,
+    3,
+    4
   ];
 
 

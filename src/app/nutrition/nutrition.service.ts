@@ -1,3 +1,4 @@
+import { Prognut } from './prognut';
 import { Router } from '@angular/router';
 import { Subject, Observable } from 'rxjs';
 import { Aliment } from './aliment';
@@ -13,11 +14,17 @@ export class NutritionService {
   aliments: Aliment[];
   alimentsSubject = new Subject<any[]>();
 
+  prognuts: Prognut[];
+  prognutsSubject = new Subject<any[]>();
+
   foodsData: any;
 
   constructor(private firestore: AngularFirestore,
               private router: Router,
               private http: HttpClient) { }
+
+
+  // SECTION DES METHODES D'EDIDITION DES ALIMENTS
 
   createAliment(aliment: Aliment) {
     const batch = this.firestore.firestore.batch();
@@ -82,6 +89,65 @@ export class NutritionService {
   newUpdateVersion(element: Aliment, attribut: string, value: any) {
     const batch = this.firestore.firestore.batch();
     const nextDocument1 = this.firestore.firestore.collection('aliments').doc(element.id);
+    batch.update(nextDocument1, `${attribut}`, value);
+    batch.commit().then(() => {
+    }).catch((error) => { console.error('Error updzting document: ', error); });
+  }
+
+
+
+  // SECTION DES METHODES D'EDIDITION DES PROGRAMMES DE NUTRITION
+
+  createProgNut(prognut: Prognut) {
+    const batch = this.firestore.firestore.batch();
+    const currentid = this.firestore.firestore.collection('prognuts').doc().id;
+    const nextDocument1 = this.firestore.firestore.collection('prognuts').doc(currentid);
+    let data = Object.assign({}, prognut);
+    data = Object.assign(prognut, {id: currentid, timestamp: new Date().getTime()});
+    batch.set(nextDocument1, data);
+    batch.commit().then(() => {
+      this.router.navigate(['/aliments/prognuts', currentid]);
+            }).catch((error) => { console.error('Error creating document: ', error); });
+  }
+
+  getAllProgNuts(): void {
+    this.firestore.collection('prognuts', ref => ref.orderBy('nom'))
+                .snapshotChanges().subscribe( data => {
+    this.prognuts = data.map( e => {
+      const anotherData = e.payload.doc.data() as Prognut;
+      return  {
+        ...anotherData
+      } as Prognut;
+    });
+    this.emitProgNutSubject();
+  });
+  }
+
+  emitProgNutSubject() {
+    this.prognutsSubject.next(this.prognuts.slice());
+  }
+
+  getSingleProgNut(id: string) {
+    return new Promise<Prognut>((resolve, reject) => {
+      const museums = this.firestore.firestore.collection('prognuts').where('id', '==', id);
+      museums.get().then((querySnapshot) =>  {
+        querySnapshot.forEach((doc) => {
+          resolve(
+            {id: doc.id,
+              ...doc.data()} as Prognut
+            );
+        });
+      });
+    });
+  }
+
+  deleteProgNut(id: string) {
+    this.firestore.doc('prognuts/' + id).delete();
+  }
+
+  updateProgNut(element: Prognut, attribut: string, value: any) {
+    const batch = this.firestore.firestore.batch();
+    const nextDocument1 = this.firestore.firestore.collection('prognuts').doc(element.id);
     batch.update(nextDocument1, `${attribut}`, value);
     batch.commit().then(() => {
     }).catch((error) => { console.error('Error updzting document: ', error); });

@@ -25,6 +25,7 @@ import { PrognutsListComponent } from './prognuts-list/prognuts-list.component';
     CommonModule,
     AlimentsRoutingModule
   ],
-  entryComponents: [AlimentFormComponent]
+  entryComponents: [AlimentFormComponent,
+                    PrognutFormComponent]
 })
 export class NutritionModule { }

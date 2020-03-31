@@ -1,1 +1,123 @@
-<p>prognut-details works!</p>
+<button mat-icon-button
+  routerLink="/aliments/prognuts-list"
+  type="button"
+  class="button-right">
+    <mat-icon>close</mat-icon>
+</button>
+
+<div class="nom-formulaire" *ngIf="formData" >
+  <h2>Programme-Nutrition : <strong>{{ formData.nom }}</strong></h2>
+</div>
+
+<div fxLayout="row wrap" fxLayoutAlign="start start" [ngStyle]="{'padding':'0 10px'}" *ngIf="formData">
+
+  <mat-form-field fxFlex="100">
+    <input matInput placeholder="Nom de l'aliment" type="text"
+          [(ngModel)]="formData.nom"
+          (ngModelChange)="updateField('nom', formData.nom)" required>
+  </mat-form-field>
+
+  <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0">
+    <div style="margin:0 10px 10px">
+      <label class="dark-chip custom-obj"> Objectifs</label>
+      {{ formData.objectif ? formData.objectif.nom : 'inconnu' }}
+      <button  mat-icon-button (click)="showObjectif = true" *ngIf="!showObjectif" >
+        <mat-icon>visibility</mat-icon>
+      </button>
+      <button  mat-icon-button (click)="showObjectif = false" *ngIf="showObjectif" >
+        <mat-icon>visibility_off</mat-icon>
+       </button>
+    </div>
+    <div *ngIf="showObjectif"  fxLayout="column">
+      <mat-chip-list #chipList aria-label="objectifs">
+        <mat-chip
+          *ngFor="let item of objectifs; let i = index"
+          [ngStyle]="{
+            'color': '#FFF',
+            'background-color': '#000'
+          }"
+          (click)="selectObjectif(item)">
+          {{ item.acronyme }}
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div fxFlex="100">
+    <label class="dark-chip"> Nombre de scénarios :</label>
+    <mat-radio-group color="warn"
+    [(ngModel)]="formData.nbrescenarios"
+    (ngModelChange)="updateField('nbrescenarios', formData.nbrescenarios)">
+      <mat-radio-button *ngFor="let item of listeNbreScenarios"
+                        [value]="item" class="span-radio-button">
+       {{ item }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <!-- Gestion des scénarios -->
+  <div fxFlex="100" fxLayout="row wrap" *ngIf="listeScenarios && listeScenarios.length !== 0" >
+
+      <div fxFlex="100" fxLayout="row wrap" style="padding: 10px 10px 20px; margin: 10px 10px 0"
+           *ngFor="let scenario of listeScenarios ; let indexScenario = index"
+           class="scenario">
+
+          <div fxFlex="100" fxLayout="column" fxLayoutAlign="start start">
+            <h3 class="seance"> Scénario N°{{ indexScenario+1 }} </h3>
+          </div>
+          <!--
+          <div fxFlex="50" fxLayout="row" fxLayoutAlign="end start">
+             <button mat-icon-button (click)="deleteScenario(indexScenario)"
+              matTooltip="Supprimer le scénario" matTooltipPosition="after">
+                <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          -->
+          <mat-form-field fxFlex="100">
+            <input matInput placeholder="nombre de repas" type="number"
+                  [(ngModel)]="listeScenarios[indexScenario].nbrerepas"
+                  (ngModelChange)="updateField('listescenarios', listeScenarios)" required>
+          </mat-form-field>
+
+
+          <div fxFlex="100" fxLayout="column" style="margin:0 10px 10px 0">
+            <div style="margin:0 10px 10px">
+              <label class="dark-chip custom-obj"> Etapes : </label>
+              <span class="etape"
+              *ngFor="let item of listeScenarios[indexScenario].etapes;">
+                {{ item }}
+                <button  mat-icon-button (click)="deleteEtape(indexScenario, item)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </span>
+              <button  mat-icon-button
+                      (click)="listeScenarios[indexScenario].addetape = true"
+                      *ngIf="!listeScenarios[indexScenario].addetape" >
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button  mat-icon-button
+                      (click)="listeScenarios[indexScenario].addetape = false"
+                      *ngIf="listeScenarios[indexScenario].addetape" >
+                <mat-icon>visibility_off</mat-icon>
+               </button>
+            </div>
+            <div *ngIf="listeScenarios[indexScenario].addetape"  fxLayout="column">
+              <mat-chip-list #chipList aria-label="liste des etapes">
+                <mat-chip
+                  *ngFor="let item of listeEtapes;"
+                  [ngStyle]="{
+                    'color': '#FFF',
+                    'background-color': '#000'
+                  }"
+                  (click)="addEtape(indexScenario, item)">
+                  {{ item }}
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+
+      </div>
+
+  </div>
+
+</div>
