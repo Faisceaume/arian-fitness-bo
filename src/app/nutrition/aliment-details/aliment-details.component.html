@@ -29,7 +29,7 @@
       <p class="mentiontimestamp">
         Ajouté le {{ formData.timestamp | date }} <br>
         Source : {{ formData.source }} <br>
-        Ratio Omega : {{ (formData.omega6/formData.omega3) }}
+        Ratio Omega : {{ ratio ? ratio : 'inconnu' }}
       </p>
 
       <div fxLayout="column" fxLayoutAlign="center start" class="check-aliment">

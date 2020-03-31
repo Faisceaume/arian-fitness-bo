@@ -40,8 +40,8 @@
     <ng-container matColumnDef="proteines">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Protéines </th>
       <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
-        <mat-icon class="icon-but" *ngIf="element.proteinesstatut === 'valide'" color="success">check</mat-icon>
-        <mat-icon class="icon-but" *ngIf="element.proteinesstatut === 'nonvalide'">close</mat-icon>
+        <mat-icon class="icon-but" *ngIf="element.proteinesstatut === 'valide'" class="green">check</mat-icon>
+        <mat-icon class="icon-but" *ngIf="element.proteinesstatut === 'nonvalide'" class="red">close</mat-icon>
       </td>
     </ng-container>
 

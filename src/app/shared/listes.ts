@@ -180,4 +180,26 @@ export class Listes {
     8
   ];
 
+  etapesprognut = [
+    'Etape 1',
+    'Etape 2',
+    'Etape 3',
+    'Etape 4',
+    'Etape 5',
+    'Etape 6',
+    'Etape 7',
+    'Etape 8',
+    'Etape 9',
+    'Etape 10',
+    'Etape 11',
+    'Etape 12',
+    'Etape 13',
+    'Etape 14',
+    'Etape 15',
+    'Etape 16',
+    'Etape 17',
+    'Etape 18'
+  ];
+
+
 }
