@@ -38,7 +38,13 @@ export class AlimentFormComponent implements OnInit {
       sel: null,
       image: null,
       timestamp: 0,
-      source: 'manuelle' // (manuelle / Opend food fact)
+      source: 'manuelle', // (manuelle / Opend food fact)
+      proteinesstatut: 'nonvalide',
+      glucidesstatut: 'nonvalide',
+      lipidesstatut: 'nonvalide',
+      fibressoirstatut: 'nonvalide',
+      fibresmidistatut: 'nonvalide',
+      fibresglucidesstatut: 'nonvalide',
     };
   }
 

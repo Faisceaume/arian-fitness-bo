@@ -21,4 +21,11 @@ export class Aliment {
   timestamp: number;
   source: string; // (manuelle / Opend food fact)
   image: string;
+
+  proteinesstatut: string;
+  glucidesstatut: string;
+  lipidesstatut: string;
+  fibressoirstatut: string;
+  fibresmidistatut: string;
+  fibresglucidesstatut: string;
 }
