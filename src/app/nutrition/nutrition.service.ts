@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class AlimentsService {
+export class NutritionService {
 
   aliments: Aliment[];
   alimentsSubject = new Subject<any[]>();

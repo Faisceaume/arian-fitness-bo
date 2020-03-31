@@ -1,4 +1,4 @@
-import { AlimentsService } from './aliments.service';
+import { NutritionService } from './nutrition.service';
 import { MatDialog, MatTableDataSource, MatSort } from '@angular/material';
 import { AlimentFormComponent } from './aliment-form/aliment-form.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -15,13 +15,13 @@ export class AlimentsComponent implements OnInit {
   dataSource: MatTableDataSource<Aliment>;
 
   constructor(public dialog: MatDialog,
-              private alimentsService: AlimentsService) { }
+              private nutritionService: NutritionService) { }
 
 @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit() {
-    this.alimentsService.getAllAliments();
-    this.alimentsService.alimentsSubject.subscribe(data => {
+    this.nutritionService.getAllAliments();
+    this.nutritionService.alimentsSubject.subscribe(data => {
       this.dataSource = new MatTableDataSource<Aliment>(data);
       this.dataSource.sort = this.sort;
     });
@@ -35,15 +35,15 @@ export class AlimentsComponent implements OnInit {
 
   updateField(beforeStatut: boolean, attribut: string, element: Aliment) {
     if (beforeStatut) {
-      this.alimentsService.newUpdateVersion(element, attribut, false);
+      this.nutritionService.newUpdateVersion(element, attribut, false);
     } else {
-      this.alimentsService.newUpdateVersion(element, attribut, true);
+      this.nutritionService.newUpdateVersion(element, attribut, true);
     }
   }
 
   onDelete(item: Aliment) {
     if (confirm('Confirmation de suppression')) {
-      this.alimentsService.deleteAliment(item.id);
+      this.nutritionService.deleteAliment(item.id);
     }
   }
 }

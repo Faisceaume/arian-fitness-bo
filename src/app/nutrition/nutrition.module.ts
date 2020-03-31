@@ -6,10 +6,20 @@ import { AlimentsComponent } from './aliments.component';
 import { AlimentDetailsComponent } from './aliment-details/aliment-details.component';
 import { AlimentFormComponent } from './aliment-form/aliment-form.component';
 import { SearchComponent } from './search/search.component';
-
+import { PrognutFormComponent } from './prognut-form/prognut-form.component';
+import { PrognutDetailsComponent } from './prognut-details/prognut-details.component';
+import { PrognutsListComponent } from './prognuts-list/prognuts-list.component';
 
 @NgModule({
-  declarations: [AlimentsComponent, AlimentDetailsComponent, AlimentFormComponent, SearchComponent],
+  declarations: [
+    AlimentsComponent,
+    AlimentDetailsComponent,
+    AlimentFormComponent,
+    SearchComponent,
+    PrognutFormComponent,
+    PrognutDetailsComponent,
+    PrognutsListComponent
+  ],
   imports: [
     SharedModule,
     CommonModule,
@@ -17,4 +27,4 @@ import { SearchComponent } from './search/search.component';
   ],
   entryComponents: [AlimentFormComponent]
 })
-export class AlimentsModule { }
+export class NutritionModule { }

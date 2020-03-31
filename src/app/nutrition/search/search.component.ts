@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
-import { Aliment } from './../aliment';
+import { Aliment } from '../aliment';
 import { Component, OnInit } from '@angular/core';
-import { AlimentsService } from '../aliments.service';
+import { NutritionService } from '../nutrition.service';
 
 @Component({
   selector: 'app-search',
@@ -13,14 +13,14 @@ export class SearchComponent implements OnInit {
   nomAliment: string;
   itemSelected: any;
 
-  constructor(public alimentsService: AlimentsService,
+  constructor(public nutritionService: NutritionService,
               private router: Router) { }
 
   ngOnInit() {
   }
 
   onSearch() {
-    this.alimentsService.getAlimentForApi(this.nomAliment);
+    this.nutritionService.getAlimentForApi(this.nomAliment);
   }
 
   selected(item: any) {
@@ -49,6 +49,6 @@ export class SearchComponent implements OnInit {
     local.source = 'open food fact';
     local.image = this.itemSelected.image_url;
     const value = Object.assign({}, local);
-    this.alimentsService.createAliment(value);
+    this.nutritionService.createAliment(value);
   }
 }

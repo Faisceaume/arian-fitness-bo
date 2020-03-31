@@ -67,6 +67,8 @@ arian-fitness@appspot.gserviceaccount.com
 arian-fitness.appspot.com
 
 
+
+
 CALL LOUNIS 22/03
 
 - Ne pas afficher les séances si le niveau n'est pas fourni

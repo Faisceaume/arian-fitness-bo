@@ -1,5 +1,5 @@
-import { AlimentsService } from './../aliments.service';
-import { Aliment } from './../aliment';
+import { NutritionService } from '../nutrition.service';
+import { Aliment } from '../aliment';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
 
@@ -13,7 +13,7 @@ export class AlimentFormComponent implements OnInit {
   formData: Aliment;
 
   constructor(public dialogRef: MatDialogRef<AlimentFormComponent>,
-              private alimentsService: AlimentsService) { }
+              private nutritionService: NutritionService) { }
 
   ngOnInit() {
     this.formData = {
@@ -43,7 +43,7 @@ export class AlimentFormComponent implements OnInit {
   }
 
   onSave() {
-    this.alimentsService.createAliment(this.formData);
+    this.nutritionService.createAliment(this.formData);
     this.dialogRef.close();
   }
 }

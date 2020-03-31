@@ -1,8 +1,8 @@
 import { SharedService } from 'src/app/shared/shared.service';
 import { ActivatedRoute } from '@angular/router';
-import { AlimentsService } from './../aliments.service';
+import { NutritionService } from '../nutrition.service';
 import { FormControl } from '@angular/forms';
-import { Aliment } from './../aliment';
+import { Aliment } from '../aliment';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -24,14 +24,14 @@ export class AlimentDetailsComponent implements OnInit {
   fibresGlucidesStatut: string;
 
 
-  constructor(private alimentsService: AlimentsService,
+  constructor(private nutritionService: NutritionService,
               private sharedService: SharedService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
     const id = this.route.snapshot.params.id;
     if (id) {
-      this.alimentsService.getSingleAliment(id).then((item: Aliment) => {
+      this.nutritionService.getSingleAliment(id).then((item: Aliment) => {
         this.formData = item;
 
         if (item.image) {
@@ -48,7 +48,7 @@ export class AlimentDetailsComponent implements OnInit {
   }
 
   updateFiel(attribut: string, value: any) {
-    this.alimentsService.newUpdateVersion(this.formData, attribut, value);
+    this.nutritionService.newUpdateVersion(this.formData, attribut, value);
     this.allVerification(this.formData);
     this.allUpdate();
   }
@@ -66,12 +66,12 @@ export class AlimentDetailsComponent implements OnInit {
   }
 
   allUpdate() {
-    this.alimentsService.newUpdateVersion(this.formData, 'proteinesstatut', this.proteinesStatut);
-    this.alimentsService.newUpdateVersion(this.formData, 'glucidesstatut', this.glucidesStatut);
-    this.alimentsService.newUpdateVersion(this.formData, 'lipidesstatut', this.lipidesStatut);
-    this.alimentsService.newUpdateVersion(this.formData, 'fibressoirstatut', this.fibresSoirStatut);
-    this.alimentsService.newUpdateVersion(this.formData, 'fibresmidistatut', this.fibresMidiStatut);
-    this.alimentsService.newUpdateVersion(this.formData, 'fibresglucidesstatut', this.fibresMidiStatut);
+    this.nutritionService.newUpdateVersion(this.formData, 'proteinesstatut', this.proteinesStatut);
+    this.nutritionService.newUpdateVersion(this.formData, 'glucidesstatut', this.glucidesStatut);
+    this.nutritionService.newUpdateVersion(this.formData, 'lipidesstatut', this.lipidesStatut);
+    this.nutritionService.newUpdateVersion(this.formData, 'fibressoirstatut', this.fibresSoirStatut);
+    this.nutritionService.newUpdateVersion(this.formData, 'fibresmidistatut', this.fibresMidiStatut);
+    this.nutritionService.newUpdateVersion(this.formData, 'fibresglucidesstatut', this.fibresMidiStatut);
   }
 
   verificationProteines(item: Aliment) {
