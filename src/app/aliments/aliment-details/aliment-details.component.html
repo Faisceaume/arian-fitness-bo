@@ -11,67 +11,68 @@
 
 <div fxLayout="row wrap" fxLayoutAlign="start start" [ngStyle]="{'padding':'0 10px'}" *ngIf="formData">
 
-  <div fxFlex="40" fxLayout="column" style="padding: 50px 20px 0">
-    <mat-form-field>
-      <input matInput placeholder="Nom de l'aliment" type="text"
-            [(ngModel)]="formData.nom"
-            (ngModelChange)="updateFiel('nom', formData.nom)" required>
-    </mat-form-field>
-    <p class="mentiontimestamp">
-      Ajouté le {{ formData.timestamp | date }} <br>
-      Source : {{ formData.source }} <br>
-      Ratio Omega : {{ (formData.omega6/formData.omega3) }}
-    </p>
-    <!-- <div fxFlex="100" fxLayoutAlign="start end" style="margin:10px 0">
-      <label class="dark-chip" style="margin:0 10px 0 0">Valide</label>
-      <mat-slide-toggle color="warn"
-        [formControl]="valideControl"
-        (change)="updateFiel('valide', valideControl.value)">
-      </mat-slide-toggle>
-    </div> -->
+  <div fxFlex="100" fxLayout="row">
 
-    <div fxLayout="column" fxLayoutAlign="center start" class="check-aliment">
-        <div>
-          <span *ngIf="proteinesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
-          <span *ngIf="proteinesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
-          <label [ngClass]="proteinesStatut=='valide' ? 'green' : 'red'"> Protéines</label>
-        </div>
-        <div>
-          <span *ngIf="glucidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
-          <span *ngIf="glucidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
-          <label [ngClass]="glucidesStatut=='valide' ? 'green' : 'red'"> Glucides</label>
-        </div>
-        <div>
-          <span *ngIf="lipidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
-          <span *ngIf="lipidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
-          <label [ngClass]="lipidesStatut=='valide' ? 'green' : 'red'"> Lipides</label>
-        </div>
-        <div>
-          <span *ngIf="fibresSoirStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
-          <span *ngIf="fibresSoirStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
-          <label [ngClass]="fibresSoirStatut=='valide' ? 'green' : 'red'"> Fibres Soir</label>
-        </div>
-        <div>
-          <span *ngIf="fibresMidiStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
-          <span *ngIf="fibresMidiStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
-          <label [ngClass]="fibresMidiStatut=='valide' ? 'green' : 'red'"> Fibres Midi</label>
-        </div>
-        <div>
-          <span *ngIf="fibresGlucidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
-          <span *ngIf="fibresGlucidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
-          <label [ngClass]="fibresGlucidesStatut=='valide' ? 'green' : 'red'"> Fibres - Glucides</label>
-        </div>
+    <div id="imageContainer" fxLayout="column" fxLayoutAlign="center start" style="padding:0 10px 0 0">
+      <app-upload-images
+      [size]="1000000"
+      [width]="1000"
+      [heigth]="1000"></app-upload-images>
     </div>
+
+    <div fxLayout="column" style="padding: 50px 20px 0">
+      <mat-form-field>
+        <input matInput placeholder="Nom de l'aliment" type="text"
+              [(ngModel)]="formData.nom"
+              (ngModelChange)="updateFiel('nom', formData.nom)" required>
+      </mat-form-field>
+      <p class="mentiontimestamp">
+        Ajouté le {{ formData.timestamp | date }} <br>
+        Source : {{ formData.source }} <br>
+        Ratio Omega : {{ (formData.omega6/formData.omega3) }}
+      </p>
+
+      <div fxLayout="column" fxLayoutAlign="center start" class="check-aliment">
+          <div>
+            <span *ngIf="proteinesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
+            <span *ngIf="proteinesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
+            <label [ngClass]="proteinesStatut=='valide' ? 'green' : 'red'"> Protéines</label>
+          </div>
+          <div>
+            <span *ngIf="glucidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
+            <span *ngIf="glucidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
+            <label [ngClass]="glucidesStatut=='valide' ? 'green' : 'red'"> Glucides</label>
+          </div>
+          <div>
+            <span *ngIf="lipidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
+            <span *ngIf="lipidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
+            <label [ngClass]="lipidesStatut=='valide' ? 'green' : 'red'"> Lipides</label>
+          </div>
+          <div>
+            <span *ngIf="fibresSoirStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
+            <span *ngIf="fibresSoirStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
+            <label [ngClass]="fibresSoirStatut=='valide' ? 'green' : 'red'"> Fibres Soir</label>
+          </div>
+          <div>
+            <span *ngIf="fibresMidiStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
+            <span *ngIf="fibresMidiStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
+            <label [ngClass]="fibresMidiStatut=='valide' ? 'green' : 'red'"> Fibres Midi</label>
+          </div>
+          <div>
+            <span *ngIf="fibresGlucidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
+            <span *ngIf="fibresGlucidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
+            <label [ngClass]="fibresGlucidesStatut=='valide' ? 'green' : 'red'"> Fibres - Glucides</label>
+          </div>
+      </div>
+    </div>
+
   </div>
 
-  <div fxFlex="45" id="imageContainer" fxLayout="column"
-    style="padding:0 50px">
-    <!-- <h3> Ajouter une image</h3> -->
-    <app-upload-images
-    [size]="1000000"
-    [width]="1000"
-    [heigth]="1000"></app-upload-images>
-  </div>
+
+
+
+
+
 
 
 
