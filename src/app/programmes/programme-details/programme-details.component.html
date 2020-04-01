@@ -260,6 +260,36 @@
                     </mat-chip-list>
                   </div>
 
+                  <div fxFlex="100" style="margin: 0 10px 5px"
+                  *ngIf="seancesOfProgramme[i].blocs[idbloc].quartfusion && seancesOfProgramme[i].blocs[idbloc].quartfusion.length!==0" >
+                    <mat-chip-list #chipList aria-label="Les Méthodes">
+                      <mat-chip class="tt-upper br-5">Méthodes 15 minutes</mat-chip>
+                      <mat-chip
+                        *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].quartfusion; let i = index"
+                        [ngStyle]="{
+                          'color': '#FFF',
+                          'background-color': '#000'
+                        }">
+                        {{ item.acronyme }}
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
+
+                  <div fxFlex="100" style="margin: 0 10px 5px"
+                  *ngIf="seancesOfProgramme[i].blocs[idbloc].demifusion && seancesOfProgramme[i].blocs[idbloc].demifusion.length!==0" >
+                    <mat-chip-list #chipList aria-label="Les Méthodes">
+                      <mat-chip class="tt-upper br-5">Méthodes 30 minutes</mat-chip>
+                      <mat-chip
+                        *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].demifusion; let i = index"
+                        [ngStyle]="{
+                          'color': '#FFF',
+                          'background-color': '#000'
+                        }">
+                        {{ item.acronyme }}
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
+
                   <div fxFlex="100" style="margin: 0 10px 20px"
                   *ngIf="seancesOfProgramme[i].blocs[idbloc].categoriesexercices
                   && seancesOfProgramme[i].blocs[idbloc].categoriesexercices.length != 0" >

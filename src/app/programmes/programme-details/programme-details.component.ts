@@ -1,3 +1,6 @@
+import { Subscription } from 'rxjs';
+import { MethodeAvance } from './../methode-avance';
+import { MethodesService } from './../../methodes/methodes.service';
 import { MatDialog } from '@angular/material';
 import { Listes } from 'src/app/shared/listes';
 import { Component, OnInit } from '@angular/core';
@@ -11,6 +14,7 @@ import { Objectif } from 'src/app/shared/objectifs/objectif';
 import { ObjectifsService } from 'src/app/shared/objectifs/objectifs.service';
 import { Seance } from '../seance';
 import { BlocDetailsComponent } from './bloc-details/bloc-details.component';
+import { Methode } from 'src/app/methodes/methode';
 
 @Component({
   selector: 'app-programme-details',
@@ -48,6 +52,7 @@ export class ProgrammeDetailsComponent implements OnInit {
               private route: ActivatedRoute,
               private niveauxService: NiveauxService,
               private objectifsService: ObjectifsService,
+              private methodesService: MethodesService,
               public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -98,6 +103,8 @@ export class ProgrammeDetailsComponent implements OnInit {
         this.seancesOfProgramme.forEach((it, seance) => {
           this.formatClass(seance);
         });
+        this.fusion();
+        // this.test();
       }
 
     }).then(() => {
@@ -261,5 +268,136 @@ export class ProgrammeDetailsComponent implements OnInit {
     }
   }
 
+
+  // ZONE DE FUSION DES BLOCS DE SEANCES
+
+  fusion() {
+        // parcours des seances
+        for (const [indexSeance, seance] of this.seancesOfProgramme.entries()) {
+
+          const classementBlocs: any[] = [];
+          let indexClassement = 0;
+
+          let firstFusionnable = false;
+          let indexFirstFusionnable: number;
+          // parcours des blocs => regroupement par lot
+          for (const [indexBloc, bloc] of seance.blocs.entries()) {
+
+            if (bloc.fusionnable) {
+              if (firstFusionnable) {
+                if (!classementBlocs[indexClassement]) {
+                  classementBlocs[indexClassement] = [];
+                }
+                bloc.positionBloc = indexBloc;
+                classementBlocs[indexClassement].push(bloc);
+              } else {
+                if (!classementBlocs[indexClassement]) {
+                  classementBlocs[indexClassement] = [];
+                }
+                bloc.positionBloc = indexBloc;
+                classementBlocs[indexClassement].push(bloc);
+                firstFusionnable = true;
+                indexFirstFusionnable = indexBloc;
+              }
+            } else if (firstFusionnable) {
+              if (!classementBlocs[indexClassement]) {
+                classementBlocs[indexClassement] = [];
+              }
+              bloc.positionBloc = indexBloc;
+              classementBlocs[indexClassement].push(bloc);
+              firstFusionnable = false;
+              indexClassement++;
+            }
+
+          } // fin parcours blocs
+
+          for (const [indexGroup, groupement] of classementBlocs.entries()) {
+            let min = 0;
+            let sec = 0;
+
+            for (const bloc of groupement) {
+              let dureeFinale: string;
+              // opérations sur la durée
+              const donnees = bloc.duree.split(' ');
+              // tslint:disable-next-line: radix
+              min += parseInt(donnees[0]);
+              if (donnees[2]) {
+                // tslint:disable-next-line: radix
+                sec += parseInt(donnees[2]);
+                if (sec === 60) {
+                  min += 1;
+                  sec = 0;
+                }
+              }
+              sec > 0 ? dureeFinale = min + ' minutes ' + sec :
+                            dureeFinale = min + ' minutes ';
+
+              // recherche des methodes compatibles et attribution au bloc parent
+              if (dureeFinale.trim() === '15 minutes') {
+                const liste1 = [];
+                this.listeNiveau.forEach((niv: Niveau) => {
+
+                  if (groupement[0].orientation === 'cardio') {
+                    this.methodesService
+                  .getMethodes15Cardio(niv, groupement[0].orientation, dureeFinale.trim());
+                    this.methodesService.methodes15CardioSubject.subscribe((data: Methode[]) => {
+                    data.forEach((it: Methode) => {
+                      const position = liste1.findIndex(itt => itt.id === it.id);
+                      if (position < 0) {
+                        liste1.push(it);
+                      }
+                    });
+                  });
+                  } else {
+                    this.methodesService
+                    .getMethodes15(niv, groupement[0].orientation, dureeFinale.trim());
+                    this.methodesService.methodes15Subject.subscribe((data: Methode[]) => {
+                      data.forEach((it: Methode) => {
+                        const position = liste1.findIndex(itt => itt.id === it.id);
+                        if (position < 0) {
+                          liste1.push(it);
+                        }
+                      });
+                    });
+                  }
+                });
+                this.seancesOfProgramme[indexSeance].blocs[groupement[0].positionBloc].quartfusion = liste1;
+
+              } else if (dureeFinale.trim() === '30 minutes') {
+                const liste2 = [];
+                this.listeNiveau.forEach((niv: Niveau) => {
+
+                  if (groupement[0].orientation === 'cardio') {
+                    this.methodesService
+                      .getMethodes30Cardio(niv, groupement[0].orientation, dureeFinale.trim());
+                    this.methodesService.methodes30CardioSubject.subscribe((data: Methode[]) => {
+                        data.forEach((it: Methode) => {
+                          const position = liste2.findIndex(itt => itt.id === it.id);
+                          if (position < 0) {
+                            liste2.push(it);
+                          }
+                        });
+                      });
+                  } else {
+                    this.methodesService
+                      .getMethodes30(niv, groupement[0].orientation, dureeFinale.trim());
+                    this.methodesService.methodes30Subject.subscribe((data: Methode[]) => {
+                        data.forEach((it: Methode) => {
+                          const position = liste2.findIndex(itt => itt.id === it.id);
+                          if (position < 0) {
+                            liste2.push(it);
+                          }
+                        });
+                      });
+                  }
+                });
+                this.seancesOfProgramme[indexSeance].blocs[groupement[0].positionBloc].demifusion = liste2;
+              }
+            }
+
+          }
+
+        } // fin parcours seances
+  }
 
 }

@@ -1,3 +1,4 @@
+import { MethodeAvance } from './../programmes/methode-avance';
 import { Niveau } from './../shared/niveaux/niveau';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -15,6 +16,20 @@ export class MethodesService {
 
   methodesForProgramme: Methode[];
   methodesForProgrammeSubject = new Subject<any[]>();
+
+  // SECTION DES PROGRAMMES => SEANCES => BLOCS
+
+  methodes15: Methode[];
+  methodes15Subject = new Subject<any[]>();
+
+  methodes30: Methode[];
+  methodes30Subject = new Subject<any[]>();
+
+  methodes15Cardio: Methode[];
+  methodes15CardioSubject = new Subject<any[]>();
+
+  methodes30Cardio: Methode[];
+  methodes30CardioSubject = new Subject<any[]>();
 
   constructor(private firestore: AngularFirestore,
               private router: Router) { }
@@ -52,26 +67,25 @@ emitMethodeSubject() {
     this.methodeSubject.next(this.methodes.slice());
 }
 
-getMethodesForProgramme(niveau: Niveau, orientation: string, duree: string) {
-
-  this.firestore.collection('methodes', ref =>
-  ref.where('orientation', '==', orientation)
+/*
+getMethodesForProgrammeFusion(niveau: Niveau, orientation: string, duree: string): Methode[]   {
+  const data: Methode[] = [];
+  this.firestore.firestore.collection('methodes')
+  .where('orientation', '==', orientation)
   .where('duree', '==', duree)
-  .where('niveau', '==', niveau))
-                  .snapshotChanges().subscribe( data => {
-       this.methodesForProgramme = data.map( e => {
-        const anotherData = e.payload.doc.data() as Methode;
-        return  {
-          ...anotherData
-        } as Methode;
-      });
-       this.emitMethodesForProgrammeSubject();
-    });
+  .where('niveau', '==', niveau)
+  .onSnapshot((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+    data.push(
+      {
+        id : doc.id,
+        ...doc.data()
+      } as Methode);
+  });
+});
+  return data;
 }
-emitMethodesForProgrammeSubject() {
-  this.methodesForProgrammeSubject.next(this.methodesForProgramme.slice());
-}
-
+ */
 
 getSingleMethode(id: string) {
     return new Promise<Methode>((resolve, reject) => {
@@ -98,4 +112,105 @@ newUpdateVersion(element: Methode, attribut: string, value: any) {
     batch.commit().then(() => {
     }).catch((error) => { console.error('Error updzting document: ', error); });
   }
+
+
+
+  // SECTION DES PROGRAMMES => SEANCES => BLOCS
+
+  getMethodesForProgramme(niveau: Niveau, orientation: string, duree: string) {
+    this.firestore.collection('methodes', ref =>
+    ref.where('orientation', '==', orientation)
+    .where('duree', '==', duree)
+    .where('niveau', '==', niveau))
+                    .snapshotChanges().subscribe( data => {
+         this.methodesForProgramme = data.map( e => {
+          const anotherData = e.payload.doc.data() as Methode;
+          return  {
+            ...anotherData
+          } as Methode;
+        });
+         this.emitMethodesForProgrammeSubject();
+      });
+  }
+  emitMethodesForProgrammeSubject() {
+    this.methodesForProgrammeSubject.next(this.methodesForProgramme.slice());
+  }
+
+  getMethodes15(niveau: Niveau, orientation: string, duree: string) {
+    this.firestore.collection('methodes', ref =>
+    ref.where('orientation', '==', orientation)
+    .where('duree', '==', duree)
+    .where('niveau', '==', niveau))
+                    .snapshotChanges().subscribe( data => {
+         this.methodes15 = data.map( e => {
+          const anotherData = e.payload.doc.data() as Methode;
+          return  {
+            ...anotherData
+          } as Methode;
+        });
+         this.emitMethodes15Subject();
+      });
+  }
+  emitMethodes15Subject() {
+    this.methodes15Subject.next(this.methodes15.slice());
+  }
+
+  getMethodes30(niveau: Niveau, orientation: string, duree: string) {
+    this.firestore.collection('methodes', ref =>
+    ref.where('orientation', '==', orientation)
+    .where('duree', '==', duree)
+    .where('niveau', '==', niveau))
+                    .snapshotChanges().subscribe( data => {
+         this.methodes30 = data.map( e => {
+          const anotherData = e.payload.doc.data() as Methode;
+          return  {
+            ...anotherData
+          } as Methode;
+        });
+         this.emitMethodes30Subject();
+      });
+  }
+  emitMethodes30Subject() {
+    this.methodes30Subject.next(this.methodes30.slice());
+  }
+
+
+  getMethodes15Cardio(niveau: Niveau, orientation: string, duree: string) {
+    this.firestore.collection('methodes', ref =>
+    ref.where('orientation', '==', orientation)
+    .where('duree', '==', duree)
+    .where('niveau', '==', niveau))
+                    .snapshotChanges().subscribe( data => {
+         this.methodes15Cardio = data.map( e => {
+          const anotherData = e.payload.doc.data() as Methode;
+          return  {
+            ...anotherData
+          } as Methode;
+        });
+         this.emitMethodes15CardioSubject();
+      });
+  }
+  emitMethodes15CardioSubject() {
+    this.methodes15CardioSubject.next(this.methodes15Cardio.slice());
+  }
+
+  getMethodes30Cardio(niveau: Niveau, orientation: string, duree: string) {
+    this.firestore.collection('methodes', ref =>
+    ref.where('orientation', '==', orientation)
+    .where('duree', '==', duree)
+    .where('niveau', '==', niveau))
+                    .snapshotChanges().subscribe( data => {
+         this.methodes30Cardio = data.map( e => {
+          const anotherData = e.payload.doc.data() as Methode;
+          return  {
+            ...anotherData
+          } as Methode;
+        });
+         this.emitMethodes30CardioSubject();
+      });
+  }
+  emitMethodes30CardioSubject() {
+    this.methodes30CardioSubject.next(this.methodes30Cardio.slice());
+  }
+
 }
