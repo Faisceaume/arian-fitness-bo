@@ -5,6 +5,7 @@ export class Questions {
     reponses: string[];
     ordre: number;
     active: boolean;
+    croix: boolean;
     idOfQuestionnaire: string;
     timestamp?: number;
 }

@@ -78,6 +78,7 @@ export class QuestionnairesService {
       reponses: dataArg.reponses,
       ordre: dataArg.ordre,
       active: dataArg.active,
+      croix: dataArg.croix,
       idOfQuestionnaire: idQuestionnaire,
       timestamp: timestampArg
     };
@@ -130,6 +131,7 @@ export class QuestionnairesService {
         reponses: d.data().reponses,
         ordre: d.data().ordre,
         active: d.data().active,
+        croix: d.data().croix,
         idOfQuestionnaire: d.data().idOfQuestionnaire,
         timestamp: d.data().timestamp
       } as Questions;
@@ -179,6 +181,20 @@ export class QuestionnairesService {
     batch.update(ref1, {active: activeArg});
     batch.update(ref2, {active: activeArg});
     batch.commit().then(() => console.log('Update field active success'));
+  }
+
+  updateCroixField(idOfQuestionnaire, idQuestion, activeArg) {
+    const batch = this.db.firestore.batch();
+    const ref1 = this.db.firestore
+                        .collection('questionnaires')
+                        .doc(idOfQuestionnaire)
+                        .collection('questions')
+                        .doc(idQuestion);
+    const ref2 = this.db.firestore.collection('questions').doc(idQuestion);
+
+    batch.update(ref1, {croix: activeArg});
+    batch.update(ref2, {croix: activeArg});
+    batch.commit().then(() => console.log('Update field croix success'));
   }
 
 
