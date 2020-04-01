@@ -29,8 +29,9 @@ export class QuestionsFormComponent implements OnInit {
   initForm() {
     this.questionForm = this.formBuilder.group({
       question: ['', Validators.required],
-      consignes: ['', Validators.required],
+      consignes: [''],
       reponses: this.formBuilder.array([], Validators.required),
+      croix: [false, Validators.required],
       active: [false, Validators.required]
     });
     this.questionnairesService.getAllQuestions( this.road.snapshot.paramMap.get('idQuestionnaire') );
