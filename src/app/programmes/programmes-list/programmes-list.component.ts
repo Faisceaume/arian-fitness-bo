@@ -29,10 +29,6 @@ export class ProgrammesListComponent implements OnInit {
       this.dataSource = new MatTableDataSource<Programme>(data);
       this.dataSource.sort = this.sort;
     });
-
-
-
-
   }
 
   onEdit(programme: Programme) {
