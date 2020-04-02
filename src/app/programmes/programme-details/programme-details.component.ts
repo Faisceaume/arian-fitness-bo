@@ -271,6 +271,14 @@ export class ProgrammeDetailsComponent implements OnInit {
 
   // ZONE DE FUSION DES BLOCS DE SEANCES
 
+  deleteMethode15(seance: number, bloc: number, methode: number) {
+    this.seancesOfProgramme[seance].blocs[bloc].quartfusion.splice(methode, 1);
+  }
+
+  deleteMethode30(seance: number, bloc: number, methode: number) {
+    this.seancesOfProgramme[seance].blocs[bloc].demifusion.splice(methode, 1);
+  }
+
   fusion() {
         // parcours des seances
         for (const [indexSeance, seance] of this.seancesOfProgramme.entries()) {

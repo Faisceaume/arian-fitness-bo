@@ -265,12 +265,17 @@
                     <mat-chip-list #chipList aria-label="Les Méthodes">
                       <mat-chip class="tt-upper br-5">Méthodes 15 minutes</mat-chip>
                       <mat-chip
-                        *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].quartfusion; let i = index"
+                        *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].quartfusion;
+                        let idMethode15 = index"
                         [ngStyle]="{
                           'color': '#FFF',
                           'background-color': '#000'
                         }">
                         {{ item.acronyme }}
+                        <button mat-icon-button
+                        (click)="deleteMethode15(i, idbloc, idMethode15)">
+                            <mat-icon>close</mat-icon>
+                        </button>
                       </mat-chip>
                     </mat-chip-list>
                   </div>
@@ -280,12 +285,17 @@
                     <mat-chip-list #chipList aria-label="Les Méthodes">
                       <mat-chip class="tt-upper br-5">Méthodes 30 minutes</mat-chip>
                       <mat-chip
-                        *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].demifusion; let i = index"
+                        *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].demifusion;
+                        let idMethode30 = index"
                         [ngStyle]="{
                           'color': '#FFF',
                           'background-color': '#000'
                         }">
                         {{ item.acronyme }}
+                        <button mat-icon-button
+                        (click)="deleteMethode30(i, idbloc, idMethode30)">
+                            <mat-icon>close</mat-icon>
+                        </button>
                       </mat-chip>
                     </mat-chip-list>
                   </div>
