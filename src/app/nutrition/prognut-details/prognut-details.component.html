@@ -74,7 +74,7 @@
           </div>
           -->
           <mat-form-field fxFlex="100">
-            <input matInput placeholder="nombre de repas" type="number"
+            <input matInput placeholder="nombre(s) de repas séparés par des '-'. Exemple : 1-2-3" type="number"
                   [(ngModel)]="listeScenarios[indexScenario].nbrerepas"
                   (ngModelChange)="updateField('listescenarios', listeScenarios)" required>
           </mat-form-field>
