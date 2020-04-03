@@ -28,6 +28,12 @@ mat-horizontal-stepper {
 }
 
 
+.abonnement {
+  background-color: #eee;
+  padding: 10px;
+  border-radius: 10px;
+}
+
 ::ng-deep .mat-horizontal-stepper-header-container .mat-step-header .mat-step-icon-selected {
   background-color: #000 !important;
 }

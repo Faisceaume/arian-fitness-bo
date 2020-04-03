@@ -18,4 +18,5 @@ export class Programme {
   genre: string;
   nbrsemaine: number;
   seances: Seance[];
+  fusion?: boolean;
 }

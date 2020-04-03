@@ -34,7 +34,7 @@ export class AlimentDetailsComponent implements OnInit {
     if (id) {
       this.nutritionService.getSingleAliment(id).then((item: Aliment) => {
         this.formData = item;
-
+        this.initialisation();
         if (item.image) {
           this.sharedService.fileUrl = item.image;
         } else {
@@ -54,10 +54,18 @@ export class AlimentDetailsComponent implements OnInit {
     }
   }
 
+  initialisation() {
+   this.proteinesStatut =  this.formData.proteinesstatut;
+   this.lipidesStatut =  this.formData.lipidesstatut;
+   this.glucidesStatut =  this.formData.glucidesstatut;
+   this.fibresSoirStatut =  this.formData.fibressoirstatut;
+   this.fibresMidiStatut =  this.formData.fibresmidistatut;
+   this.fibresGlucidesStatut =  this.formData.fibresglucidesstatut;
+  }
+
   updateFiel(attribut: string, value: any) {
     this.nutritionService.newUpdateVersion(this.formData, attribut, value);
     this.allVerification(this.formData);
-    this.allUpdate();
     if (this.formData.omega3 && this.formData.omega6) {
       const nb = this.formData.omega6 / this.formData.omega3;
       const res = Math.round(nb * 100) / 10;
@@ -65,25 +73,93 @@ export class AlimentDetailsComponent implements OnInit {
     }
   }
 
+  updatemanuelle(attribut: string) {
+    if (attribut === 'proteinesStatut') {
+      if (this.formData.proteinesstatut === 'valide') {
+        this.proteinesStatut = 'nonvalide';
+        this.formData.proteinesstatut = 'nonvalide';
+        this.updateFiel('proteinesstatut', 'nonvalide');
+      } else {
+        this.proteinesStatut = 'valide';
+        this.formData.proteinesstatut = 'valide';
+        this.updateFiel('proteinesstatut', 'valide');
+      }
+    } else if (attribut === 'glucidesStatut') {
+      if (this.formData.glucidesstatut === 'valide') {
+        this.glucidesStatut = 'nonvalide';
+        this.formData.glucidesstatut = 'nonvalide';
+        this.updateFiel('glucidesstatut', 'nonvalide');
+      } else {
+        this.glucidesStatut = 'valide';
+        this.formData.glucidesstatut = 'valide';
+        this.updateFiel('glucidesstatut', 'valide');
+      }
+    } else if (attribut === 'lipidesStatut') {
+      if (this.formData.lipidesstatut === 'valide') {
+        this.lipidesStatut = 'nonvalide';
+        this.formData.lipidesstatut = 'nonvalide';
+        this.updateFiel('lipidesstatut', 'nonvalide');
+      } else {
+        this.lipidesStatut = 'valide';
+        this.formData.lipidesstatut = 'valide';
+        this.updateFiel('lipidesstatut', 'valide');
+      }
+    } else if (attribut === 'fibresSoirStatut') {
+      if (this.formData.fibressoirstatut === 'valide') {
+        this.fibresSoirStatut = 'nonvalide';
+        this.formData.fibressoirstatut = 'nonvalide';
+        this.updateFiel('fibressoirstatut', 'nonvalide');
+      } else {
+        this.fibresSoirStatut = 'valide';
+        this.formData.fibressoirstatut = 'valide';
+        this.updateFiel('fibressoirstatut', 'valide');
+      }
+    } else if (attribut === 'fibresMidiStatut') {
+      if (this.formData.fibresmidistatut === 'valide') {
+        this.fibresMidiStatut = 'nonvalide';
+        this.formData.fibresmidistatut = 'nonvalide';
+        this.updateFiel('fibresmidistatut', 'nonvalide');
+      } else {
+        this.fibresMidiStatut = 'valide';
+        this.formData.fibresmidistatut = 'valide';
+        this.updateFiel('fibresmidistatut', 'valide');
+      }
+    } else if (attribut === 'fibresGlucidesStatut') {
+      if (this.formData.fibresglucidesstatut === 'valide') {
+        this.fibresMidiStatut = 'nonvalide';
+        this.formData.fibresglucidesstatut = 'nonvalide';
+        this.updateFiel('fibresglucidesstatut', 'nonvalide');
+      } else {
+        this.fibresGlucidesStatut = 'valide';
+        this.formData.fibresglucidesstatut = 'valide';
+        this.updateFiel('fibresglucidesstatut', 'valide');
+      }
+    }
+  }
+
 
   // Methodes de vérification de validation protéines - glucides - lipides ...etc
 
   allVerification(item: Aliment) {
-    this.verificationProteines(item);
-    this.verificationGlucides(item);
-    this.verificationLipides(item);
-    this.verificationFibresSoir(item);
-    this.verificationFibresMidi(item);
-    this.verificationFibresGlucides(item);
-  }
-
-  allUpdate() {
-    this.nutritionService.newUpdateVersion(this.formData, 'proteinesstatut', this.proteinesStatut);
-    this.nutritionService.newUpdateVersion(this.formData, 'glucidesstatut', this.glucidesStatut);
-    this.nutritionService.newUpdateVersion(this.formData, 'lipidesstatut', this.lipidesStatut);
-    this.nutritionService.newUpdateVersion(this.formData, 'fibressoirstatut', this.fibresSoirStatut);
-    this.nutritionService.newUpdateVersion(this.formData, 'fibresmidistatut', this.fibresMidiStatut);
-    this.nutritionService.newUpdateVersion(this.formData, 'fibresglucidesstatut', this.fibresMidiStatut);
+    if (this.formData.proteinesstatut === 'nonvalide') {
+      this.verificationProteines(item);
+    }
+    if (this.formData.glucidesstatut === 'nonvalide') {
+      this.verificationGlucides(item);
+      console.log('enter');
+    }
+    if (this.formData.lipidesstatut === 'nonvalide') {
+      this.verificationLipides(item);
+    }
+    if (this.formData.fibressoirstatut === 'nonvalide') {
+      this.verificationFibresSoir(item);
+    }
+    if (this.formData.fibresmidistatut === 'nonvalide') {
+      this.verificationFibresMidi(item);
+    }
+    if (this.formData.fibresglucidesstatut === 'nonvalide') {
+      this.verificationFibresGlucides(item);
+    }
   }
 
   verificationProteines(item: Aliment) {
@@ -126,6 +202,7 @@ export class AlimentDetailsComponent implements OnInit {
     } else {
       this.proteinesStatut = 'nonvalide';
     }
+    this.nutritionService.newUpdateVersion(this.formData, 'proteinesstatut', this.proteinesStatut);
   }
 
 
@@ -169,6 +246,7 @@ export class AlimentDetailsComponent implements OnInit {
     } else {
       this.glucidesStatut = 'nonvalide';
     }
+    this.nutritionService.newUpdateVersion(this.formData, 'glucidesstatut', this.glucidesStatut);
   }
 
 
@@ -226,6 +304,7 @@ export class AlimentDetailsComponent implements OnInit {
     } else {
       this.lipidesStatut = 'nonvalide';
     }
+    this.nutritionService.newUpdateVersion(this.formData, 'lipidesstatut', this.lipidesStatut);
   }
 
   verificationFibresSoir(item: Aliment) {
@@ -266,6 +345,7 @@ export class AlimentDetailsComponent implements OnInit {
     } else {
       this.fibresSoirStatut = 'nonvalide';
     }
+    this.nutritionService.newUpdateVersion(this.formData, 'fibressoirstatut', this.fibresSoirStatut);
   }
 
   verificationFibresMidi(item: Aliment) {
@@ -306,6 +386,7 @@ export class AlimentDetailsComponent implements OnInit {
     } else {
       this.fibresMidiStatut = 'nonvalide';
     }
+    this.nutritionService.newUpdateVersion(this.formData, 'fibresmidistatut', this.fibresMidiStatut);
   }
 
 
@@ -350,5 +431,6 @@ export class AlimentDetailsComponent implements OnInit {
     } else {
       this.fibresGlucidesStatut = 'nonvalide';
     }
+    this.nutritionService.newUpdateVersion(this.formData, 'fibresglucidesstatut', this.fibresMidiStatut);
   }
 }

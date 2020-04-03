@@ -196,6 +196,9 @@
 
         <!-- SECTION DES SEANCES -->
 
+        <button mat-button (click)="resetFusion()">Réinitialiser les méthodes des blocs fusionnés</button>
+        <button mat-button (click)="saveFusion()" *ngIf="!formData.fusion" >Enregistrer</button>
+
         <div fxFlex="100" fxLayout="row wrap"
             *ngIf="seancesOfProgramme && seancesOfProgramme.length != 0" >
 

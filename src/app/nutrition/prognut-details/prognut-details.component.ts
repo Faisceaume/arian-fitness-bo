@@ -30,7 +30,7 @@ export class PrognutDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-    this.objectifsService.getAllObjectifs();
+    this.objectifsService.getObjectifsPremium();
     this.objectifsService.objectifSubject.subscribe(data => {
       this.objectifs = data;
     });

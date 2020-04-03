@@ -37,6 +37,19 @@ getAllObjectifs(): void {
   });
 }
 
+getObjectifsPremium(): void {
+  this.firestore.collection('objectifs', ref => ref.where('premium', '==', true).orderBy('nom'))
+                .snapshotChanges().subscribe( data => {
+    this.objectifs = data.map( e => {
+      const anotherData = e.payload.doc.data() as Objectif;
+      return  {
+        ...anotherData
+      } as Objectif;
+    });
+    this.emitObjectifSubject();
+  });
+}
+
 emitObjectifSubject() {
   this.objectifSubject.next(this.objectifs.slice());
 }

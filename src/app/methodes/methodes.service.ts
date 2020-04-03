@@ -152,7 +152,15 @@ newUpdateVersion(element: Methode, attribut: string, value: any) {
       });
   }
   emitMethodes15Subject() {
-    this.methodes15Subject.next(this.methodes15.slice());
+    const quart = [];
+    this.methodes15.forEach(item => {
+      const local = new MethodeAvance();
+      local.acronyme = item.acronyme;
+      local.id = item.id;
+      local.nom = item.nom;
+      quart.push(Object.assign({}, local));
+    });
+    this.methodes15Subject.next(quart.slice());
   }
 
   getMethodes30(niveau: Niveau, orientation: string, duree: string) {
@@ -171,7 +179,15 @@ newUpdateVersion(element: Methode, attribut: string, value: any) {
       });
   }
   emitMethodes30Subject() {
-    this.methodes30Subject.next(this.methodes30.slice());
+    const quart = [];
+    this.methodes30.forEach(item => {
+      const local = new MethodeAvance();
+      local.acronyme = item.acronyme;
+      local.id = item.id;
+      local.nom = item.nom;
+      quart.push(Object.assign({}, local));
+    });
+    this.methodes30Subject.next(quart.slice());
   }
 
 
@@ -191,7 +207,15 @@ newUpdateVersion(element: Methode, attribut: string, value: any) {
       });
   }
   emitMethodes15CardioSubject() {
-    this.methodes15CardioSubject.next(this.methodes15Cardio.slice());
+    const quart = [];
+    this.methodes15Cardio.forEach(item => {
+      const local = new MethodeAvance();
+      local.acronyme = item.acronyme;
+      local.id = item.id;
+      local.nom = item.nom;
+      quart.push(Object.assign({}, local));
+    });
+    this.methodes15CardioSubject.next(quart.slice());
   }
 
   getMethodes30Cardio(niveau: Niveau, orientation: string, duree: string) {
@@ -210,7 +234,15 @@ newUpdateVersion(element: Methode, attribut: string, value: any) {
       });
   }
   emitMethodes30CardioSubject() {
-    this.methodes30CardioSubject.next(this.methodes30Cardio.slice());
+    const quart = [];
+    this.methodes30Cardio.forEach(item => {
+      const local = new MethodeAvance();
+      local.acronyme = item.acronyme;
+      local.id = item.id;
+      local.nom = item.nom;
+      quart.push(Object.assign({}, local));
+    });
+    this.methodes30CardioSubject.next(quart.slice());
   }
 
 }

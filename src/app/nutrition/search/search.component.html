@@ -10,14 +10,14 @@
 </div>
 
 <div fxLayout="row wrap" fxLayoutAlign="center center" style="padding: 10px;">
-  <mat-spinner color="warn" *ngIf="alimentsService.foodsData === null" ></mat-spinner>
+  <mat-spinner color="warn" *ngIf="nutritionService.foodsData === null" ></mat-spinner>
 </div>
 
 <div fxLayout="row wrap" fxLayoutAlign="center start" style="padding: 10px;"
-     *ngIf="alimentsService.foodsData && !itemSelected" >
+     *ngIf="nutritionService.foodsData && !itemSelected" >
 
   <mat-card class="example-card" fxFlex="22"
-            *ngFor="let item of alimentsService.foodsData.products"
+            *ngFor="let item of nutritionService.foodsData.products"
             (click)="selected(item)">
     <mat-card-header fxLayoutAlign="start start">
       <h4>{{ item.product_name_fr }}</h4>
