@@ -233,4 +233,10 @@ export class Listes {
     24,
   ];
 
+  frequenceUser = [
+    2,
+    3,
+    4,
+    5
+  ];
 }

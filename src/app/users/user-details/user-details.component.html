@@ -157,7 +157,7 @@
         N {{ niveau.acronyme }}
       </mat-radio-button>
     </mat-radio-group>
-</div>
+  </div>
 
     <div fxLayoutAlign="start start" style="margin-top: 10px;" fxFlex="100">
       <label class="dark-chip" fxFlex="18"> Position Parcours :</label>
@@ -187,6 +187,32 @@
         (ngModelChange)="updateField('parcoursnutrition', formData.parcoursnutrition)"
         id="parcoursnutrition" required>
     </mat-form-field>
+
+    <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0">
+      <div style="margin:0 10px 10px">
+        <label class="dark-chip custom-obj"> Objectifs</label>
+        {{ formData.objectif ? formData.objectif.nom : 'inconnu' }}
+        <button  mat-icon-button (click)="showObjectif = true" *ngIf="!showObjectif" >
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button  mat-icon-button (click)="showObjectif = false" *ngIf="showObjectif" >
+          <mat-icon>visibility_off</mat-icon>
+         </button>
+      </div>
+      <div *ngIf="showObjectif"  fxLayout="column">
+        <mat-chip-list #chipList aria-label="objectifs">
+          <mat-chip
+            *ngFor="let item of objectifs; let i = index"
+            [ngStyle]="{
+              'color': '#FFF',
+              'background-color': '#000'
+            }"
+            (click)="selectObjectif(item)">
+            {{ item.acronyme }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
   </div>
 
   <div fxFlex="100" class="abonnement" fxLayout="row wrap" style="margin:10px">
@@ -241,10 +267,7 @@
       <mat-select
       [(ngModel)]="formData.frequence"
       (ngModelChange)="updateField('frequence', formData.frequence)">
-        <mat-option value="2">2</mat-option>
-        <mat-option value="3">3</mat-option>
-        <mat-option value="4">4</mat-option>
-        <mat-option value="5">5</mat-option>
+        <mat-option *ngFor="let item of listeFrequence"  [value]="item">{{ item }}</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -257,7 +280,10 @@
   </div>
 
   <button mat-raised-button routerLink="">Lancer le questionnaire</button>
-  <button mat-raised-button routerLink="">Lancer un entrainement</button>
+  <button mat-raised-button
+  [routerLink]="['/users/user-seance', formData.id]"
+  *ngIf="premiumControl.value"
+  >Lancer un entrainement</button>
 
 </div>
 

@@ -1,8 +1,11 @@
+import { Objectif } from 'src/app/shared/objectifs/objectif';
+import { Niveau } from 'src/app/shared/niveaux/niveau';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Programme } from './programme';
 import { Subject } from 'rxjs';
+import { User } from '../users/user';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +14,11 @@ export class ProgrammesService {
 
   programmes: Programme[];
   programmeSubject  = new Subject<any>();
+
+
+  // section USERS => PROGRAMME
+  prognivs: Programme[];
+  prognivsSubject = new Subject<any[]>();
 
   constructor(private firestore: AngularFirestore,
               private router: Router) { }
@@ -72,5 +80,35 @@ export class ProgrammesService {
     batch.update(nextDocument1, `${attribut}`, value);
     batch.commit().then(() => {
     }).catch((error) => { console.error('Error updzting document: ', error); });
+  }
+
+
+  // SECTION USERS => PROGRAMME
+
+  getProgrammeByNiveauAndFrequenceAndObjectifs(user: User) {
+    this.firestore.collection('programmes', ref =>
+    ref.where('niveau', '==', user.niveau)
+    .where('frequence', '==', user.frequence))
+                  .snapshotChanges().subscribe( data => {
+       this.prognivs = data.map( e => {
+        const anotherData = e.payload.doc.data() as Programme;
+        return  {
+          ...anotherData
+        } as Programme;
+      });
+       this.emitProgNivSubject(user);
+    });
+  }
+
+  emitProgNivSubject(user: User) {
+    const local = [];
+    this.prognivs.forEach(data => {
+      const id = data.objectifs.findIndex(it => it.id === user.objectif.id);
+      const id2 = data.semaineduniveau.findIndex(sm => sm === user.positionparcoursniveau);
+      if (id >= 0 && id2 >= 0) {
+        local.push(data);
+      }
+    });
+    this.prognivsSubject.next(local.slice());
   }
 }

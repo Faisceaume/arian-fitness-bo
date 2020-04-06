@@ -1,1 +1,11 @@
-<p>user-seance works!</p>
+<div style="padding: 10px;" fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="programmes" >
+  <div fxFlex="30" *ngFor="let item of programmes" style="margin: 5px;">
+    <p>{{ item.acronyme }}</p>
+    <p>{{ item.frequence }}</p>
+    <p>{{ item.niveau.nombre }}</p>
+    <h4>Objectif : </h4>
+    <p *ngFor="let it of item.objectifs" >
+      {{ it.nom }}
+    </p>
+  </div>
+</div>

@@ -1,3 +1,5 @@
+import { ObjectifsService } from 'src/app/shared/objectifs/objectifs.service';
+import { Objectif } from 'src/app/shared/objectifs/objectif';
 import { Listes } from 'src/app/shared/listes';
 import { Component, OnInit, ɵConsole, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -7,6 +9,7 @@ import { Niveau } from 'src/app/shared/niveaux/niveau';
 import { NiveauxService } from 'src/app/shared/niveaux/niveaux.service';
 import { UsersService } from '../users.service';
 import { SharedService } from 'src/app/shared/shared.service';
+import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-user-details',
@@ -18,9 +21,11 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   formData: User;
   niveauSelected: Niveau;
   niveaux: Niveau[];
+  objectifs: Objectif[];
   editdates = false;
   modereprise = ['0', '>60J<90J', '>=90J<180J', '>=180J'];
   listePositionParc = new Listes().positionparcoursniveau;
+  listeFrequence = new Listes().frequenceUser;
 
   premiumControl = new FormControl();
   seniorControl = new FormControl();
@@ -32,14 +37,22 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   toChangeNiveau: boolean;
   toChangeNiveauOff: boolean;
   toChangeNiveauIns: boolean;
+  showObjectif: boolean;
 
   constructor(private activeRoute: ActivatedRoute,
               private niveauxService: NiveauxService,
               private usersService: UsersService,
-              private sharedService: SharedService) { }
+              private sharedService: SharedService,
+              private objectifsService: ObjectifsService) { }
 
   ngOnInit() {
     const id = this.activeRoute.snapshot.params.id;
+
+    this.objectifsService.getAllObjectifs();
+    this.objectifsService.objectifSubject.subscribe(data => {
+      this.objectifs = data;
+    });
+
     this.usersService.getSingleUser(null, id).then((item: User) => {
       this.formData = item;
       this.seniorControl.setValue(item.senior);
@@ -69,6 +82,12 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     } else {
       this.usersService.newUpdateVersion(this.formData, attribut, value);
     }
+  }
+
+  selectObjectif(it: Objectif) {
+    this.formData.objectif = it;
+    this.updateField('objectif', this.formData.objectif);
+    this.showObjectif = false;
   }
 
   ngOnDestroy(): void {
