@@ -99,7 +99,7 @@
     </div>
   </div>
 
-  <div fxLayout="row wrap" fxLayoutAlign="center center">
+  <div fxLayout="row wrap" fxLayoutAlign="start center">
     <div fxLayout="row" fxFlex="100">
         <label style="padding:25px 5px 0 0"> Niveau </label>
         <span class="bulle-acro" *ngIf="!toChangeNiveau && formData.niveau">N {{ formData.niveau.acronyme}} </span>
@@ -119,7 +119,61 @@
         </mat-radio-group>
     </div>
 
-    <mat-form-field fxFlex="25">
+    <div fxLayout="row" fxFlex="100" style="margin-top: 5px;">
+      <label style="padding:25px 5px 0 0"> Niveau inscription </label>
+      <span class="bulle-acro" *ngIf="!toChangeNiveauIns && formData.niveauinscription">
+        N {{ formData.niveauinscription.acronyme}} </span>
+      <button mat-icon-button
+        (click)="toChangeNiveauIns = true"
+        *ngIf="!toChangeNiveauIns && formData.niveauinscription">
+          <mat-icon>close</mat-icon>
+      </button>
+      <mat-radio-group color="warn"
+        [(ngModel)]="formData.niveauinscription"
+        (ngModelChange)="updateField('niveauinscription', formData.niveauinscription)"
+        *ngIf="!formData.niveauinscription || toChangeNiveauIns">
+        <mat-radio-button *ngFor="let niveau of niveaux"
+        [value]="niveau" class="span-radio-button">
+          N {{ niveau.acronyme }}
+        </mat-radio-button>
+      </mat-radio-group>
+  </div>
+
+  <div fxLayout="row" fxFlex="100" style="margin-top: 5px;">
+    <label style="padding:25px 5px 0 0"> Niveau periode Off </label>
+    <span class="bulle-acro" *ngIf="!toChangeNiveauOff && formData.niveauavantperiodeoff">
+      N {{ formData.niveauavantperiodeoff.acronyme}} </span>
+    <button mat-icon-button
+      (click)="toChangeNiveauOff = true"
+      *ngIf="!toChangeNiveauOff && formData.niveauavantperiodeoff">
+        <mat-icon>close</mat-icon>
+    </button>
+    <mat-radio-group color="warn"
+      [(ngModel)]="formData.niveauavantperiodeoff"
+      (ngModelChange)="updateField('niveauavantperiodeoff', formData.niveauavantperiodeoff)"
+      *ngIf="!formData.niveauavantperiodeoff || toChangeNiveauOff">
+      <mat-radio-button *ngFor="let niveau of niveaux"
+      [value]="niveau" class="span-radio-button">
+        N {{ niveau.acronyme }}
+      </mat-radio-button>
+    </mat-radio-group>
+</div>
+
+    <div fxLayoutAlign="start start" style="margin-top: 10px;" fxFlex="100">
+      <label class="dark-chip" fxFlex="18"> Position Parcours :</label>
+      <mat-radio-group color="warn"
+      [(ngModel)]="formData.positionparcoursniveau"
+      (ngModelChange)="updateField('positionparcoursniveau', formData.positionparcoursniveau)"
+      fxFlex="82">
+        <mat-radio-button *ngFor="let item of listePositionParc"
+        [value]="item" class="span-radio-button">
+          {{ item }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+<!--
+
+      <mat-form-field  fxFlex="25">
       <input matInput placeholder="Position parcours niveau" type="number" name="positionparcoursniveau"
         [(ngModel)]="formData.positionparcoursniveau"
         (ngModelChange)="updateField('positionparcoursniveau', formData.positionparcoursniveau)"
@@ -139,7 +193,7 @@
         (ngModelChange)="updateField('niveauavantperiodeoff', formData.niveauavantperiodeoff)"
         id="niveauavantperiodeoff" required>
     </mat-form-field>
-
+-->
 
     <div fxLayout="row" fxFlex="100">
         <label style="padding:25px 5px 0 0">Mode Reprise</label>

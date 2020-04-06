@@ -23,8 +23,8 @@ export class User {
  modereprise: string; // >60J<90J, >=90J<180J, >=180J, 0
  frequenceparjour: number;
  positionparcoursniveau: number;  // x/24
- niveauinscription: string;
- niveauavantperiodeoff: string;
+ niveauinscription: Niveau;
+ niveauavantperiodeoff: Niveau;
  parcoursnutrition: string; // x/y
  photo?: string;
 
