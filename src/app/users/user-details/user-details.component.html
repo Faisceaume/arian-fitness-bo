@@ -171,29 +171,6 @@
         </mat-radio-button>
       </mat-radio-group>
     </div>
-<!--
-
-      <mat-form-field  fxFlex="25">
-      <input matInput placeholder="Position parcours niveau" type="number" name="positionparcoursniveau"
-        [(ngModel)]="formData.positionparcoursniveau"
-        (ngModelChange)="updateField('positionparcoursniveau', formData.positionparcoursniveau)"
-        id="positionparcoursniveau" required>
-    </mat-form-field>
-
-    <mat-form-field fxFlex="25">
-      <input matInput placeholder="Niveau inscription" type="text" name="niveauinscription"
-        [(ngModel)]="formData.niveauinscription"
-        (ngModelChange)="updateField('niveauinscription', formData.niveauinscription)"
-        id="niveauinscription" required>
-    </mat-form-field>
-
-    <mat-form-field fxFlex="25">
-      <input matInput placeholder="Niveau periode Off" type="text" name="niveauavantperiodeoff"
-        [(ngModel)]="formData.niveauavantperiodeoff"
-        (ngModelChange)="updateField('niveauavantperiodeoff', formData.niveauavantperiodeoff)"
-        id="niveauavantperiodeoff" required>
-    </mat-form-field>
--->
 
     <div fxLayout="row" fxFlex="100">
         <label style="padding:25px 5px 0 0">Mode Reprise</label>
@@ -203,6 +180,13 @@
             <mat-radio-button *ngFor="let it of modereprise" [value]="it" class="span-radio-button">{{ it }}></mat-radio-button>
         </mat-radio-group>
     </div>
+
+    <mat-form-field fxFlex="100">
+      <input matInput placeholder="Parcours Nitrition" type="text" name="parcoursnutrition"
+        [(ngModel)]="formData.parcoursnutrition"
+        (ngModelChange)="updateField('parcoursnutrition', formData.parcoursnutrition)"
+        id="parcoursnutrition" required>
+    </mat-form-field>
   </div>
 
   <div fxFlex="100" class="abonnement" fxLayout="row wrap" style="margin:10px">
@@ -272,21 +256,8 @@
     </mat-form-field>
   </div>
 
-
-
-
-
-
-
-
-
-
-        <mat-form-field fxFlex="25">
-          <input matInput placeholder="Parcours Nitrition" type="text" name="parcoursnutrition"
-            [(ngModel)]="formData.parcoursnutrition"
-            (ngModelChange)="updateField('parcoursnutrition', formData.parcoursnutrition)"
-            id="parcoursnutrition" required>
-        </mat-form-field>
+  <button mat-raised-button routerLink="">Lancer le questionnaire</button>
+  <button mat-raised-button routerLink="">Lancer un entrainement</button>
 
 </div>
 
