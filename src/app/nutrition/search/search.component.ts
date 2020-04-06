@@ -48,6 +48,14 @@ export class SearchComponent implements OnInit {
     local.sel = this.itemSelected.nutriments.salt ? this.itemSelected.nutriments.salt : 0;
     local.source = 'open food fact';
     local.image = this.itemSelected.image_url;
+
+    local.proteinesstatut = 'nonvalide';
+    local.glucidesstatut = 'nonvalide';
+    local.lipidesstatut = 'nonvalide';
+    local.fibresmidistatut = 'nonvalide';
+    local.fibressoirstatut = 'nonvalide';
+    local.fibresglucidesstatut = 'nonvalide';
+
     const value = Object.assign({}, local);
     this.nutritionService.createAliment(value);
   }

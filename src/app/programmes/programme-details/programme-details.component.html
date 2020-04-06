@@ -196,9 +196,6 @@
 
         <!-- SECTION DES SEANCES -->
 
-        <button mat-button (click)="resetFusion()">Réinitialiser les méthodes des blocs fusionnés</button>
-        <button mat-button (click)="saveFusion()" *ngIf="!formData.fusion" >Enregistrer</button>
-
         <div fxFlex="100" fxLayout="row wrap"
             *ngIf="seancesOfProgramme && seancesOfProgramme.length != 0" >
 
@@ -215,10 +212,6 @@
                 matTooltip="Ajouter un bloc à la séance" matTooltipPosition="after">
                   <mat-icon>add</mat-icon>
               </button>
-              <!-- <button mat-icon-button (click)="deleteSeance(i)"
-                matTooltip="Supprimer la séance" matTooltipPosition="after">
-                  <mat-icon>delete</mat-icon>
-              </button> -->
             </div>
 
             <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start"
@@ -323,5 +316,11 @@
             </div>
           </div>
         </div>
+
+        <div fxLayoutAlign="end start" style="margin:5px 0">
+          <button mat-raised-button (click)="resetFusion()">Réinitialiser les méthodes des blocs fusionnés</button>
+          <button mat-raised-button (click)="saveFusion()" *ngIf="!formData.fusion" color="warn" >Enregistrer</button>
+        </div>
+
 
       </div>

@@ -30,7 +30,7 @@ export class User {
 
 
  pathologies: Pathologie[]; // multi select sur le noeud pathologie
- objectif: Objectif[]; // liste noeud objectif
+ objectif: Objectif; // liste noeud objectif
  trophee: string;
 
  timestamp: string;
