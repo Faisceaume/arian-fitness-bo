@@ -9,7 +9,6 @@ import { Niveau } from 'src/app/shared/niveaux/niveau';
 import { NiveauxService } from 'src/app/shared/niveaux/niveaux.service';
 import { UsersService } from '../users.service';
 import { SharedService } from 'src/app/shared/shared.service';
-import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-user-details',
