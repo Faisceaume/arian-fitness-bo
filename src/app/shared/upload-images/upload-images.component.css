@@ -23,14 +23,9 @@
     color: red;
   }
 
-
-.example-card {
-  max-width: 300px;
-}
-
 .del{
   width: 40%;
-  margin: auto;
+  text-align: right;
 }
 
 .custom{
