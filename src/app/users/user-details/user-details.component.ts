@@ -1,3 +1,4 @@
+import { Listes } from 'src/app/shared/listes';
 import { Component, OnInit, ɵConsole, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../user';
@@ -15,16 +16,22 @@ import { SharedService } from 'src/app/shared/shared.service';
 export class UserDetailsComponent implements OnInit, OnDestroy {
 
   formData: User;
+  niveauSelected: Niveau;
+  niveaux: Niveau[];
+  editdates = false;
+  modereprise = ['0', '>60J<90J', '>=90J<180J', '>=180J'];
+  listePositionParc = new Listes().positionparcoursniveau;
+
   premiumControl = new FormControl();
   seniorControl = new FormControl();
   datenaissanceControl = new FormControl();
   datefindepremiumControl = new FormControl();
   datedernierlogControl = new FormControl();
   datedernieremajControl = new FormControl();
+
   toChangeNiveau: boolean;
-  niveauSelected: Niveau;
-  niveaux: Niveau[];
-  modereprise = ['0', '>60J<90J', '>=90J<180J', '>=180J'];
+  toChangeNiveauOff: boolean;
+  toChangeNiveauIns: boolean;
 
   constructor(private activeRoute: ActivatedRoute,
               private niveauxService: NiveauxService,

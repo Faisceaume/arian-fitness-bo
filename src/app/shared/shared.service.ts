@@ -46,7 +46,7 @@ export class SharedService {
                         .child('medias/exercices/images/' + this.currentExercice.id + '.jpg').put(file);
               } else if (this.currentUser) {
                   upload =  this.store.storage.ref()
-                        .child('medias/users/' + this.currentExercice.id + '.jpg').put(file);
+                        .child('medias/users/' + this.currentUser.id + '.jpg').put(file);
               } else if (this.currentAliment) {
                 upload =  this.store.storage.ref()
                       .child('medias/aliments/' + this.currentAliment.id + '.jpg').put(file);
