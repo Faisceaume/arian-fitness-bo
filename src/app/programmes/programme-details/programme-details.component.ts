@@ -1,5 +1,3 @@
-import { Subscription } from 'rxjs';
-import { MethodeAvance } from './../methode-avance';
 import { MethodesService } from './../../methodes/methodes.service';
 import { MatDialog } from '@angular/material';
 import { Listes } from 'src/app/shared/listes';
@@ -103,8 +101,10 @@ export class ProgrammeDetailsComponent implements OnInit {
         this.seancesOfProgramme.forEach((it, seance) => {
           this.formatClass(seance);
         });
-        this.fusion();
-        // this.test();
+
+        if (!item.fusion) {
+          this.fusion();
+        }
       }
 
     }).then(() => {
@@ -235,7 +235,6 @@ export class ProgrammeDetailsComponent implements OnInit {
         if (result !== undefined) {
           this.seancesOfProgramme[seance].blocs.push(result);
           this.formatClass(seance);
-          // console.log(result);
           this.updateField('seances', this.seancesOfProgramme);
         }
       });
@@ -273,10 +272,24 @@ export class ProgrammeDetailsComponent implements OnInit {
 
   deleteMethode15(seance: number, bloc: number, methode: number) {
     this.seancesOfProgramme[seance].blocs[bloc].quartfusion.splice(methode, 1);
+    this.updateField('seances', this.seancesOfProgramme);
   }
 
   deleteMethode30(seance: number, bloc: number, methode: number) {
     this.seancesOfProgramme[seance].blocs[bloc].demifusion.splice(methode, 1);
+    this.updateField('seances', this.seancesOfProgramme);
+  }
+
+  resetFusion() {
+    this.formData.fusion = false;
+    this.updateField('fusion', false);
+    this.fusion();
+  }
+
+  saveFusion() {
+    this.updateField('fusion', true);
+    this.updateField('seances', this.seancesOfProgramme);
+    this.formData.fusion = true;
   }
 
   fusion() {
@@ -407,5 +420,4 @@ export class ProgrammeDetailsComponent implements OnInit {
 
         } // fin parcours seances
   }
-
 }

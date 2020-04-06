@@ -7,9 +7,9 @@ export class Bloc {
   fusionnable = false;
   orientation = 'cardio';
   methodes: MethodeAvance[] = [];
-  categoriesexercices?: Categorie[] = [];
+  categoriesexercices: Categorie[] = [];
 
-  quartfusion?: MethodeAvance[] = [];
-  demifusion?: MethodeAvance[] = [];
+  quartfusion: MethodeAvance[] = [];
+  demifusion: MethodeAvance[] = [];
   positionBloc: number;
 }

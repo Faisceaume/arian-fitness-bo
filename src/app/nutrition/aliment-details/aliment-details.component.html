@@ -33,32 +33,32 @@
       </p>
 
       <div fxLayout="column" fxLayoutAlign="center start" class="check-aliment">
-          <div>
+          <div (click)="updatemanuelle('proteinesStatut')">
             <span *ngIf="proteinesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
             <span *ngIf="proteinesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
             <label [ngClass]="proteinesStatut=='valide' ? 'green' : 'red'"> Protéines</label>
           </div>
-          <div>
+          <div (click)="updatemanuelle('glucidesStatut')">
             <span *ngIf="glucidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
             <span *ngIf="glucidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
             <label [ngClass]="glucidesStatut=='valide' ? 'green' : 'red'"> Glucides</label>
           </div>
-          <div>
+          <div (click)="updatemanuelle('lipidesStatut')">
             <span *ngIf="lipidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
             <span *ngIf="lipidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
             <label [ngClass]="lipidesStatut=='valide' ? 'green' : 'red'"> Lipides</label>
           </div>
-          <div>
+          <div (click)="updatemanuelle('fibresSoirStatut')">
             <span *ngIf="fibresSoirStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
             <span *ngIf="fibresSoirStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
             <label [ngClass]="fibresSoirStatut=='valide' ? 'green' : 'red'"> Fibres Soir</label>
           </div>
-          <div>
+          <div (click)="updatemanuelle('fibresMidiStatut')">
             <span *ngIf="fibresMidiStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
             <span *ngIf="fibresMidiStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
             <label [ngClass]="fibresMidiStatut=='valide' ? 'green' : 'red'"> Fibres Midi</label>
           </div>
-          <div>
+          <div (click)="updatemanuelle('fibresGlucidesStatut')">
             <span *ngIf="fibresGlucidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
             <span *ngIf="fibresGlucidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
             <label [ngClass]="fibresGlucidesStatut=='valide' ? 'green' : 'red'"> Fibres - Glucides</label>
