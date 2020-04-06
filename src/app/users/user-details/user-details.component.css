@@ -87,3 +87,10 @@ mat-checkbox{
 #imageContainer{
   margin-top: 20px;
 }
+
+
+.info-user {
+  color: #ccc;
+  font-size: 0.8em;
+  line-height: 0.8em;
+}

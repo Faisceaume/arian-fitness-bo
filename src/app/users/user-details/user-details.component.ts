@@ -25,6 +25,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   niveauSelected: Niveau;
   niveaux: Niveau[];
   modereprise = ['0', '>60J<90J', '>=90J<180J', '>=180J'];
+  editdates = false;
 
   constructor(private activeRoute: ActivatedRoute,
               private niveauxService: NiveauxService,
