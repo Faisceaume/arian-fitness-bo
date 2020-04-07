@@ -1,11 +1,30 @@
-<div style="padding: 10px;" fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="programmes" >
+
+<div *ngIf=!programmes>
+  <h3>Aucun programme n'a été retenu pour le user</h3>
+</div>
+
+
+<div style="padding: 10px;" fxLayout="column" *ngIf="programmes" >
   <div fxFlex="30" *ngFor="let item of programmes" style="margin: 5px;">
-    <p>{{ item.acronyme }}</p>
-    <p>{{ item.frequence }}</p>
-    <p>{{ item.niveau.nombre }}</p>
-    <h4>Objectif : </h4>
-    <p *ngFor="let it of item.objectifs" >
-      {{ it.nom }}
+    <h2>Programme</h2>
+    <p>
+      Programme retenu pour le user : <strong>{{ item.acronyme }} / {{ item.numero }}</strong>
+    </p>
+    <h2>Séance</h2>
+    <p>
+      La position de séance du user est : <strong>{{ currentUser.positionseance }}</strong>. <br>
+      Le programme retenu à <strong>{{ item.seances.length }}</strong> séances. <br>
+      <span *ngIf="item.seances[currentUser.positionseance-1]">Une séance a été bien été trouvée pour le user</span>
+      <span *ngIf="!item.seances[currentUser.positionseance-1]">Aucune séance n'a été été trouvée pour le user</span>
+      <!-- {{ item.sences[currentUser.positionseance-1] | json }} -->
+
+      Déroulé de la Séance <br>
+      Echauffement <br>
+
     </p>
   </div>
 </div>
+
+<button *ngIf="currentUser" mat-button [routerLink]="['/users/user-details/', currentUser.id ]">
+  Retourner à la fiche user
+</button>

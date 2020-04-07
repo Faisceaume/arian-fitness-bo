@@ -27,5 +27,4 @@ export class Aliment {
   lipidesstatut: string;
   fibressoirstatut: string;
   fibresmidistatut: string;
-  fibresglucidesstatut: string;
 }

@@ -69,6 +69,17 @@ arian-fitness.appspot.com
 
 
 
+
+
+
+CALL LOUNIS 7/4/20
+
+- La réinitialisation des méthodes récupérées ne fonctionnent pas en cas d'ajout de bloc
+- Le bouton "Réinitialiser" en bas des prog ne fonctionnent que pour le premier bloc
+- Cacher la croix de suppression des methodes fusionnées avant l'enregistrement
+- Retirer le témoin "Fibre - Glucide" des aliments
+
+
 - Lors de fusions de Bloc, est ce que le type doit-on prendre en compte le type
 - Quel est l'élément qui déclenche la fusion de bloc
 

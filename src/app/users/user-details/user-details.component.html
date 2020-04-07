@@ -160,7 +160,7 @@
   </div>
 
     <div fxLayoutAlign="start start" style="margin-top: 10px;" fxFlex="100">
-      <label class="dark-chip" fxFlex="18"> Position Parcours :</label>
+      <label class="dark-chip" fxFlex="18"> Position Parcours Niveau:</label>
       <mat-radio-group color="warn"
       [(ngModel)]="formData.positionparcoursniveau"
       (ngModelChange)="updateField('positionparcoursniveau', formData.positionparcoursniveau)"
@@ -169,6 +169,20 @@
         [value]="item" class="span-radio-button">
           {{ item }}
         </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div fxLayoutAlign="start start" style="margin-top: 10px;" fxFlex="100">
+      <label class="dark-chip" fxFlex="18"> Position Séance:</label>
+      <mat-radio-group color="warn"
+      [(ngModel)]="formData.positionseance"
+      (ngModelChange)="updateField('positionseance', formData.positionseance)"
+      fxFlex="82">
+        <mat-radio-button value="1" class="span-radio-button">1</mat-radio-button>
+        <mat-radio-button value="2" class="span-radio-button">2</mat-radio-button>
+        <mat-radio-button value="3" class="span-radio-button">3</mat-radio-button>
+        <mat-radio-button value="4" class="span-radio-button">4</mat-radio-button>
+        <mat-radio-button value="5" class="span-radio-button">5</mat-radio-button>
       </mat-radio-group>
     </div>
 
@@ -182,7 +196,7 @@
     </div>
 
     <mat-form-field fxFlex="100">
-      <input matInput placeholder="Parcours Nitrition" type="text" name="parcoursnutrition"
+      <input matInput placeholder="Parcours Nutrition" type="text" name="parcoursnutrition"
         [(ngModel)]="formData.parcoursnutrition"
         (ngModelChange)="updateField('parcoursnutrition', formData.parcoursnutrition)"
         id="parcoursnutrition" required>
@@ -279,11 +293,14 @@
     </mat-form-field>
   </div>
 
-  <button mat-raised-button routerLink="">Lancer le questionnaire</button>
-  <button mat-raised-button
-  [routerLink]="['/users/user-seance', formData.id]"
-  *ngIf="premiumControl.value"
-  >Lancer un entrainement</button>
+  <div fxFlex="100" fxLayoutAlign="end end" style="margin: 10px">
+    <!-- <button mat-raised-button routerLink="">Lancer le questionnaire</button> -->
+    <button mat-raised-button
+    color="warn"
+    [routerLink]="['/users/user-seance', formData.id]"
+    *ngIf="premiumControl.value"
+    >Lancer un entrainement</button>
+  </div>
 
 </div>
 

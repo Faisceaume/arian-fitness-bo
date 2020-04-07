@@ -44,7 +44,6 @@ export class AlimentFormComponent implements OnInit {
       lipidesstatut: 'nonvalide',
       fibressoirstatut: 'nonvalide',
       fibresmidistatut: 'nonvalide',
-      fibresglucidesstatut: 'nonvalide',
     };
   }
 

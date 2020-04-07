@@ -22,7 +22,6 @@ export class AlimentDetailsComponent implements OnInit {
   lipidesStatut: string;
   fibresSoirStatut: string;
   fibresMidiStatut: string;
-  fibresGlucidesStatut: string;
 
 
   constructor(private nutritionService: NutritionService,
@@ -60,7 +59,6 @@ export class AlimentDetailsComponent implements OnInit {
    this.glucidesStatut =  this.formData.glucidesstatut;
    this.fibresSoirStatut =  this.formData.fibressoirstatut;
    this.fibresMidiStatut =  this.formData.fibresmidistatut;
-   this.fibresGlucidesStatut =  this.formData.fibresglucidesstatut;
   }
 
   updateFiel(attribut: string, value: any) {
@@ -124,16 +122,6 @@ export class AlimentDetailsComponent implements OnInit {
         this.formData.fibresmidistatut = 'valide';
         this.updateFiel('fibresmidistatut', 'valide');
       }
-    } else if (attribut === 'fibresGlucidesStatut') {
-      if (this.formData.fibresglucidesstatut === 'valide') {
-        this.fibresMidiStatut = 'nonvalide';
-        this.formData.fibresglucidesstatut = 'nonvalide';
-        this.updateFiel('fibresglucidesstatut', 'nonvalide');
-      } else {
-        this.fibresGlucidesStatut = 'valide';
-        this.formData.fibresglucidesstatut = 'valide';
-        this.updateFiel('fibresglucidesstatut', 'valide');
-      }
     }
   }
 
@@ -156,9 +144,6 @@ export class AlimentDetailsComponent implements OnInit {
     }
     if (this.formData.fibresmidistatut === 'nonvalide') {
       this.verificationFibresMidi(item);
-    }
-    if (this.formData.fibresglucidesstatut === 'nonvalide') {
-      this.verificationFibresGlucides(item);
     }
   }
 
@@ -389,7 +374,7 @@ export class AlimentDetailsComponent implements OnInit {
     this.nutritionService.newUpdateVersion(this.formData, 'fibresmidistatut', this.fibresMidiStatut);
   }
 
-
+  /*
   verificationFibresGlucides(item: Aliment) {
     let compt = 0;
     if (item.proteines && item.proteines >= 12) {
@@ -433,4 +418,5 @@ export class AlimentDetailsComponent implements OnInit {
     }
     this.nutritionService.newUpdateVersion(this.formData, 'fibresglucidesstatut', this.fibresMidiStatut);
   }
+*/
 }
