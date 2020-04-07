@@ -54,7 +54,6 @@ export class SearchComponent implements OnInit {
     local.lipidesstatut = 'nonvalide';
     local.fibresmidistatut = 'nonvalide';
     local.fibressoirstatut = 'nonvalide';
-    local.fibresglucidesstatut = 'nonvalide';
 
     const value = Object.assign({}, local);
     this.nutritionService.createAliment(value);

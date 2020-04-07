@@ -236,6 +236,7 @@ export class ProgrammeDetailsComponent implements OnInit {
           this.seancesOfProgramme[seance].blocs.push(result);
           this.formatClass(seance);
           this.updateField('seances', this.seancesOfProgramme);
+          this.fusion();
         }
       });
 

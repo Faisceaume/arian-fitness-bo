@@ -269,7 +269,8 @@
                         }">
                         {{ item.acronyme }}
                         <button mat-icon-button
-                        (click)="deleteMethode15(i, idbloc, idMethode15)">
+                        (click)="deleteMethode15(i, idbloc, idMethode15)"
+                        *ngIf="formData.fusion">
                             <mat-icon>close</mat-icon>
                         </button>
                       </mat-chip>
@@ -289,7 +290,8 @@
                         }">
                         {{ item.acronyme }}
                         <button mat-icon-button
-                        (click)="deleteMethode30(i, idbloc, idMethode30)">
+                        (click)="deleteMethode30(i, idbloc, idMethode30)"
+                        *ngIf="formData.fusion" >
                             <mat-icon>close</mat-icon>
                         </button>
                       </mat-chip>

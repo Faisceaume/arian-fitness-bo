@@ -58,11 +58,6 @@
             <span *ngIf="fibresMidiStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
             <label [ngClass]="fibresMidiStatut=='valide' ? 'green' : 'red'"> Fibres Midi</label>
           </div>
-          <div (click)="updatemanuelle('fibresGlucidesStatut')">
-            <span *ngIf="fibresGlucidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
-            <span *ngIf="fibresGlucidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
-            <label [ngClass]="fibresGlucidesStatut=='valide' ? 'green' : 'red'"> Fibres - Glucides</label>
-          </div>
       </div>
     </div>
 
