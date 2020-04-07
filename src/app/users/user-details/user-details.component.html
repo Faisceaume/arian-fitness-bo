@@ -293,11 +293,14 @@
     </mat-form-field>
   </div>
 
-  <button mat-raised-button routerLink="">Lancer le questionnaire</button>
-  <button mat-raised-button
-  [routerLink]="['/users/user-seance', formData.id]"
-  *ngIf="premiumControl.value"
-  >Lancer un entrainement</button>
+  <div fxFlex="100" fxLayoutAlign="end end" style="margin: 10px">
+    <!-- <button mat-raised-button routerLink="">Lancer le questionnaire</button> -->
+    <button mat-raised-button
+    color="warn"
+    [routerLink]="['/users/user-seance', formData.id]"
+    *ngIf="premiumControl.value"
+    >Lancer un entrainement</button>
+  </div>
 
 </div>
 
