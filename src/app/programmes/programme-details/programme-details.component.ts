@@ -1,3 +1,4 @@
+import { Bloc } from './../bloc';
 import { MethodesService } from './../../methodes/methodes.service';
 import { MatDialog } from '@angular/material';
 import { Listes } from 'src/app/shared/listes';
@@ -103,7 +104,8 @@ export class ProgrammeDetailsComponent implements OnInit {
         });
 
         if (!item.fusion) {
-          this.fusion();
+          // this.fusion();
+          this.function1();
         }
       }
 
@@ -236,7 +238,7 @@ export class ProgrammeDetailsComponent implements OnInit {
           this.seancesOfProgramme[seance].blocs.push(result);
           this.formatClass(seance);
           this.updateField('seances', this.seancesOfProgramme);
-          this.fusion();
+          this.function1();
         }
       });
 
@@ -284,7 +286,7 @@ export class ProgrammeDetailsComponent implements OnInit {
   resetFusion() {
     this.formData.fusion = false;
     this.updateField('fusion', false);
-    this.fusion();
+    this.function1();
   }
 
   saveFusion() {
@@ -293,132 +295,115 @@ export class ProgrammeDetailsComponent implements OnInit {
     this.formData.fusion = true;
   }
 
-  fusion() {
-        // parcours des seances
-        for (const [indexSeance, seance] of this.seancesOfProgramme.entries()) {
-
-          const classementBlocs: any[] = [];
-          let indexClassement = 0;
-
-          let firstFusionnable = false;
-          let indexFirstFusionnable: number;
-          // parcours des blocs => regroupement par lot
-          for (const [indexBloc, bloc] of seance.blocs.entries()) {
-
-            if (bloc.fusionnable) {
-              if (firstFusionnable) {
-                if (!classementBlocs[indexClassement]) {
-                  classementBlocs[indexClassement] = [];
-                }
-                bloc.positionBloc = indexBloc;
-                classementBlocs[indexClassement].push(bloc);
-              } else {
-                if (!classementBlocs[indexClassement]) {
-                  classementBlocs[indexClassement] = [];
-                }
-                bloc.positionBloc = indexBloc;
-                classementBlocs[indexClassement].push(bloc);
-                firstFusionnable = true;
-                indexFirstFusionnable = indexBloc;
-              }
-            } else if (firstFusionnable) {
-              if (!classementBlocs[indexClassement]) {
-                classementBlocs[indexClassement] = [];
-              }
-              bloc.positionBloc = indexBloc;
-              classementBlocs[indexClassement].push(bloc);
-              firstFusionnable = false;
-              indexClassement++;
-            }
-
-          } // fin parcours blocs
-
-          for (const [indexGroup, groupement] of classementBlocs.entries()) {
-            let min = 0;
-            let sec = 0;
-
-            for (const bloc of groupement) {
-              let dureeFinale: string;
-              // opérations sur la durée
-              const donnees = bloc.duree.split(' ');
-              // tslint:disable-next-line: radix
-              min += parseInt(donnees[0]);
-              if (donnees[2]) {
-                // tslint:disable-next-line: radix
-                sec += parseInt(donnees[2]);
-                if (sec === 60) {
-                  min += 1;
-                  sec = 0;
-                }
-              }
-              sec > 0 ? dureeFinale = min + ' minutes ' + sec :
-                            dureeFinale = min + ' minutes ';
-
-              // recherche des methodes compatibles et attribution au bloc parent
-              if (dureeFinale.trim() === '15 minutes') {
-                const liste1 = [];
-                this.listeNiveau.forEach((niv: Niveau) => {
-
-                  if (groupement[0].orientation === 'cardio') {
-                    this.methodesService
-                  .getMethodes15Cardio(niv, groupement[0].orientation, dureeFinale.trim());
-                    this.methodesService.methodes15CardioSubject.subscribe((data: Methode[]) => {
-                    data.forEach((it: Methode) => {
-                      const position = liste1.findIndex(itt => itt.id === it.id);
-                      if (position < 0) {
-                        liste1.push(it);
-                      }
-                    });
-                  });
-                  } else {
-                    this.methodesService
-                    .getMethodes15(niv, groupement[0].orientation, dureeFinale.trim());
-                    this.methodesService.methodes15Subject.subscribe((data: Methode[]) => {
-                      data.forEach((it: Methode) => {
-                        const position = liste1.findIndex(itt => itt.id === it.id);
-                        if (position < 0) {
-                          liste1.push(it);
-                        }
-                      });
-                    });
-                  }
-                });
-                this.seancesOfProgramme[indexSeance].blocs[groupement[0].positionBloc].quartfusion = liste1;
-
-              } else if (dureeFinale.trim() === '30 minutes') {
-                const liste2 = [];
-                this.listeNiveau.forEach((niv: Niveau) => {
-
-                  if (groupement[0].orientation === 'cardio') {
-                    this.methodesService
-                      .getMethodes30Cardio(niv, groupement[0].orientation, dureeFinale.trim());
-                    this.methodesService.methodes30CardioSubject.subscribe((data: Methode[]) => {
-                        data.forEach((it: Methode) => {
-                          const position = liste2.findIndex(itt => itt.id === it.id);
-                          if (position < 0) {
-                            liste2.push(it);
-                          }
-                        });
-                      });
-                  } else {
-                    this.methodesService
-                      .getMethodes30(niv, groupement[0].orientation, dureeFinale.trim());
-                    this.methodesService.methodes30Subject.subscribe((data: Methode[]) => {
-                        data.forEach((it: Methode) => {
-                          const position = liste2.findIndex(itt => itt.id === it.id);
-                          if (position < 0) {
-                            liste2.push(it);
-                          }
-                        });
-                      });
-                  }
-                });
-                this.seancesOfProgramme[indexSeance].blocs[groupement[0].positionBloc].demifusion = liste2;
-              }
-            }
-
-          }
-
-        } // fin parcours seances
+  function1() {
+    for (const [indexSeance, seance] of this.seancesOfProgramme.entries()) {
+      for (const [indexBloc, bloc] of seance.blocs.entries()) {
+        if (bloc.fusionnable) {
+          this.function2(indexSeance, indexBloc);
+        }
+      }
+    }
   }
+
+  function2(seance: number, positionBloc: number) {
+    const data = [];
+    for (let index = positionBloc; index < this.seancesOfProgramme[seance].blocs.length; index++) {
+      if (this.seancesOfProgramme[seance].blocs[index].fusionnable) {
+        data.push(this.seancesOfProgramme[seance].blocs[index]);
+      } else {
+        data.push(this.seancesOfProgramme[seance].blocs[index]);
+        break;
+      }
+    }
+    this.function3(data, seance, positionBloc);
+  }
+
+  function3(data: any, seance: number, positionBloc: number) {
+    let min = 0;
+    let sec = 0;
+
+    for (const bloc of data) {
+      let dureeFinale: string;
+      // opérations sur la durée
+      const donnees = bloc.duree.split(' ');
+      // tslint:disable-next-line: radix
+      min += parseInt(donnees[0]);
+      if (donnees[2]) {
+        // tslint:disable-next-line: radix
+        sec += parseInt(donnees[2]);
+        if (sec === 60) {
+          min += 1;
+          sec = 0;
+        }
+      }
+      sec > 0 ? dureeFinale = min + ' minutes ' + sec :
+                    dureeFinale = min + ' minutes ';
+
+      // recherche des methodes compatibles et attribution au bloc parent
+      if (dureeFinale.trim() === '15 minutes') {
+        const liste1 = [];
+        this.listeNiveau.forEach((niv: Niveau) => {
+
+          if (data[0].orientation === 'cardio') {
+            this.methodesService
+          .getMethodes15Cardio(niv, data[0].orientation, dureeFinale.trim());
+            this.methodesService.methodes15CardioSubject.subscribe((dat: Methode[]) => {
+              dat.forEach((it: Methode) => {
+              const position = liste1.findIndex(itt => itt.id === it.id);
+              if (position < 0) {
+                liste1.push(it);
+              }
+            });
+          });
+          } else {
+            this.methodesService
+            .getMethodes15(niv, data[0].orientation, dureeFinale.trim());
+            this.methodesService.methodes15Subject.subscribe((da: Methode[]) => {
+              da.forEach((it: Methode) => {
+                const position = liste1.findIndex(itt => itt.id === it.id);
+                if (position < 0) {
+                  liste1.push(it);
+                }
+              });
+            });
+          }
+        });
+        this.seancesOfProgramme[seance].blocs[positionBloc].quartfusion = liste1;
+
+      } else if (dureeFinale.trim() === '30 minutes') {
+        const liste2 = [];
+        this.listeNiveau.forEach((niv: Niveau) => {
+
+          if (data[0].orientation === 'cardio') {
+            this.methodesService
+              .getMethodes30Cardio(niv, data[0].orientation, dureeFinale.trim());
+            this.methodesService.methodes30CardioSubject.subscribe((dat: Methode[]) => {
+                dat.forEach((it: Methode) => {
+                  const position = liste2.findIndex(itt => itt.id === it.id);
+                  if (position < 0) {
+                    liste2.push(it);
+                  }
+                });
+              });
+          } else {
+            this.methodesService
+              .getMethodes30(niv, data[0].orientation, dureeFinale.trim());
+            this.methodesService.methodes30Subject.subscribe((dat: Methode[]) => {
+                data.forEach((it: Methode) => {
+                  const position = liste2.findIndex(itt => itt.id === it.id);
+                  if (position < 0) {
+                    liste2.push(it);
+                  }
+                });
+              });
+          }
+        });
+        this.seancesOfProgramme[seance].blocs[positionBloc].demifusion = liste2;
+      }
+    }
+
+
+  }
+
+
 }
