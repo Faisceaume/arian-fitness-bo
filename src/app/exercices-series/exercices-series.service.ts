@@ -152,4 +152,22 @@ export class ExercicesSeriesService {
     });
   }
 
+
+  // section simulation User => programmes => seances
+
+  getSerieFixeByTypeAndSenior(senior: string, type: string) {
+    return new Promise<ExerciceSerie>((resolve, reject) => {
+      const museums = this.firestore.firestore.collection('seriesfixes')
+      .where('senior', '==', senior)
+      .where('type', '==', type);
+      museums.get().then((querySnapshot) =>  {
+        querySnapshot.forEach((doc) => {
+          resolve(
+            {id: doc.id,
+              ...doc.data()} as ExerciceSerie
+            );
+        });
+      });
+    });
+  }
 }

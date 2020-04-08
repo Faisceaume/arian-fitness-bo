@@ -1,3 +1,4 @@
+import { ExerciceSerieAvance } from './../../programmes/exercice-serie-avance';
 import { Categorie } from '../categories/categorie';
 
 export class Pathologie {
@@ -9,4 +10,6 @@ export class Pathologie {
   materielsCategorie: Categorie[];
   exercicesCategorie: Categorie[];
   timestamp: number;
+
+  seriefixe?: ExerciceSerieAvance;
 }

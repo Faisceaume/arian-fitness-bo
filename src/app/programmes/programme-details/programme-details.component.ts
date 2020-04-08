@@ -295,6 +295,7 @@ export class ProgrammeDetailsComponent implements OnInit {
     this.formData.fusion = true;
   }
 
+  // Parcours les séances et les blocs et identifie les blocs fusionnables
   function1() {
     for (const [indexSeance, seance] of this.seancesOfProgramme.entries()) {
       for (const [indexBloc, bloc] of seance.blocs.entries()) {
@@ -305,6 +306,8 @@ export class ProgrammeDetailsComponent implements OnInit {
     }
   }
 
+  // Récupère les blocs suivants un bloc fusionnable
+  // et stoque dans un tableau les blocs d'après en s'arrêtant au bloc qui n'est pas fusionnable
   function2(seance: number, positionBloc: number) {
     const data = [];
     for (let index = positionBloc; index < this.seancesOfProgramme[seance].blocs.length; index++) {
@@ -318,6 +321,8 @@ export class ProgrammeDetailsComponent implements OnInit {
     this.function3(data, seance, positionBloc);
   }
 
+  // exécutée sur un bloc avec sa position dans la séance et un tableau (data) des blocs suivants
+  // calcul la durée additionnée des blocs et récupère les méthodes coorespondantes
   function3(data: any, seance: number, positionBloc: number) {
     let min = 0;
     let sec = 0;
