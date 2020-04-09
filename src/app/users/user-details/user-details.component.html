@@ -227,6 +227,33 @@
         </mat-chip-list>
       </div>
     </div>
+
+    <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0">
+      <div style="margin:0 10px 10px">
+        <label class="dark-chip custom-obj"> Pathologie</label>
+        {{ formData.pathologie ? formData.pathologie.acronyme : 'inconnu' }}
+        <button  mat-icon-button (click)="toAddPathologie = true" *ngIf="!toAddPathologie" >
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button  mat-icon-button (click)="toAddPathologie = false" *ngIf="toAddPathologie" >
+          <mat-icon>visibility_off</mat-icon>
+         </button>
+      </div>
+      <div *ngIf="toAddPathologie"  fxLayout="column">
+        <mat-chip-list #chipList aria-label="pathologies">
+          <mat-chip
+            *ngFor="let item of pathologies; let i = index"
+            [ngStyle]="{
+              'color': '#FFF',
+              'background-color': '#000'
+            }"
+            (click)="selectedPathologie(item)">
+            {{ item.acronyme }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+
   </div>
 
   <div fxFlex="100" class="abonnement" fxLayout="row wrap" style="margin:10px">

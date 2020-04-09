@@ -1,3 +1,4 @@
+import { PathologieAvance } from './../exercices-series/pathologie-avance';
 import { Pathologie } from '../shared/pathologies/pathologie';
 import { Objectif } from '../shared/objectifs/objectif';
 import { Niveau } from '../shared/niveaux/niveau';
@@ -30,7 +31,7 @@ export class User {
  photo?: string;
 
 
- pathologies: Pathologie[]; // multi select sur le noeud pathologie
+ pathologie: PathologieAvance; // multi select sur le noeud pathologie
  objectif: Objectif; // liste noeud objectif
  trophee: string;
 

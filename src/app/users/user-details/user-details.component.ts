@@ -1,3 +1,6 @@
+import { PathologieAvance } from './../../exercices-series/pathologie-avance';
+import { Pathologie } from 'src/app/shared/pathologies/pathologie';
+import { PathologiesService } from './../../shared/pathologies/pathologies.service';
 import { ObjectifsService } from 'src/app/shared/objectifs/objectifs.service';
 import { Objectif } from 'src/app/shared/objectifs/objectif';
 import { Listes } from 'src/app/shared/listes';
@@ -25,6 +28,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   modereprise = ['0', '>60J<90J', '>=90J<180J', '>=180J'];
   listePositionParc = new Listes().positionparcoursniveau;
   listeFrequence = new Listes().frequenceUser;
+  pathologies: Pathologie[];
 
   premiumControl = new FormControl();
   seniorControl = new FormControl();
@@ -37,12 +41,14 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   toChangeNiveauOff: boolean;
   toChangeNiveauIns: boolean;
   showObjectif: boolean;
+  toAddPathologie: boolean;
 
   constructor(private activeRoute: ActivatedRoute,
               private niveauxService: NiveauxService,
               private usersService: UsersService,
               private sharedService: SharedService,
-              private objectifsService: ObjectifsService) { }
+              private objectifsService: ObjectifsService,
+              private pathologiesService: PathologiesService) { }
 
   ngOnInit() {
     const id = this.activeRoute.snapshot.params.id;
@@ -50,6 +56,11 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.objectifsService.getAllObjectifs();
     this.objectifsService.objectifSubject.subscribe(data => {
       this.objectifs = data;
+    });
+
+    this.pathologiesService.getAllPathologies();
+    this.pathologiesService.pathologieSubject.subscribe(data => {
+      this.pathologies = data;
     });
 
     this.usersService.getSingleUser(null, id).then((item: User) => {
@@ -87,6 +98,17 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.formData.objectif = it;
     this.updateField('objectif', this.formData.objectif);
     this.showObjectif = false;
+  }
+
+  selectedPathologie(item: Pathologie) {
+    const local = new PathologieAvance();
+    local.acronyme = item.acronyme;
+    local.id = item.id;
+    local.nom = item.nom;
+
+    this.formData.pathologie = local;
+    this.updateField('pathologie', Object.assign({}, this.formData.pathologie));
+    this.toAddPathologie = false;
   }
 
   ngOnDestroy(): void {

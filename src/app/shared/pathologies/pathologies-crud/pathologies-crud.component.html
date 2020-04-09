@@ -69,6 +69,33 @@
         </div>
       </div>
 
+      <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0"
+      *ngIf="formData.type === 'pathologie'" >
+        <div style="margin:0 10px 10px">
+          <label class="dark-chip custom-obj"> Serie Fixe</label>
+          {{ formData.seriefixe ? formData.seriefixe.nom : 'inconnu' }}
+          <button  mat-icon-button (click)="toAddSerieFixe = true" *ngIf="!toAddSerieFixe" >
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button  mat-icon-button (click)="toAddSerieFixe = false" *ngIf="toAddSerieFixe" >
+            <mat-icon>visibility_off</mat-icon>
+           </button>
+        </div>
+        <div *ngIf="toAddSerieFixe && serieFixePathologie"  fxLayout="column">
+          <mat-chip-list #chipList aria-label="pathologies">
+            <mat-chip
+              *ngFor="let item of serieFixePathologie; let i = index"
+              [ngStyle]="{
+                'color': '#FFF',
+                'background-color': '#000'
+              }"
+              (click)="selectSerieFixe(item)">
+              {{ item.nom }}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+      </div>
+
       <div *ngIf="!toCreate" fxLayout="column" [ngStyle]="{'margin':'0 0 30px'}">
         <div *ngIf="formData.exercicesCategorie ? formData.exercicesCategorie.length!=0 : false">
           <h4 class="h4-modal">Catégories d'exercices</h4>

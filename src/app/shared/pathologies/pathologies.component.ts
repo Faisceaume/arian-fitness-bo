@@ -49,7 +49,7 @@ export class PathologiesComponent implements OnInit {
   openMatDialog(information: any): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
+    dialogConfig.width = '80%';
     dialogConfig.data = information;
     this.matDialog.open(PathologiesCrudComponent, dialogConfig);
   }
