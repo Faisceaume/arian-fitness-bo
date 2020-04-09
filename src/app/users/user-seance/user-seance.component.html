@@ -10,6 +10,7 @@
     <p>
       Programme retenu pour le user : <strong>{{ programmes.acronyme }} / {{ programmes.numero }}</strong>
     </p>
+<hr>
     <h2>Séance</h2>
     <p>
       La position de séance du user est : <strong>{{ currentUser.positionseance }}</strong>. <br>
@@ -22,7 +23,15 @@
 
     </p>
 
-    <p *ngIf="echauffement" > Echauffement : {{ echauffement.nom }} <br></p>
+<hr>
+    <div *ngIf="echauffement" >
+      <p > Echauffement : {{ echauffement.nom }} <br></p>
+      <h4>les exercices de l'echauffement : </h4>
+      <p *ngFor="let item of echauffement.exercices ; let i = index" >
+        <span>{{ i+ 1 }}</span> <span> {{ item.nomexercice }} </span>
+      </p>
+    </div>
+<hr>
     <p *ngIf="!lancementSerieFixe" >
       pas d'inclusion de la pathologie du user dans les exe_cat_patho des différents bloc de la seance
     </p>
