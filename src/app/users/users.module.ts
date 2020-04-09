@@ -6,14 +6,19 @@ import { UserFormComponent } from './user-form/user-form.component';
 import { UsersRoutingModule } from './users-routing.module';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { UserSeanceComponent } from './user-seance/user-seance.component';
+import { UserQuestionsComponent } from './user-questions/user-questions.component';
 
 @NgModule({
-  declarations: [UsersComponent, UserFormComponent, UserDetailsComponent, UserSeanceComponent],
+  declarations: [UsersComponent,
+                 UserFormComponent,
+                 UserDetailsComponent,
+                 UserSeanceComponent,
+                 UserQuestionsComponent],
   imports: [
     SharedModule,
     CommonModule,
     UsersRoutingModule
   ],
-  entryComponents: [UserFormComponent]
+  entryComponents: [UserFormComponent, UserQuestionsComponent]
 })
 export class UsersModule { }

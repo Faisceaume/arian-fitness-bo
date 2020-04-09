@@ -19,7 +19,7 @@ export class QuestionsComponent implements OnInit {
   questionnairesList: Questionnaires[];
   questionsList: Questions[];
 
-  displayedColumns: string[] = ['ordre', 'question', 'reponses', 'timestamp', 'active', 'croix', 'action', 'Drag'];
+  displayedColumns: string[] = ['ordre', 'question', 'reponses', 'active', 'croix', 'action', 'Drag'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild('table', {static: false}) table: MatTable<Questions>;

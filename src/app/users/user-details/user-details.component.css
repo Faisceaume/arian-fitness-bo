@@ -28,7 +28,7 @@ mat-horizontal-stepper {
 }
 
 
-.abonnement {
+.divgrey {
   background-color: #eee;
   padding: 10px;
   border-radius: 10px;
@@ -92,5 +92,6 @@ mat-checkbox{
 .info-user {
   color: #ccc;
   font-size: 0.8em;
-  line-height: 0.8em;
 }
+
+

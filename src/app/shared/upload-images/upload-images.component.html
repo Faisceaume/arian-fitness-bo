@@ -18,7 +18,9 @@
           <li *ngFor='let erreur of erreursMessages' class="erreurMessage"> {{ erreur }} </li>
         </ul>
 
-        <div class="del" *ngIf="sharedService.fileUrl != null">
+        <div class="del" *ngIf="sharedService.fileUrl != null"
+        fxLayoutAlign="center end"
+        fxLayout="column">
             <button mat-icon-button (click)="onDeleteDrapImage()">
               <mat-icon>close</mat-icon>
             </button>

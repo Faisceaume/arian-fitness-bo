@@ -1,0 +1,38 @@
+<div class="nom-formulaire" *ngIf="questionnaire">
+  <h2>Questionnaire : <strong>{{ questionnaire.name }}</strong></h2>
+</div>
+
+<div fxLayout="row wrap" fxLayoutAlign="start start" style="padding: 5px;" *ngIf="questions">
+  <div fxFlex="10">
+    <button mat-icon-button type="button"
+    (click)="backQuestion()"
+    [disabled]="indexQuestion <= 0"
+    > <mat-icon>arrow_back</mat-icon> </button>
+  </div>
+
+  <div fxFlex="80" style="text-align: center;">
+    <h4>{{ questions[indexQuestion].question }}</h4>
+  </div>
+
+  <div fxFlex="10">
+    <button mat-icon-button type="button"
+    (click)="nextQuestion()"
+    [disabled]="indexQuestion+1 >= questions.length"
+    > <mat-icon>arrow_forward</mat-icon> </button>
+  </div>
+
+  <div fxFlex="45" *ngFor="let item of questions[indexQuestion].reponses ; let i = index" class="reponses"
+  (click)="reponsesSelect(i)">
+    {{ item }}
+  </div>
+
+  <p *ngIf="questions[indexQuestion].consignes" fxFlex="100"> {{ questions[indexQuestion].consignes }}</p>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="center center" *ngIf="questions" >
+  <button mat-fab color="warn" type="button"
+  [disabled]="!questions[indexQuestion].croix && !arret"
+  [mat-dialog-close]="{'questions': questionsOK, 'reponses': reponsesOk}" cdkFocusInitial>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

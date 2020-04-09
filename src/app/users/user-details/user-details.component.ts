@@ -1,3 +1,5 @@
+import { UserQuestionsComponent } from './../user-questions/user-questions.component';
+import { MatDialog } from '@angular/material';
 import { PathologieAvance } from './../../exercices-series/pathologie-avance';
 import { Pathologie } from 'src/app/shared/pathologies/pathologie';
 import { PathologiesService } from './../../shared/pathologies/pathologies.service';
@@ -43,12 +45,15 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   showObjectif: boolean;
   toAddPathologie: boolean;
 
+  resultQ1: any;
+
   constructor(private activeRoute: ActivatedRoute,
               private niveauxService: NiveauxService,
               private usersService: UsersService,
               private sharedService: SharedService,
               private objectifsService: ObjectifsService,
-              private pathologiesService: PathologiesService) { }
+              private pathologiesService: PathologiesService,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
     const id = this.activeRoute.snapshot.params.id;
@@ -109,6 +114,19 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.formData.pathologie = local;
     this.updateField('pathologie', Object.assign({}, this.formData.pathologie));
     this.toAddPathologie = false;
+  }
+
+  launchQ1() {
+    const dialogRef = this.dialog.open(UserQuestionsComponent, {
+      width: '80%',
+      data: {name: '1- Questionnaire entrée de l\'application'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.resultQ1 = result;
+      }
+    });
   }
 
   ngOnDestroy(): void {

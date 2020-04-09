@@ -250,4 +250,39 @@ export class QuestionnairesService {
       console.log('Suppression de la question ok');
     });
   }
+
+
+
+  /*********************************************/
+  /*********************************************/
+  /******************* DELMAS SECTION ******************/
+  /*********************************************/
+  /*********************************************/
+
+  getQuestionnaireByName(name: string) {
+      return new Promise<Questionnaires>((resolve, reject) => {
+        const museums = this.db.firestore.collection('questionnaires').where('name', '==', name);
+        museums.get().then((querySnapshot) =>  {
+          querySnapshot.forEach((doc) => {
+            resolve(
+              {id: doc.id,
+                ...doc.data()} as Questionnaires
+              );
+          });
+        });
+      });
+  }
+
+  getAllQuestionsActiveInOrder(idQuestionnaires: string) {
+    this.db.collection('questionnaires').doc(idQuestionnaires)
+    .collection('questions', ref =>
+    ref.where('active', '==', true)
+        .orderBy('ordre', 'asc')).snapshotChanges()
+    .subscribe(array => {
+      this.questionsList = array.map(e => {
+        return {...e.payload.doc.data()} as Questions;
+      });
+      this.emitQuestionsListSubject();
+    });
+  }
 }
