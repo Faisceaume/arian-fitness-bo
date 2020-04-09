@@ -10,6 +10,7 @@
     <p>
       Programme retenu pour le user : <strong>{{ programmes.acronyme }} / {{ programmes.numero }}</strong>
     </p>
+<hr>
     <h2>Séance</h2>
     <p>
       La position de séance du user est : <strong>{{ currentUser.positionseance }}</strong>. <br>
@@ -22,7 +23,15 @@
 
     </p>
 
-    <p *ngIf="echauffement" > Echauffement : {{ echauffement.nom }} <br></p>
+<hr>
+    <div *ngIf="echauffement" >
+      <p > Echauffement : {{ echauffement.nom }} <br></p>
+      <h4>les exercices de l'echauffement : </h4>
+      <p *ngFor="let item of echauffement.exercices ; let i = index" >
+        <span>{{ i+ 1 }}</span> <span> {{ item.nomexercice }} </span>
+      </p>
+    </div>
+<hr>
     <p *ngIf="!lancementSerieFixe" >
       Les catégories d'exercices de la séance n'ont aucune contre indications par rapport à la pathologie du user. <br>
       <i>(ie. aucune des user.cat_exe_pathos n'est inclue dans programme.seance.cat_exe_pathos</i><br>
