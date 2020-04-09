@@ -28,3 +28,9 @@ mat-radio-button {
   background-color: rgba(0, 0, 0, 0.1);
   color: white;
 }
+
+
+.custom-obj {
+  text-transform: uppercase;
+  color: #999;
+}

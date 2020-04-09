@@ -53,7 +53,7 @@
         <div fxFlex="100" fxLayout="column">
 
           <div class="type">
-            <label class="dark-chip"> Type :</label>
+            <label class="custom-obj">Type : </label>
             <mat-radio-group color="warn"
             [(ngModel)]="formData.type"
             (ngModelChange)="updateField('type', formData.type)"
@@ -69,10 +69,10 @@
         </div>
       </div>
 
-      <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0"
+      <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 5px 0"
       *ngIf="formData.type === 'pathologie'" >
-        <div style="margin:0 10px 10px">
-          <label class="dark-chip custom-obj"> Serie Fixe</label>
+        <div style="margin:0 10px 10px 0">
+          <label class="custom-obj">Serie Fixe : </label>
           {{ formData.seriefixe ? formData.seriefixe.nom : 'inconnu' }}
           <button  mat-icon-button (click)="toAddSerieFixe = true" *ngIf="!toAddSerieFixe" >
             <mat-icon>visibility</mat-icon>
@@ -87,10 +87,11 @@
               *ngFor="let item of serieFixePathologie; let i = index"
               [ngStyle]="{
                 'color': '#FFF',
-                'background-color': '#000'
+                'background-color': '#ccc',
+                cursor: 'pointer'
               }"
               (click)="selectSerieFixe(item)">
-              {{ item.nom }}
+              {{ (item.nom | slice:0:30)+'...' }}
             </mat-chip>
           </mat-chip-list>
         </div>
@@ -98,22 +99,22 @@
 
       <div *ngIf="!toCreate" fxLayout="column" [ngStyle]="{'margin':'0 0 30px'}">
         <div *ngIf="formData.exercicesCategorie ? formData.exercicesCategorie.length!=0 : false">
-          <h4 class="h4-modal">Catégories d'exercices</h4>
+          <h4 class="h4-modal">Catégories d'exercices : </h4>
           <span *ngFor="let cat of formData.exercicesCategorie" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
         </div>
         <div *ngIf="formData.materielsCategorie ? formData.materielsCategorie.length!=0 : false" [ngStyle]="{'margin':'20px 0 0'}">
-          <h4 class="h4-modal">Catégories de matériels</h4>
+          <h4 class="h4-modal">Catégories de matériels : </h4>
           <span *ngFor="let cat of formData.materielsCategorie" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
         </div>
       </div>
 
       <div *ngIf="toCreate" fxLayout="column" [ngStyle]="{'margin':'0 0 30px'}">
         <div *ngIf="categoriesService.exeCatChipsSelected.length!=0">
-          <h4 class="h4-modal">Catégories d'exercices</h4>
+          <h4 class="h4-modal">Catégories d'exercices : </h4>
           <span *ngFor="let cat of categoriesService.exeCatChipsSelected" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
         </div>
         <div *ngIf="categoriesService.matCatChipsSelected.length!=0" [ngStyle]="{'margin':'20px 0 0'}">
-          <h4 class="h4-modal">Catégories de matériels</h4>
+          <h4 class="h4-modal">Catégories de matériels : </h4>
           <span *ngFor="let cat of categoriesService.matCatChipsSelected" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
         </div>
       </div>

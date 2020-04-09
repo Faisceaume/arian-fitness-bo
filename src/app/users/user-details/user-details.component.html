@@ -12,8 +12,8 @@
 
 <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="formData && niveaux">
 
-  <div fxFlex="40" style="padding:10px" fxLayout="column">
-    <div fxFlex="80" id="imageContainer">
+  <div fxFlex="30" style="padding:10px" fxLayout="column">
+    <div id="imageContainer">
       <app-upload-images
       [size]="1000000"
       [width]="1000"
@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <div fxFlex="60" fxLayout="column" style="padding:10px">
+  <div fxFlex="70" fxLayout="column" style="padding:10px">
     <div fxLayout="row">
       <mat-form-field fxFlex="50">
         <input matInput placeholder="Nom" type="text" name="nom"
@@ -70,12 +70,10 @@
       </mat-form-field>
     </div>
     <div>
-      <p *ngIf="!editdates" fxLayout="column" fxLayoutAlign="center center" class="info-user">
-        <span *ngIf="formData.datedernierlog">
-          Dernier log : {{ formData.datedernierlog | date }}
-          <button mat-icon-button (click)="editdates=!editdates"><mat-icon>edit</mat-icon></button>
-        </span><br>
-        <span *ngIf="formData.datedernieremaj">Dernièrer maj : {{ formData.datedernieremaj | date }}</span>
+      <p *ngIf="!editdates" fxLayout="row" fxLayoutAlign="start center" class="info-user">
+        <button mat-icon-button (click)="editdates=!editdates"><mat-icon>edit</mat-icon></button>
+        <span *ngIf="formData.datedernierlog">| Dernier log : {{ formData.datedernierlog | date }} |</span>
+        <span *ngIf="formData.datedernieremaj">| Dernièrer maj : {{ formData.datedernieremaj | date }}</span>
       </p>
       <div *ngIf="editdates" fxLayout="row">
         <button mat-icon-button (click)="editdates=!editdates" class="icon" style="padding:10px 0 0"><mat-icon>visibility_off</mat-icon></button>
@@ -99,7 +97,11 @@
     </div>
   </div>
 
-  <div fxLayout="row wrap" fxLayoutAlign="start center">
+
+  <div fxLayout="row wrap" fxLayoutAlign="start center" class="divgrey" style="margin:10px">
+
+    <h4 fxFlex="100">Position & Niveau</h4>
+
     <div fxLayout="row" fxFlex="100">
         <label style="padding:25px 5px 0 0"> Niveau </label>
         <span class="bulle-acro" *ngIf="!toChangeNiveau && formData.niveau">N {{ formData.niveau.acronyme}} </span>
@@ -137,27 +139,27 @@
           N {{ niveau.acronyme }}
         </mat-radio-button>
       </mat-radio-group>
-  </div>
+    </div>
 
-  <div fxLayout="row" fxFlex="100" style="margin-top: 5px;">
-    <label style="padding:25px 5px 0 0"> Niveau periode Off </label>
-    <span class="bulle-acro" *ngIf="!toChangeNiveauOff && formData.niveauavantperiodeoff">
-      N {{ formData.niveauavantperiodeoff.acronyme}} </span>
-    <button mat-icon-button
-      (click)="toChangeNiveauOff = true"
-      *ngIf="!toChangeNiveauOff && formData.niveauavantperiodeoff">
-        <mat-icon>close</mat-icon>
-    </button>
-    <mat-radio-group color="warn"
-      [(ngModel)]="formData.niveauavantperiodeoff"
-      (ngModelChange)="updateField('niveauavantperiodeoff', formData.niveauavantperiodeoff)"
-      *ngIf="!formData.niveauavantperiodeoff || toChangeNiveauOff">
-      <mat-radio-button *ngFor="let niveau of niveaux"
-      [value]="niveau" class="span-radio-button">
-        N {{ niveau.acronyme }}
-      </mat-radio-button>
-    </mat-radio-group>
-  </div>
+    <div fxLayout="row" fxFlex="100" style="margin-top: 5px;">
+      <label style="padding:25px 5px 0 0"> Niveau periode Off </label>
+      <span class="bulle-acro" *ngIf="!toChangeNiveauOff && formData.niveauavantperiodeoff">
+        N {{ formData.niveauavantperiodeoff.acronyme}} </span>
+      <button mat-icon-button
+        (click)="toChangeNiveauOff = true"
+        *ngIf="!toChangeNiveauOff && formData.niveauavantperiodeoff">
+          <mat-icon>close</mat-icon>
+      </button>
+      <mat-radio-group color="warn"
+        [(ngModel)]="formData.niveauavantperiodeoff"
+        (ngModelChange)="updateField('niveauavantperiodeoff', formData.niveauavantperiodeoff)"
+        *ngIf="!formData.niveauavantperiodeoff || toChangeNiveauOff">
+        <mat-radio-button *ngFor="let niveau of niveaux"
+        [value]="niveau" class="span-radio-button">
+          N {{ niveau.acronyme }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
 
     <div fxLayoutAlign="start start" style="margin-top: 10px;" fxFlex="100">
       <label class="dark-chip" fxFlex="18"> Position Parcours Niveau:</label>
@@ -201,6 +203,13 @@
         (ngModelChange)="updateField('parcoursnutrition', formData.parcoursnutrition)"
         id="parcoursnutrition" required>
     </mat-form-field>
+
+  </div>
+
+
+  <div fxFlex="30" fxLayout="row wrap" fxLayoutAlign="start center" class="divgrey" style="margin:10px">
+
+    <h4 fxFlex="100">Objectifs & Pathologies</h4>
 
     <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0">
       <div style="margin:0 10px 10px">
@@ -253,10 +262,9 @@
         </mat-chip-list>
       </div>
     </div>
-
   </div>
 
-  <div fxFlex="100" class="abonnement" fxLayout="row wrap" style="margin:10px">
+  <div fxFlex="60" class="divgrey" fxLayout="row wrap" style="margin:10px">
 
     <h4 fxFlex="100">Abonnement</h4>
 
