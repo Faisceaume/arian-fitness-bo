@@ -329,7 +329,9 @@
   </div>
 
   <div fxFlex="100" fxLayoutAlign="end end" style="margin: 10px">
-    <!-- <button mat-raised-button routerLink="">Lancer le questionnaire</button> -->
+    <button mat-raised-button [routerLink]="'./user-questions'">
+      Lancer le Questionnaire n°1
+    </button>
     <button mat-raised-button
     color="warn"
     [routerLink]="['/users/user-seance', formData.id]"
