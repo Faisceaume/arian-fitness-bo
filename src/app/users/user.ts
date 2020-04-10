@@ -35,5 +35,7 @@ export class User {
  objectif: Objectif; // liste noeud objectif
  trophee: string;
 
+ questionnaire1?: boolean;
+
  timestamp: string;
 }

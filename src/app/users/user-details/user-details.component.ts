@@ -1,3 +1,4 @@
+import { QuestionnairesService } from './../../questionnaires/questionnaires.service';
 import { UserQuestionsComponent } from './../user-questions/user-questions.component';
 import { MatDialog } from '@angular/material';
 import { PathologieAvance } from './../../exercices-series/pathologie-avance';
@@ -53,6 +54,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
               private sharedService: SharedService,
               private objectifsService: ObjectifsService,
               private pathologiesService: PathologiesService,
+              private questionnairesService: QuestionnairesService,
               public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -125,6 +127,12 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.resultQ1 = result;
+        this.resultQ1.questions.forEach((element, index) => {
+          element.reponses = result.reponses[index];
+        });
+        this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ1.questions);
+        this.updateField('questionnaire1', true);
+        this.formData.questionnaire1 = true;
       }
     });
   }
