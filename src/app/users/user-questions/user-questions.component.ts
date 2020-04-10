@@ -59,8 +59,7 @@ export class UserQuestionsComponent implements OnInit {
   }
 
   nextQuestion() {
-
-    if (this.indexQuestion === 1 && this.reponsesOk[1] !== 'Non') {
+    if (this.indexQuestion === 1 && (this.reponsesOk[1] !== 'Non' || this.reponsesOk[1] !== 'non fourni' )) {
       this.indexQuestion += 2;
     } else if (this.indexQuestion === 3 && this.reponsesOk[1] !== 'Non') {
       this.indexQuestion += 2;

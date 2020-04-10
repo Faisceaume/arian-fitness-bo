@@ -1,19 +1,17 @@
 .reponses{
-  padding-top: 10px;
-  text-align: center;
-  height: 110px;
+  min-height: 130px;
   background-color: #999;
-  color: black;
-  font-weight: bolder;
-  margin: 5px;
+  color: #eee;
   cursor: pointer;
   transition: all 0.5s ease;
+  border-radius: 2px;
+  margin:1px 0;
+  padding: 10px;
 }
 
 .reponses:hover{
-  background-color: black;
+  background-color: #666;
   color: white;
-  font-weight: bolder;
 }
 
 label {
@@ -22,3 +20,15 @@ label {
   text-transform: uppercase;
   font-size: 0.9em;
 }
+
+
+h2 {
+  color: #ccc;
+}
+
+h4 {
+  font-size: 2em;
+  font-weight: normal;
+  color: #666;
+}
+
