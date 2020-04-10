@@ -38,15 +38,9 @@
       *ngIf="questions[indexQuestion].croix && indexQuestion+1 !== questions.length" >
         <mat-icon>close</mat-icon>
       </button>
-
-      <button mat-icon-button type="button"
-      [mat-dialog-close]="{'questions': questionsOK, 'reponses': reponsesOk}" cdkFocusInitial
-      *ngIf="indexQuestion+1 === questions.length">
-        <mat-icon>save</mat-icon>
-      </button>
     </div>
-  </div>
 
+  </div>
 
   <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="1px"
     *ngIf="indexQuestion !== 3">
@@ -62,7 +56,7 @@
         *ngIf="indexQuestion === 3" >
 
     <mat-chip-list #chipList aria-label="Matériels" style="margin:0 10px 10px">
-      <mat-chip class="dark-chip tt-upper br-5">Matériels</mat-chip>
+      <mat-chip class="dark-chip tt-upper br-5">Matériels : </mat-chip>
       <mat-chip
         *ngFor="let item of materielsSelected">
         {{ item.nom }}
@@ -84,7 +78,8 @@
           *ngFor="let item of materiels; let i = index"
           [ngStyle]="{
             'color': '#FFF',
-            'background-color': '#000'
+            'background-color': '#ccc',
+            'cursor': 'pointer'
           }"
           (click)="selectMateriel(item)">
           {{ item.nom }}
@@ -93,20 +88,20 @@
     </div>
   </div>
 
-  <p *ngIf="questions[indexQuestion].consignes" fxFlex="100"> {{ questions[indexQuestion].consignes }}</p>
+  <div fxFlex="100">
+    <p *ngIf="questions[indexQuestion].consignes" class="consigne" fxFlex="100"> {{ questions[indexQuestion].consignes }}</p>
+  </div>
+
+  <div fxFlex="100" fxLayoutAlign="end end">
+    <button mat-raised-button type="button" color="warn"
+      [mat-dialog-close]="{'questions': questionsOK, 'reponses': reponsesOk}" cdkFocusInitial
+      *ngIf="indexQuestion+1 === questions.length">
+        <mat-icon>save</mat-icon>
+        <span>Enregistrer le questionnaire</span>
+    </button>
+  </div>
+
+
 </div>
 
-<!-- <div fxLayout="row" fxLayoutAlign="center center" *ngIf="questions" >
-  <button mat-fab color="warn" type="button"
-  [disabled]="!questions[indexQuestion].croix && !arret"
-  [mat-dialog-close]="{'questions': questionsOK, 'reponses': reponsesOk}" cdkFocusInitial
-  *ngIf="indexQuestion+1 !== questions.length" >
-    <mat-icon>close</mat-icon>
-  </button>
 
-  <button mat-fab color="warn" type="button"
-  [mat-dialog-close]="{'questions': questionsOK, 'reponses': reponsesOk}" cdkFocusInitial
-  *ngIf="indexQuestion+1 === questions.length">
-    <mat-icon>close</mat-icon>
-  </button>
-</div> -->
