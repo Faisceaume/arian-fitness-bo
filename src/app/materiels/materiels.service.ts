@@ -45,6 +45,21 @@ export class MaterielsService {
     });
   }
 
+  getAllMaterielsVisible() {
+    this.firestore.collection('materiels', ref =>
+      ref.where('visibility', '==', true)
+         .orderBy('nom'))
+                  .snapshotChanges().subscribe( data => {
+       this.materiels = data.map( e => {
+        const anotherData = e.payload.doc.data() as Materiel;
+        return  {
+          ...anotherData
+        } as Materiel;
+      });
+       this.emitMaterielsSubject();
+    });
+  }
+
   emitMaterielsSubject() {
     this.materielSubject.next(this.materiels.slice());
   }
