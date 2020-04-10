@@ -329,7 +329,7 @@
   </div>
 
   <div fxFlex="100" fxLayoutAlign="end end" style="margin: 10px">
-    <button mat-raised-button [routerLink]="'./user-questions'">
+    <button mat-raised-button (click)="launchQ1()">
       Lancer le Questionnaire n°1
     </button>
     <button mat-raised-button
@@ -337,6 +337,14 @@
     [routerLink]="['/users/user-seance', formData.id]"
     *ngIf="premiumControl.value"
     >Lancer un entrainement</button>
+  </div>
+
+  <div *ngIf="resultQ1" >
+    <h4>Historique questionnaire 1</h4>
+    <p *ngFor="let item of resultQ1.questions ; let i = index" >
+      <strong><span> {{ item.question }} </span></strong>
+      <span> {{ resultQ1.reponses[i] }} </span>
+    </p>
   </div>
 
 </div>

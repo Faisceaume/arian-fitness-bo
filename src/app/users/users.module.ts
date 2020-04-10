@@ -9,12 +9,16 @@ import { UserSeanceComponent } from './user-seance/user-seance.component';
 import { UserQuestionsComponent } from './user-questions/user-questions.component';
 
 @NgModule({
-  declarations: [UsersComponent, UserFormComponent, UserDetailsComponent, UserSeanceComponent, UserQuestionsComponent],
+  declarations: [UsersComponent,
+                 UserFormComponent,
+                 UserDetailsComponent,
+                 UserSeanceComponent,
+                 UserQuestionsComponent],
   imports: [
     SharedModule,
     CommonModule,
     UsersRoutingModule
   ],
-  entryComponents: [UserFormComponent]
+  entryComponents: [UserFormComponent, UserQuestionsComponent]
 })
 export class UsersModule { }
