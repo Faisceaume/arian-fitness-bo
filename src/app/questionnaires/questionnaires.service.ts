@@ -293,7 +293,6 @@ export class QuestionnairesService {
       let data = Object.assign({}, item);
       data = Object.assign(data, {timestamp: new Date().getTime()});
       const ref = this.db.firestore.collection('users').doc(userid)
-                    .collection('questionnaires').doc(item.idOfQuestionnaire)
                     .collection('questions').doc(item.id);
       batch.set(ref, data);
     });

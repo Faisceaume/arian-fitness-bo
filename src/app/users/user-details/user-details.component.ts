@@ -130,6 +130,24 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
         this.resultQ1.questions.forEach((element, index) => {
           element.reponses = result.reponses[index];
         });
+
+        // determination du sexe
+        this.formData.genre = this.resultQ1.questions[0].reponses === 'Un homme' ? 'H' : 'F';
+        this.updateField('genre', this.formData.genre);
+
+        // determination de l'objectif du User
+        const libelle = this.resultQ1.questions[4].reponses === 'Autre' ?
+                        this.resultQ1.questions[5].reponses : this.resultQ1.questions[4].reponses;
+
+        this.objectifsService.getSingleObjectifByNom(libelle).then(
+          (item: Objectif) => {
+            this.formData.objectif = item;
+            this.updateField('objectif', this.formData.objectif);
+          },
+          (error) => {
+            console.log('empty objectif');
+          }
+        );
         this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ1.questions);
         this.updateField('questionnaire1', true);
         this.formData.questionnaire1 = true;

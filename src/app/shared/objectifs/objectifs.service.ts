@@ -68,6 +68,26 @@ getSingleObjectif(id: string) {
   });
 }
 
+getSingleObjectifByNom(nom: string) {
+  return new Promise<Objectif>((resolve, reject) => {
+    const museums = this.firestore.firestore.collection('objectifs').where('nom', '==', nom);
+    museums.get().then((querySnapshot) =>  {
+      if (querySnapshot.size > 0) {
+        querySnapshot.forEach((doc) => {
+          resolve(
+            {id: doc.id,
+              ...doc.data()} as Objectif
+            );
+        });
+      } else {
+        reject();
+      }
+    });
+  });
+}
+
+
+
 deleteObjectif(item: Objectif) {
   this.firestore.doc('objectifs/' + item.id).delete();
 }
