@@ -285,4 +285,18 @@ export class QuestionnairesService {
       this.emitQuestionsListSubject();
     });
   }
+
+  createQuestionOnUser(userid: string, questions: Questions[]) {
+
+    const batch = this.db.firestore.batch();
+    questions.forEach(item => {
+      let data = Object.assign({}, item);
+      data = Object.assign(data, {timestamp: new Date().getTime()});
+      const ref = this.db.firestore.collection('users').doc(userid)
+                    .collection('questions').doc(item.id);
+      batch.set(ref, data);
+    });
+
+    batch.commit().then(() => console.log('questions ajouté avec succès') );
+  }
 }

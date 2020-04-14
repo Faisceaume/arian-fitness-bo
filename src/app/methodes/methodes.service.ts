@@ -17,19 +17,6 @@ export class MethodesService {
   methodesForProgramme: Methode[];
   methodesForProgrammeSubject = new Subject<any[]>();
 
-  // SECTION DES PROGRAMMES => SEANCES => BLOCS
-
-  methodes15: Methode[];
-  methodes15Subject = new Subject<any[]>();
-
-  methodes30: Methode[];
-  methodes30Subject = new Subject<any[]>();
-
-  methodes15Cardio: Methode[];
-  methodes15CardioSubject = new Subject<any[]>();
-
-  methodes30Cardio: Methode[];
-  methodes30CardioSubject = new Subject<any[]>();
 
   constructor(private firestore: AngularFirestore,
               private router: Router) { }
@@ -118,131 +105,22 @@ newUpdateVersion(element: Methode, attribut: string, value: any) {
   // SECTION DES PROGRAMMES => SEANCES => BLOCS
 
   getMethodesForProgramme(niveau: Niveau, orientation: string, duree: string) {
-    this.firestore.collection('methodes', ref =>
-    ref.where('orientation', '==', orientation)
-    .where('duree', '==', duree)
-    .where('niveau', '==', niveau))
-                    .snapshotChanges().subscribe( data => {
-         this.methodesForProgramme = data.map( e => {
-          const anotherData = e.payload.doc.data() as Methode;
-          return  {
-            ...anotherData
-          } as Methode;
+    return new Promise<MethodeAvance[]>((resolve, reject) => {
+      this.firestore.collection('methodes', ref =>
+      ref.where('orientation', '==', orientation)
+      .where('duree', '==', duree)
+      .where('niveau', '==', niveau)).snapshotChanges().subscribe(res => {
+        const methodes = res.map( e => {
+        const anotherData = e.payload.doc.data() as Methode;
+        const local = new MethodeAvance();
+        local.acronyme = anotherData.acronyme;
+        local.id = anotherData.id;
+        local.nom = anotherData.nom;
+        return Object.assign({}, local);
         });
-         this.emitMethodesForProgrammeSubject();
+        resolve(methodes);
       });
-  }
-  emitMethodesForProgrammeSubject() {
-    this.methodesForProgrammeSubject.next(this.methodesForProgramme.slice());
-  }
-
-  getMethodes15(niveau: Niveau, orientation: string, duree: string) {
-    this.firestore.collection('methodes', ref =>
-    ref.where('orientation', '==', orientation)
-    .where('duree', '==', duree)
-    .where('niveau', '==', niveau))
-                    .snapshotChanges().subscribe( data => {
-         this.methodes15 = data.map( e => {
-          const anotherData = e.payload.doc.data() as Methode;
-          return  {
-            ...anotherData
-          } as Methode;
-        });
-         this.emitMethodes15Subject();
-      });
-  }
-  emitMethodes15Subject() {
-    const quart = [];
-    this.methodes15.forEach(item => {
-      const local = new MethodeAvance();
-      local.acronyme = item.acronyme;
-      local.id = item.id;
-      local.nom = item.nom;
-      quart.push(Object.assign({}, local));
     });
-    this.methodes15Subject.next(quart.slice());
-  }
-
-  getMethodes30(niveau: Niveau, orientation: string, duree: string) {
-    this.firestore.collection('methodes', ref =>
-    ref.where('orientation', '==', orientation)
-    .where('duree', '==', duree)
-    .where('niveau', '==', niveau))
-                    .snapshotChanges().subscribe( data => {
-         this.methodes30 = data.map( e => {
-          const anotherData = e.payload.doc.data() as Methode;
-          return  {
-            ...anotherData
-          } as Methode;
-        });
-         this.emitMethodes30Subject();
-      });
-  }
-  emitMethodes30Subject() {
-    const quart = [];
-    this.methodes30.forEach(item => {
-      const local = new MethodeAvance();
-      local.acronyme = item.acronyme;
-      local.id = item.id;
-      local.nom = item.nom;
-      quart.push(Object.assign({}, local));
-    });
-    this.methodes30Subject.next(quart.slice());
-  }
-
-
-  getMethodes15Cardio(niveau: Niveau, orientation: string, duree: string) {
-    this.firestore.collection('methodes', ref =>
-    ref.where('orientation', '==', orientation)
-    .where('duree', '==', duree)
-    .where('niveau', '==', niveau))
-                    .snapshotChanges().subscribe( data => {
-         this.methodes15Cardio = data.map( e => {
-          const anotherData = e.payload.doc.data() as Methode;
-          return  {
-            ...anotherData
-          } as Methode;
-        });
-         this.emitMethodes15CardioSubject();
-      });
-  }
-  emitMethodes15CardioSubject() {
-    const quart = [];
-    this.methodes15Cardio.forEach(item => {
-      const local = new MethodeAvance();
-      local.acronyme = item.acronyme;
-      local.id = item.id;
-      local.nom = item.nom;
-      quart.push(Object.assign({}, local));
-    });
-    this.methodes15CardioSubject.next(quart.slice());
-  }
-
-  getMethodes30Cardio(niveau: Niveau, orientation: string, duree: string) {
-    this.firestore.collection('methodes', ref =>
-    ref.where('orientation', '==', orientation)
-    .where('duree', '==', duree)
-    .where('niveau', '==', niveau))
-                    .snapshotChanges().subscribe( data => {
-         this.methodes30Cardio = data.map( e => {
-          const anotherData = e.payload.doc.data() as Methode;
-          return  {
-            ...anotherData
-          } as Methode;
-        });
-         this.emitMethodes30CardioSubject();
-      });
-  }
-  emitMethodes30CardioSubject() {
-    const quart = [];
-    this.methodes30Cardio.forEach(item => {
-      const local = new MethodeAvance();
-      local.acronyme = item.acronyme;
-      local.id = item.id;
-      local.nom = item.nom;
-      quart.push(Object.assign({}, local));
-    });
-    this.methodes30CardioSubject.next(quart.slice());
-  }
+    }
 
 }

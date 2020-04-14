@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Questionnaires } from 'src/app/questionnaires/questionnaires';
 import { MaterielsService } from 'src/app/materiels/materiels.service';
+import { MaterielAvance } from '../materiel-avance';
 
 @Component({
   selector: 'app-user-questions',
@@ -23,7 +24,7 @@ export class UserQuestionsComponent implements OnInit {
   arret: boolean;
 
   materiels: Materiel[];
-  materielsSelected: Materiel[] = [];
+  materielsSelected: MaterielAvance[] = [];
   toAddMateriels: boolean;
 
   constructor(public dialogRef: MatDialogRef<UserQuestionsComponent>,
@@ -59,9 +60,9 @@ export class UserQuestionsComponent implements OnInit {
   }
 
   nextQuestion() {
-    if (this.indexQuestion === 1 && (this.reponsesOk[1] !== 'Non' || this.reponsesOk[1] !== 'non fourni' )) {
-      this.indexQuestion += 2;
-    } else if (this.indexQuestion === 3 && this.reponsesOk[1] !== 'Non') {
+    if (this.indexQuestion === 1 && this.reponsesOk[1] !== 'Non' && this.reponsesOk[1].trim() !== 'non fourni') {
+        this.indexQuestion += 2;
+    } else if (this.indexQuestion === 3 && this.reponsesOk[1] !== 'Non' && this.reponsesOk[1].trim() !== 'non fourni') {
       this.indexQuestion += 2;
     } else if (this.indexQuestion + 1 < this.questions.length) {
       this.indexQuestion += 1;
@@ -77,7 +78,11 @@ export class UserQuestionsComponent implements OnInit {
   selectMateriel(item: Materiel) {
     const id = this.materielsSelected.findIndex(it => it.id === item.id);
     if (id < 0) {
-      this.materielsSelected.push(item);
+      const local = new MaterielAvance();
+      local.id = item.id;
+      local.nom = item.nom;
+      local.postefixe = item.postefixe;
+      this.materielsSelected.push(Object.assign({}, local));
     }
     this.reponsesOk[this.indexQuestion] = this.materielsSelected;
   }

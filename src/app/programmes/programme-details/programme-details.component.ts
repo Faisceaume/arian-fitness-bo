@@ -138,7 +138,7 @@ export class ProgrammeDetailsComponent implements OnInit {
 
       if (value.nombre === 0) {
         this.showNombreSemaine = false;
-        this.updateField('nbrsemaine', 0);
+        this.programmesService.newUpdateVersion(this.formData, 'nbrsemaine', 0);
         this.formData.nbrsemaine = 0;
       } else {
         this.showNombreSemaine = true;
@@ -290,8 +290,8 @@ export class ProgrammeDetailsComponent implements OnInit {
   }
 
   saveFusion() {
-    this.updateField('fusion', true);
-    this.updateField('seances', this.seancesOfProgramme);
+    this.programmesService.newUpdateVersion(this.formData, 'fusion', true);
+    this.programmesService.newUpdateVersion(this.formData, 'seances', this.seancesOfProgramme);
     this.formData.fusion = true;
   }
 
@@ -345,14 +345,10 @@ export class ProgrammeDetailsComponent implements OnInit {
                     dureeFinale = min + ' minutes ';
 
       // recherche des methodes compatibles et attribution au bloc parent
-      if (dureeFinale.trim() === '15 minutes') {
-        const liste1 = [];
-        this.listeNiveau.forEach((niv: Niveau) => {
-
-          if (data[0].orientation === 'cardio') {
-            this.methodesService
-          .getMethodes15Cardio(niv, data[0].orientation, dureeFinale.trim());
-            this.methodesService.methodes15CardioSubject.subscribe((dat: Methode[]) => {
+      const liste1 = [];
+      this.listeNiveau.forEach((niv: Niveau) => {
+          this.methodesService.getMethodesForProgramme(niv, data[0].orientation, dureeFinale.trim())
+            .then((dat: Methode[]) => {
               dat.forEach((it: Methode) => {
               const position = liste1.findIndex(itt => itt.id === it.id);
               if (position < 0) {
@@ -360,54 +356,12 @@ export class ProgrammeDetailsComponent implements OnInit {
               }
             });
           });
-          } else {
-            this.methodesService
-            .getMethodes15(niv, data[0].orientation, dureeFinale.trim());
-            this.methodesService.methodes15Subject.subscribe((da: Methode[]) => {
-              da.forEach((it: Methode) => {
-                const position = liste1.findIndex(itt => itt.id === it.id);
-                if (position < 0) {
-                  liste1.push(it);
-                }
-              });
-            });
-          }
-        });
-        this.seancesOfProgramme[seance].blocs[positionBloc].quartfusion = liste1;
 
-      } else if (dureeFinale.trim() === '30 minutes') {
-        const liste2 = [];
-        this.listeNiveau.forEach((niv: Niveau) => {
-
-          if (data[0].orientation === 'cardio') {
-            this.methodesService
-              .getMethodes30Cardio(niv, data[0].orientation, dureeFinale.trim());
-            this.methodesService.methodes30CardioSubject.subscribe((dat: Methode[]) => {
-                dat.forEach((it: Methode) => {
-                  const position = liste2.findIndex(itt => itt.id === it.id);
-                  if (position < 0) {
-                    liste2.push(it);
-                  }
-                });
-              });
-          } else {
-            this.methodesService
-              .getMethodes30(niv, data[0].orientation, dureeFinale.trim());
-            this.methodesService.methodes30Subject.subscribe((dat: Methode[]) => {
-                data.forEach((it: Methode) => {
-                  const position = liste2.findIndex(itt => itt.id === it.id);
-                  if (position < 0) {
-                    liste2.push(it);
-                  }
-                });
-              });
-          }
         });
-        this.seancesOfProgramme[seance].blocs[positionBloc].demifusion = liste2;
-      }
+      dureeFinale.trim() === '15 minutes' ?
+          this.seancesOfProgramme[seance].blocs[positionBloc].quartfusion = liste1 :
+          this.seancesOfProgramme[seance].blocs[positionBloc].demifusion = liste1;
     }
-
-
   }
 
 
