@@ -300,7 +300,7 @@ export class ProgrammeDetailsComponent implements OnInit {
     for (const [indexSeance, seance] of this.seancesOfProgramme.entries()) {
       for (const [indexBloc, bloc] of seance.blocs.entries()) {
         if (bloc.fusionnable) {
-          this.function2(indexSeance, indexBloc);
+           this.function2(indexSeance, indexBloc);
         }
       }
     }
@@ -328,7 +328,7 @@ export class ProgrammeDetailsComponent implements OnInit {
     let sec = 0;
 
     for (const bloc of data) {
-      let dureeFinale: string;
+      let dureeFinale = '';
       // opérations sur la durée
       const donnees = bloc.duree.split(' ');
       // tslint:disable-next-line: radix
@@ -358,9 +358,11 @@ export class ProgrammeDetailsComponent implements OnInit {
           });
 
         });
-      dureeFinale.trim() === '15 minutes' ?
-          this.seancesOfProgramme[seance].blocs[positionBloc].quartfusion = liste1 :
-          this.seancesOfProgramme[seance].blocs[positionBloc].demifusion = liste1;
+      if (dureeFinale.trim() === '15 minutes') {
+        this.seancesOfProgramme[seance].blocs[positionBloc].quartfusion = liste1;
+       } else if (dureeFinale.trim() === '30 minutes') {
+        this.seancesOfProgramme[seance].blocs[positionBloc].demifusion = liste1;
+       }
     }
   }
 

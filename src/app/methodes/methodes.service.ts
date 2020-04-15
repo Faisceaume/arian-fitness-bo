@@ -14,9 +14,6 @@ export class MethodesService {
   methodes: Methode[];
   methodeSubject = new Subject<any[]>();
 
-  methodesForProgramme: Methode[];
-  methodesForProgrammeSubject = new Subject<any[]>();
-
 
   constructor(private firestore: AngularFirestore,
               private router: Router) { }
