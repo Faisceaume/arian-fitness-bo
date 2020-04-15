@@ -38,7 +38,7 @@
     <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center" *ngIf="questions" >
       <button mat-icon-button type="button"
       (click)="nextQuestion()"
-      *ngIf="questions[indexQuestion].croix && indexQuestion+1 !== questions.length" >
+      *ngIf="questions[indexQuestion].croix && !showSaveButton" >
         <mat-icon>close</mat-icon>
       </button>
     </div>
@@ -47,7 +47,7 @@
 
   <!-- Zone d'affichage des reponses possibles pour la question encours -->
   <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="1px"
-    *ngIf="!toAddPathologie && !toAddPathologie && !showSaveButton">
+    *ngIf="!toAddMateriels && !toAddPathologie && !showSaveButton">
     <div fxFlex="calc(50%-1px)" fxLayoutAlign="center center"
     *ngFor="let item of questions[indexQuestion].reponses ; let i = index"
     class="reponses"
@@ -58,7 +58,7 @@
 
   <!-- Selection des materiels du questionnaires 1 -->
   <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0"
-    *ngIf="indexQuestion === 3 && questionnaireNumber === '1'" >
+    *ngIf="indexQuestion === 3 && questionnaireNumber === '1' && !showSaveButton" >
 
     <mat-chip-list #chipList aria-label="Matériels" style="margin:0 10px 10px">
       <mat-chip class="dark-chip tt-upper br-5">Matériels : </mat-chip>
@@ -121,7 +121,7 @@
   <div fxFlex="100" fxLayoutAlign="end end" *ngIf="showSaveButton" >
     <button mat-raised-button type="button" color="warn"
       [mat-dialog-close]="{'questions': questionsOK, 'reponses': reponsesOk}" cdkFocusInitial
-      *ngIf="indexQuestion+1 === questions.length">
+      *ngIf="showSaveButton">
         <mat-icon>save</mat-icon>
         <span>Enregistrer le questionnaire</span>
     </button>
