@@ -58,8 +58,8 @@ export class BlocDetailsComponent implements OnInit, OnDestroy {
 
     this.niveau.forEach((item: Niveau) => {
       this.methodesService
-      .getMethodesForProgramme(item, this.currentBloc.orientation, this.currentBloc.duree);
-      this.methodesService.methodesForProgrammeSubject.subscribe((data: Methode[]) => {
+      .getMethodesForProgramme(item, this.currentBloc.orientation, this.currentBloc.duree)
+        .then((data: Methode[]) => {
         data.forEach((it: Methode) => {
           const position = this.listeDesMethodes.findIndex(itt => itt.id === it.id);
           if (position < 0) {

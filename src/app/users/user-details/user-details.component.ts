@@ -155,6 +155,22 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  launchQ2() {
+    const dialogRef = this.dialog.open(UserQuestionsComponent, {
+      width: '80%',
+      data: {
+        name: '2- Questionnaire Premium pour démarrer un programme',
+        niveaunombre: this.formData.niveau.nombre
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+      }
+    });
+  }
+
   ngOnDestroy(): void {
     this.usersService.currentUser = null;
   }

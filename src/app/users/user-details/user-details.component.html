@@ -98,12 +98,12 @@
   </div>
 
 
-  <div fxLayout="row wrap" fxLayoutAlign="start center" class="divgrey" style="margin:10px">
+  <div fxLayout="row wrap" fxLayoutAlign="start start" class="divgrey" style="margin:10px">
 
     <h4 fxFlex="100">Position & Niveau</h4>
 
-    <div fxLayout="row" fxFlex="100">
-        <label style="padding:25px 5px 0 0"> Niveau </label>
+    <div fxLayout="row" fxFlex="33">
+        <label> Niveau </label>
         <span class="bulle-acro" *ngIf="!toChangeNiveau && formData.niveau">N {{ formData.niveau.acronyme}} </span>
         <button mat-icon-button
           (click)="toChangeNiveau = true"
@@ -121,8 +121,8 @@
         </mat-radio-group>
     </div>
 
-    <div fxLayout="row" fxFlex="100" style="margin-top: 5px;">
-      <label style="padding:25px 5px 0 0"> Niveau inscription </label>
+    <div fxLayout="row" fxFlex="33">
+      <label> Niveau inscription </label>
       <span class="bulle-acro" *ngIf="!toChangeNiveauIns && formData.niveauinscription">
         N {{ formData.niveauinscription.acronyme}} </span>
       <button mat-icon-button
@@ -141,8 +141,8 @@
       </mat-radio-group>
     </div>
 
-    <div fxLayout="row" fxFlex="100" style="margin-top: 5px;">
-      <label style="padding:25px 5px 0 0"> Niveau periode Off </label>
+    <div fxLayout="row" fxFlex="33">
+      <label> Niveau periode Off </label>
       <span class="bulle-acro" *ngIf="!toChangeNiveauOff && formData.niveauavantperiodeoff">
         N {{ formData.niveauavantperiodeoff.acronyme}} </span>
       <button mat-icon-button
@@ -161,8 +161,8 @@
       </mat-radio-group>
     </div>
 
-    <div fxLayoutAlign="start start" style="margin-top: 10px;" fxFlex="100">
-      <label class="dark-chip" fxFlex="18"> Position Parcours Niveau:</label>
+    <div fxLayoutAlign="start start" style="margin-top: 10px;" fxFlex="33" fxLayout="column">
+      <label style="padding:0 0 10px"> Position Parcours Niveau</label>
       <mat-radio-group color="warn"
       [(ngModel)]="formData.positionparcoursniveau"
       (ngModelChange)="updateField('positionparcoursniveau', formData.positionparcoursniveau)"
@@ -174,8 +174,8 @@
       </mat-radio-group>
     </div>
 
-    <div fxLayoutAlign="start start" style="margin-top: 10px;" fxFlex="100">
-      <label class="dark-chip" fxFlex="18"> Position Séance:</label>
+    <div fxLayoutAlign="start start" style="margin-top: 10px;" fxFlex="33" fxLayout="column">
+      <label style="padding:0 0 10px">Position Séance:</label>
       <mat-radio-group color="warn"
       [(ngModel)]="formData.positionseance"
       (ngModelChange)="updateField('positionseance', formData.positionseance)"
@@ -188,7 +188,7 @@
       </mat-radio-group>
     </div>
 
-    <div fxLayout="row" fxFlex="100">
+    <div fxLayout="column" fxFlex="33">
         <label style="padding:25px 5px 0 0">Mode Reprise</label>
         <mat-radio-group color="warn"
           [(ngModel)]="formData.modereprise"
@@ -207,7 +207,7 @@
   </div>
 
 
-  <div fxFlex="30" fxLayout="row wrap" fxLayoutAlign="start center" class="divgrey" style="margin:10px">
+  <div fxFlex="35" fxLayout="row wrap" fxLayoutAlign="start center" class="divgrey" style="margin:10px">
 
     <h4 fxFlex="100">Objectifs & Pathologies</h4>
 
@@ -277,6 +277,14 @@
     </div>
 
     <div fxFlex="50">
+      <label fxFlex="50" fxLayoutAlign="end start">Senior &nbsp; </label>
+      <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+        [formControl]="seniorControl"
+        (change)="updateField('senior', seniorControl.value)">
+      </mat-slide-toggle>
+    </div>
+
+    <div fxFlex="100">
       <label>Type d'abonnement</label>
       <mat-radio-group color="warn"
       [(ngModel)]="formData.abonnement"
@@ -287,15 +295,7 @@
       </mat-radio-group>
     </div>
 
-    <div fxFlex="100">
-      <label fxFlex="50" fxLayoutAlign="end start">Senior &nbsp; </label>
-      <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
-        [formControl]="seniorControl"
-        (change)="updateField('senior', seniorControl.value)">
-      </mat-slide-toggle>
-    </div>
-
-    <mat-form-field fxFlex="20">
+    <mat-form-field fxFlex="50">
       <mat-label>Date fin premium</mat-label>
       <input matInput [matDatepicker]="picker2"
       [formControl]="datefindepremiumControl"
@@ -304,14 +304,14 @@
       <mat-datepicker #picker2></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field fxFlex="20">
+    <mat-form-field fxFlex="50">
       <input matInput placeholder="Tarif" type="text" name="tarif"
         [(ngModel)]="formData.tarif"
         (ngModelChange)="updateField('tarif', formData.tarif)"
         id="tarif" required>
     </mat-form-field>
 
-    <mat-form-field fxFlex="40">
+    <mat-form-field fxFlex="50">
       <mat-label>Frequence</mat-label>
       <mat-select
       [(ngModel)]="formData.frequence"
@@ -320,7 +320,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field fxFlex="20">
+    <mat-form-field fxFlex="50">
       <input matInput placeholder="Frequence par jour" type="number" name="frequenceparjour"
         [(ngModel)]="formData.frequenceparjour"
         (ngModelChange)="updateField('frequenceparjour', formData.frequenceparjour)"
@@ -331,6 +331,9 @@
   <div fxFlex="100" fxLayoutAlign="end end" style="margin: 10px">
     <button mat-raised-button (click)="launchQ1()">
       Lancer le Questionnaire n°1
+    </button>
+    <button mat-raised-button (click)="launchQ2()">
+      Lancer le Questionnaire n°2
     </button>
     <button mat-raised-button
     color="warn"

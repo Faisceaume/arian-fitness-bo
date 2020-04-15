@@ -1,3 +1,5 @@
+import { PathologieAvance } from './../../exercices-series/pathologie-avance';
+import { PathologiesService } from './../../shared/pathologies/pathologies.service';
 import { Materiel } from './../../materiels/materiel';
 import { Questions } from './../../questionnaires/questions';
 import { QuestionnairesService } from './../../questionnaires/questionnaires.service';
@@ -7,6 +9,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Questionnaires } from 'src/app/questionnaires/questionnaires';
 import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { MaterielAvance } from '../materiel-avance';
+import { Pathologie } from 'src/app/shared/pathologies/pathologie';
 
 @Component({
   selector: 'app-user-questions',
@@ -15,6 +18,7 @@ import { MaterielAvance } from '../materiel-avance';
 })
 export class UserQuestionsComponent implements OnInit {
 
+  questionnaireNumber: string;
   questionnaire: Questionnaires;
   questions: Questions[];
 
@@ -27,17 +31,32 @@ export class UserQuestionsComponent implements OnInit {
   materielsSelected: MaterielAvance[] = [];
   toAddMateriels: boolean;
 
+  showSaveButton: boolean;
+
+  pathologies: Pathologie[];
+  pathologieSelected: Pathologie;
+  toAddPathologie: boolean;
+
   constructor(public dialogRef: MatDialogRef<UserQuestionsComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private questionnairesService: QuestionnairesService,
-              private materielsServices: MaterielsService) { }
+              private materielsServices: MaterielsService,
+              private pathologiesService: PathologiesService) { }
 
   ngOnInit() {
+    this.questionnaireNumber = this.data.name[0];
 
-    this.materielsServices.getAllMaterielsVisible();
-    this.materielsServices.materielSubject.subscribe(data => {
-      this.materiels = data;
-    });
+    if (this.questionnaireNumber === '1') {
+      this.materielsServices.getAllMaterielsVisible();
+      this.materielsServices.materielSubject.subscribe(data => {
+        this.materiels = data;
+      });
+    } else if (this.questionnaireNumber === '2') {
+      this.pathologiesService.getAllPathologies();
+      this.pathologiesService.pathologieSubject.subscribe(data => {
+        this.pathologies = data;
+      });
+    }
 
     this.questionnairesService.getQuestionnaireByName(this.data.name).then(data => {
       this.questionnaire = data;
@@ -53,27 +72,43 @@ export class UserQuestionsComponent implements OnInit {
     });
   }
 
+
+  /*********************************************/
+      // shared methodes for all questionnaires
+  /*********************************************/
+  nextQuestion() {
+    if (this.questionnaireNumber === '1') {
+      this.q1NextQuestion();
+    } else if (this.questionnaireNumber === '2') {
+      this.q2NextQuestion();
+    }
+  }
+
   backQuestion() {
+    this.showSaveButton = false;
     if (this.indexQuestion > 0) {
       this.indexQuestion -= 1;
     }
   }
 
-  nextQuestion() {
-    if (this.indexQuestion === 1 && this.reponsesOk[1] !== 'Non' && this.reponsesOk[1].trim() !== 'non fourni') {
-        this.indexQuestion += 2;
-    } else if (this.indexQuestion === 3 && this.reponsesOk[1] !== 'Non' && this.reponsesOk[1].trim() !== 'non fourni') {
-      this.indexQuestion += 2;
-    } else if (this.indexQuestion + 1 < this.questions.length) {
-      this.indexQuestion += 1;
+  selectedAnswer(positionReponse: number) {
+    this.reponsesOk[this.indexQuestion] = this.questionsOK[this.indexQuestion].reponses[positionReponse];
+    if (this.indexQuestion + 1 === this.questionsOK.length) {
+      this.showSaveButton = true;
+    } else {
+      this.nextQuestion();
     }
   }
 
-  selectedAnswer(positionReponse: number) {
-    this.reponsesOk[this.indexQuestion] = this.questionsOK[this.indexQuestion].reponses[positionReponse];
-    this.nextQuestion();
+  setResult() {
+    return {
+      questions: this.questionsOK,
+      reponses: this.reponsesOk};
   }
 
+/*********************************************/
+      // questionnaire 1 methodes
+/*********************************************/
 
   selectMateriel(item: Materiel) {
     const id = this.materielsSelected.findIndex(it => it.id === item.id);
@@ -86,5 +121,50 @@ export class UserQuestionsComponent implements OnInit {
     }
     this.reponsesOk[this.indexQuestion] = this.materielsSelected;
   }
+
+q1NextQuestion() {
+  if (this.indexQuestion === 1 && this.reponsesOk[1] !== 'Non' && this.reponsesOk[1].trim() !== 'non fourni') {
+    this.indexQuestion += 2;
+  } else if (this.indexQuestion === 3 && this.reponsesOk[1] !== 'Non' && this.reponsesOk[1].trim() !== 'non fourni') {
+    this.indexQuestion += 2;
+  } else if (this.indexQuestion + 1 < this.questions.length) {
+    this.indexQuestion += 1;
+    this.toAddMateriels = this.indexQuestion === 3 ? true : false;
+  }
+}
+
+/*********************************************/
+      // questionnaire 2 methodes
+/*********************************************/
+
+q2NextQuestion() {
+  if (this.indexQuestion === 0 && this.reponsesOk[0].trim() === 'RAS') {
+    if (this.data.niveaunombre >= 2) {
+      this.indexQuestion += 3;
+    } else {
+      this.indexQuestion += 2;
+    }
+  } else if (this.indexQuestion === 1) {
+    if (this.data.niveaunombre >= 2) {
+      this.indexQuestion += 2;
+    } else {
+      this.indexQuestion += 2;
+    }
+  } else if (this.indexQuestion === 2) {
+    this.indexQuestion += 2;
+  } else if (this.indexQuestion + 1 < this.questions.length) {
+    this.indexQuestion += 1;
+    this.toAddPathologie = this.indexQuestion === 1 ? true : false;
+  }
+}
+
+selectPathologie(item: Pathologie) {
+  this.pathologieSelected = item;
+  const local = new PathologieAvance();
+  local.acronyme = item.acronyme;
+  local.id = item.id;
+  local.nom = item.nom;
+  this.reponsesOk[this.indexQuestion] = Object.assign({}, local);
+}
 
 }
