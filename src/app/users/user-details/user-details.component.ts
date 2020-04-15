@@ -249,9 +249,10 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
           }
         }
 
-        // this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ1.questions);
-        // this.updateField('questionnaire1', true);
-        // this.formData.questionnaire1 = true;
+        this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ1.questions);
+        this.updateField('questionnaire1', true);
+        this.updateField('niveau', this.formData.niveau);
+        this.formData.questionnaire1 = true;
       }
     });
   }
