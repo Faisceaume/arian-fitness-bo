@@ -134,23 +134,124 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
         // determination du sexe
         this.formData.genre = this.resultQ1.questions[0].reponses === 'Un homme' ? 'H' : 'F';
         this.updateField('genre', this.formData.genre);
+        const response1 = this.resultQ1.questions[1].reponses;
+        const response2 = this.resultQ1.questions[2].reponses;
+        const response4 = this.resultQ1.questions[4].reponses;
+        const response5 = this.resultQ1.questions[5].reponses;
 
-        // determination de l'objectif du User
-        const libelle = this.resultQ1.questions[4].reponses === 'Autre' ?
-                        this.resultQ1.questions[5].reponses : this.resultQ1.questions[4].reponses;
+        // determination objectif et niveau
 
-        this.objectifsService.getSingleObjectifByNom(libelle).then(
-          (item: Objectif) => {
-            this.formData.objectif = item;
-            this.updateField('objectif', this.formData.objectif);
-          },
-          (error) => {
-            console.log('empty objectif');
+        if (response1 !== 'Non' && response1 !== 'non fourni') {
+          this.formData.niveau = this.niveaux[0];
+        } else if (response2[0] === 'N') {
+          this.formData.niveau = this.niveaux[0];
+        } else if (response2[0] === 'I') {
+          this.formData.niveau = this.niveaux[2];
+        } else if (response2[0] === 'E') {
+          this.formData.niveau = this.niveaux[4];
+        } else if (response2[0] === 'A') {
+          this.formData.niveau = this.niveaux[5];
+        }
+
+        if (response1.trim() === 'Oui, il s\'agit d\'une maladie, ou d\'une intervention,ayant touché mon système cardio-respiratoire.') {
+          this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'COEUR').then(
+            (item: Objectif) => {
+              this.formData.objectif = item;
+              this.updateField('objectif', this.formData.objectif);
+            },
+            (error) => {
+              console.log('empty objectif');
+            }
+          );
+        } else if (response1.trim() === 'Oui, j\'ai subi des troubles locomoteurs et neurologiques.') {
+          this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'LOCO').then(
+            (item: Objectif) => {
+              this.formData.objectif = item;
+              this.updateField('objectif', this.formData.objectif);
+            },
+            (error) => {
+              console.log('empty objectif');
+            }
+          );
+        } else if (response1.trim() === 'Oui, je suis en rémission d\'un cancer.') {
+          this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'CANCR').then(
+            (item: Objectif) => {
+              this.formData.objectif = item;
+              this.updateField('objectif', this.formData.objectif);
+            },
+            (error) => {
+              console.log('empty objectif');
+            }
+          );
+        } else if (response1.trim() === 'Non') {
+          if (response4.trim() === 'Mincir') {
+            this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'MINC').then(
+              (item: Objectif) => {
+                this.formData.objectif = item;
+                this.updateField('objectif', this.formData.objectif);
+              },
+              (error) => {
+                console.log('empty objectif');
+              }
+            );
+          } else if (response4.trim() === 'Mincir et me muscler') {
+            this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'MINMU').then(
+              (item: Objectif) => {
+                this.formData.objectif = item;
+                this.updateField('objectif', this.formData.objectif);
+              },
+              (error) => {
+                console.log('empty objectif');
+              }
+            );
+          } else if (response4.trim() === 'Me muscler') {
+            this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'MM').then(
+              (item: Objectif) => {
+                this.formData.objectif = item;
+                this.updateField('objectif', this.formData.objectif);
+              },
+              (error) => {
+                console.log('empty objectif');
+              }
+            );
+          } else if (response4.trim() === 'Stabilisation et anti-âge') {
+            this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'AGE').then(
+              (item: Objectif) => {
+                this.formData.objectif = item;
+                this.updateField('objectif', this.formData.objectif);
+              },
+              (error) => {
+                console.log('empty objectif');
+              }
+            );
           }
-        );
-        this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ1.questions);
-        this.updateField('questionnaire1', true);
-        this.formData.questionnaire1 = true;
+
+          if (response5[0] === 'P') {
+            this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'AGE').then(
+              (item: Objectif) => {
+                this.formData.objectif = item;
+                this.updateField('objectif', this.formData.objectif);
+              },
+              (error) => {
+                console.log('empty objectif');
+              }
+            );
+          } else if (response5[0] === 'E') {
+            this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'AGE').then(
+              (item: Objectif) => {
+                this.formData.objectif = item;
+                this.updateField('objectif', this.formData.objectif);
+              },
+              (error) => {
+                console.log('empty objectif');
+              }
+            );
+          }
+        }
+
+        // this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ1.questions);
+        // this.updateField('questionnaire1', true);
+        // this.formData.questionnaire1 = true;
       }
     });
   }

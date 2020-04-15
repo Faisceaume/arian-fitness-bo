@@ -85,9 +85,10 @@ export class UserQuestionsComponent implements OnInit {
   }
 
   backQuestion() {
-    this.showSaveButton = false;
-    if (this.indexQuestion > 0) {
-      this.indexQuestion -= 1;
+    if (this.questionnaireNumber === '1') {
+      this.q1BackQuestion();
+    } else if (this.questionnaireNumber === '2') {
+      this.q2BackQuestion();
     }
   }
 
@@ -125,12 +126,22 @@ export class UserQuestionsComponent implements OnInit {
 q1NextQuestion() {
   if (this.indexQuestion === 1 && this.reponsesOk[1] !== 'Non' && this.reponsesOk[1].trim() !== 'non fourni') {
     this.indexQuestion += 2;
+    this.toAddMateriels = this.indexQuestion === 3 ? true : false;
   } else if (this.indexQuestion === 3 && this.reponsesOk[1] !== 'Non' && this.reponsesOk[1].trim() !== 'non fourni') {
-    this.indexQuestion += 2;
+    this.showSaveButton = true;
+  } else if (this.indexQuestion === 4 && !(this.reponsesOk[4].trim() === 'Préparation physique orientée')) {
+    this.showSaveButton = true;
   } else if (this.indexQuestion + 1 < this.questions.length) {
     this.indexQuestion += 1;
     this.toAddMateriels = this.indexQuestion === 3 ? true : false;
   }
+}
+
+q1BackQuestion() {
+  this.showSaveButton = false;
+  if (this.indexQuestion > 0) {
+      this.indexQuestion -= 1;
+    }
 }
 
 /*********************************************/
@@ -139,23 +150,41 @@ q1NextQuestion() {
 
 q2NextQuestion() {
   if (this.indexQuestion === 0 && this.reponsesOk[0].trim() === 'RAS') {
-    if (this.data.niveaunombre >= 2) {
-      this.indexQuestion += 3;
-    } else {
+    if (this.data.niveaunombre === 1) {
       this.indexQuestion += 2;
+    } else {
+      this.indexQuestion += 3;
     }
   } else if (this.indexQuestion === 1) {
-    if (this.data.niveaunombre >= 2) {
-      this.indexQuestion += 2;
+    if (this.data.niveaunombre === 1) {
+      this.indexQuestion += 1;
     } else {
       this.indexQuestion += 2;
     }
   } else if (this.indexQuestion === 2) {
-    this.indexQuestion += 2;
+    this.showSaveButton = true;
+  } else if (this.indexQuestion === 3) {
+    const local = this.reponsesOk[3];
+    // tslint:disable-next-line: radix
+    if (parseInt(local[0]) > 2) {
+
+    } else {
+      this.showSaveButton = true;
+    }
   } else if (this.indexQuestion + 1 < this.questions.length) {
     this.indexQuestion += 1;
-    this.toAddPathologie = this.indexQuestion === 1 ? true : false;
   }
+  this.toAddPathologie = this.indexQuestion === 1 ? true : false;
+}
+
+q2BackQuestion() {
+  this.showSaveButton = false;
+  if (this.toAddPathologie) {
+    this.toAddPathologie = false;
+  }
+  if (this.indexQuestion > 0) {
+      this.indexQuestion -= 1;
+    }
 }
 
 selectPathologie(item: Pathologie) {
@@ -165,6 +194,7 @@ selectPathologie(item: Pathologie) {
   local.id = item.id;
   local.nom = item.nom;
   this.reponsesOk[this.indexQuestion] = Object.assign({}, local);
+  this.q2NextQuestion();
 }
 
 }
