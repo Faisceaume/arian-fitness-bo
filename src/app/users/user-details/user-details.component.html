@@ -335,6 +335,9 @@
     <button mat-raised-button (click)="launchQ2()">
       Lancer le Questionnaire n°2
     </button>
+    <button mat-raised-button (click)="launchQ3()">
+      Lancer le Questionnaire n°3
+    </button>
     <button mat-raised-button
     color="warn"
     [routerLink]="['/users/user-seance', formData.id]"
@@ -342,6 +345,7 @@
     >Lancer un entrainement</button>
   </div>
 
+  <!--
   <div *ngIf="resultQ1" >
     <h4>Historique questionnaire 1</h4>
     <p *ngFor="let item of resultQ1.questions ; let i = index" >
@@ -349,7 +353,7 @@
       <span> {{ resultQ1.reponses[i] }} </span>
     </p>
   </div>
-
+-->
 </div>
 
 
