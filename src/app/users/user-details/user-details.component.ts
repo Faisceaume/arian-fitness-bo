@@ -50,6 +50,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   resultQ1: any;
   resultQ2: any;
   resultQ3: any;
+  resultQ4: any;
+  resultQ5: any;
+  resultQ6: any;
   asSDS = true;
 
   constructor(private activeRoute: ActivatedRoute,
@@ -300,6 +303,12 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
             element.reponses = result.reponses[index];
           });
 
+        // DETERMINATION DE LA PATHOLOGIE DU USER
+          const response1 = result.reponses[1];
+          if (response1 !== 'non fourni') {
+            this.formData.pathologie = response1;
+          }
+
         // DETERMINATION DE LA FREQUENCE DU USER
           const response2 = this.resultQ2.questions[2].reponses;
           if (response2 !== 'non fourni') {
@@ -315,6 +324,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
 
           this.updateField('frequence', this.formData.frequence);
+          this.updateField('pathologie', this.formData.pathologie);
           this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ2.questions);
           this.updateField('questionnaire2', true);
           this.formData.questionnaire2 = true;
@@ -365,12 +375,10 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
             this.formData.materiels = data;
           }
 
+          // determination de la position du user
           if (response1 !== 'non fourno') {
             this.formData.position = response1 === 'Oui' ? 'sereleveseul' : 'neserelevepasseul';
           }
-
-
-          // determination de la position du user
 
 
           this.updateField('materiels', this.formData.materiels);
@@ -384,6 +392,172 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+
+  launchQ4() {
+    const dialogRef = this.dialog.open(UserQuestionsComponent, {
+      width: '80%',
+      data: {
+        name: '4- Questionnaire senior S80+ premium pour démarrer un programme',
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+          this.resultQ4 = result;
+          this.resultQ4.questions.forEach((element, index) => {
+            element.reponses = result.reponses[index];
+          });
+
+          // DETERMINATION DE LA FREQUENCE DU USER
+          const response1 = this.resultQ4.questions[1].reponses;
+          if (response1 !== 'non fourni') {
+            // tslint:disable-next-line: radix
+            this.formData.frequence = parseInt(response1[0]);
+          }
+
+          // RENSEIGNEMENT DES MATERIELS DU USERS
+          const response0 = this.resultQ4.questions[0].reponses;
+          if (response0 !== 'non fourni') {
+            this.formData.materiels = response0;
+            const data = [];
+            this.formData.materiels.forEach(item => {
+              const local = new MaterielAvance();
+              local.id = item.id;
+              local.nom = item.nom;
+              local.postefixe = item.postefixe;
+              data.push(Object.assign({}, local));
+
+              item.categories.forEach(it => {
+                if (it.acronyme === 'SDS') {
+                  this.asSDS = true;
+                }
+              });
+            });
+            this.resultQ4.questions[0].reponses = data;
+            this.formData.materiels = data;
+          }
+
+          this.updateField('materiels', this.formData.materiels);
+          this.updateField('frequence', this.formData.frequence);
+          this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ4.questions);
+          this.updateField('questionnaire4', true);
+          this.formData.questionnaire4 = true;
+    }
+  });
+
+  }
+
+  launchQ5() {
+    const dialogRef = this.dialog.open(UserQuestionsComponent, {
+      width: '80%',
+      data: {
+        name: '5- Questionnaire récurrent Extra',
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+          this.resultQ5 = result;
+          this.resultQ5.questions.forEach((element, index) => {
+            element.reponses = result.reponses[index];
+          });
+    }
+  });
+
+  }
+
+  launchQ6() {
+    const dialogRef = this.dialog.open(UserQuestionsComponent, {
+      width: '80%',
+      data: {
+        name: '6- Questionnaire récurrent Extra sénior S80+',
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+          this.resultQ6 = result;
+          this.resultQ6.questions.forEach((element, index) => {
+            element.reponses = result.reponses[index];
+          });
+
+          // RENSEIGNEMENT DES MATERIELS DU USERS
+          const response1 = this.resultQ6.questions[1].reponses;
+          if (response1 !== 'non fourni') {
+            this.formData.extraseniormateriel = response1;
+            const data = [];
+            this.formData.extraseniormateriel.forEach(item => {
+              const local = new MaterielAvance();
+              local.id = item.id;
+              local.nom = item.nom;
+              local.postefixe = item.postefixe;
+              data.push(Object.assign({}, local));
+
+              item.categories.forEach(it => {
+                if (it.acronyme === 'SDS') {
+                  this.asSDS = true;
+                }
+              });
+            });
+            this.resultQ6.questions[1].reponses = data;
+            this.formData.extraseniormateriel = data;
+          }
+
+          // DETERMINATION extraseniorobjectifjour DU USER
+          const response0 = this.resultQ6.questions[0].reponses.trim();
+          if (response0 !== 'non fourni') {
+            if (response0 === 'Renforcement du bas du corps') {
+              this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'BAS80').then(
+                (item: Objectif) => {
+                  this.formData.extraseniorobjectifjour = item;
+                  this.updateField('extraseniorobjectifjour', this.formData.extraseniorobjectifjour);
+                },
+                (error) => {
+                  console.log('empty objectif');
+                }
+              );
+            } else if (response0 === 'Renforcement du haut du corps') {
+              this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'HAU80').then(
+                (item: Objectif) => {
+                  this.formData.extraseniorobjectifjour = item;
+                  this.updateField('extraseniorobjectifjour', this.formData.extraseniorobjectifjour);
+                },
+                (error) => {
+                  console.log('empty objectif');
+                }
+              );
+            } else if (response0 === 'Posture et technique de marche') {
+              this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'PM80').then(
+                (item: Objectif) => {
+                  this.formData.extraseniorobjectifjour = item;
+                  this.updateField('extraseniorobjectifjour', this.formData.extraseniorobjectifjour);
+                },
+                (error) => {
+                  console.log('empty objectif');
+                }
+              );
+            } else if (response0 === 'Renforcement de tout votre corps') {
+              this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'FUL80').then(
+                (item: Objectif) => {
+                  this.formData.extraseniorobjectifjour = item;
+                  this.updateField('extraseniorobjectifjour', this.formData.extraseniorobjectifjour);
+                },
+                (error) => {
+                  console.log('empty objectif');
+                }
+              );
+            }
+          }
+
+          this.updateField('extraseniormateriel', this.formData.extraseniormateriel);
+          this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ6.questions);
+          this.updateField('questionnaire6', true);
+          this.formData.questionnaire6 = true;
+
+    }
+  });
+
+  }
   ngOnDestroy(): void {
     this.usersService.currentUser = null;
   }

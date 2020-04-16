@@ -39,6 +39,13 @@ export class User {
  questionnaire1?: boolean;
  questionnaire2?: boolean;
  questionnaire3?: boolean;
+ questionnaire4?: boolean;
+ questionnaire5?: boolean;
+ questionnaire6?: boolean;
+
+ extraseniorobjectifjour: Objectif;
+ extraseniormateriel: any[];
+
  position: string;
 
  timestamp: string;
