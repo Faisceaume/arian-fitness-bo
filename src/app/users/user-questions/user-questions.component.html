@@ -66,7 +66,6 @@
         *ngFor="let item of materielsSelected">
         {{ item.nom }}
       </mat-chip>
-
           <button *ngIf="!toAddMateriels"  mat-icon-button
                       (click)="toAddMateriels = true">
                 <mat-icon>add</mat-icon>
@@ -90,6 +89,12 @@
           {{ item.nom }}
         </mat-chip>
       </mat-chip-list>
+    </div>
+
+    <div fxFlex="100" fxLayoutAlign="end end">
+      <button mat-icon-button (click)="nextQuestion()">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
     </div>
   </div>
 
@@ -118,13 +123,18 @@
     <p *ngIf="questions[indexQuestion].consignes && !showSaveButton" class="consigne" fxFlex="100"> {{ questions[indexQuestion].consignes }}</p>
   </div>
 
-  <div fxFlex="100" fxLayoutAlign="end end" *ngIf="showSaveButton" >
-    <button mat-raised-button type="button" color="warn"
+  <div fxFlex="100" fxLayoutAlign="center center" *ngIf="showSaveButton" >
+    <!-- <button mat-raised-button type="button" color="warn"
       [mat-dialog-close]="{'questions': questionsOK, 'reponses': reponsesOk}" cdkFocusInitial
       *ngIf="showSaveButton">
         <mat-icon>save</mat-icon>
         <span>Enregistrer le questionnaire</span>
-    </button>
+    </button> -->
+    <div [mat-dialog-close]="{'questions': questionsOK, 'reponses': reponsesOk}" cdkFocusInitial
+      class="reponses" *ngIf="showSaveButton">
+        <mat-icon>save</mat-icon>
+        <span>Enregistrer le questionnaire</span>
+    </div>
   </div>
 
 
