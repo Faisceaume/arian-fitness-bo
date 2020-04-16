@@ -319,6 +319,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
           this.updateField('questionnaire2', true);
           this.formData.questionnaire2 = true;
       }
+
     });
   }
 
