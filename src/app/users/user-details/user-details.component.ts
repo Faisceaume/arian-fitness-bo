@@ -91,6 +91,11 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       }
 
     });
+
+    this.premiumControl.valueChanges.subscribe(data => {
+      this.formData.premium = data;
+    });
+
     this.niveauxService.getAllNiveaux();
     this.niveauxService.niveauxSubject.subscribe(data => {
       this.niveaux = data;

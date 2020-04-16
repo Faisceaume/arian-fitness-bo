@@ -174,10 +174,11 @@
         <mat-icon>save</mat-icon>
         <span>Enregistrer le questionnaire</span>
     </button> -->
-    <div [mat-dialog-close]="{'questions': questionsOK, 'reponses': reponsesOk}" cdkFocusInitial
+    <div fxFlex="100" fxLayoutAlign="center center"
+      [mat-dialog-close]="{'questions': questionsOK, 'reponses': reponsesOk}" cdkFocusInitial
       class="reponses" *ngIf="showSaveButton">
         <mat-icon>save</mat-icon>
-        <span>Enregistrer le questionnaire</span>
+        <span> ENREGISTRER LE QUESTIONNAIRE</span>
     </div>
   </div>
 
