@@ -71,7 +71,7 @@ arian-fitness@appspot.gserviceaccount.com
 arian-fitness.appspot.com
 
 
-
+1 1 * * 1
 
 
 

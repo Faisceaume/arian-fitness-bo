@@ -36,6 +36,7 @@ export class UserFormComponent implements OnInit {
       niveau: null,
       modereprise: '0',
       pathologie: null,
+      materiels: null,
       positionseance: 1,
       objectif: null,
       niveauinscription: null,

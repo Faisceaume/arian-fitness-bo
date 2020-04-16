@@ -9,6 +9,7 @@
       <button mat-icon-button type="button"
       (click)="backQuestion()"
       [disabled]="indexQuestion <= 0"
+      *ngIf="!showSaveButton"
       > <mat-icon>arrow_back</mat-icon> </button>
     </div>
 
@@ -20,6 +21,7 @@
       <button mat-icon-button type="button"
       (click)="nextQuestion()"
       [disabled]="indexQuestion+1 >= questions.length"
+      *ngIf="!showSaveButton"
       > <mat-icon>arrow_forward</mat-icon> </button>
     </div>
   </div>
@@ -47,7 +49,7 @@
 
   <!-- Zone d'affichage des reponses possibles pour la question encours -->
   <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="1px"
-    *ngIf="!toAddMateriels && !toAddPathologie && !showSaveButton">
+    *ngIf="!toAddMateriels && !toAddPathologie && !showSaveButton && !toAddPointfaibles">
     <div fxFlex="calc(50%-1px)" fxLayoutAlign="center center"
     *ngFor="let item of questions[indexQuestion].reponses ; let i = index"
     class="reponses"
@@ -58,7 +60,7 @@
 
   <!-- Selection des materiels du questionnaires 1 -->
   <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0"
-    *ngIf="indexQuestion === 3 && questionnaireNumber === '1' && !showSaveButton" >
+    *ngIf="toAddMateriels && !showSaveButton" >
 
     <mat-chip-list #chipList aria-label="Matériels" style="margin:0 10px 10px">
       <mat-chip class="dark-chip tt-upper br-5">Matériels : </mat-chip>
@@ -66,7 +68,6 @@
         *ngFor="let item of materielsSelected">
         {{ item.nom }}
       </mat-chip>
-
           <button *ngIf="!toAddMateriels"  mat-icon-button
                       (click)="toAddMateriels = true">
                 <mat-icon>add</mat-icon>
@@ -91,6 +92,12 @@
         </mat-chip>
       </mat-chip-list>
     </div>
+
+    <div fxFlex="100" fxLayoutAlign="end end">
+      <button mat-icon-button (click)="nextQuestion()">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
   </div>
 
 
@@ -114,17 +121,64 @@
     </div>
   </div>
 
+    <!-- Selection des points faibles du questionnaires 2 -->
+    <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0"
+    *ngIf="toAddPointfaibles && !showSaveButton" >
+
+    <mat-chip-list #chipList aria-label="Points Faibles" style="margin:0 10px 10px">
+      <mat-chip class="dark-chip tt-upper br-5">Points Faibles : </mat-chip>
+      <mat-chip
+        *ngFor="let item of pointfaiblesSelected">
+        {{ item.nom }}
+      </mat-chip>
+          <button *ngIf="!toAddPointfaibles"  mat-icon-button
+                      (click)="toAddPointfaibles = true">
+                <mat-icon>add</mat-icon>
+          </button>
+          <button *ngIf="toAddPointfaibles" mat-icon-button
+                  (click)="toAddPointfaibles = false">
+            <mat-icon>close</mat-icon>
+          </button>
+    </mat-chip-list>
+
+    <div *ngIf="toAddPointfaibles && pointfaibles"  fxLayout="column">
+      <mat-chip-list #chipList aria-label="points faibles">
+        <mat-chip
+          *ngFor="let item of pointfaibles; let i = index"
+          [ngStyle]="{
+            'color': '#FFF',
+            'background-color': '#ccc',
+            'cursor': 'pointer'
+          }"
+          (click)="selectPointFaible(item)">
+          {{ item.nom }}
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+
+    <div fxFlex="100" fxLayoutAlign="end end">
+      <button mat-icon-button (click)="showSaveButton = true">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+
   <div fxFlex="100">
     <p *ngIf="questions[indexQuestion].consignes && !showSaveButton" class="consigne" fxFlex="100"> {{ questions[indexQuestion].consignes }}</p>
   </div>
 
-  <div fxFlex="100" fxLayoutAlign="end end" *ngIf="showSaveButton" >
-    <button mat-raised-button type="button" color="warn"
+  <div fxFlex="100" fxLayoutAlign="center center" *ngIf="showSaveButton" >
+    <!-- <button mat-raised-button type="button" color="warn"
       [mat-dialog-close]="{'questions': questionsOK, 'reponses': reponsesOk}" cdkFocusInitial
       *ngIf="showSaveButton">
         <mat-icon>save</mat-icon>
         <span>Enregistrer le questionnaire</span>
-    </button>
+    </button> -->
+    <div [mat-dialog-close]="{'questions': questionsOK, 'reponses': reponsesOk}" cdkFocusInitial
+      class="reponses" *ngIf="showSaveButton">
+        <mat-icon>save</mat-icon>
+        <span>Enregistrer le questionnaire</span>
+    </div>
   </div>
 
 
