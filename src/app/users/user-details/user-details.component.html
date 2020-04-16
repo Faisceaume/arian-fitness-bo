@@ -7,7 +7,22 @@
 </button>
 
 <div class="nom-formulaire" *ngIf="formData">
-  <h2>User : <strong>{{ formData.email }}</strong></h2>
+  <h2>
+    User :
+    <strong>{{ formData.email }}</strong>
+    <span *ngIf="formData.genre">&nbsp; | Genre :
+      <strong>
+        <span *ngIf="formData.genre==='F'"> Femme</span>
+        <span *ngIf="formData.genre==='H'"> Homme</span>
+      </strong>
+    </span>
+    <span *ngIf="formData.niveau">&nbsp; | Niveau :
+      <strong>{{ formData.niveau.acronyme }}</strong>
+    </span>
+    <span *ngIf="formData.premium===true">&nbsp; |
+      <strong>Premium</strong>
+    </span>
+  </h2>
 </div>
 
 <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="formData && niveaux">
@@ -45,15 +60,6 @@
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
-      <div fxFlex="50">
-        <label style="padding-top:28px !important">Genre</label>
-        <mat-radio-group color="warn"
-        [(ngModel)]="formData.genre"
-        (ngModelChange)="updateField('genre', formData.genre)">
-          <mat-radio-button value="H" class="span-radio-button">Homme</mat-radio-button>
-          <mat-radio-button value="F" class="span-radio-button">Femme</mat-radio-button>
-        </mat-radio-group>
-      </div>
     </div>
     <div fxLayout="row">
       <mat-form-field fxFlex="50">
@@ -72,8 +78,8 @@
     <div>
       <p *ngIf="!editdates" fxLayout="row" fxLayoutAlign="start center" class="info-user">
         <button mat-icon-button (click)="editdates=!editdates"><mat-icon>edit</mat-icon></button>
-        <span *ngIf="formData.datedernierlog">| Dernier log : {{ formData.datedernierlog | date }} |</span>
-        <span *ngIf="formData.datedernieremaj">| Dernièrer maj : {{ formData.datedernieremaj | date }}</span>
+        <span *ngIf="formData.datedernierlog"> Dernier log : {{ formData.datedernierlog | date }} |</span>
+        <span *ngIf="formData.datedernieremaj"> Dernièrer maj : {{ formData.datedernieremaj | date }}</span>
       </p>
       <div *ngIf="editdates" fxLayout="row">
         <button mat-icon-button (click)="editdates=!editdates" class="icon" style="padding:10px 0 0"><mat-icon>visibility_off</mat-icon></button>
@@ -328,20 +334,18 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex="100" fxLayoutAlign="end end" style="margin: 10px">
-    <button mat-raised-button (click)="launchQ1()">
-      Lancer le Questionnaire n°1
-    </button>
-    <button mat-raised-button (click)="launchQ2()">
-      Lancer le Questionnaire n°2
-    </button>
-    <button mat-raised-button
+  <div fxFlex="100" fxLayoutAlign="end end" fxLayoutGap="5px" style="margin: 10px">
+    <button mat-fab color="black" (click)="launchQ1()">Q1</button>
+    <button mat-fab color="black" (click)="launchQ2()">Q2</button>
+    <button mat-fab color="black" (click)="launchQ3()">Q3</button>
+    <button mat-fab
     color="warn"
     [routerLink]="['/users/user-seance', formData.id]"
     *ngIf="premiumControl.value"
-    >Lancer un entrainement</button>
+    >E</button>
   </div>
 
+  <!--
   <div *ngIf="resultQ1" >
     <h4>Historique questionnaire 1</h4>
     <p *ngFor="let item of resultQ1.questions ; let i = index" >
@@ -349,7 +353,7 @@
       <span> {{ resultQ1.reponses[i] }} </span>
     </p>
   </div>
-
+-->
 </div>
 
 

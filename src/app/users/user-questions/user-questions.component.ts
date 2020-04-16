@@ -37,6 +37,10 @@ export class UserQuestionsComponent implements OnInit {
   pathologieSelected: Pathologie;
   toAddPathologie: boolean;
 
+  pointfaibles: PathologieAvance[];
+  pointfaiblesSelected: PathologieAvance[] = [];
+  toAddPointfaibles: boolean;
+
   constructor(public dialogRef: MatDialogRef<UserQuestionsComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private questionnairesService: QuestionnairesService,
@@ -46,7 +50,7 @@ export class UserQuestionsComponent implements OnInit {
   ngOnInit() {
     this.questionnaireNumber = this.data.name[0];
 
-    if (this.questionnaireNumber === '1') {
+    if (this.questionnaireNumber === '1' || this.questionnaireNumber === '3') {
       this.materielsServices.getAllMaterielsVisible();
       this.materielsServices.materielSubject.subscribe(data => {
         this.materiels = data;
@@ -55,6 +59,11 @@ export class UserQuestionsComponent implements OnInit {
       this.pathologiesService.getAllPathologies();
       this.pathologiesService.pathologieSubject.subscribe(data => {
         this.pathologies = data;
+      });
+
+      this.pathologiesService.getAllPointFaibles();
+      this.pathologiesService.pointfaibleSubject.subscribe(data => {
+        this.pointfaibles = data;
       });
     }
 
@@ -81,6 +90,8 @@ export class UserQuestionsComponent implements OnInit {
       this.q1NextQuestion();
     } else if (this.questionnaireNumber === '2') {
       this.q2NextQuestion();
+    } else if (this.questionnaireNumber === '3') {
+      this.q3NextQuestion();
     }
   }
 
@@ -89,6 +100,8 @@ export class UserQuestionsComponent implements OnInit {
       this.q1BackQuestion();
     } else if (this.questionnaireNumber === '2') {
       this.q2BackQuestion();
+    } else if (this.questionnaireNumber === '3') {
+      this.q3BackQuestion();
     }
   }
 
@@ -101,6 +114,14 @@ export class UserQuestionsComponent implements OnInit {
     }
   }
 
+  selectMateriel(item: Materiel) {
+    const id = this.materielsSelected.findIndex(it => it.id === item.id);
+    if (id < 0) {
+      this.materielsSelected.push(item);
+    }
+    this.reponsesOk[this.indexQuestion] = this.materielsSelected;
+  }
+
   setResult() {
     return {
       questions: this.questionsOK,
@@ -110,18 +131,6 @@ export class UserQuestionsComponent implements OnInit {
 /*********************************************/
       // questionnaire 1 methodes
 /*********************************************/
-
-  selectMateriel(item: Materiel) {
-    const id = this.materielsSelected.findIndex(it => it.id === item.id);
-    if (id < 0) {
-      const local = new MaterielAvance();
-      local.id = item.id;
-      local.nom = item.nom;
-      local.postefixe = item.postefixe;
-      this.materielsSelected.push(Object.assign({}, local));
-    }
-    this.reponsesOk[this.indexQuestion] = this.materielsSelected;
-  }
 
 q1NextQuestion() {
   if (this.indexQuestion === 1 && this.reponsesOk[1] !== 'Non' && this.reponsesOk[1].trim() !== 'non fourni') {
@@ -133,8 +142,8 @@ q1NextQuestion() {
     this.showSaveButton = true;
   } else if (this.indexQuestion + 1 < this.questions.length) {
     this.indexQuestion += 1;
-    this.toAddMateriels = this.indexQuestion === 3 ? true : false;
   }
+  this.toAddMateriels = this.indexQuestion === 3 ? true : false;
 }
 
 q1BackQuestion() {
@@ -167,7 +176,18 @@ q2NextQuestion() {
     const local = this.reponsesOk[3];
     // tslint:disable-next-line: radix
     if (parseInt(local[0]) > 2) {
-
+      if (this.data.asSDS) {
+        this.indexQuestion += 1;
+      } else {
+        this.showSaveButton = true;
+      }
+    } else {
+      this.showSaveButton = true;
+    }
+  } else if (this.indexQuestion === 4) {
+    const local = this.reponsesOk[4];
+    if (local === 'Oui') {
+      this.indexQuestion += 1;
     } else {
       this.showSaveButton = true;
     }
@@ -175,12 +195,16 @@ q2NextQuestion() {
     this.indexQuestion += 1;
   }
   this.toAddPathologie = this.indexQuestion === 1 ? true : false;
+  this.toAddPointfaibles = this.indexQuestion === 5 ? true : false;
 }
 
 q2BackQuestion() {
   this.showSaveButton = false;
   if (this.toAddPathologie) {
     this.toAddPathologie = false;
+  }
+  if (this.toAddPointfaibles) {
+    this.toAddPointfaibles = false;
   }
   if (this.indexQuestion > 0) {
       this.indexQuestion -= 1;
@@ -195,6 +219,44 @@ selectPathologie(item: Pathologie) {
   local.nom = item.nom;
   this.reponsesOk[this.indexQuestion] = Object.assign({}, local);
   this.q2NextQuestion();
+}
+
+selectPointFaible(item: Pathologie) {
+
+  const id = this.pointfaiblesSelected.findIndex(it => it.id === item.id);
+
+  if (id < 0) {
+    const local = new PathologieAvance();
+    local.acronyme = item.acronyme;
+    local.id = item.id;
+    local.nom = item.nom;
+    this.pointfaiblesSelected.push(Object.assign({}, local));
+  }
+
+  this.reponsesOk[this.indexQuestion] = this.pointfaiblesSelected;
+}
+
+/*********************************************/
+      // questionnaire 3 methodes
+/*********************************************/
+
+q3NextQuestion() {
+if (this.indexQuestion + 1 < this.questions.length) {
+    this.indexQuestion += 1;
+  } else if (this.indexQuestion + 1 === this.questions.length) {
+    this.showSaveButton = true;
+  }
+this.toAddMateriels = this.indexQuestion === 2 ? true : false;
+}
+
+q3BackQuestion() {
+  this.showSaveButton = false;
+  if (this.toAddPathologie) {
+    this.toAddPathologie = false;
+  }
+  if (this.indexQuestion > 0) {
+      this.indexQuestion -= 1;
+    }
 }
 
 }

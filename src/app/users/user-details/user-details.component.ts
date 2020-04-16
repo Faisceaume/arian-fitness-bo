@@ -1,3 +1,4 @@
+import { MaterielAvance } from './../materiel-avance';
 import { QuestionnairesService } from './../../questionnaires/questionnaires.service';
 import { UserQuestionsComponent } from './../user-questions/user-questions.component';
 import { MatDialog } from '@angular/material';
@@ -47,6 +48,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   toAddPathologie: boolean;
 
   resultQ1: any;
+  resultQ2: any;
+  resultQ3: any;
+  asSDS = true;
 
   constructor(private activeRoute: ActivatedRoute,
               private niveauxService: NiveauxService,
@@ -87,6 +91,11 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       }
 
     });
+
+    this.premiumControl.valueChanges.subscribe(data => {
+      this.formData.premium = data;
+    });
+
     this.niveauxService.getAllNiveaux();
     this.niveauxService.niveauxSubject.subscribe(data => {
       this.niveaux = data;
@@ -133,12 +142,35 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
         // determination du sexe
         this.formData.genre = this.resultQ1.questions[0].reponses === 'Un homme' ? 'H' : 'F';
-        this.updateField('genre', this.formData.genre);
+
+        // les reponses du questionnaire
         const response1 = this.resultQ1.questions[1].reponses;
         const response2 = this.resultQ1.questions[2].reponses;
+        const response3 = this.resultQ1.questions[3].reponses;
         const response4 = this.resultQ1.questions[4].reponses;
         const response5 = this.resultQ1.questions[5].reponses;
 
+
+        // renseignement des materiels du user
+        if (response3 !== 'non fourni') {
+          this.formData.materiels = response3;
+          const data = [];
+          this.formData.materiels.forEach(item => {
+            const local = new MaterielAvance();
+            local.id = item.id;
+            local.nom = item.nom;
+            local.postefixe = item.postefixe;
+            data.push(Object.assign({}, local));
+
+            item.categories.forEach(it => {
+              if (it.acronyme === 'SDS') {
+                this.asSDS = true;
+              }
+            });
+          });
+          this.resultQ1.questions[3].reponses = data;
+          this.formData.materiels = data;
+        }
         // determination objectif et niveau
 
         if (response1 !== 'Non' && response1 !== 'non fourni') {
@@ -148,16 +180,15 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
         } else if (response2[0] === 'I') {
           this.formData.niveau = this.niveaux[2];
         } else if (response2[0] === 'E') {
-          this.formData.niveau = this.niveaux[4];
+          this.formData.niveau = this.niveaux[3];
         } else if (response2[0] === 'A') {
-          this.formData.niveau = this.niveaux[5];
+          this.formData.niveau = this.niveaux[4];
         }
 
         if (response1.trim() === 'Oui, il s\'agit d\'une maladie, ou d\'une intervention,ayant touché mon système cardio-respiratoire.') {
           this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'COEUR').then(
             (item: Objectif) => {
               this.formData.objectif = item;
-              this.updateField('objectif', this.formData.objectif);
             },
             (error) => {
               console.log('empty objectif');
@@ -167,7 +198,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
           this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'LOCO').then(
             (item: Objectif) => {
               this.formData.objectif = item;
-              this.updateField('objectif', this.formData.objectif);
             },
             (error) => {
               console.log('empty objectif');
@@ -177,7 +207,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
           this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'CANCR').then(
             (item: Objectif) => {
               this.formData.objectif = item;
-              this.updateField('objectif', this.formData.objectif);
             },
             (error) => {
               console.log('empty objectif');
@@ -188,7 +217,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
             this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'MINC').then(
               (item: Objectif) => {
                 this.formData.objectif = item;
-                this.updateField('objectif', this.formData.objectif);
               },
               (error) => {
                 console.log('empty objectif');
@@ -198,7 +226,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
             this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'MINMU').then(
               (item: Objectif) => {
                 this.formData.objectif = item;
-                this.updateField('objectif', this.formData.objectif);
               },
               (error) => {
                 console.log('empty objectif');
@@ -208,7 +235,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
             this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'MM').then(
               (item: Objectif) => {
                 this.formData.objectif = item;
-                this.updateField('objectif', this.formData.objectif);
               },
               (error) => {
                 console.log('empty objectif');
@@ -218,7 +244,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
             this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'AGE').then(
               (item: Objectif) => {
                 this.formData.objectif = item;
-                this.updateField('objectif', this.formData.objectif);
               },
               (error) => {
                 console.log('empty objectif');
@@ -230,7 +255,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
             this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'AGE').then(
               (item: Objectif) => {
                 this.formData.objectif = item;
-                this.updateField('objectif', this.formData.objectif);
               },
               (error) => {
                 console.log('empty objectif');
@@ -240,7 +264,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
             this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'AGE').then(
               (item: Objectif) => {
                 this.formData.objectif = item;
-                this.updateField('objectif', this.formData.objectif);
               },
               (error) => {
                 console.log('empty objectif');
@@ -252,6 +275,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
         this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ1.questions);
         this.updateField('questionnaire1', true);
         this.updateField('niveau', this.formData.niveau);
+        this.updateField('objectif', this.formData.objectif);
+        this.updateField('genre', this.formData.genre);
+        this.updateField('materiels', this.formData.materiels);
         this.formData.questionnaire1 = true;
       }
     });
@@ -262,14 +288,98 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       width: '80%',
       data: {
         name: '2- Questionnaire Premium pour démarrer un programme',
-        niveaunombre: this.formData.niveau.nombre
+        niveaunombre: this.formData.niveau.nombre,
+        asSDS: this.asSDS
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result);
+          this.resultQ2 = result;
+          this.resultQ2.questions.forEach((element, index) => {
+            element.reponses = result.reponses[index];
+          });
+
+        // DETERMINATION DE LA FREQUENCE DU USER
+          const response2 = this.resultQ2.questions[2].reponses;
+          if (response2 !== 'non fourni') {
+            // tslint:disable-next-line: radix
+            this.formData.frequence = parseInt(response2[0]);
+          }
+
+          const response3 = this.resultQ2.questions[3].reponses;
+          if (response3 !== 'non fourni') {
+            // tslint:disable-next-line: radix
+            this.formData.frequence = parseInt(response3[0]);
+          }
+
+
+          this.updateField('frequence', this.formData.frequence);
+          this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ2.questions);
+          this.updateField('questionnaire2', true);
+          this.formData.questionnaire2 = true;
       }
+    });
+  }
+
+  launchQ3() {
+    const dialogRef = this.dialog.open(UserQuestionsComponent, {
+      width: '80%',
+      data: {
+        name: '3- Questionnaire d\'entrée de l\'application senior S80+',
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+          this.resultQ3 = result;
+          this.resultQ3.questions.forEach((element, index) => {
+            element.reponses = result.reponses[index];
+          });
+
+          const response1 = this.resultQ3.questions[1].reponses;
+          const response2 = this.resultQ3.questions[2].reponses;
+
+        // determination du sexe
+          this.formData.genre = this.resultQ3.questions[0].reponses === 'Un homme' ? 'H' : 'F';
+
+          // renseignement des materiels du user
+          if (response2 !== 'non fourni') {
+            this.formData.materiels = response2;
+            const data = [];
+            this.formData.materiels.forEach(item => {
+              const local = new MaterielAvance();
+              local.id = item.id;
+              local.nom = item.nom;
+              local.postefixe = item.postefixe;
+              data.push(Object.assign({}, local));
+
+              item.categories.forEach(it => {
+                if (it.acronyme === 'SDS') {
+                  this.asSDS = true;
+                }
+              });
+            });
+            this.resultQ3.questions[2].reponses = data;
+            this.formData.materiels = data;
+          }
+
+          if (response1 !== 'non fourno') {
+            this.formData.position = response1 === 'Oui' ? 'sereleveseul' : 'neserelevepasseul';
+          }
+
+
+          // determination de la position du user
+
+
+          this.updateField('materiels', this.formData.materiels);
+          this.updateField('genre', this.formData.genre);
+          this.updateField('position', this.formData.position);
+          this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ3.questions);
+          this.updateField('questionnaire3', true);
+          this.formData.questionnaire3 = true;
+      }
+
     });
   }
 

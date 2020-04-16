@@ -1,5 +1,5 @@
+import { Materiel } from './../materiels/materiel';
 import { PathologieAvance } from './../exercices-series/pathologie-avance';
-import { Pathologie } from '../shared/pathologies/pathologie';
 import { Objectif } from '../shared/objectifs/objectif';
 import { Niveau } from '../shared/niveaux/niveau';
 
@@ -31,11 +31,15 @@ export class User {
  photo?: string;
 
 
+ materiels: any[];
  pathologie: PathologieAvance; // multi select sur le noeud pathologie
  objectif: Objectif; // liste noeud objectif
  trophee: string;
 
  questionnaire1?: boolean;
+ questionnaire2?: boolean;
+ questionnaire3?: boolean;
+ position: string;
 
  timestamp: string;
 }

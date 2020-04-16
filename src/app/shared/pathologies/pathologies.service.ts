@@ -15,6 +15,9 @@ export class PathologiesService {
   pathologies: Pathologie[];
   pathologieSubject = new Subject<any[]>();
 
+  pointfaibles: Pathologie[];
+  pointfaibleSubject = new Subject<any[]>();
+
   pathologiesPointFaible: Pathologie[];
   pathologiesPointFaibleSubject = new Subject<any[]>();
 
@@ -57,6 +60,23 @@ getAllPathologies(): void {
 
 emitPathologieSubject() {
   this.pathologieSubject.next(this.pathologies.slice());
+}
+
+getAllPointFaibles(): void {
+  this.firestore.collection('pathologies', ref => ref.where('type', '==', 'pointfaible'))
+              .snapshotChanges().subscribe( data => {
+   this.pointfaibles = data.map( e => {
+    const anotherData = e.payload.doc.data() as Pathologie;
+    return  {
+      ...anotherData
+    } as Pathologie;
+  });
+   this.emitPointFaibleSubject();
+});
+}
+
+emitPointFaibleSubject() {
+  this.pointfaibleSubject.next(this.pointfaibles.slice());
 }
 
 getAllPathologiesPointFaible(): void {
