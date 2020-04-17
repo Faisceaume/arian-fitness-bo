@@ -130,6 +130,10 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.toAddPathologie = false;
   }
 
+
+  /*********************************************/
+      // QUESTIONNAIRE 1
+  /*********************************************/
   launchQ1() {
     const dialogRef = this.dialog.open(UserQuestionsComponent, {
       width: '80%',
@@ -145,6 +149,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
         // determination du sexe
         this.formData.genre = this.resultQ1.questions[0].reponses === 'Un homme' ? 'H' : 'F';
+        this.updateField('genre', this.formData.genre);
 
         // les reponses du questionnaire
         const response1 = this.resultQ1.questions[1].reponses;
@@ -173,6 +178,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
           });
           this.resultQ1.questions[3].reponses = data;
           this.formData.materiels = data;
+          this.updateField('materiels', this.formData.materiels);
         }
         // determination objectif et niveau
 
@@ -189,103 +195,41 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
         }
 
         if (response1.trim() === 'Oui, il s\'agit d\'une maladie, ou d\'une intervention,ayant touché mon système cardio-respiratoire.') {
-          this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'COEUR').then(
-            (item: Objectif) => {
-              this.formData.objectif = item;
-            },
-            (error) => {
-              console.log('empty objectif');
-            }
-          );
+          this.objectif('COEUR');
         } else if (response1.trim() === 'Oui, j\'ai subi des troubles locomoteurs et neurologiques.') {
-          this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'LOCO').then(
-            (item: Objectif) => {
-              this.formData.objectif = item;
-            },
-            (error) => {
-              console.log('empty objectif');
-            }
-          );
+          this.objectif('LOCO');
         } else if (response1.trim() === 'Oui, je suis en rémission d\'un cancer.') {
-          this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'CANCR').then(
-            (item: Objectif) => {
-              this.formData.objectif = item;
-            },
-            (error) => {
-              console.log('empty objectif');
-            }
-          );
+          this.objectif('CANCR');
         } else if (response1.trim() === 'Non') {
           if (response4.trim() === 'Mincir') {
-            this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'MINC').then(
-              (item: Objectif) => {
-                this.formData.objectif = item;
-              },
-              (error) => {
-                console.log('empty objectif');
-              }
-            );
+            this.objectif('MINC');
           } else if (response4.trim() === 'Mincir et me muscler') {
-            this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'MINMU').then(
-              (item: Objectif) => {
-                this.formData.objectif = item;
-              },
-              (error) => {
-                console.log('empty objectif');
-              }
-            );
+            this.objectif('MINMU');
           } else if (response4.trim() === 'Me muscler') {
-            this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'MM').then(
-              (item: Objectif) => {
-                this.formData.objectif = item;
-              },
-              (error) => {
-                console.log('empty objectif');
-              }
-            );
+            this.objectif('MM');
           } else if (response4.trim() === 'Stabilisation et anti-âge') {
-            this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'AGE').then(
-              (item: Objectif) => {
-                this.formData.objectif = item;
-              },
-              (error) => {
-                console.log('empty objectif');
-              }
-            );
+            this.objectif('AGE');
           }
 
           if (response5[0] === 'P') {
-            this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'AGE').then(
-              (item: Objectif) => {
-                this.formData.objectif = item;
-              },
-              (error) => {
-                console.log('empty objectif');
-              }
-            );
+            this.objectif('PUI');
           } else if (response5[0] === 'E') {
-            this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'AGE').then(
-              (item: Objectif) => {
-                this.formData.objectif = item;
-              },
-              (error) => {
-                console.log('empty objectif');
-              }
-            );
+            this.objectif('END');
           }
         }
 
         this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ1.questions);
         this.updateField('questionnaire1', true);
         this.updateField('niveau', this.formData.niveau);
-        this.updateField('objectif', this.formData.objectif);
-        this.updateField('genre', this.formData.genre);
-        this.updateField('materiels', this.formData.materiels);
         this.formData.questionnaire1 = true;
       }
     });
   }
 
+
+  /*********************************************/
+      // QUESTIONNAIRE 2
+  /*********************************************/
   launchQ2() {
     const dialogRef = this.dialog.open(UserQuestionsComponent, {
       width: '80%',
@@ -307,6 +251,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
           const response1 = result.reponses[1];
           if (response1 !== 'non fourni') {
             this.formData.pathologie = response1;
+            this.updateField('pathologie', this.formData.pathologie);
           }
 
         // DETERMINATION DE LA FREQUENCE DU USER
@@ -314,17 +259,16 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
           if (response2 !== 'non fourni') {
             // tslint:disable-next-line: radix
             this.formData.frequence = parseInt(response2[0]);
+            this.updateField('frequence', this.formData.frequence);
           }
 
           const response3 = this.resultQ2.questions[3].reponses;
           if (response3 !== 'non fourni') {
             // tslint:disable-next-line: radix
             this.formData.frequence = parseInt(response3[0]);
+            this.updateField('frequence', this.formData.frequence);
           }
 
-
-          this.updateField('frequence', this.formData.frequence);
-          this.updateField('pathologie', this.formData.pathologie);
           this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ2.questions);
           this.updateField('questionnaire2', true);
           this.formData.questionnaire2 = true;
@@ -333,6 +277,10 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+
+  /*********************************************/
+      // QUESTIONNAIRE 3
+  /*********************************************/
   launchQ3() {
     const dialogRef = this.dialog.open(UserQuestionsComponent, {
       width: '80%',
@@ -353,6 +301,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
         // determination du sexe
           this.formData.genre = this.resultQ3.questions[0].reponses === 'Un homme' ? 'H' : 'F';
+          this.updateField('genre', this.formData.genre);
 
           // renseignement des materiels du user
           if (response2 !== 'non fourni') {
@@ -373,17 +322,15 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
             });
             this.resultQ3.questions[2].reponses = data;
             this.formData.materiels = data;
+            this.updateField('materiels', this.formData.materiels);
           }
 
           // determination de la position du user
           if (response1 !== 'non fourno') {
             this.formData.position = response1 === 'Oui' ? 'sereleveseul' : 'neserelevepasseul';
+            this.updateField('position', this.formData.position);
           }
 
-
-          this.updateField('materiels', this.formData.materiels);
-          this.updateField('genre', this.formData.genre);
-          this.updateField('position', this.formData.position);
           this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ3.questions);
           this.updateField('questionnaire3', true);
           this.formData.questionnaire3 = true;
@@ -393,6 +340,10 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   }
 
 
+
+  /*********************************************/
+      // QUESTIONNAIRE 4
+  /*********************************************/
   launchQ4() {
     const dialogRef = this.dialog.open(UserQuestionsComponent, {
       width: '80%',
@@ -413,6 +364,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
           if (response1 !== 'non fourni') {
             // tslint:disable-next-line: radix
             this.formData.frequence = parseInt(response1[0]);
+            this.updateField('frequence', this.formData.frequence);
           }
 
           // RENSEIGNEMENT DES MATERIELS DU USERS
@@ -435,10 +387,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
             });
             this.resultQ4.questions[0].reponses = data;
             this.formData.materiels = data;
+            this.updateField('materiels', this.formData.materiels);
           }
 
-          this.updateField('materiels', this.formData.materiels);
-          this.updateField('frequence', this.formData.frequence);
           this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ4.questions);
           this.updateField('questionnaire4', true);
           this.formData.questionnaire4 = true;
@@ -447,11 +398,16 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   }
 
+
+  /*********************************************/
+      // QUESTIONNAIRE 5
+  /*********************************************/
   launchQ5() {
     const dialogRef = this.dialog.open(UserQuestionsComponent, {
       width: '80%',
       data: {
         name: '5- Questionnaire récurrent Extra',
+        premium: this.premiumControl.value
       }
     });
 
@@ -461,11 +417,77 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
           this.resultQ5.questions.forEach((element, index) => {
             element.reponses = result.reponses[index];
           });
+
+          // DETERMINATION EXTRADUREE DU USER
+          const response0 = this.resultQ5.questions[0].reponses;
+          if (response0 !== 'non foruni') {
+            this.formData.extraduree = response0;
+            this.updateField('extraduree', this.formData.extraduree);
+          }
+
+          // RENSEIGNEMENT DES EXTRAMATERIELS DU USERS
+          const response1 = this.resultQ5.questions[1].reponses;
+          if (response1 !== 'non fourni') {
+            this.formData.extramateriels = response1;
+            const data = [];
+            this.formData.extramateriels.forEach(item => {
+              const local = new MaterielAvance();
+              local.id = item.id;
+              local.nom = item.nom;
+              local.postefixe = item.postefixe;
+              data.push(Object.assign({}, local));
+
+              item.categories.forEach(it => {
+                if (it.acronyme === 'SDS') {
+                  this.asSDS = true;
+                }
+              });
+            });
+            this.resultQ5.questions[1].reponses = data;
+            this.formData.extramateriels = data;
+            this.updateField('extramateriels', this.formData.extramateriels);
+          }
+
+          // DETERMINATION USER OBJECTIF JOUR
+          const response2 = this.resultQ5.questions[2].reponses;
+          if (response2 !== 'non fourni') {
+            if (response2 === 'Rééducation uniquement') {
+              this.objectifjour('REEDU');
+            } else if (response2 === 'Global cardio HIIT') {
+              this.objectifjour('GLOCA');
+            } else if (response2 === 'Groupe(s) musculaire(s) au choix') {
+              this.objectifjour('GPEMU');
+            } else if (response2 === 'Renforcement de tout le corps') {
+              this.objectifjour('FULLB');
+            }
+          }
+
+          // DETERMINATION EXTRAPATHOS DU USER
+          const response3 = this.resultQ5.questions[3].reponses;
+          if (response3 !== 'non fourni') {
+            this.formData.extrapathos = response3;
+            this.updateField('extrapathos', this.formData.extrapathos);
+          }
+
+          // DETERMINATION EXTRA GROUPE MUSCULAIRE DU USER
+          const response4 = this.resultQ5.questions[4].reponses;
+          if (response4 !== 'non fourni') {
+            this.formData.extragpemuscu = response3;
+            this.updateField('extragpemuscu', this.formData.extragpemuscu);
+          }
+
+
+          this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ5.questions);
+          this.updateField('questionnaire5', true);
+          this.formData.questionnaire5 = true;
     }
   });
 
   }
 
+  /*********************************************/
+      // QUESTIONNAIRE 6
+  /*********************************************/
   launchQ6() {
     const dialogRef = this.dialog.open(UserQuestionsComponent, {
       width: '80%',
@@ -501,55 +523,23 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
             });
             this.resultQ6.questions[1].reponses = data;
             this.formData.extraseniormateriel = data;
+            this.updateField('extraseniormateriel', this.formData.extraseniormateriel);
           }
 
           // DETERMINATION extraseniorobjectifjour DU USER
           const response0 = this.resultQ6.questions[0].reponses.trim();
           if (response0 !== 'non fourni') {
             if (response0 === 'Renforcement du bas du corps') {
-              this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'BAS80').then(
-                (item: Objectif) => {
-                  this.formData.extraseniorobjectifjour = item;
-                  this.updateField('extraseniorobjectifjour', this.formData.extraseniorobjectifjour);
-                },
-                (error) => {
-                  console.log('empty objectif');
-                }
-              );
+              this.extraseniorobjectifjour('BAS80');
             } else if (response0 === 'Renforcement du haut du corps') {
-              this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'HAU80').then(
-                (item: Objectif) => {
-                  this.formData.extraseniorobjectifjour = item;
-                  this.updateField('extraseniorobjectifjour', this.formData.extraseniorobjectifjour);
-                },
-                (error) => {
-                  console.log('empty objectif');
-                }
-              );
+              this.extraseniorobjectifjour('HAU80');
             } else if (response0 === 'Posture et technique de marche') {
-              this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'PM80').then(
-                (item: Objectif) => {
-                  this.formData.extraseniorobjectifjour = item;
-                  this.updateField('extraseniorobjectifjour', this.formData.extraseniorobjectifjour);
-                },
-                (error) => {
-                  console.log('empty objectif');
-                }
-              );
+              this.extraseniorobjectifjour('PM80');
             } else if (response0 === 'Renforcement de tout votre corps') {
-              this.objectifsService.getSingleObjectifByNomOrAcronyme('', 'FUL80').then(
-                (item: Objectif) => {
-                  this.formData.extraseniorobjectifjour = item;
-                  this.updateField('extraseniorobjectifjour', this.formData.extraseniorobjectifjour);
-                },
-                (error) => {
-                  console.log('empty objectif');
-                }
-              );
+              this.extraseniorobjectifjour('FUL80');
             }
           }
 
-          this.updateField('extraseniormateriel', this.formData.extraseniormateriel);
           this.questionnairesService.createQuestionOnUser(this.formData.id, this.resultQ6.questions);
           this.updateField('questionnaire6', true);
           this.formData.questionnaire6 = true;
@@ -558,6 +548,50 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   });
 
   }
+
+
+  // FONCTIONS FACTORISEES POUR LES QUESTIONNAIRES
+
+      // determination objectifjour du user
+      objectifjour(acronyme: string) {
+        this.objectifsService.getSingleObjectifByNomOrAcronyme('', acronyme).then(
+          (item: Objectif) => {
+            this.formData.objectifjour = item;
+            this.updateField('objectifjour', this.formData.objectifjour);
+          },
+          (error) => {
+            console.log('empty objectif');
+          }
+        );
+      }
+
+      // determination objectif user
+      objectif(acronyme: string) {
+        this.objectifsService.getSingleObjectifByNomOrAcronyme('', acronyme).then(
+          (item: Objectif) => {
+            this.formData.objectif = item;
+            this.updateField('objectif', this.formData.objectif);
+          },
+          (error) => {
+            console.log('empty objectif');
+          }
+        );
+      }
+
+      // determination extraseniorobjectifjour du user
+      extraseniorobjectifjour(acronyme: string) {
+        this.objectifsService.getSingleObjectifByNomOrAcronyme('', acronyme).then(
+          (item: Objectif) => {
+            this.formData.extraseniorobjectifjour = item;
+            this.updateField('extraseniorobjectifjour', this.formData.extraseniorobjectifjour);
+          },
+          (error) => {
+            console.log('empty objectif');
+          }
+        );
+      }
+
+
   ngOnDestroy(): void {
     this.usersService.currentUser = null;
   }

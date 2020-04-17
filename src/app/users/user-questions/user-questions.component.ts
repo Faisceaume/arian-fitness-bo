@@ -40,6 +40,7 @@ export class UserQuestionsComponent implements OnInit {
   pointfaibles: PathologieAvance[];
   pointfaiblesSelected: PathologieAvance[] = [];
   toAddPointfaibles: boolean;
+  limiteGroupeMusculaire: number;
 
   constructor(public dialogRef: MatDialogRef<UserQuestionsComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -53,7 +54,8 @@ export class UserQuestionsComponent implements OnInit {
     if (this.questionnaireNumber === '1' ||
           this.questionnaireNumber === '3' ||
             this.questionnaireNumber === '4' ||
-              this.questionnaireNumber === '6') {
+              this.questionnaireNumber === '6' ||
+                this.questionnaireNumber === '5') {
       this.materielsServices.getAllMaterielsVisible();
       this.materielsServices.materielSubject.subscribe(data => {
         this.materiels = data;
@@ -62,7 +64,9 @@ export class UserQuestionsComponent implements OnInit {
       if (this.questionnaireNumber === '4') {
         this.toAddMateriels = true;
       }
-    } else if (this.questionnaireNumber === '2') {
+    }
+
+    if (this.questionnaireNumber === '2' || this.questionnaireNumber === '5') {
       this.pathologiesService.getAllPathologies();
       this.pathologiesService.pathologieSubject.subscribe(data => {
         this.pathologies = data;
@@ -124,12 +128,25 @@ export class UserQuestionsComponent implements OnInit {
     }
   }
 
-  selectedAnswer(positionReponse: number) {
+  valideAnswer(positionReponse: number) {
     this.reponsesOk[this.indexQuestion] = this.questionsOK[this.indexQuestion].reponses[positionReponse];
     if (this.indexQuestion + 1 === this.questionsOK.length) {
       this.showSaveButton = true;
     } else {
       this.nextQuestion();
+    }
+  }
+
+  selectedAnswer(positionReponse: number) {
+
+    if (this.questionnaireNumber === '5' && this.indexQuestion === 2 && positionReponse === 0) {
+      if (this.data.premium) {
+        this.valideAnswer(positionReponse);
+      } else {
+        alert('choix possible en mode premium');
+      }
+    } else {
+      this.valideAnswer(positionReponse);
     }
   }
 
@@ -139,6 +156,37 @@ export class UserQuestionsComponent implements OnInit {
       this.materielsSelected.push(item);
     }
     this.reponsesOk[this.indexQuestion] = this.materielsSelected;
+  }
+
+  selectPathologie(item: Pathologie) {
+    this.pathologieSelected = item;
+    const local = new PathologieAvance();
+    local.acronyme = item.acronyme;
+    local.id = item.id;
+    local.nom = item.nom;
+    this.reponsesOk[this.indexQuestion] = Object.assign({}, local);
+    this.nextQuestion();
+  }
+
+  selectPointFaible(item: Pathologie) {
+
+    const id = this.pointfaiblesSelected.findIndex(it => it.id === item.id);
+    const local = new PathologieAvance();
+    local.acronyme = item.acronyme;
+    local.id = item.id;
+    local.nom = item.nom;
+
+    if (id < 0) {
+      if (this.questionnaireNumber === '5') {
+        if (this.pointfaiblesSelected.length < this.limiteGroupeMusculaire) {
+          this.pointfaiblesSelected.push(Object.assign({}, local));
+        }
+      } else {
+        this.pointfaiblesSelected.push(Object.assign({}, local));
+      }
+    }
+
+    this.reponsesOk[this.indexQuestion] = this.pointfaiblesSelected;
   }
 
   setResult() {
@@ -230,31 +278,6 @@ q2BackQuestion() {
     }
 }
 
-selectPathologie(item: Pathologie) {
-  this.pathologieSelected = item;
-  const local = new PathologieAvance();
-  local.acronyme = item.acronyme;
-  local.id = item.id;
-  local.nom = item.nom;
-  this.reponsesOk[this.indexQuestion] = Object.assign({}, local);
-  this.q2NextQuestion();
-}
-
-selectPointFaible(item: Pathologie) {
-
-  const id = this.pointfaiblesSelected.findIndex(it => it.id === item.id);
-
-  if (id < 0) {
-    const local = new PathologieAvance();
-    local.acronyme = item.acronyme;
-    local.id = item.id;
-    local.nom = item.nom;
-    this.pointfaiblesSelected.push(Object.assign({}, local));
-  }
-
-  this.reponsesOk[this.indexQuestion] = this.pointfaiblesSelected;
-}
-
 /*********************************************/
       // questionnaire 3 methodes
 /*********************************************/
@@ -304,11 +327,39 @@ q4BackQuestion() {
 /*********************************************/
 
 q5NextQuestion() {
-  if (this.indexQuestion + 1 < this.questions.length) {
+  if (this.indexQuestion === 2) {
+    if (this.reponsesOk[2] === 'Rééducation uniquement') {
       this.indexQuestion += 1;
-    } else if (this.indexQuestion + 1 === this.questions.length) {
+      if (this.reponsesOk[0] === '30 minutes') {
+        this.toAddPathologie = true;
+      } else if (this.reponsesOk[0] === '45 minutes') {
+        this.toAddPointfaibles = true;
+        this.limiteGroupeMusculaire = 2;
+      } else if (this.reponsesOk[0] === '60 minutes') {
+        this.toAddPointfaibles = true;
+        this.limiteGroupeMusculaire = 3;
+      }
+    } else if (this.reponsesOk[2] === 'Groupe(s) musculaire(s) au choix') {
+      this.indexQuestion += 2;
+      this.toAddPointfaibles = true;
+      if (this.reponsesOk[0] === '30 minutes') {
+        this.limiteGroupeMusculaire = 1;
+      } else if (this.reponsesOk[0] === '45 minutes') {
+        this.limiteGroupeMusculaire = 2;
+      } else if (this.reponsesOk[0] === '60 minutes') {
+        this.limiteGroupeMusculaire = 3;
+      }
+    } else {
       this.showSaveButton = true;
     }
+  } else if (this.indexQuestion === 3) {
+    this.showSaveButton = true;
+  } else if (this.indexQuestion + 1 < this.questions.length) {
+      this.indexQuestion += 1;
+  } else if (this.indexQuestion + 1 === this.questions.length) {
+      this.showSaveButton = true;
+  }
+  this.toAddMateriels = this.indexQuestion === 1 ? true : false;
   }
 
 q5BackQuestion() {
@@ -316,6 +367,7 @@ q5BackQuestion() {
   if (this.indexQuestion > 0) {
       this.indexQuestion -= 1;
     }
+  this.toAddMateriels = this.indexQuestion === 1 ? true : false;
 }
 
 /*********************************************/

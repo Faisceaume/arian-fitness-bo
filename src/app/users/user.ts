@@ -45,6 +45,12 @@ export class User {
 
  extraseniorobjectifjour: Objectif;
  extraseniormateriel: any[];
+ extragpemuscu: any;
+ extraduree: string;
+ extramateriels: any[];
+ extrapathos: any;
+
+ objectifjour: Objectif;
 
  position: string;
 
