@@ -60,14 +60,6 @@
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
-    </div>
-    <div fxLayout="row">
-      <mat-form-field fxFlex="50">
-        <input matInput placeholder="Mot de passe" type="text" name="password"
-          [(ngModel)]="formData.password"
-          (ngModelChange)="updateField('password', formData.password)"
-          id="password" required>
-      </mat-form-field>
       <mat-form-field fxFlex="50">
         <input matInput placeholder="Téléphone" type="text" name="prenom"
           [(ngModel)]="formData.telephone"
@@ -78,7 +70,7 @@
     <div>
       <p *ngIf="!editdates" fxLayout="row" fxLayoutAlign="start center" class="info-user">
         <button mat-icon-button (click)="editdates=!editdates"><mat-icon>edit</mat-icon></button>
-        <span *ngIf="formData.datedernierlog"> Dernier log : {{ formData.datedernierlog | date }} |</span>
+        <span *ngIf="formData.datedernierlog"> Dernier log : {{ formData.datedernierlog | date }} &nbsp;&nbsp;</span>
         <span *ngIf="formData.datedernieremaj"> Dernièrer maj : {{ formData.datedernieremaj | date }}</span>
       </p>
       <div *ngIf="editdates" fxLayout="row">
@@ -104,21 +96,21 @@
   </div>
 
 
-  <div fxLayout="row wrap" fxLayoutAlign="start start" class="divgrey" style="margin:10px">
+  <div fxFlex="45" fxLayout="column" class="divgrey" style="margin:10px">
 
-    <h4 fxFlex="100">Position & Niveau</h4>
+    <h4 fxFlex="100">Niveaux</h4>
 
-    <div fxLayout="row" fxFlex="33">
-        <label> Niveau </label>
-        <span class="bulle-acro" *ngIf="!toChangeNiveau && formData.niveau">N {{ formData.niveau.acronyme}} </span>
+    <div fxLayout="row wrap" style="padding-bottom:10px">
+        <label> Niveau : </label>
+        <span *ngIf="!toChangeNiveau && formData.niveau" class="niveaux">N {{ formData.niveau.acronyme}} </span>
         <button mat-icon-button
           (click)="toChangeNiveau = true"
           *ngIf="!toChangeNiveau && formData.niveau">
-            <mat-icon>close</mat-icon>
+            <mat-icon>edit</mat-icon>
         </button>
-        <mat-radio-group color="warn"
+        <mat-radio-group color="warn" fxFlex="100"
           [(ngModel)]="formData.niveau"
-          (ngModelChange)="updateField('niveau', formData.niveau)"
+          (ngModelChange)="updateField('niveau', formData.niveau);toChangeNiveau=false"
           *ngIf="!formData.niveau || toChangeNiveau">
           <mat-radio-button *ngFor="let niveau of niveaux"
           [value]="niveau" class="span-radio-button">
@@ -127,18 +119,18 @@
         </mat-radio-group>
     </div>
 
-    <div fxLayout="row" fxFlex="33">
-      <label> Niveau inscription </label>
-      <span class="bulle-acro" *ngIf="!toChangeNiveauIns && formData.niveauinscription">
+    <div fxLayout="row wrap" style="padding-bottom:10px">
+      <label> Niveau Inscription : </label>
+      <span class="niveaux" *ngIf="!toChangeNiveauIns && formData.niveauinscription">
         N {{ formData.niveauinscription.acronyme}} </span>
       <button mat-icon-button
         (click)="toChangeNiveauIns = true"
         *ngIf="!toChangeNiveauIns && formData.niveauinscription">
-          <mat-icon>close</mat-icon>
+          <mat-icon>edit</mat-icon>
       </button>
-      <mat-radio-group color="warn"
+      <mat-radio-group color="warn" fxFlex="100"
         [(ngModel)]="formData.niveauinscription"
-        (ngModelChange)="updateField('niveauinscription', formData.niveauinscription)"
+        (ngModelChange)="updateField('niveauinscription', formData.niveauinscription);toChangeNiveauIns=false"
         *ngIf="!formData.niveauinscription || toChangeNiveauIns">
         <mat-radio-button *ngFor="let niveau of niveaux"
         [value]="niveau" class="span-radio-button">
@@ -147,18 +139,18 @@
       </mat-radio-group>
     </div>
 
-    <div fxLayout="row" fxFlex="33">
-      <label> Niveau periode Off </label>
-      <span class="bulle-acro" *ngIf="!toChangeNiveauOff && formData.niveauavantperiodeoff">
+    <div fxLayout="row wrap" style="padding-bottom:10px">
+      <label> Niveau Période Off : </label>
+      <span class="niveaux" *ngIf="!toChangeNiveauOff && formData.niveauavantperiodeoff">
         N {{ formData.niveauavantperiodeoff.acronyme}} </span>
       <button mat-icon-button
         (click)="toChangeNiveauOff = true"
         *ngIf="!toChangeNiveauOff && formData.niveauavantperiodeoff">
-          <mat-icon>close</mat-icon>
+          <mat-icon>edit</mat-icon>
       </button>
-      <mat-radio-group color="warn"
+      <mat-radio-group color="warn" fxFlex="100"
         [(ngModel)]="formData.niveauavantperiodeoff"
-        (ngModelChange)="updateField('niveauavantperiodeoff', formData.niveauavantperiodeoff)"
+        (ngModelChange)="updateField('niveauavantperiodeoff', formData.niveauavantperiodeoff);toChangeNiveauOff=false"
         *ngIf="!formData.niveauavantperiodeoff || toChangeNiveauOff">
         <mat-radio-button *ngFor="let niveau of niveaux"
         [value]="niveau" class="span-radio-button">
@@ -166,6 +158,34 @@
         </mat-radio-button>
       </mat-radio-group>
     </div>
+
+    <div fxLayout="row wrap">
+      <label style="padding:5px 5px 0 0">Mode Reprise</label>
+      <span class="niveaux">
+        <!-- {{ formData.modereprise }}  -->
+        <span *ngIf="formData.modereprise==='0'">Aucun</span>
+        <span *ngIf="formData.modereprise==='>60J<90J'">Entre 60 et 90 jours</span>
+        <span *ngIf="formData.modereprise==='>=90J<180J'">Entre 90 et 180 jours</span>
+        <span *ngIf="formData.modereprise==='>=180J'">Plus de 180 jours</span>
+      </span>
+      <button mat-icon-button
+        (click)="toChangeModeReprise = true"
+        *ngIf="!toChangeModeReprise && formData.modereprise">
+          <mat-icon>edit</mat-icon>
+      </button>
+      <mat-radio-group color="warn" fxFlex="100"
+        *ngIf="!formData.modereprise || toChangeModeReprise"
+        [(ngModel)]="formData.modereprise"
+        (ngModelChange)="updateField('modereprise', formData.modereprise);toChangeModeReprise=false">
+          <mat-radio-button *ngFor="let it of modereprise" [value]="it" class="span-radio-button">{{ it }}</mat-radio-button>
+      </mat-radio-group>
+  </div>
+
+  </div>
+
+  <div fxFlex="50" fxLayout="column" class="divgrey" style="margin:10px">
+
+    <h4 fxFlex="100">Position</h4>
 
     <div fxLayoutAlign="start start" style="margin-top: 10px;" fxFlex="33" fxLayout="column">
       <label style="padding:0 0 10px"> Position Parcours Niveau</label>
@@ -194,15 +214,6 @@
       </mat-radio-group>
     </div>
 
-    <div fxLayout="column" fxFlex="33">
-        <label style="padding:25px 5px 0 0">Mode Reprise</label>
-        <mat-radio-group color="warn"
-          [(ngModel)]="formData.modereprise"
-          (ngModelChange)="updateField('modereprise', formData.modereprise)">
-            <mat-radio-button *ngFor="let it of modereprise" [value]="it" class="span-radio-button">{{ it }}></mat-radio-button>
-        </mat-radio-group>
-    </div>
-
     <mat-form-field fxFlex="100">
       <input matInput placeholder="Parcours Nutrition" type="text" name="parcoursnutrition"
         [(ngModel)]="formData.parcoursnutrition"
@@ -213,19 +224,19 @@
   </div>
 
 
-  <div fxFlex="35" fxLayout="row wrap" fxLayoutAlign="start center" class="divgrey" style="margin:10px">
+  <div fxFlex="45" fxLayout="row wrap" fxLayoutAlign="start center" class="divgrey" style="margin:10px">
 
     <h4 fxFlex="100">Objectifs & Pathologies</h4>
 
     <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0">
-      <div style="margin:0 10px 10px">
-        <label class="dark-chip custom-obj"> Objectifs</label>
-        {{ formData.objectif ? formData.objectif.nom : 'inconnu' }}
+      <div style="margin:10px 0">
+        <label> Objectifs : </label>
+        <span>{{ formData.objectif ? formData.objectif.nom : 'inconnu' }}</span>
         <button  mat-icon-button (click)="showObjectif = true" *ngIf="!showObjectif" >
-          <mat-icon>visibility</mat-icon>
+          <mat-icon>edit</mat-icon>
         </button>
         <button  mat-icon-button (click)="showObjectif = false" *ngIf="showObjectif" >
-          <mat-icon>visibility_off</mat-icon>
+          <mat-icon>close</mat-icon>
          </button>
       </div>
       <div *ngIf="showObjectif"  fxLayout="column">
@@ -244,14 +255,14 @@
     </div>
 
     <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0">
-      <div style="margin:0 10px 10px">
-        <label class="dark-chip custom-obj"> Pathologie</label>
+      <div style="margin:0 10px 10px 0">
+        <label> Pathologie : </label>
         {{ formData.pathologie ? formData.pathologie.acronyme : 'inconnu' }}
         <button  mat-icon-button (click)="toAddPathologie = true" *ngIf="!toAddPathologie" >
-          <mat-icon>visibility</mat-icon>
+          <mat-icon>edit</mat-icon>
         </button>
         <button  mat-icon-button (click)="toAddPathologie = false" *ngIf="toAddPathologie" >
-          <mat-icon>visibility_off</mat-icon>
+          <mat-icon>close</mat-icon>
          </button>
       </div>
       <div *ngIf="toAddPathologie"  fxLayout="column">
@@ -270,7 +281,7 @@
     </div>
   </div>
 
-  <div fxFlex="60" class="divgrey" fxLayout="row wrap" style="margin:10px">
+  <div fxFlex="50" class="divgrey" fxLayout="row wrap" style="margin:10px">
 
     <h4 fxFlex="100">Abonnement</h4>
 

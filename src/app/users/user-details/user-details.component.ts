@@ -44,6 +44,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   toChangeNiveau: boolean;
   toChangeNiveauOff: boolean;
   toChangeNiveauIns: boolean;
+  toChangeModeReprise: boolean;
   showObjectif: boolean;
   toAddPathologie: boolean;
 
