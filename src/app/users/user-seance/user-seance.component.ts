@@ -10,6 +10,7 @@ import { UsersService } from 'src/app/users/users.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../user';
 import { ProgrammesService } from 'src/app/programmes/programmes.service';
+import { ExercicesService } from 'src/app/exercices/exercices.service';
 
 @Component({
   selector: 'app-user-seance',
@@ -23,13 +24,13 @@ export class UserSeanceComponent implements OnInit {
   seance: Seance;
   senior: string;
   echauffement: ExerciceSerie;
-
   pathologie: PathologieAvance;
   currentPathologie: Pathologie;
-  lancementSerieFixe: boolean;
-
+  lancementSerieFixePathos: boolean;
+  isPathologie: boolean;
 
   constructor(private usersService: UsersService,
+              private exercicesService: ExercicesService,
               private programmesService: ProgrammesService,
               private exercicesSeriesService: ExercicesSeriesService,
               private pathologiesService: PathologiesService,
@@ -37,6 +38,8 @@ export class UserSeanceComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.params.id;
+    // this.exercicesService = this.exercicesService.getExercicesForUser(id);
+
     this.usersService.getSingleUser(null, id).then((item: User) => {
       this.currentUser = item;
       this.senior = this.currentUser.senior ? 'uniquement' : 'hors';
@@ -45,6 +48,7 @@ export class UserSeanceComponent implements OnInit {
         this.pathologiesService.getSinglePathologie(this.pathologie.id).then(patho => {
           this.currentPathologie = patho;
           console.log(this.currentPathologie.exercicesCategorie);
+          this.isPathologie = true;
         });
       }
     }).then(() => {
@@ -62,7 +66,7 @@ export class UserSeanceComponent implements OnInit {
               console.log(bloc.categoriesexercices);
             });
             if (local.length > 0) {
-              this.lancementSerieFixe = true;
+              this.lancementSerieFixePathos = true;
             }
           }
         }

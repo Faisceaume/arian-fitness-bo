@@ -7,36 +7,49 @@
 <div style="padding: 10px;" fxLayout="column" *ngIf="programmes" >
   <div fxFlex="30" style="margin: 5px;">
     <h2>Programme</h2>
+    <p>La liste d'exercice du user ets composée de xx exercices</p>
     <p>
       Programme retenu pour le user : <strong>{{ programmes.acronyme }} / {{ programmes.numero }}</strong>
     </p>
-<hr>
+    <hr>
     <h2>Séance</h2>
     <p>
       La position de séance du user est : <strong>{{ currentUser.positionseance }}</strong>. <br>
       Le programme retenu à <strong>{{ programmes.seances.length }}</strong> séances. <br>
       <span *ngIf="programmes.seances[currentUser.positionseance-1]">Une séance a été bien été trouvée pour le user</span>
       <span *ngIf="!programmes.seances[currentUser.positionseance-1]">Aucune séance n'a été été trouvée pour le user</span> <br>
-
       Déroulé de la Séance <br>
       <!-- {{ programmes.seances[currentUser.positionseance-1] | json }} -->
-
     </p>
-
-<hr>
+    <hr>
     <div *ngIf="echauffement" >
-      <p > Echauffement : {{ echauffement.nom }} <br></p>
-      <h4>les exercices de l'echauffement : </h4>
+      <h4> Echauffement : {{ echauffement.nom }} </h4>
       <p *ngFor="let item of echauffement.exercices ; let i = index" >
         <span>{{ i+ 1 }}</span> <span> {{ item.nomexercice }} </span>
       </p>
     </div>
-<hr>
-    <p *ngIf="!lancementSerieFixe" >
+    <hr>
+    <h4 *ngIf="isPathologie"> Traitement de la pathologie  : {{ currentPathologie.nom }}</h4>
+    <p *ngIf="!lancementSerieFixePathos">
       Les catégories d'exercices de la séance n'ont aucune contre indications par rapport à la pathologie du user. <br>
       <i>(ie. aucune des user.cat_exe_pathos n'est inclue dans programme.seance.cat_exe_pathos</i><br>
     </p>
-    <p *ngIf="lancementSerieFixe" >Lancement de la serie fixe : {{ currentPathologie.seriefixe.nom }}</p>
+    <p *ngIf="lancementSerieFixePathos">Lancement de la serie fixe : {{ currentPathologie.seriefixe.nom }}</p>
+    <hr>
+    <div *ngFor="let bloc of seance.blocs; let i = index">
+      <div *ngIf="!lancementSerieFixePathos">
+        <h4>
+          Bloc Numéro {{ i+1 }} : <span *ngIf="i==0">Abdominaux</span>
+        </h4>
+        <div>
+          Déroulé du bloc
+        </div>
+      </div>
+      <!-- <div *ngIf="lancementSerieFixePathos && currentUser.niveau.nombre >= 3 && i>0">
+        <h4>Bloc Numéro {{ i+1 }}</h4>
+
+      </div> -->
+    </div>
   </div>
 </div>
 

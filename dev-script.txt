@@ -1,0 +1,200 @@
+RDV LOUNIS 25/02/2020
+
+0 - INITIALISATION
+0 - a - IF (!user.isrequiredquestions) alors lancer le questionnaire aux questions non répondues obligatoires
+				A la sortie du questionnaire obligatoire, rediriger vers le questionnaire facultatif à la première fin du questionnaire obligatoire.
+				Remarque : Chaque question factultive est toujours accessible de manière indépendante depuis le profil
+				ELSE GOTO 0b
+0 - b	- IF (user.Premium == false) lancer le mode extra
+				IF (user.Premium == true), voir si mode reprise à l'aide des variables
+						- datedernierlog
+						- niveauavantperiodeoff
+						- si modereprise =
+									-> (>60J<90J) donc mode reprise avec 1 semaine par niveau jusqu'à retrouver son niveau
+									-> (>=90J<180J) donc mode reprise avec 2 semaines par niveau jusqu'à retrouver son niveau
+									-> (>=180J) recommence à zéro en reposant le questionnaire de nouvel utilisateur.
+
+									alors modifier la valeur du champs user.niveauordre en conséquence
+
+									sinon modereprise = (0) pas de mode reprise et la valeur user.niveauordre ne change pas
+0 - c - Déroulement du mode extra
+				-> Affichage du board en mode extra
+				-> Bouton de lancement du questionnaire extra
+
+0 - d - Lancement de la pop up d'information :
+				IF champs du user - afficher la pop correspondante
+					-> Pop up de changement du niveau
+					-> Pop up de nouveau trophée
+					-> Valider toutes les pop up et messages dans le CDC avec position de lancement
+
+1 - IDENTIFICATION DU PROGRAMME
+1 - a - Si (user.Premium == true), search Prog where :
+				-> user.genre == programme.genre
+				-> user.niveau.nombre == programme.niveau.nombre
+				-> user.frequence  == programme.frequence
+				-> user.objectif inclu dans programme.objectifs
+				Sinon (ie. user.premium == false) orienter le user vers
+				le mode extra avec le questionnaire correpondant
+
+1 - b - Dans les programmes retenus par (1a), trouver le programme dont
+				user.positionparcoursniveau inclu dans programme.semaineduniveau
+
+		-> Il ne reste qu'un seul programme
+
+2 - IDENTIFICATION DE LA SEANCE
+	 	Récupérer la séance du programme == user.positionparcoursseance
+
+
+3 - REMPLISSAGE DE LA SEANCE
+3 - a - Lancement de l'échauffement du programme
+	 			-> Bien revalider la construction des séries fixes
+3 - b - if (au moins une des user.cat_exe_pathos) est inclu dans programme.seance.cat_exe_pathos)
+				Lancement de la série fixe pathologies en fonction des pathologies du user.
+3 - c - Remplissage des blocs.
+
+				0 -
+				Si (serie_exe_fixe_pathos), à partir du niveau 2 du user,
+				retirer le premier bloc
+				dont cat_exe.acronyme inclu A. (A1,A2,A3)
+				(sachant que le premier est forcément une catégorie d'exercice d'abdo A)
+
+				1 - Récupération de la méthode :
+				S'il existent plusieurs méthodes affiliées au bloc, sélectioner l'une d'entre elle aléatoirement en fonction du niveau, de la durée et de l'orientation du bloc spécifié dans le programme et du nombre d'exercice du user disponible, et si le champs heure pointe correspond à celui du user.
+
+				getMethodeForSeance(niveau,durée,orientation,user.heuredepointe) {
+					method = random(methods);
+					return method;
+				}
+
+				3ca-> Récupérer tous les exercices disponibles pour le user :
+
+
+						getExercicesForUser(genre, age, niveau, pathos, materiel, position) {
+
+							user.age inclus dans exercice.age (tout age, >19, <50, >19&<50);
+							user.genre inclus dans exercice.genre;
+							user.niveau.nombre >= exercice.niveau.nombre;
+							user.position = exerice.position
+
+							if (user.pathologies) { getExerciceForThisPathos(pathos) { } }
+
+							if (user.materiels) {
+							 for Each matos getExerciceForThisMaterial(matos) {}
+							}
+
+							return [listExercicesSelected1];
+						}
+
+						categoriesForSession(programme?, methode?) {
+							listCats = methode.cat ? methode.cat_exe : programme.seance.bloc.cat_exe;
+							return listCats;
+						}
+
+						checkMethodeHeuredePointe(user, methode){
+							Vérifier qu'il n'y ait pas plus d'un exercice ayant la catégorie de matériel "Poste Fixe" dans une série de la méthode. Si oui, remplacer les exercices supplémentaires de cette catégorie de matériel ("PF") par des exercices dont la catégorie de matériel est "PM" ou "AUC".
+
+							if(true) {
+								return true;
+							}
+							else {
+								this.getMethodeForSeance();
+							}
+						}
+
+						checkIfMethodWorks(user, listExercicesSelected1, programme?, methode?) {
+
+							if (this.checkMethodeHeuredePointe(user, method)) return true else return false;
+
+							listsCats = categoriesForSession(programme?, methode?);
+
+							for each listCats as cat
+
+								(comment : n = nombre d'exercice de cette catégorie dans listExercicesSelected1)
+
+								for each listExercicesSelected1 as exe {
+									if exe.cat_exe inclus dans cat {
+										n++;
+									}
+								}
+
+								if (n1 <= methode.nbrexercicesminimum) {
+									return true;
+								}
+								else {
+									this.getMethodeForSeance();
+									return false;
+								}
+						}
+
+
+
+
+
+4 - CONSTRUCTION DE LA PREMIERE SERIE D'EXERCICE
+4 - a - Récupération du nombre d'exercice dans la série par la méthode (methode.nbrexparserie)
+
+				getExercicesForMethodAndUser(methode) {
+					global
+						return methode.nbrexparserie;
+				}
+
+
+4 - b - Transformation des catégories d'exe en exercices grace aux exercices du user disponibles :
+
+			getRandomCategorie() {
+				cats = this.categoriesForSession(programme? , methdode?);
+				categorie = random(cats);
+			}
+
+			getExerciceFromCategorie(methode,listExercicesSelected1,categorie) {
+
+					if (methode.global && exercice.type == 'global') {
+						for each listExercicesSelected1 as exe {
+							exe.categories == categorie
+							return exe;
+						}
+					}
+			}
+
+			boucler sur methode.nbrexparserie  pour construire toute la série
+
+
+
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+				-> Sélection du premier exercice de la série en sélectionnant une catégorie d'exe aléatoire dans le panel de cat retenu en étape 4-b. Choisir un exerice dans la catégorie retenu en fonction des paramètre du user
+				(cf fonction 3ca).
+				-> Sélection du Deuxième exercice de la série avec les contraintes suivantes :
+					 - sélectionner de manière aléatoire une catégorie d'exercice dans le panel séectionné plus haut (4b).
+					 - exclure l'exercice précédent si la catégorie retenue est la même que l'exerice 1 de la série sauf s'il est mentionné dégressif.
+				-> ect....
+
+
+4 - e - Sélectionner un exercice en fonction des informations suivantes:
+
+				-> Récupérer le nombre de série dans methode.nbrseries
+
+				-> Lancement de la première série d'exerice définit par :
+						- methode.nbrexparserie
+						- methode.serie.tempsderepose || programme.seance.bloc.cat_exe.tempsderepos
+
+				-> Lancement de la deuxième série d'exerice
+
+				-> l'exercice doit appartenir à la catégorie
+
+
+
+
+
+
+
+
+
+
+
+
+
+
