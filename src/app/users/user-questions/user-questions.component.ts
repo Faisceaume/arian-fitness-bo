@@ -50,11 +50,18 @@ export class UserQuestionsComponent implements OnInit {
   ngOnInit() {
     this.questionnaireNumber = this.data.name[0];
 
-    if (this.questionnaireNumber === '1' || this.questionnaireNumber === '3') {
+    if (this.questionnaireNumber === '1' ||
+          this.questionnaireNumber === '3' ||
+            this.questionnaireNumber === '4' ||
+              this.questionnaireNumber === '6') {
       this.materielsServices.getAllMaterielsVisible();
       this.materielsServices.materielSubject.subscribe(data => {
         this.materiels = data;
       });
+
+      if (this.questionnaireNumber === '4') {
+        this.toAddMateriels = true;
+      }
     } else if (this.questionnaireNumber === '2') {
       this.pathologiesService.getAllPathologies();
       this.pathologiesService.pathologieSubject.subscribe(data => {
@@ -92,6 +99,12 @@ export class UserQuestionsComponent implements OnInit {
       this.q2NextQuestion();
     } else if (this.questionnaireNumber === '3') {
       this.q3NextQuestion();
+    } else if (this.questionnaireNumber === '4') {
+      this.q4NextQuestion();
+    } else if (this.questionnaireNumber === '5') {
+      this.q5NextQuestion();
+    } else if (this.questionnaireNumber === '6') {
+      this.q6NextQuestion();
     }
   }
 
@@ -102,6 +115,12 @@ export class UserQuestionsComponent implements OnInit {
       this.q2BackQuestion();
     } else if (this.questionnaireNumber === '3') {
       this.q3BackQuestion();
+    } else if (this.questionnaireNumber === '4') {
+      this.q4BackQuestion();
+    } else if (this.questionnaireNumber === '5') {
+      this.q5BackQuestion();
+    } else if (this.questionnaireNumber === '6') {
+      this.q6BackQuestion();
     }
   }
 
@@ -259,4 +278,64 @@ q3BackQuestion() {
     }
 }
 
+/*********************************************/
+      // questionnaire 4 methodes
+/*********************************************/
+
+q4NextQuestion() {
+  if (this.indexQuestion + 1 < this.questions.length) {
+      this.indexQuestion += 1;
+    } else if (this.indexQuestion + 1 === this.questions.length) {
+      this.showSaveButton = true;
+    }
+  this.toAddMateriels = this.indexQuestion === 0 ? true : false;
+  }
+
+q4BackQuestion() {
+  this.showSaveButton = false;
+  if (this.indexQuestion > 0) {
+      this.indexQuestion -= 1;
+    }
+  this.toAddMateriels = this.indexQuestion === 0 ? true : false;
+}
+
+/*********************************************/
+      // questionnaire 5 methodes
+/*********************************************/
+
+q5NextQuestion() {
+  if (this.indexQuestion + 1 < this.questions.length) {
+      this.indexQuestion += 1;
+    } else if (this.indexQuestion + 1 === this.questions.length) {
+      this.showSaveButton = true;
+    }
+  }
+
+q5BackQuestion() {
+  this.showSaveButton = false;
+  if (this.indexQuestion > 0) {
+      this.indexQuestion -= 1;
+    }
+}
+
+/*********************************************/
+      // questionnaire 6 methodes
+/*********************************************/
+
+q6NextQuestion() {
+  if (this.indexQuestion + 1 < this.questions.length) {
+      this.indexQuestion += 1;
+    } else if (this.indexQuestion + 1 === this.questions.length) {
+      this.showSaveButton = true;
+    }
+  this.toAddMateriels = this.indexQuestion === 1 ? true : false;
+  }
+
+q6BackQuestion() {
+  this.showSaveButton = false;
+  if (this.indexQuestion > 0) {
+      this.indexQuestion -= 1;
+    }
+  this.toAddMateriels = this.indexQuestion === 1 ? true : false;
+  }
 }
