@@ -4,6 +4,11 @@ import { UserFormComponent } from './user-form/user-form.component';
 import { UsersService } from './users.service';
 import { User } from './user';
 import { Router } from '@angular/router';
+import { ExercicesService } from '../exercices/exercices.service';
+import { MaterielsService } from '../materiels/materiels.service';
+import { CategoriesService } from '../shared/categories/categories.service';
+import { Exercice } from '../exercices/exercice';
+import { Materiel } from '../materiels/materiel';
 
 @Component({
   selector: 'app-users',
@@ -18,7 +23,10 @@ export class UsersComponent implements OnInit {
 
   constructor(private matDialog: MatDialog,
               public usersService: UsersService,
-              private router: Router) { }
+              private router: Router,
+              private exercicesService: ExercicesService,
+              private materielsServie: MaterielsService,
+              private categoriesService: CategoriesService) { }
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -28,6 +36,7 @@ export class UsersComponent implements OnInit {
       this.dataSource = new MatTableDataSource<User>(data);
       this.dataSource.sort = this.sort;
     });
+
   }
 
   onEdit(user: User) {
@@ -48,4 +57,20 @@ export class UsersComponent implements OnInit {
     dialogConfig.width = '60%';
     this.matDialog.open(UserFormComponent, dialogConfig);
   }
+
+  lancerScript() {
+    // script de correction
+    this.exercicesService.getAllExercices();
+    this.exercicesService.exerciceSubject.subscribe(data => {
+      data.forEach((exercice: Exercice) => {
+        if (exercice.materiels) {
+          exercice.materiels.forEach((materiel: Materiel) => {
+            this.materielsServie.writeExercice(materiel, exercice);
+          });
+        }
+      });
+      console.log('finish in >= 848 commited');
+    });
+  }
+
 }

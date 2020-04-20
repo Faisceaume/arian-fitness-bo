@@ -31,7 +31,8 @@ export class MaterielFormComponent implements OnInit {
       timestamp: '',
       postefixe: false,
       visibility: false,
-      categories: []
+      categories: [],
+      exeids: []
     } as Materiel;
 
     this.formDataCategorie = {

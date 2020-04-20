@@ -3,6 +3,9 @@ import { Materiel } from './materiel';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { Exercice } from '../exercices/exercice';
+import { ExerciceAvance } from '../exercices-series/exercice-avance';
+import { ExercicesService } from '../exercices/exercices.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +17,7 @@ export class MaterielsService {
   materielsSelected: Materiel[] = [];
 
   constructor(private firestore: AngularFirestore,
+              private exercicesService: ExercicesService,
               private router: Router) { }
 
   createMateriel(materiel: Materiel) {
@@ -105,5 +109,44 @@ export class MaterielsService {
   resetMaterielSelected() {
     this.materielsSelected = [];
   }
+
+
+  // section de  sauvegarde et d'autres opérations des exercices
+  // dans la sous collection des materiels
+
+  writeExercice(materiel: Materiel, exercice: Exercice) {
+    const batch = this.firestore.firestore.batch();
+    const nextDocument1 = this.firestore.firestore.collection('materiels').doc(materiel.id)
+                            .collection('exercices').doc(exercice.id);
+
+    const data = Object.assign({}, exercice);
+    batch.set(nextDocument1, data);
+
+    batch.commit().then(() => {
+      console.log('Batch Commited');
+    }).catch((error) => { console.error('Error creating document: ', error); });
+  }
+
+  deleteExercice(materiel: Materiel, exercice: Exercice) {
+    this.firestore.doc('materiels/' + materiel.id).collection('exercices').doc(exercice.id).delete();
+  }
+
+  getExercicesInSubCollection(materiel: Materiel) {
+    return new Promise<Exercice[]>((resolve, reject) => {
+        const local = [];
+        this.firestore.firestore.collection('materiels').doc(materiel.id).collection('exercices')
+        .get().then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            local.push(
+              {
+                id: doc.id,
+                ...doc.data()
+              } as Exercice);
+          });
+      });
+        resolve(local);
+    });
+  }
+
 
 }

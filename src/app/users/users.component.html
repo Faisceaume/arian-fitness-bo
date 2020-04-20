@@ -61,3 +61,7 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+
+<button (click)="lancerScript()" disabled="true">
+  lancer le script
+</button>
