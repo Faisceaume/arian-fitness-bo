@@ -1,6 +1,10 @@
 
+<div *ngIf="errorMessage.length !== 0">
+  <p *ngFor="let item of errorMessage"> {{ item }} </p>
+</div>
+
 <div *ngIf="listeExercices && listeExercices.length !== 0">
-  <h3>l'utilisateur correspond à {{ listeExercices.length }} exercice(s)</h3>
+  <h3>Les données de l'utilisateur correspondent à {{ listeExercices.length }} exercice(s)</h3>
 </div>
 
 <div *ngIf="!programmes">
@@ -20,6 +24,7 @@
 <div style="padding: 10px;" fxLayout="column" *ngIf="programmes" >
   <div fxFlex="30" style="margin: 5px;">
     <h2>Programme</h2>
+    <p>La liste d'exercice du user est composée de xx exercices</p>
     <p>
       Programme retenu pour le user : <strong>{{ programmes.acronyme }} / {{ programmes.numero }}</strong>
     </p>

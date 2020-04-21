@@ -52,6 +52,8 @@ export class UserSeanceComponent implements OnInit {
   methodeAleatoire: Methode;
   methodeAleatoireCatExe: Categorie[] = [];
 
+  errorMessage = [];
+
   constructor(private usersService: UsersService,
               private exercicesService: ExercicesService,
               private programmesService: ProgrammesService,
@@ -87,15 +89,20 @@ export class UserSeanceComponent implements OnInit {
       this.programmesService.prognivsSubject.subscribe(async data => {
         if (data.length !== 0) {
           this.programmes = data[0];
-          this.seance = this.programmes.seances[this.currentUser.positionseance - 1];
-
-          // on vérifie si (au moins une des user.cat_exe_pathos)
-          // est inclu dans programme.seance.cat_exe_pathos)
-          this.launchSerieFixe();
+          if (this.programmes.seances.length < this.currentUser.positionseance) {
+            this.errorMessage.push(' la position du user ne correspond à aucune seance du programme');
+          } else {
+            this.seance = this.programmes.seances[this.currentUser.positionseance - 1];
+          }
 
           // recuperation de toutes les methodes correspondantes dans
           // bloc.methodes --- bloc.quartfusion --- bloc.demifusion
           if (this.seance) {
+
+          // on vérifie si (au moins une des user.cat_exe_pathos)
+          // est inclu dans programme.seance.cat_exe_pathos)
+            this.launchSerieFixe();
+
             this.currentBloc = this.seance.blocs[0];
             this.getAllMethodesCorrespondantes(this.currentBloc);
           }
@@ -304,7 +311,6 @@ export class UserSeanceComponent implements OnInit {
     if (this.currentUser.materiels && this.currentUser.materiels.length !== 0) {
       this.getAllExercicesMat();
     }
-
 
   }
 

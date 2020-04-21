@@ -59,6 +59,10 @@ export class ExercicesService {
     });
   }
 
+  // getExercicesForUser(userid):void {
+
+  // }
+
   emitExercicesSubject() {
     this.exerciceSubject.next(this.exercices.slice());
   }

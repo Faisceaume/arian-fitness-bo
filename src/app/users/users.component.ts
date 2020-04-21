@@ -58,19 +58,4 @@ export class UsersComponent implements OnInit {
     this.matDialog.open(UserFormComponent, dialogConfig);
   }
 
-  lancerScript() {
-    // script de correction
-    this.exercicesService.getAllExercices();
-    this.exercicesService.exerciceSubject.subscribe(data => {
-      data.forEach((exercice: Exercice) => {
-        if (exercice.materiels) {
-          exercice.materiels.forEach((materiel: Materiel) => {
-            this.materielsServie.writeExercice(materiel, exercice);
-          });
-        }
-      });
-      console.log('finish in >= 848 commited');
-    });
-  }
-
 }
