@@ -59,9 +59,13 @@ RDV LOUNIS 25/02/2020
 				(sachant que le premier est forcément une catégorie d'exercice d'abdo A)
 
 				1 - Récupération de la méthode :
-				S'il existent plusieurs méthodes affiliées au bloc, sélectioner l'une d'entre elle aléatoirement en fonction du niveau, de la durée et de l'orientation du bloc spécifié dans le programme et du nombre d'exercice du user disponible, et si le champs heure pointe correspond à celui du user.
+				S'il existent plusieurs méthodes affiliées au bloc,
+        sélectioner l'une d'entre elle aléatoirement en fonction du niveau,
+        de la durée et de l'orientation du bloc spécifié dans le programme
+        et du nombre d'exercice du user disponible, et si le champs heure pointe
+        correspond à celui du user.
 
-				getMethodeForSeance(user.heuredepointe) {
+				getMethodeForBlock(user.heuredepointe) {
 					method = random(methods);
 					return method;
 				}
@@ -86,6 +90,7 @@ RDV LOUNIS 25/02/2020
 						}
 
 						categoriesForSession(programme?, methode?) {
+
 							listCats = methode.series.cat_exe ? methode.cat_exe : programme.seance.bloc.cat_exe;
 							return listCats;
 						}
