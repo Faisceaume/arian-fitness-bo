@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Exercice } from './exercice';
 import { Subject } from 'rxjs';
 import { CategoriesService } from '../shared/categories/categories.service';
+import { Niveau } from '../shared/niveaux/niveau';
 
 @Injectable({
   providedIn: 'root'
@@ -261,6 +262,41 @@ export class ExercicesService {
       batch.delete(ref2);
       batch.delete(ref);
       batch.commit().then(() => console.log('Suppression de la serie d\'exercice fixe réussi '));
+    });
+  }
+
+
+
+  /////////////////////////////////////////////
+  ////////////////////////////////////////////
+  /////////////// METHODES FOR SIMULATION ///
+  ///////////////////////////////////////////
+
+  getExercicesForUser(genre: string, age: string, niveau: Niveau, position: string) {
+    let url: any;
+
+    if (position !== 'toutes') {
+     url = this.firestore.collection('exercices', ref =>
+    ref.where('genre', '==', genre)
+    .where('age', '==', age)
+    .where('niveau', '==', niveau)
+    .where('position', '==', position));
+    } else {
+     url = this.firestore.collection('exercices', ref =>
+    ref.where('genre', '==', genre)
+    .where('age', '==', age)
+    .where('niveau', '==', niveau));
+    }
+    return new Promise<Exercice[]>((resolve, reject) => {
+      url.snapshotChanges().subscribe(res => {
+        const exercices = res.map( e => {
+        const anotherData = e.payload.doc.data() as Exercice;
+        return  {
+          ...anotherData
+        } as Exercice;
+        });
+        resolve(exercices);
+      });
     });
   }
 

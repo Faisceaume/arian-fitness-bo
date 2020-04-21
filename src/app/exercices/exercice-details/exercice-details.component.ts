@@ -111,6 +111,7 @@ export class ExerciceDetailsComponent implements OnInit {
       list.splice(index, 1);
     }
     this.exercicesService.newUpdateVersion(this.formData, 'materiels', list);
+    this.materielsService.deleteExercice(materiel, this.formData);
   }
 
   updateFiel(attribut: string, value: any) {
@@ -118,6 +119,9 @@ export class ExerciceDetailsComponent implements OnInit {
     if (attribut === 'niveau') {
         this.showSeniotRepetList = value.acronyme === 'S80+' ? true : false;
     }
+    this.formData.materiels.forEach(mat => {
+      this.materielsService.writeExercice(mat, this.formData);
+    });
   }
 
   onDelete(materiel: Materiel) {
@@ -129,7 +133,7 @@ export class ExerciceDetailsComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';
-    dialogConfig.data = {currentMateriel: this.formData};
+    dialogConfig.data = {currentExercice: this.formData};
     this.matDialog.open(MaterielsSharedComponent, dialogConfig);
   }
 

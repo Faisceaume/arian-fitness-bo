@@ -7,4 +7,6 @@ export class Materiel {
   postefixe: boolean;
   visibility: boolean;
   categories: Categorie[];
+
+  exeids?: string[];
 }

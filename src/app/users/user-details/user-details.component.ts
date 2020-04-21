@@ -8,7 +8,7 @@ import { PathologiesService } from './../../shared/pathologies/pathologies.servi
 import { ObjectifsService } from 'src/app/shared/objectifs/objectifs.service';
 import { Objectif } from 'src/app/shared/objectifs/objectif';
 import { Listes } from 'src/app/shared/listes';
-import { Component, OnInit, ɵConsole, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../user';
 import { FormControl } from '@angular/forms';
