@@ -19,6 +19,9 @@ import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { MethodesService } from 'src/app/methodes/methodes.service';
 import { Methode } from 'src/app/methodes/methode';
 import { Observable, of, concat } from 'rxjs';
+import { Bloc } from 'src/app/programmes/bloc';
+import { Series } from 'src/app/shared/series';
+import { Categorie } from 'src/app/shared/categories/categorie';
 
 @Component({
   selector: 'app-user-seance',
@@ -44,6 +47,10 @@ export class UserSeanceComponent implements OnInit {
 
   methodesCorrespondantes: Methode[];
   heuredepointe = 'oui';
+
+  currentBloc: Bloc;
+  methodeAleatoire: Methode;
+  methodeAleatoireCatExe: Categorie[] = [];
 
   constructor(private usersService: UsersService,
               private exercicesService: ExercicesService,
@@ -77,32 +84,42 @@ export class UserSeanceComponent implements OnInit {
       // son Niveau -- sa Frequence -- son objectif
       this.programmesService
       .getProgrammeByNiveauAndFrequenceAndObjectifs(this.currentUser);
-      this.programmesService.prognivsSubject.subscribe(data => {
+      this.programmesService.prognivsSubject.subscribe(async data => {
         if (data.length !== 0) {
           this.programmes = data[0];
           this.seance = this.programmes.seances[this.currentUser.positionseance - 1];
 
           // on vérifie si (au moins une des user.cat_exe_pathos)
           // est inclu dans programme.seance.cat_exe_pathos)
-          if (this.currentPathologie) {
-            let local = [];
-            this.seance.blocs.forEach(bloc => {
-              local = this.currentPathologie.exercicesCategorie.filter(pa => bloc.categoriesexercices
-                .findIndex(exe => exe.id === pa.id) >= 0);
-            });
-            if (local.length > 0) {
-              this.lancementSerieFixePathos = true;
-            }
-          }
+          this.launchSerieFixe();
 
           // recuperation de toutes les methodes correspondantes dans
           // bloc.methodes --- bloc.quartfusion --- bloc.demifusion
           if (this.seance) {
-            this.saveMethodesCorrespondante();
+            this.currentBloc = this.seance.blocs[0];
+            this.getAllMethodesCorrespondantes(this.currentBloc);
           }
         }
       });
 
+      // recuperation des niveaux precedents de l'utilisateur
+      this.getAllUserNiveaux();
+
+    }).then(() => {
+      this.exercicesSeriesService.getSerieFixeByTypeAndSenior(this.senior, 'echauffement').then(item => {
+        this.echauffement = item;
+      });
+    });
+  }
+
+
+  /*********************************************/
+      // ZONE DE DECLARATION DES FONCTIONS
+  /*********************************************/
+
+
+  // fonction de  recuperation des niveaux precedents de l'utilisateur
+  getAllUserNiveaux() {
       this.niveauxService.getAllNiveaux();
       this.niveauxService.niveauxSubject.subscribe(data => {
         this.niveaux = data;
@@ -117,62 +134,85 @@ export class UserSeanceComponent implements OnInit {
         // genre --- niveau --- position --- age
         this.getAllExercicesForUser();
       });
-    }).then(() => {
-      this.exercicesSeriesService.getSerieFixeByTypeAndSenior(this.senior, 'echauffement').then(item => {
-        this.echauffement = item;
-      });
-    });
   }
 
+  // fonction de verification d'inclusion
+  // user.cat_exe_pathos => programme.seance.cat_exe_pathos
+  launchSerieFixe() {
+    if (this.currentPathologie) {
+      let local = [];
+      this.seance.blocs.forEach(bloc => {
+        local = this.currentPathologie.exercicesCategorie.filter(pa => bloc.categoriesexercices
+          .findIndex(exe => exe.id === pa.id) >= 0);
+      });
+      if (local.length > 0) {
+        this.lancementSerieFixePathos = true;
+      }
+    }
+  }
 
-  /*********************************************/
-      // ZONE DE DECLARATION DES FONCTIONS
-  /*********************************************/
 
   // fonction de recuperation des methodes correspondantes
   // en fonction des heures de pointe
-  getAllMethodesCorrespondantes(id: string) {
-    this.methodesService.getSingleMethode(id).then( methode => {
-      if (methode.heuredepointe === this.heuredepointe || methode.heuredepointe === 'tout') {
-        const idMeth = this.methodesCorrespondantes.findIndex(it => it.id === methode.id);
-        if (idMeth < 0) {
-          this.methodesCorrespondantes.push(methode);
-        }
+   async getAllMethodesCorrespondantes(currentBloc: Bloc) {
+      const data = await this.saveMethodesCorrespondante(currentBloc);
+      for (const meth of data) {
+        this.methodesService.getSingleMethode(meth.id).then( methode => {
+          if (methode.heuredepointe === this.heuredepointe || methode.heuredepointe === 'tout') {
+            const idMeth = this.methodesCorrespondantes.findIndex(it => it.id === methode.id);
+            if (idMeth < 0) {
+              this.methodesCorrespondantes.push(methode);
+            }
+          }
+        });
       }
+  }
+
+  // recuperation des methodes du bloc
+  saveMethodesCorrespondante(currentBloc: Bloc): Promise<Methode[]> {
+    return new Promise(resolve => {
+        this.methodesCorrespondantes = [];
+        let t1 = []; let t2 = []; let t3 = [];
+        if (currentBloc.methodes) {
+          t1 = currentBloc.methodes;
+        }
+        if (currentBloc.quartfusion) {
+          t2 = currentBloc.quartfusion;
+        }
+        if (currentBloc.demifusion) {
+          t3 = currentBloc.demifusion;
+        }
+        resolve(t1.concat(t2).concat(t3));
     });
   }
 
-  // utilisation de la fonction de recuperation des methodes
-  saveMethodesCorrespondante() {
-      this.methodesCorrespondantes = [];
-      this.seance.blocs.forEach((bloc) => {
-        let t1 = []; let t2 = []; let t3 = [];
-        if (bloc.methodes) {
-          t1 = bloc.methodes;
-        }
-        if (bloc.quartfusion) {
-          t2 = bloc.quartfusion;
-        }
-        if (bloc.demifusion) {
-          t3 = bloc.demifusion;
-        }
-
-        concat(
-          of(t1),
-          of(t2),
-          of(t3)
-        ).subscribe(data => {
-          for (const meth of data) {
-            this.getAllMethodesCorrespondantes(meth.id);
-          }
-        });
-      });
+  // fonctions de determination de la methode aléatoire et des categories exercices
+  launch() {
+    this.getMethodeAleatoire();
+    console.log(this.getCategorieExeForBloc());
   }
 
-  // fonction de determination de la methode aléatoire
   getMethodeAleatoire() {
     const i = Math.floor(Math.random() * Math.floor(this.methodesCorrespondantes.length));
-    console.log(this.methodesCorrespondantes[i]);
+    this.methodeAleatoire =  this.methodesCorrespondantes[i];
+    for (const serie of this.methodeAleatoire.serieexercice) {
+      if (serie.categories && serie.categories.length !== 0) {
+        serie.categories.forEach(categ => {
+          const id = this.methodeAleatoireCatExe.findIndex(it => it.id === categ.id);
+          if (id < 0) {
+            this.methodeAleatoireCatExe.push(categ);
+          }
+        });
+      }
+    }
+  }
+
+  getCategorieExeForBloc() {
+    if (this.methodeAleatoireCatExe.length !== 0) {
+      return this.methodeAleatoireCatExe;
+    } else {
+      return this.currentBloc.categoriesexercices;
+    }
   }
 
   // fonction de determination des exercices en fonction des différents paramètres

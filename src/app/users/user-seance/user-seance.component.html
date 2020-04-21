@@ -8,11 +8,14 @@
 </div>
 
 <div *ngIf="methodesCorrespondantes && methodesCorrespondantes.length !== 0">
-  <button mat-button (click)="getMethodeAleatoire()">
-    lancer la methode aleatoire
+  <button mat-button (click)="launch()">
+    determination de la methode aleatoire
   </button>
 </div>
 
+<div *ngIf="methodeAleatoire">
+  <p *ngIf="methodeAleatoireCatExe.length === 0"> la methode aléatoire n'a pas de categorie d'exercice </p>
+</div>
 
 <div style="padding: 10px;" fxLayout="column" *ngIf="programmes" >
   <div fxFlex="30" style="margin: 5px;">
