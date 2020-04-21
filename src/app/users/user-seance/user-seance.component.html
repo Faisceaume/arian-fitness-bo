@@ -7,11 +7,16 @@
   <h3>Aucun programme n'a été retenu pour le user</h3>
 </div>
 
+<div *ngIf="methodesCorrespondantes && methodesCorrespondantes.length !== 0">
+  <button mat-button (click)="getMethodeAleatoire()">
+    lancer la methode aleatoire
+  </button>
+</div>
+
 
 <div style="padding: 10px;" fxLayout="column" *ngIf="programmes" >
   <div fxFlex="30" style="margin: 5px;">
     <h2>Programme</h2>
-    <p>La liste d'exercice du user ets composée de xx exercices</p>
     <p>
       Programme retenu pour le user : <strong>{{ programmes.acronyme }} / {{ programmes.numero }}</strong>
     </p>

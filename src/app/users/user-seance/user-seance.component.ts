@@ -16,6 +16,9 @@ import { NiveauxService } from 'src/app/shared/niveaux/niveaux.service';
 import { Exercice } from 'src/app/exercices/exercice';
 import { CategoriesService } from 'src/app/shared/categories/categories.service';
 import { MaterielsService } from 'src/app/materiels/materiels.service';
+import { MethodesService } from 'src/app/methodes/methodes.service';
+import { Methode } from 'src/app/methodes/methode';
+import { Observable, of, concat } from 'rxjs';
 
 @Component({
   selector: 'app-user-seance',
@@ -39,6 +42,9 @@ export class UserSeanceComponent implements OnInit {
 
   listeExercices: Exercice[] = [];
 
+  methodesCorrespondantes: Methode[];
+  heuredepointe = 'oui';
+
   constructor(private usersService: UsersService,
               private exercicesService: ExercicesService,
               private programmesService: ProgrammesService,
@@ -47,10 +53,10 @@ export class UserSeanceComponent implements OnInit {
               private pathologiesService: PathologiesService,
               private niveauxService: NiveauxService,
               private materielsService: MaterielsService,
+              private methodesService: MethodesService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
-
     const id = this.route.snapshot.params.id;
     // determination de l'utilisateur en fonction de son id
     this.usersService.getSingleUser(null, id).then((item: User) => {
@@ -88,6 +94,12 @@ export class UserSeanceComponent implements OnInit {
               this.lancementSerieFixePathos = true;
             }
           }
+
+          // recuperation de toutes les methodes correspondantes dans
+          // bloc.methodes --- bloc.quartfusion --- bloc.demifusion
+          if (this.seance) {
+            this.saveMethodesCorrespondante();
+          }
         }
       });
 
@@ -112,6 +124,56 @@ export class UserSeanceComponent implements OnInit {
     });
   }
 
+
+  /*********************************************/
+      // ZONE DE DECLARATION DES FONCTIONS
+  /*********************************************/
+
+  // fonction de recuperation des methodes correspondantes
+  // en fonction des heures de pointe
+  getAllMethodesCorrespondantes(id: string) {
+    this.methodesService.getSingleMethode(id).then( methode => {
+      if (methode.heuredepointe === this.heuredepointe || methode.heuredepointe === 'tout') {
+        const idMeth = this.methodesCorrespondantes.findIndex(it => it.id === methode.id);
+        if (idMeth < 0) {
+          this.methodesCorrespondantes.push(methode);
+        }
+      }
+    });
+  }
+
+  // utilisation de la fonction de recuperation des methodes
+  saveMethodesCorrespondante() {
+      this.methodesCorrespondantes = [];
+      this.seance.blocs.forEach((bloc) => {
+        let t1 = []; let t2 = []; let t3 = [];
+        if (bloc.methodes) {
+          t1 = bloc.methodes;
+        }
+        if (bloc.quartfusion) {
+          t2 = bloc.quartfusion;
+        }
+        if (bloc.demifusion) {
+          t3 = bloc.demifusion;
+        }
+
+        concat(
+          of(t1),
+          of(t2),
+          of(t3)
+        ).subscribe(data => {
+          for (const meth of data) {
+            this.getAllMethodesCorrespondantes(meth.id);
+          }
+        });
+      });
+  }
+
+  // fonction de determination de la methode aléatoire
+  getMethodeAleatoire() {
+    const i = Math.floor(Math.random() * Math.floor(this.methodesCorrespondantes.length));
+    console.log(this.methodesCorrespondantes[i]);
+  }
 
   // fonction de determination des exercices en fonction des différents paramètres
   getExercicesByScenario(genre, exerciceage, niveau, position) {
