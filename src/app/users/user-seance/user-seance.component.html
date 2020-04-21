@@ -1,4 +1,8 @@
 
+<div *ngIf="errorMessage.length !== 0">
+  <p *ngFor="let item of errorMessage"> {{ item }} </p>
+</div>
+
 <div *ngIf="listeExercices && listeExercices.length !== 0">
   <h3>Les données de l'utilisateur correspondent à {{ listeExercices.length }} exercice(s)</h3>
 </div>
