@@ -44,6 +44,7 @@ export class UserSeanceComponent implements OnInit {
   listeNiveau: Niveau[] = [];
 
   listeExercices: Exercice[] = [];
+  listeCatExe: Categorie[];
 
   methodesCorrespondantes: Methode[];
   heuredepointe = 'oui';
@@ -103,13 +104,13 @@ export class UserSeanceComponent implements OnInit {
           // est inclu dans programme.seance.cat_exe_pathos)
             this.launchSerieFixe();
 
-            this.currentBloc = this.seance.blocs[0];
+            this.currentBloc = this.seance.blocs[1];
             this.getAllMethodesCorrespondantes(this.currentBloc);
           }
         }
       });
 
-      // recuperation des niveaux precedents de l'utilisateur
+      // recuperation des niveaux inférieurs à celui de l'utilisateur
       this.getAllUserNiveaux();
 
     }).then(() => {
@@ -216,8 +217,10 @@ export class UserSeanceComponent implements OnInit {
 
   getCategorieExeForBloc() {
     if (this.methodeAleatoireCatExe.length !== 0) {
+      this.listeCatExe = this.methodeAleatoireCatExe;
       return this.methodeAleatoireCatExe;
     } else {
+      this.listeCatExe = this.currentBloc.categoriesexercices;
       return this.currentBloc.categoriesexercices;
     }
   }

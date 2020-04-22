@@ -13,12 +13,18 @@
 
 <div *ngIf="methodesCorrespondantes && methodesCorrespondantes.length !== 0">
   <button mat-button (click)="launch()">
-    determination de la methode aleatoire
+    Determination de la methode aleatoire
   </button>
 </div>
 
 <div *ngIf="methodeAleatoire">
-  <p *ngIf="methodeAleatoireCatExe.length === 0"> la methode aléatoire n'a pas de categorie d'exercice </p>
+  <p *ngIf="methodeAleatoireCatExe.length === 0">
+    La méthode retenue de manière aléatoire n'a pas de catégories d'exercice. <br>
+    La récupération des catégories d'exercice s'effectue donc depuis le bloc du programme.
+  </p>
+  <p>
+    La liste des catégories d'exercices récupérée est composée de <b>{{ listeCatExe.length }}</b> éléments.
+  </p>
 </div>
 
 <div style="padding: 10px;" fxLayout="column" *ngIf="programmes" >
