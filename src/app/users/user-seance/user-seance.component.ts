@@ -18,7 +18,7 @@ import { CategoriesService } from 'src/app/shared/categories/categories.service'
 import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { MethodesService } from 'src/app/methodes/methodes.service';
 import { Methode } from 'src/app/methodes/methode';
-import { Observable, of, concat, from, forkJoin } from 'rxjs';
+import { Observable, of, concat, from, forkJoin, Subject } from 'rxjs';
 import { Bloc } from 'src/app/programmes/bloc';
 import { Series } from 'src/app/shared/series';
 import { Categorie } from 'src/app/shared/categories/categorie';
@@ -45,14 +45,24 @@ export class UserSeanceComponent implements OnInit {
   listeNiveau: Niveau[] = [];
 
   listeExercices: Exercice[] = [];
+  listeExercicesSelected: Exercice[] = [];
   listeCategories: Categorie[];
+  listeCategorieSubject = new Subject<Categorie[]>();
 
   currentBloc: Bloc;
   methodeAleatoire: Methode;
+  methodeAleatoireSubject = new Subject <Methode>();
   methodeAleatoireCatExe: Categorie[] = [];
   methodeWorks: boolean;
+  categorieAleatoire: Categorie;
 
   errorMessage = [];
+
+  seriefixe1Exercice: Exercice[];
+
+  indexSerie = 0;
+  listeDesSeries: Series[];
+  listeDesExercicesSerie: any[] = [];
 
   constructor(private usersService: UsersService,
               private exercicesService: ExercicesService,
@@ -159,7 +169,6 @@ export class UserSeanceComponent implements OnInit {
 
   // fonction de determination de la methode aleatoire
    async getMethodeAleatoire(currentBloc: Bloc, heuredepointe: string) {
-    return new Promise(async resolve => {
         const t1 = currentBloc.methodes ? currentBloc.methodes : [];
         const t2 = currentBloc.quartfusion ? currentBloc.quartfusion : [];
         const t3 = currentBloc.demifusion ? currentBloc.demifusion : [];
@@ -170,25 +179,64 @@ export class UserSeanceComponent implements OnInit {
             return forkJoin(methodes);
           })
         ).subscribe(methode => {
-          const all = methode.filter(meth => meth.heuredepointe === heuredepointe || meth.heuredepointe === 'tout');
+          const all = methode.filter(meth => meth.heuredepointe === heuredepointe ||
+            meth.heuredepointe === 'tout');
           const i = Math.floor(Math.random() * Math.floor(all.length));
-          this.methodeAleatoire =  all[i];
-          resolve();
+          this.methodeAleatoireSubject.next(all[i]);
         });
-    });
   }
 
   // fonctions de determination de la methode aléatoire et des categories exercices
   launch(hdp) {
-    this.getMethodeAleatoire(this.currentBloc, hdp).then(() => {
-      this.getMethodeAleatoireCatExe();
-      this.getCategorieExeForBloc();
-      this.methodeWorks = this.checkIfMethodWorks() ? true : false;
+
+    // reset message d'erreur
+    this.errorMessage = [];
+    this.getMethodeAleatoire(this.currentBloc, hdp);
+
+    this.methodeAleatoireSubject.subscribe((value: Methode) => {
+        this.methodeAleatoire = value;
+        if (this.methodeAleatoire.serieexercice) {
+          this.listeDesSeries = this.methodeAleatoire.serieexercice as Series[];
+        }
+        this.getMethodeAleatoireCatExe(value);
+        this.getCategorieExeForBloc();
+        this.methodeWorks = this.checkIfMethodWorks(value) ? true : false;
+    });
+
+    this.listeCategorieSubject.subscribe(categories => {
+      this.categorieAleatoire = categories[Math.floor(Math.random() * categories.length)];
+      this.remplissage(this.methodeAleatoire.serieexercice[0].nbrexparserie, this.categorieAleatoire);
     });
   }
 
-  getMethodeAleatoireCatExe() {
-    for (const serie of this.methodeAleatoire.serieexercice) {
+  // fonction go to next serie
+  nextSerie() {
+    this.indexSerie += 1;
+    const serie = this.listeDesSeries[this.indexSerie] as Series;
+    const local = [];
+    const reste = serie.nbrexparserie - this.listeDesSeries[this.indexSerie - 1].nbrexparserie;
+    if (reste <= 0) {
+      for (let index = 0; index < serie.nbrexparserie; index++) {
+        local.push(this.listeDesExercicesSerie[this.indexSerie - 1][index]);
+      }
+      this.listeDesExercicesSerie[this.indexSerie] = local;
+    } else {
+      const type = this.methodeAleatoire.global ? 'global' : 'tout';
+      this.getExerciceForSerie(this.categorieAleatoire, type, reste).then((data: Exercice[]) => {
+        for (let index = 0; index < this.listeDesSeries[this.indexSerie - 1].nbrexparserie; index++) {
+          local.push(this.listeDesExercicesSerie[this.indexSerie - 1][index]);
+        }
+        data.forEach(exe => local.push(exe) );
+        this.listeDesExercicesSerie[this.indexSerie] = local;
+      }, error => {
+        this.errorMessage.push('nombre d\'exerice insuffisant pour la serie' + this.indexSerie);
+      });
+    }
+  }
+
+  // fonction de determination des Cat-Exe de la methode aleatoire
+  getMethodeAleatoireCatExe(methode: Methode) {
+    for (const serie of methode.serieexercice) {
       if (serie.categories && serie.categories.length !== 0) {
         serie.categories.forEach(categ => {
           const id = this.methodeAleatoireCatExe.findIndex(it => it.id === categ.id);
@@ -200,28 +248,81 @@ export class UserSeanceComponent implements OnInit {
     }
   }
 
+  // fonction de remplissage des series de la methode
+  remplissage(nb: number, categorie: Categorie) {
+    const type = this.methodeAleatoire.global ? 'global' : 'tout';
+    this.getExerciceForSerie(categorie, type, nb).then((data: Exercice[]) => {
+      this.listeDesExercicesSerie[this.indexSerie] = data;
+    }, error => {
+      this.errorMessage.push('nombre d\'exerice insuffisant pour la serie');
+    });
+  }
+  getExerciceForSerie(categorie: Categorie, type: string, nombreexercice: number) {
+    return new Promise((resolve, reject) => {
+      const localExercice = this.listeExercices.filter(exe1 =>
+        this.listeExercicesSelected.findIndex(exe2 => exe2.id === exe1.id) < 0 );
+      const addExercice = [];
+
+      for (const exercice of localExercice) {
+      if (exercice.categories) {
+
+        if (type === 'tout') {
+          if (exercice.categories.findIndex(e => e.id === categorie.id) >= 0) {
+            addExercice.push(exercice);
+            if (!exercice.degressif) {
+              this.listeExercicesSelected.push(exercice);
+            }
+          }
+        } else {
+          if (exercice.categories.findIndex(e => e.id === categorie.id) >= 0 && exercice.type === type) {
+            addExercice.push(exercice);
+            if (!exercice.degressif) {
+              this.listeExercicesSelected.push(exercice);
+            }
+          }
+        }
+        if (nombreexercice === addExercice.length) {
+            resolve(addExercice);
+            break;
+          }
+      }
+    }
+      reject();
+    });
+  }
+
+  // fonction de recuperation de la liste des Cate-Exe du bloc
+  // soit par la methode aleatoire
+  // soit par le bloc directement
   getCategorieExeForBloc() {
     if (this.methodeAleatoireCatExe.length !== 0) {
       this.listeCategories =  this.methodeAleatoireCatExe;
+      this.listeCategorieSubject.next(this.methodeAleatoireCatExe);
     } else {
       this.listeCategories = this.currentBloc.categoriesexercices;
+      this.listeCategorieSubject.next(this.currentBloc.categoriesexercices);
     }
   }
 
   // fonction de verification de la validité de la méthode aléatoire
-  checkIfMethodWorks(): boolean {
+  checkIfMethodWorks(methode: Methode): boolean {
+    let n = 0;
     for (const currentCategorie of this.listeCategories) {
-      let n = 0;
+      n = 0;
       for (const exercice of this.listeExercices) {
         if (exercice.categories) {
           for (const categ of exercice.categories) {
             if (categ.id === currentCategorie.id) {
-              n += 1;
+              if (methode.global && exercice.type === 'global') {
+                n += 1;
+              } else if (!methode.global) {
+                n += 1;
+              }
             }
           }
         }
       }
-      if (n < this.methodeAleatoire.nbrexercicesminimumparcategorie) {
+      if (n < methode.nbrexercicesminimumparcategorie) {
         return false;
       }
     }
