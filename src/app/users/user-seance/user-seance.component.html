@@ -19,6 +19,8 @@
 
 <div *ngIf="methodeAleatoire">
   <p *ngIf="methodeAleatoireCatExe.length === 0"> la methode aléatoire n'a pas de categorie d'exercice </p>
+  <p *ngIf="methodeWorks"> <strong>Methode aléatoire Works</strong> </p>
+  <p *ngIf="!methodeWorks"> <strong>Methode aléatoire no Works</strong> </p>
 </div>
 
 <div style="padding: 10px;" fxLayout="column" *ngIf="programmes" >

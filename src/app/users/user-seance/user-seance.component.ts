@@ -44,6 +44,7 @@ export class UserSeanceComponent implements OnInit {
   listeNiveau: Niveau[] = [];
 
   listeExercices: Exercice[] = [];
+  listeCategories: Categorie[];
 
   methodesCorrespondantes: Methode[];
   heuredepointe = 'oui';
@@ -51,6 +52,7 @@ export class UserSeanceComponent implements OnInit {
   currentBloc: Bloc;
   methodeAleatoire: Methode;
   methodeAleatoireCatExe: Categorie[] = [];
+  methodeWorks: boolean;
 
   errorMessage = [];
 
@@ -196,7 +198,8 @@ export class UserSeanceComponent implements OnInit {
   // fonctions de determination de la methode aléatoire et des categories exercices
   launch() {
     this.getMethodeAleatoire();
-    console.log(this.getCategorieExeForBloc());
+    this.getCategorieExeForBloc();
+    this.methodeWorks = this.checkIfMethodWorks() ? true : false;
   }
 
   getMethodeAleatoire() {
@@ -216,10 +219,30 @@ export class UserSeanceComponent implements OnInit {
 
   getCategorieExeForBloc() {
     if (this.methodeAleatoireCatExe.length !== 0) {
-      return this.methodeAleatoireCatExe;
+      this.listeCategories =  this.methodeAleatoireCatExe;
     } else {
-      return this.currentBloc.categoriesexercices;
+      this.listeCategories = this.currentBloc.categoriesexercices;
     }
+  }
+
+  // fonction de verification de la validité de la méthode aléatoire
+  checkIfMethodWorks(): boolean {
+    for (const currentCategorie of this.listeCategories) {
+      let n = 0;
+      for (const exercice of this.listeExercices) {
+        if (exercice.categories) {
+          for (const categ of exercice.categories) {
+            if (categ.id === currentCategorie.id) {
+              n += 1;
+            }
+          }
+        }
+      }
+      if (n < this.methodeAleatoire.nbrexercicesminimumparcategorie) {
+        return false;
+      }
+    }
+    return true;
   }
 
   // fonction de determination des exercices en fonction des différents paramètres
