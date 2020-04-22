@@ -102,6 +102,8 @@ RDV LOUNIS 25/02/2020
               Si oui, remplacer les exercices supplémentaires de cette catégorie de matériel ("PF")
               par des exercices comptabiles avec le user dont la catégorie de matériel est "PM" ou "AUC".
 
+              // Question Lounis : Nous travailllons ici avec des catégories d'exe et non des exercices
+
               // si cela est possible
 							if(true) {
 								return true;
@@ -141,11 +143,11 @@ RDV LOUNIS 25/02/2020
 
 
 4 - CONSTRUCTION DE LA PREMIERE SERIE D'EXERCICE
-4 - a - Récupération du nombre d'exercice dans la série par la méthode (methode.nbrexparserie)
+4 - a - Récupération du nombre d'exercice dans la série par la méthode (methode.serie.nbrexparserie)
 
 				getExercicesForMethodAndUser(methode) {
 					global
-						return methode.nbrexparserie;
+						return methode.serie.nbrexparserie;
 				}
 
 

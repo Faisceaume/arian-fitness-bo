@@ -18,10 +18,11 @@ import { CategoriesService } from 'src/app/shared/categories/categories.service'
 import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { MethodesService } from 'src/app/methodes/methodes.service';
 import { Methode } from 'src/app/methodes/methode';
-import { Observable, of, concat } from 'rxjs';
+import { Observable, of, concat, from, forkJoin } from 'rxjs';
 import { Bloc } from 'src/app/programmes/bloc';
 import { Series } from 'src/app/shared/series';
 import { Categorie } from 'src/app/shared/categories/categorie';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-seance',
@@ -45,9 +46,6 @@ export class UserSeanceComponent implements OnInit {
 
   listeExercices: Exercice[] = [];
   listeCategories: Categorie[];
-
-  methodesCorrespondantes: Methode[];
-  heuredepointe = 'oui';
 
   currentBloc: Bloc;
   methodeAleatoire: Methode;
@@ -104,14 +102,12 @@ export class UserSeanceComponent implements OnInit {
           // on vérifie si (au moins une des user.cat_exe_pathos)
           // est inclu dans programme.seance.cat_exe_pathos)
             this.launchSerieFixe();
-
-            this.currentBloc = this.seance.blocs[0];
-            this.getAllMethodesCorrespondantes(this.currentBloc);
+            this.currentBloc = this.seance.blocs[1];
           }
         }
       });
 
-      // recuperation des niveaux precedents de l'utilisateur
+      // recuperation des niveaux inférieurs à celui de l'utilisateur
       this.getAllUserNiveaux();
 
     }).then(() => {
@@ -161,50 +157,37 @@ export class UserSeanceComponent implements OnInit {
   }
 
 
-  // fonction de recuperation des methodes correspondantes
-  // en fonction des heures de pointe
-   async getAllMethodesCorrespondantes(currentBloc: Bloc) {
-      const data = await this.saveMethodesCorrespondante(currentBloc);
-      for (const meth of data) {
-        this.methodesService.getSingleMethode(meth.id).then( methode => {
-          if (methode.heuredepointe === this.heuredepointe || methode.heuredepointe === 'tout') {
-            const idMeth = this.methodesCorrespondantes.findIndex(it => it.id === methode.id);
-            if (idMeth < 0) {
-              this.methodesCorrespondantes.push(methode);
-            }
-          }
+  // fonction de determination de la methode aleatoire
+   async getMethodeAleatoire(currentBloc: Bloc, heuredepointe: string) {
+    return new Promise(async resolve => {
+        const t1 = currentBloc.methodes ? currentBloc.methodes : [];
+        const t2 = currentBloc.quartfusion ? currentBloc.quartfusion : [];
+        const t3 = currentBloc.demifusion ? currentBloc.demifusion : [];
+        const data = t1.concat(t2).concat(t3);
+        of(data).pipe(
+          switchMap(val =>  {
+            const methodes = val.map(it => this.methodesService.getSingleMethode(it.id));
+            return forkJoin(methodes);
+          })
+        ).subscribe(methode => {
+          const all = methode.filter(meth => meth.heuredepointe === heuredepointe || meth.heuredepointe === 'tout');
+          const i = Math.floor(Math.random() * Math.floor(all.length));
+          this.methodeAleatoire =  all[i];
+          resolve();
         });
-      }
-  }
-
-  // recuperation des methodes du bloc
-  saveMethodesCorrespondante(currentBloc: Bloc): Promise<Methode[]> {
-    return new Promise(resolve => {
-        this.methodesCorrespondantes = [];
-        let t1 = []; let t2 = []; let t3 = [];
-        if (currentBloc.methodes) {
-          t1 = currentBloc.methodes;
-        }
-        if (currentBloc.quartfusion) {
-          t2 = currentBloc.quartfusion;
-        }
-        if (currentBloc.demifusion) {
-          t3 = currentBloc.demifusion;
-        }
-        resolve(t1.concat(t2).concat(t3));
     });
   }
 
   // fonctions de determination de la methode aléatoire et des categories exercices
-  launch() {
-    this.getMethodeAleatoire();
-    this.getCategorieExeForBloc();
-    this.methodeWorks = this.checkIfMethodWorks() ? true : false;
+  launch(hdp) {
+    this.getMethodeAleatoire(this.currentBloc, hdp).then(() => {
+      this.getMethodeAleatoireCatExe();
+      this.getCategorieExeForBloc();
+      this.methodeWorks = this.checkIfMethodWorks() ? true : false;
+    });
   }
 
-  getMethodeAleatoire() {
-    const i = Math.floor(Math.random() * Math.floor(this.methodesCorrespondantes.length));
-    this.methodeAleatoire =  this.methodesCorrespondantes[i];
+  getMethodeAleatoireCatExe() {
     for (const serie of this.methodeAleatoire.serieexercice) {
       if (serie.categories && serie.categories.length !== 0) {
         serie.categories.forEach(categ => {
