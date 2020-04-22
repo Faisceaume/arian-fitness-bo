@@ -143,11 +143,11 @@ RDV LOUNIS 25/02/2020
 
 
 4 - CONSTRUCTION DE LA PREMIERE SERIE D'EXERCICE
-4 - a - Récupération du nombre d'exercice dans la série par la méthode (methode.nbrexparserie)
+4 - a - Récupération du nombre d'exercice dans la série par la méthode (methode.serie.nbrexparserie)
 
 				getExercicesForMethodAndUser(methode) {
 					global
-						return methode.nbrexparserie;
+						return methode.serie.nbrexparserie;
 				}
 
 

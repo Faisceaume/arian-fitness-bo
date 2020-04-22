@@ -12,8 +12,11 @@
 </div>
 
 <div *ngIf="methodesCorrespondantes && methodesCorrespondantes.length !== 0">
-  <button mat-button (click)="launch()">
-    Determination de la methode aleatoire
+  <button mat-button (click)="launch('oui')">
+    Lancement d'une session à heure de pointe
+  </button>
+  <button mat-button (click)="launch('non')">
+    Lancement d'une session sans heure de pointe
   </button>
 </div>
 
@@ -23,11 +26,11 @@
     La récupération des catégories d'exercice s'effectue donc depuis le bloc du programme.
   </p>
   <p>
-    La liste des catégories d'exercices récupérée est composée de <b>{{ listeCatExe.length }}</b> éléments.
+    La liste des catégories d'exercices récupérée est composée de <b>{{ listeCategories.length }}</b> éléments.
   </p>
   <p *ngIf="methodeAleatoireCatExe.length === 0"> la methode aléatoire n'a pas de categorie d'exercice </p>
-  <p *ngIf="methodeWorks"> <strong>Methode aléatoire Works</strong> </p>
-  <p *ngIf="!methodeWorks"> <strong>Methode aléatoire no Works</strong> </p>
+  <p *ngIf="methodeWorks"> <strong>METHODE WORKS : </strong>La méthode retenue de manière aléatoire a bien un nombre d'exercice minimum inférieur ou égal aux nombre d'exercices compatibles avec le user et appartenant aux catégories d'exercices de la méthode. </p>
+  <p *ngIf="!methodeWorks"> <strong>LA METHODE NE FONCTIONNE PAS : </strong>La méthode retenue de manière aléatoire a un nombre d'exercice supèrieur aux nombre d'exercices compatibles avec le user et appartenant aux catégories d'exercices de la méthode. </p>
 </div>
 
 <div style="padding: 10px;" fxLayout="column" *ngIf="programmes" >

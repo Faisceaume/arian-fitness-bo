@@ -196,8 +196,8 @@ export class UserSeanceComponent implements OnInit {
   }
 
   // fonctions de determination de la methode aléatoire et des categories exercices
-  launch() {
-    this.getMethodeAleatoire();
+  launch(hdp) {
+    this.getMethodeAleatoire(hdp);
     this.getCategorieExeForBloc();
     this.methodeWorks = this.checkIfMethodWorks() ? true : false;
   }
