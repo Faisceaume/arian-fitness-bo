@@ -5,6 +5,7 @@ import { Exercice } from './exercice';
 import { Subject } from 'rxjs';
 import { CategoriesService } from '../shared/categories/categories.service';
 import { Niveau } from '../shared/niveaux/niveau';
+import { MaterielsService } from '../materiels/materiels.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,8 @@ export class ExercicesService {
 
   constructor(private firestore: AngularFirestore,
               private router: Router,
-              private categoriesService: CategoriesService) { }
+              private categoriesService: CategoriesService,
+              private materielsService: MaterielsService) { }
 
 
   createExercice(exercice: Exercice) {
@@ -82,6 +84,9 @@ export class ExercicesService {
   }
 
   deleteExercice(exercice: Exercice) {
+    exercice.materiels.forEach(mat => {
+      this.materielsService.deleteExercice(mat, exercice);
+    });
     this.firestore.doc('exercices/' + exercice.id).delete();
   }
 

@@ -4,8 +4,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Exercice } from '../exercices/exercice';
-import { ExerciceAvance } from '../exercices-series/exercice-avance';
-import { ExercicesService } from '../exercices/exercices.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +15,6 @@ export class MaterielsService {
   materielsSelected: Materiel[] = [];
 
   constructor(private firestore: AngularFirestore,
-              private exercicesService: ExercicesService,
               private router: Router) { }
 
   createMateriel(materiel: Materiel) {
