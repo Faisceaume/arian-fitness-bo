@@ -100,7 +100,7 @@ export class UserSeanceComponent implements OnInit {
         if (data.length !== 0) {
           this.programmes = data[0];
           if (this.programmes.seances.length < this.currentUser.positionseance) {
-            this.errorMessage.push(' la position du user ne correspond à aucune seance du programme');
+            this.errorMessage.push('La position du user ne correspond à aucune seance du programme');
           } else {
             this.seance = this.programmes.seances[this.currentUser.positionseance - 1];
           }
@@ -229,7 +229,7 @@ export class UserSeanceComponent implements OnInit {
         data.forEach(exe => local.push(exe) );
         this.listeDesExercicesSerie[this.indexSerie] = local;
       }, error => {
-        this.errorMessage.push('nombre d\'exerice insuffisant pour la serie' + this.indexSerie);
+        this.errorMessage.push('Le nombre d\'exerices du user compatibles avec les catégories, est insuffisant pour la serie de la méthode' + this.indexSerie);
       });
     }
   }
@@ -254,7 +254,7 @@ export class UserSeanceComponent implements OnInit {
     this.getExerciceForSerie(categorie, type, nb).then((data: Exercice[]) => {
       this.listeDesExercicesSerie[this.indexSerie] = data;
     }, error => {
-      this.errorMessage.push('nombre d\'exerice insuffisant pour la serie');
+      this.errorMessage.push('Le nombre d\'exerices du user compatibles avec les catégories, est insuffisant pour la serie de la méthode');
     });
   }
   getExerciceForSerie(categorie: Categorie, type: string, nombreexercice: number) {
