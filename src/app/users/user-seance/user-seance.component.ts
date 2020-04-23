@@ -56,12 +56,13 @@ export class UserSeanceComponent implements OnInit {
   methodeWorks: boolean;
   categorieAleatoire: Categorie;
 
-  errorMessage = [];
+  errorMessage: string[];
 
   indexSerie = 0;
   listeDesSeries: Series[];
   listeDesExercicesSerie: any[] = [];
 
+  listeDesBlocs: Bloc[];
   heuredepointe: string;
 
   constructor(private usersService: UsersService,
@@ -111,7 +112,7 @@ export class UserSeanceComponent implements OnInit {
           // on vérifie si (au moins une des user.cat_exe_pathos)
           // est inclu dans programme.seance.cat_exe_pathos)
             this.lancementSerieFixePathos =  this.launchSerieFixe() ? true : false;
-            this.currentBloc = this.seance.blocs[0];
+            this.listeDesBlocs = this.seance.blocs;
           }
         }
       });
@@ -194,11 +195,16 @@ export class UserSeanceComponent implements OnInit {
 
   // fonctions de determination de la methode aléatoire et des categories exercices
   launch(hdp) {
+    this.errorMessage = []; this.listeDesExercicesSerie = []; this.indexSerie = 0;
+    this.heuredepointe = hdp;
+  }
 
-    // reset message d'erreur && listeDesExercicesSerie
-    this.errorMessage = []; this.listeDesExercicesSerie = []; this.heuredepointe = hdp;
+  launchBloc(position: number) {
+    // reset message d'erreur && listeDesExercicesSerie && currentBloc
+    this.errorMessage = []; this.listeDesExercicesSerie = [];
+    this.currentBloc = this.listeDesBlocs[position]; this.indexSerie = 0;
 
-    this.getMethodeAleatoire(this.currentBloc, hdp);
+    this.getMethodeAleatoire(this.currentBloc, this.heuredepointe);
 
     this.methodeAleatoireSubject.subscribe((value: Methode) => {
         this.methodeAleatoire = value;
@@ -214,10 +220,6 @@ export class UserSeanceComponent implements OnInit {
       this.categorieAleatoire = categories[Math.floor(Math.random() * categories.length)];
       this.remplissage(this.methodeAleatoire.serieexercice[0].nbrexparserie, this.categorieAleatoire);
     });
-  }
-
-  otherBlocs() {
-
   }
 
   // fonction go to next serie

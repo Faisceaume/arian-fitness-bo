@@ -1,5 +1,5 @@
 
-<div *ngIf="errorMessage.length !== 0" style="background-color: red; color: white;">
+<div *ngIf="errorMessage" style="background-color: red; color: white;">
   <p *ngFor="let item of errorMessage"> {{ item }} </p>
 </div>
 
@@ -15,6 +15,18 @@
   </button>
   <button mat-button (click)="launch('non')">
     Lancement d'une session sans heure de pointe
+  </button>
+</div>
+
+<div *ngIf="listeDesBlocs && heuredepointe"
+style="padding: 3px;
+background-color: #999 !important;
+margin: 5px;
+text-align: center;">
+  <button mat-button
+  *ngFor="let bloc of listeDesBlocs; let i = index"
+  (click)="launchBloc(i)">
+    Bloc N°{{ i+1 }}
   </button>
 </div>
 
