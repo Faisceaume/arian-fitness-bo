@@ -124,9 +124,11 @@ RDV LOUNIS 25/02/2020
 								(comment : n = nombre d'exercice de cette catégorie dans listExercicesSelected1)
 
 								for each listExercicesSelected1 as exe {
-									if exe.cat_exe inclus dans cat {
-										n++;
-									}
+									if ((exe.cat_exe inclus dans cat)) {
+                    if(!methode.global || exe.type == 'global') {
+                      n++;
+                    }
+                  }
 								}
 
 								if (n1 <= methode.nbrexercicesminimum) {
@@ -154,7 +156,7 @@ RDV LOUNIS 25/02/2020
 4 - b - Transformation des catégories d'exe en exercices grace aux exercices du user disponibles :
 
 			getRandomCategorie() {
-				cats = this.categoriesForSession(programme? , methdode?);
+				cats = this.categoriesForSession(programme? , methode?);
 				categorie = random(cats);
 			}
 
@@ -163,6 +165,7 @@ RDV LOUNIS 25/02/2020
 					if (methode.global && exercice.type == 'global') {
 						for each listExercicesSelected1 as exe {
 							exe.categories == categorie
+              if (exe.degressif) { garder l'exercice } sinon le retirer
 							return exe;
 						}
 					}
