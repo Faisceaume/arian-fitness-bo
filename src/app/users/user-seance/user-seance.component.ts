@@ -7,7 +7,7 @@ import { Seance } from './../../programmes/seance';
 import { Programme } from './../../programmes/programme';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from 'src/app/users/users.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../user';
 import { ProgrammesService } from 'src/app/programmes/programmes.service';
 import { ExercicesService } from 'src/app/exercices/exercices.service';
@@ -18,7 +18,7 @@ import { CategoriesService } from 'src/app/shared/categories/categories.service'
 import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { MethodesService } from 'src/app/methodes/methodes.service';
 import { Methode } from 'src/app/methodes/methode';
-import { Observable, of, concat, from, forkJoin, Subject } from 'rxjs';
+import { Observable, of, concat, from, forkJoin, Subject, Subscription } from 'rxjs';
 import { Bloc } from 'src/app/programmes/bloc';
 import { Series } from 'src/app/shared/series';
 import { Categorie } from 'src/app/shared/categories/categorie';
@@ -44,7 +44,7 @@ export class UserSeanceComponent implements OnInit {
   niveaux: Niveau[];
   listeNiveau: Niveau[] = [];
 
-  listeExercices: Exercice[] = [];
+  listeExercices: Exercice[];
   listeExercicesSelected: Exercice[] = [];
   listeCategories: Categorie[];
   listeCategorieSubject = new Subject<Categorie[]>();
@@ -58,11 +58,11 @@ export class UserSeanceComponent implements OnInit {
 
   errorMessage = [];
 
-  seriefixe1Exercice: Exercice[];
-
   indexSerie = 0;
   listeDesSeries: Series[];
   listeDesExercicesSerie: any[] = [];
+
+  heuredepointe: string;
 
   constructor(private usersService: UsersService,
               private exercicesService: ExercicesService,
@@ -90,7 +90,6 @@ export class UserSeanceComponent implements OnInit {
           this.isPathologie = true;
         });
       }
-
     }).then(() => {
       // determination du programme du user en fonction de :
       // son Niveau -- sa Frequence -- son objectif
@@ -100,7 +99,7 @@ export class UserSeanceComponent implements OnInit {
         if (data.length !== 0) {
           this.programmes = data[0];
           if (this.programmes.seances.length < this.currentUser.positionseance) {
-            this.errorMessage.push(' la position du user ne correspond à aucune seance du programme');
+            this.errorMessage.push('La position du user ne correspond à aucune seance du programme');
           } else {
             this.seance = this.programmes.seances[this.currentUser.positionseance - 1];
           }
@@ -111,8 +110,8 @@ export class UserSeanceComponent implements OnInit {
 
           // on vérifie si (au moins une des user.cat_exe_pathos)
           // est inclu dans programme.seance.cat_exe_pathos)
-            this.launchSerieFixe();
-            this.currentBloc = this.seance.blocs[1];
+            this.lancementSerieFixePathos =  this.launchSerieFixe() ? true : false;
+            this.currentBloc = this.seance.blocs[0];
           }
         }
       });
@@ -153,16 +152,23 @@ export class UserSeanceComponent implements OnInit {
 
   // fonction de verification d'inclusion
   // user.cat_exe_pathos => programme.seance.cat_exe_pathos
-  launchSerieFixe() {
+  launchSerieFixe(): boolean {
+    let i = 0;
     if (this.currentPathologie) {
-      let local = [];
+      const catexepatho = this.currentPathologie.exercicesCategorie as Categorie[];
       this.seance.blocs.forEach(bloc => {
-        local = this.currentPathologie.exercicesCategorie.filter(pa => bloc.categoriesexercices
-          .findIndex(exe => exe.id === pa.id) >= 0);
+        bloc.categoriesexercices.forEach(cat => {
+          const id = catexepatho.findIndex( c => c.id === cat.id);
+          if (id >= 0) {
+            i += 1;
+          }
+        });
       });
-      if (local.length > 0) {
-        this.lancementSerieFixePathos = true;
-      }
+    }
+    if (i > 0) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -189,8 +195,9 @@ export class UserSeanceComponent implements OnInit {
   // fonctions de determination de la methode aléatoire et des categories exercices
   launch(hdp) {
 
-    // reset message d'erreur
-    this.errorMessage = [];
+    // reset message d'erreur && listeDesExercicesSerie
+    this.errorMessage = []; this.listeDesExercicesSerie = []; this.heuredepointe = hdp;
+
     this.getMethodeAleatoire(this.currentBloc, hdp);
 
     this.methodeAleatoireSubject.subscribe((value: Methode) => {
@@ -207,6 +214,10 @@ export class UserSeanceComponent implements OnInit {
       this.categorieAleatoire = categories[Math.floor(Math.random() * categories.length)];
       this.remplissage(this.methodeAleatoire.serieexercice[0].nbrexparserie, this.categorieAleatoire);
     });
+  }
+
+  otherBlocs() {
+
   }
 
   // fonction go to next serie
@@ -229,7 +240,8 @@ export class UserSeanceComponent implements OnInit {
         data.forEach(exe => local.push(exe) );
         this.listeDesExercicesSerie[this.indexSerie] = local;
       }, error => {
-        this.errorMessage.push('nombre d\'exerice insuffisant pour la serie' + this.indexSerie);
+        // tslint:disable-next-line: max-line-length
+        this.errorMessage.push('Le nombre d\'exerices du user compatibles avec les catégories, est insuffisant pour la serie de la méthode' + this.indexSerie);
       });
     }
   }
@@ -254,7 +266,7 @@ export class UserSeanceComponent implements OnInit {
     this.getExerciceForSerie(categorie, type, nb).then((data: Exercice[]) => {
       this.listeDesExercicesSerie[this.indexSerie] = data;
     }, error => {
-      this.errorMessage.push('nombre d\'exerice insuffisant pour la serie');
+      this.errorMessage.push('Le nombre d\'exerices du user compatibles avec les catégories, est insuffisant pour la serie de la méthode');
     });
   }
   getExerciceForSerie(categorie: Categorie, type: string, nombreexercice: number) {
@@ -418,7 +430,5 @@ export class UserSeanceComponent implements OnInit {
     if (this.currentUser.materiels && this.currentUser.materiels.length !== 0) {
       this.getAllExercicesMat();
     }
-
   }
-
 }

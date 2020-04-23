@@ -3,7 +3,7 @@
   <p *ngFor="let item of errorMessage"> {{ item }} </p>
 </div>
 
-<div *ngIf="listeExercices && listeExercices.length !== 0">
+<div *ngIf="listeExercices">
   <h3>Les données de l'utilisateur correspondent à {{ listeExercices.length }} exercice(s)</h3>
 </div>
 
@@ -27,7 +27,11 @@
     La liste des catégories d'exercices récupérée est composée de <b>{{ listeCategories.length }}</b> éléments.
   </p>
   <p *ngIf="methodeWorks"> <strong>METHODE WORKS : </strong>La méthode retenue de manière aléatoire a bien un nombre d'exercice minimum inférieur ou égal aux nombre d'exercices compatibles avec le user et appartenant aux catégories d'exercices de la méthode. </p>
-  <p *ngIf="!methodeWorks"> <strong>LA METHODE NE FONCTIONNE PAS : </strong>La méthode retenue de manière aléatoire a un nombre d'exercice supèrieur aux nombre d'exercices compatibles avec le user et appartenant aux catégories d'exercices de la méthode. </p>
+  <div *ngIf="!methodeWorks">
+    <strong>LA METHODE NE FONCTIONNE PAS : </strong>
+    La méthode retenue de manière aléatoire a un nombre d'exercices supèrieur au nombre d'exercices compatibles avec le user et appartenant aux catégories d'exercices de la méthode.
+    <button mat-button>Recherche une autre méthode</button>
+  </div>
 </div>
 
 <div *ngIf="listeDesExercicesSerie.length !== 0">
@@ -59,9 +63,17 @@
   <div fxFlex="30" style="margin: 5px;">
     <h2>Programme</h2>
     <p>La liste d'exercice du user est composée de xx exercices</p>
-    <p>
-      Programme retenu pour le user : <strong>{{ programmes.acronyme }} / {{ programmes.numero }}</strong>
-    </p>
+    <div>
+      Programme retenu pour le user : <strong>{{ programmes.acronyme }} / {{ programmes.numero }}</strong><br>
+      Liste des catégories du programmes :
+      <div *ngFor="let seance of programmes.seances; let indexseance = index " style="float:left">
+        <div *ngFor="let bloc of seance.blocs" style="float:left">
+          <div *ngFor="let cat of bloc.categoriesexercices" style="float:left">
+            {{ cat.acronyme | json }}
+          </div>
+        </div>
+      </div>
+    </div>
     <hr>
     <h2>Séance</h2>
     <p>
@@ -87,20 +99,6 @@
     </p>
     <p *ngIf="lancementSerieFixePathos">Lancement de la serie fixe : {{ currentPathologie.seriefixe.nom }}</p>
     <hr>
-    <div *ngFor="let bloc of seance.blocs; let i = index">
-      <div *ngIf="!lancementSerieFixePathos">
-        <h4>
-          Bloc Numéro {{ i+1 }} : <span *ngIf="i==0">Abdominaux</span>
-        </h4>
-        <div>
-          Déroulé du bloc
-        </div>
-      </div>
-      <!-- <div *ngIf="lancementSerieFixePathos && currentUser.niveau.nombre >= 3 && i>0">
-        <h4>Bloc Numéro {{ i+1 }}</h4>
-
-      </div> -->
-    </div>
   </div>
 </div>
 
