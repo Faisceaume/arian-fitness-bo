@@ -39,6 +39,7 @@ export class UserSeanceComponent implements OnInit {
   retouraucalme: ExerciceSerie;
   pathologie: PathologieAvance;
   currentPathologie: Pathologie;
+  serieFixePathologie: any;
   lancementSerieFixePathos: boolean;
   isPathologie: boolean;
   blockseen: number;
@@ -88,8 +89,14 @@ export class UserSeanceComponent implements OnInit {
         this.pathologie = this.currentUser.pathologie;
         // determination de sa pathologie si elle existe
         this.pathologiesService.getSinglePathologie(this.pathologie.id)
-          .then(patho => {
+          .then((patho: Pathologie) => {
           this.currentPathologie = patho;
+          if(patho.seriefixe) {
+            this.exercicesSeriesService.getSingleExerciceSerie(patho.seriefixe.id).then(seriefixepathos => {
+              this.serieFixePathologie = seriefixepathos;
+              console.log(seriefixepathos.id);
+            } );
+          }
           this.isPathologie = true;
         });
       }
@@ -132,6 +139,7 @@ export class UserSeanceComponent implements OnInit {
       this.exercicesSeriesService.getSerieFixeByTypeAndSenior(this.senior, 'calme').then(item => {
         this.retouraucalme = item;
       });
+
     });
   }
 

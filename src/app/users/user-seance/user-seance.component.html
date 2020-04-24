@@ -1,48 +1,55 @@
 
+<ng-template>
+	<br><br><br><br><br>
+	<mat-spinner color="warn"></mat-spinner>
+	<br><br>
+</ng-template>
+
+
 <div *ngIf="!programmes">
-  <h3>Aucun programme n'a été retenu pour le user</h3>
+  <p color="warn">Aucun programme n'a été retenu pour le user</p>
 </div>
 
-<div *ngIf="listeExercices" style="padding:10px">
-  <p>Les données de l'utilisateur génèrent une liste composée de <strong> {{ listeExercices.length }} exercice.</strong></p>
+<div *ngIf="listeExercices" style="padding: 0 10px">
+  <p>Les données de l'utilisateur génèrent une liste composée de <strong> {{ listeExercices.length }} exercices.</strong></p>
 </div>
 
-<div style="padding: 10px;" fxLayout="column" *ngIf="programmes" >
-  <div fxFlex="30" style="margin: 5px;" fxLayout="column">
+<div style="padding: 0 10px;" fxLayout="column" *ngIf="programmes" >
+  <div fxFlex="30" fxLayout="column">
     <h2>Programme</h2>
 
     <div fxLayout="column">
       <p>
         Le programme retenu pour le user est le suivant : <strong>{{ programmes.acronyme }} / {{ programmes.numero }}</strong><br>
-        La liste des catégories d'exercices du programmes est composée des éléments suivants :
+        La liste des catégories d'exercices du programme est composée des éléments suivants :
       </p>
-      <div *ngFor="let seance of programmes.seances" fxLayout="column">
+      <div *ngFor="let seance of programmes.seances" fxLayout="row wrap">
         <div *ngFor="let bloc of seance.blocs" fxLayout="row wrap">
           <div *ngFor="let cat of bloc.categoriesexercices" class="bulle-acro">
             {{ cat.acronyme }}
           </div>
         </div>
       </div>
-      <p *ngIf="lancementSerieFixePathos">
-        Le programme est composé de <strong>{{ listeDesBlocs.length+1 }}</strong> blocs mais la pathologie du user a généré le retrait du premier bloc dans sa séance.
-      </p>
     </div>
 
     <hr>
+
     <h2>Séance</h2>
     <p>
-      La position de séance du user est : <strong>{{ currentUser.positionseance }}</strong>. <br>
+      La position de séance du user est la suivante : <strong>{{ currentUser.positionseance }}</strong>. <br>
       Le programme retenu à <strong>{{ programmes.seances.length }}</strong> séances. <br>
       <span *ngIf="programmes.seances[currentUser.positionseance-1]">Une séance a été bien été trouvée pour le user</span>
       <span *ngIf="!programmes.seances[currentUser.positionseance-1]">Aucune séance n'a été été trouvée pour le user</span> <br>
-      Déroulé de la Séance <br>
-      <!-- {{ programmes.seances[currentUser.positionseance-1] | json }} -->
+      <span *ngIf="lancementSerieFixePathos">
+        La séance est composée de <strong>{{ listeDesBlocs.length+1 }}</strong> blocs mais la pathologie du user a généré le retrait du premier bloc dans sa séance.
+      </span><br>
+      Ci-après le déroulé de la séance :
     </p>
     <hr>
     <div *ngIf="echauffement" >
       <h2> Echauffement : {{ echauffement.nom }} </h2>
-      <p *ngFor="let item of echauffement.exercices ; let i = index" >
-        <span>{{ i+ 1 }}</span> <span> {{ item.nomexercice }} </span>
+      <p *ngFor="let item of echauffement.exercices ; let i = index" fxLayout="row" class="plist">
+        <span class="bulle-acro">{{ i+ 1 }}</span>{{ item.nomexercice }}
       </p>
     </div>
     <hr>
@@ -52,14 +59,19 @@
       <i>(ie. aucune des user.cat_exe_pathos n'est inclue dans programme.seance.cat_exe_pathos</i><br>
     </p>
     <p *ngIf="lancementSerieFixePathos">Lancement de la serie fixe : {{ currentPathologie.seriefixe.nom }}</p>
+    <div *ngIf="serieFixePathologie">
+      <div *ngFor="let exe of serieFixePathologie.exercices; let k = index" fxLayout="row" fxLayoutAlign="start center" class="plist">
+        <span class="bulle-acro">{{ k + 1 }}</span>{{ exe.exercice.nom }}
+      </div>
+    </div>
     <hr>
 
     <h2>Methode</h2>
     <div>
-      <button mat-button (click)="launch('oui')">
+      <button mat-raised-button (click)="launch('oui')">
         Lancement d'une session à heure de pointe
       </button>
-      <button mat-button (click)="launch('non')">
+      <button mat-raised-button (click)="launch('non')">
         Lancement d'une session sans heure de pointe
       </button>
     </div>
@@ -70,7 +82,7 @@
         La récupération des catégories d'exercice s'effectue donc depuis le bloc du programme.
       </p>
       <p *ngIf="listeCategories">
-        La liste des catégories d'exercices récupérée est composée de <b>{{ listeCategories.length }}</b> éléments.
+        La liste des catégories d'exercices récupérée est composée de <b>{{ listeCategories.length }}</b> élément(s).
       </p>
       <p *ngIf="methodeWorks"> <strong>LA METHODE FONCTIONNE : </strong>La méthode retenue de manière aléatoire a bien un nombre d'exercice minimum inférieur ou égal aux nombre d'exercices compatibles avec le user et appartenant aux catégories d'exercices de la méthode. </p>
       <div *ngIf="!methodeWorks">
@@ -80,39 +92,50 @@
       </div>
     </div>
 
+    <h2 *ngIf="listeDesBlocs && heuredepointe">CONTENU DES BLOCS : <span *ngIf="blockseen>0">BLOC N° {{ blockseen+1 }}</span></h2>
+
+
     <div *ngIf="listeDesBlocs && heuredepointe"
     style="padding: 3px;
-    background-color: #999 !important;
+    background-color: #eee !important;
     margin: 5px;
-    text-align: center;">
+    text-align: left;">
       <button mat-button
       *ngFor="let bloc of listeDesBlocs; let i = index"
       (click)="launchBloc(i)"
       [ngClass]="{'blackbut' : i == blockseen }">
-        Bloc N°{{ i+1 }}
+        BLOC N°{{ i+1 }}
       </button>
     </div>
 
     <hr>
 
     <div *ngIf="listeDesExercicesSerie.length !== 0">
-      <h2>BLOC N° {{ blockseen+1 }}</h2>
-      <p> <strong> Methode aléatoire:  </strong> {{ methodeAleatoire.acronyme }}
+      <p class="info" style="padding:0 20px">
+        <strong> Methode aléatoire:  </strong> {{ methodeAleatoire.acronyme }}
           --- Nbre de serie : {{ methodeAleatoire.serieexercice.length }}
-          --- global : {{ methodeAleatoire.global }} </p>
-      <p> <strong>Categorie aléatoire : </strong> {{ categorieAleatoire.acronyme }} </p>
+          --- Global : {{ methodeAleatoire.global }} <br>
+        <strong>Categorie aléatoire : </strong> {{ categorieAleatoire.acronyme }}
+      </p>
 
       <div *ngFor="let item of listeDesExercicesSerie ; let i = index"
         style="padding: 3px; color: black;
-        background-color: #999 !important;
-        margin: 5px;">
-        <p> <strong> Série N°{{ i+1 }} </strong>  <br>
-          Nombre d'exercice de la serie : {{ listeDesSeries[i].nbrexparserie }}</p>
-          <p *ngFor="let exe of item; let j = index">
-            <span class="bulle-acro">{{ j+1 }}</span>
-             {{ exe.nom }} --- Degressif: {{ exe.degressif }}</p>
+        background-color: #eee !important;
+        border-radius: 10px;
+        margin: 10px;
+        padding: 20px">
+        <p>
+          <strong> SÉRIE N°{{ i+1 }} </strong>  <br>
+          <span class="info">
+            Nombre d'exercice de la serie : {{ listeDesSeries[i].nbrexparserie }}
+          </span>
+        </p>
+        <p *ngFor="let exe of item; let j = index">
+          <span class="bulle-acro">{{ j+1 }}</span>
+          {{ exe.nom }} <span *ngIf="exe.degressif" class="info">(Dégressif)</span>
+        </p>
       </div>
-      <button mat-button (click)="nextSerie()" *ngIf="indexSerie+1 != listeDesSeries.length">
+      <button mat-button (click)="nextSerie()" *ngIf="indexSerie+1 != listeDesSeries.length" style="margin-left:10px">
         Série Suivante
       </button>
       <button mat-button (click)="launchBloc(blockseen+1)" color="warn"
@@ -125,16 +148,16 @@
     <div *ngIf="retouraucalme && blockseen+1 == listeDesBlocs.length">
       <h2> Retour au calme : {{ retouraucalme.nom }} </h2>
       <p *ngFor="let item of retouraucalme.exercices ; let i = index" >
-        <span>{{ i+ 1 }}</span> <span> {{ item.nomexercice }} </span>
+        <span class="bulle-acro">{{ i+ 1 }}</span> <span> {{ item.nomexercice }} </span>
       </p>
     </div>
     <hr>
 
   </div>
 
-  <div *ngIf="errorMessage" style="background-color: red; color: white;">
+  <!-- <div *ngIf="errorMessage" style="background-color: red; color: white;padding: 10px">
     <p *ngFor="let item of errorMessage"> {{ item }} </p>
-  </div>
+  </div> -->
 
 </div>
 
