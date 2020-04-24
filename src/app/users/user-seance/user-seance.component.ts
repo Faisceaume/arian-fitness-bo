@@ -36,6 +36,7 @@ export class UserSeanceComponent implements OnInit {
   seance: Seance;
   senior: string;
   echauffement: ExerciceSerie;
+  retouraucalme: ExerciceSerie;
   pathologie: PathologieAvance;
   currentPathologie: Pathologie;
   lancementSerieFixePathos: boolean;
@@ -114,6 +115,9 @@ export class UserSeanceComponent implements OnInit {
           // est inclu dans programme.seance.cat_exe_pathos)
             this.lancementSerieFixePathos =  this.launchSerieFixe() ? true : false;
             this.listeDesBlocs = this.seance.blocs;
+            if (this.lancementSerieFixePathos) {
+              this.listeDesBlocs.splice(0, 1);
+            }
           }
         }
       });
@@ -124,6 +128,9 @@ export class UserSeanceComponent implements OnInit {
     }).then(() => {
       this.exercicesSeriesService.getSerieFixeByTypeAndSenior(this.senior, 'echauffement').then(item => {
         this.echauffement = item;
+      });
+      this.exercicesSeriesService.getSerieFixeByTypeAndSenior(this.senior, 'calme').then(item => {
+        this.retouraucalme = item;
       });
     });
   }
