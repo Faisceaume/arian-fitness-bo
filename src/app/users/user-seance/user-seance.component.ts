@@ -7,7 +7,7 @@ import { Seance } from './../../programmes/seance';
 import { Programme } from './../../programmes/programme';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from 'src/app/users/users.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../user';
 import { ProgrammesService } from 'src/app/programmes/programmes.service';
 import { ExercicesService } from 'src/app/exercices/exercices.service';
@@ -18,7 +18,7 @@ import { CategoriesService } from 'src/app/shared/categories/categories.service'
 import { MaterielsService } from 'src/app/materiels/materiels.service';
 import { MethodesService } from 'src/app/methodes/methodes.service';
 import { Methode } from 'src/app/methodes/methode';
-import { Observable, of, concat, from, forkJoin, Subject } from 'rxjs';
+import { Observable, of, concat, from, forkJoin, Subject, Subscription } from 'rxjs';
 import { Bloc } from 'src/app/programmes/bloc';
 import { Series } from 'src/app/shared/series';
 import { Categorie } from 'src/app/shared/categories/categorie';
@@ -44,7 +44,7 @@ export class UserSeanceComponent implements OnInit {
   niveaux: Niveau[];
   listeNiveau: Niveau[] = [];
 
-  listeExercices: Exercice[] = [];
+  listeExercices: Exercice[];
   listeExercicesSelected: Exercice[] = [];
   listeCategories: Categorie[];
   listeCategorieSubject = new Subject<Categorie[]>();
@@ -56,13 +56,14 @@ export class UserSeanceComponent implements OnInit {
   methodeWorks: boolean;
   categorieAleatoire: Categorie;
 
-  errorMessage = [];
-
-  seriefixe1Exercice: Exercice[];
+  errorMessage: string[];
 
   indexSerie = 0;
   listeDesSeries: Series[];
   listeDesExercicesSerie: any[] = [];
+
+  listeDesBlocs: Bloc[];
+  heuredepointe: string;
 
   constructor(private usersService: UsersService,
               private exercicesService: ExercicesService,
@@ -90,7 +91,6 @@ export class UserSeanceComponent implements OnInit {
           this.isPathologie = true;
         });
       }
-
     }).then(() => {
       // determination du programme du user en fonction de :
       // son Niveau -- sa Frequence -- son objectif
@@ -111,8 +111,8 @@ export class UserSeanceComponent implements OnInit {
 
           // on vérifie si (au moins une des user.cat_exe_pathos)
           // est inclu dans programme.seance.cat_exe_pathos)
-            this.launchSerieFixe();
-            this.currentBloc = this.seance.blocs[1];
+            this.lancementSerieFixePathos =  this.launchSerieFixe() ? true : false;
+            this.listeDesBlocs = this.seance.blocs;
           }
         }
       });
@@ -153,16 +153,23 @@ export class UserSeanceComponent implements OnInit {
 
   // fonction de verification d'inclusion
   // user.cat_exe_pathos => programme.seance.cat_exe_pathos
-  launchSerieFixe() {
+  launchSerieFixe(): boolean {
+    let i = 0;
     if (this.currentPathologie) {
-      let local = [];
+      const catexepatho = this.currentPathologie.exercicesCategorie as Categorie[];
       this.seance.blocs.forEach(bloc => {
-        local = this.currentPathologie.exercicesCategorie.filter(pa => bloc.categoriesexercices
-          .findIndex(exe => exe.id === pa.id) >= 0);
+        bloc.categoriesexercices.forEach(cat => {
+          const id = catexepatho.findIndex( c => c.id === cat.id);
+          if (id >= 0) {
+            i += 1;
+          }
+        });
       });
-      if (local.length > 0) {
-        this.lancementSerieFixePathos = true;
-      }
+    }
+    if (i > 0) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -188,10 +195,16 @@ export class UserSeanceComponent implements OnInit {
 
   // fonctions de determination de la methode aléatoire et des categories exercices
   launch(hdp) {
+    this.errorMessage = []; this.listeDesExercicesSerie = []; this.indexSerie = 0;
+    this.heuredepointe = hdp;
+  }
 
-    // reset message d'erreur
-    this.errorMessage = [];
-    this.getMethodeAleatoire(this.currentBloc, hdp);
+  launchBloc(position: number) {
+    // reset message d'erreur && listeDesExercicesSerie && currentBloc
+    this.errorMessage = []; this.listeDesExercicesSerie = [];
+    this.currentBloc = this.listeDesBlocs[position]; this.indexSerie = 0;
+
+    this.getMethodeAleatoire(this.currentBloc, this.heuredepointe);
 
     this.methodeAleatoireSubject.subscribe((value: Methode) => {
         this.methodeAleatoire = value;
@@ -229,6 +242,7 @@ export class UserSeanceComponent implements OnInit {
         data.forEach(exe => local.push(exe) );
         this.listeDesExercicesSerie[this.indexSerie] = local;
       }, error => {
+        // tslint:disable-next-line: max-line-length
         this.errorMessage.push('Le nombre d\'exerices du user compatibles avec les catégories, est insuffisant pour la serie de la méthode' + this.indexSerie);
       });
     }
@@ -418,7 +432,5 @@ export class UserSeanceComponent implements OnInit {
     if (this.currentUser.materiels && this.currentUser.materiels.length !== 0) {
       this.getAllExercicesMat();
     }
-
   }
-
 }
