@@ -40,6 +40,7 @@ export class UserSeanceComponent implements OnInit {
   currentPathologie: Pathologie;
   lancementSerieFixePathos: boolean;
   isPathologie: boolean;
+  blockseen: number;
 
   niveaux: Niveau[];
   listeNiveau: Niveau[] = [];
@@ -201,6 +202,7 @@ export class UserSeanceComponent implements OnInit {
 
   launchBloc(position: number) {
     // reset message d'erreur && listeDesExercicesSerie && currentBloc
+    this.blockseen = position;
     this.errorMessage = []; this.listeDesExercicesSerie = [];
     this.currentBloc = this.listeDesBlocs[position]; this.indexSerie = 0;
 

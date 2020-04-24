@@ -96,7 +96,15 @@
   </div>
 
 
-  <div fxFlex="45" fxLayout="column" class="divgrey" style="margin:10px">
+  <div fxFlex="30" fxLayout="row wrap" class="divgrey" style="margin:10px">
+    <h4 fxFlex="100">Trophées</h4>
+    <div *ngFor="let i of arrayOne(12)" fxFlex="33">
+      <img src="../../../assets/trophy-empty.png" style="max-width: 100%;">
+    </div>
+  </div>
+
+
+  <div fxFlex="30" fxLayout="column" class="divgrey" style="margin:10px">
 
     <h4 fxFlex="100">Niveaux</h4>
 
@@ -183,7 +191,7 @@
 
   </div>
 
-  <div fxFlex="50" fxLayout="column" class="divgrey" style="margin:10px">
+  <div fxFlex="30" fxLayout="column" class="divgrey" style="margin:10px">
 
     <h4 fxFlex="100">Position</h4>
 

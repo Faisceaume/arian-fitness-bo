@@ -3,89 +3,34 @@
   <p *ngFor="let item of errorMessage"> {{ item }} </p>
 </div>
 
-<div *ngIf="listeExercices">
-  <h3>Les données de l'utilisateur correspondent à {{ listeExercices.length }} exercice(s)</h3>
-</div>
-
-<hr>
-<h2>Methode</h2>
-<div>
-  <button mat-button (click)="launch('oui')">
-    Lancement d'une session à heure de pointe
-  </button>
-  <button mat-button (click)="launch('non')">
-    Lancement d'une session sans heure de pointe
-  </button>
-</div>
-
-<div *ngIf="listeDesBlocs && heuredepointe"
-style="padding: 3px;
-background-color: #999 !important;
-margin: 5px;
-text-align: center;">
-  <button mat-button
-  *ngFor="let bloc of listeDesBlocs; let i = index"
-  (click)="launchBloc(i)">
-    Bloc N°{{ i+1 }}
-  </button>
-</div>
-
-<div *ngIf="methodeAleatoire">
-  <p *ngIf="methodeAleatoireCatExe.length === 0">
-    La méthode retenue de manière aléatoire n'a pas de catégories d'exercice. <br>
-    La récupération des catégories d'exercice s'effectue donc depuis le bloc du programme.
-  </p>
-  <p *ngIf="listeCategories">
-    La liste des catégories d'exercices récupérée est composée de <b>{{ listeCategories.length }}</b> éléments.
-  </p>
-  <p *ngIf="methodeWorks"> <strong>METHODE WORKS : </strong>La méthode retenue de manière aléatoire a bien un nombre d'exercice minimum inférieur ou égal aux nombre d'exercices compatibles avec le user et appartenant aux catégories d'exercices de la méthode. </p>
-  <div *ngIf="!methodeWorks">
-    <strong>LA METHODE NE FONCTIONNE PAS : </strong>
-    La méthode retenue de manière aléatoire a un nombre d'exercices supèrieur au nombre d'exercices compatibles avec le user et appartenant aux catégories d'exercices de la méthode.
-    <button mat-button>Recherche une autre méthode</button>
-  </div>
-</div>
-
-<div *ngIf="listeDesExercicesSerie.length !== 0">
-  <p> <strong> Methode aléatoire:  </strong> {{ methodeAleatoire.acronyme }}
-      --- Nbre de serie : {{ methodeAleatoire.serieexercice.length }}
-      --- global : {{ methodeAleatoire.global }} </p>
-  <p> <strong>Categorie aléatoire : </strong> {{ categorieAleatoire.acronyme }} </p>
-
-  <div *ngFor="let item of listeDesExercicesSerie ; let i = index"
-    style="padding: 3px; color: black;
-    background-color: #999 !important;
-    margin: 5px;">
-    <p> <strong> serie N°{{ i+1 }} </strong>  <br>
-      nombre d'exercice de la serie : {{ listeDesSeries[i].nbrexparserie }}</p>
-      <h4>liste des exercices</h4>
-      <p *ngFor="let exe of item"> Nom :  {{ exe.nom }}
-            --- Degressif: {{ exe.degressif }}</p>
-  </div>
-  <button mat-button (click)="nextSerie()" *ngIf="indexSerie+1 != listeDesSeries.length">
-    next serie
-  </button>
-</div>
 
 <hr>
 <div *ngIf="!programmes">
   <h3>Aucun programme n'a été retenu pour le user</h3>
 </div>
+
+<div *ngIf="listeExercices" style="padding:10px">
+  <p>Les données de l'utilisateur génèrent une liste composée de <strong> {{ listeExercices.length }} exercice.</strong></p>
+</div>
+
 <div style="padding: 10px;" fxLayout="column" *ngIf="programmes" >
-  <div fxFlex="30" style="margin: 5px;">
+  <div fxFlex="30" style="margin: 5px;" fxLayout="column">
     <h2>Programme</h2>
-    <p>La liste d'exercice du user est composée de xx exercices</p>
-    <div>
-      Programme retenu pour le user : <strong>{{ programmes.acronyme }} / {{ programmes.numero }}</strong><br>
-      Liste des catégories du programmes :
-      <div *ngFor="let seance of programmes.seances; let indexseance = index " style="float:left">
-        <div *ngFor="let bloc of seance.blocs" style="float:left">
-          <div *ngFor="let cat of bloc.categoriesexercices" style="float:left">
-            {{ cat.acronyme | json }}
+
+    <div fxLayout="column">
+      <p>
+        Le programme retenu pour le user est le suivant : <strong>{{ programmes.acronyme }} / {{ programmes.numero }}</strong><br>
+        La liste des catégories du programmes ets composée des éléments suivants :
+      </p>
+      <div *ngFor="let seance of programmes.seances" fxLayout="column">
+        <div *ngFor="let bloc of seance.blocs" fxLayout="row wrap">
+          <div *ngFor="let cat of bloc.categoriesexercices" class="bulle-acro">
+            {{ cat.acronyme }}
           </div>
         </div>
       </div>
     </div>
+
     <hr>
     <h2>Séance</h2>
     <p>
@@ -111,6 +56,71 @@ text-align: center;">
     </p>
     <p *ngIf="lancementSerieFixePathos">Lancement de la serie fixe : {{ currentPathologie.seriefixe.nom }}</p>
     <hr>
+
+    <h2>Methode</h2>
+    <div>
+      <button mat-button (click)="launch('oui')">
+        Lancement d'une session à heure de pointe
+      </button>
+      <button mat-button (click)="launch('non')">
+        Lancement d'une session sans heure de pointe
+      </button>
+    </div>
+
+    <div *ngIf="methodeAleatoire">
+      <p *ngIf="methodeAleatoireCatExe.length === 0">
+        La méthode retenue de manière aléatoire n'a pas de catégories d'exercice.
+        La récupération des catégories d'exercice s'effectue donc depuis le bloc du programme.
+      </p>
+      <p *ngIf="listeCategories">
+        La liste des catégories d'exercices récupérée est composée de <b>{{ listeCategories.length }}</b> éléments.
+      </p>
+      <p *ngIf="methodeWorks"> <strong>LA METHODE FONCTIONNE : </strong>La méthode retenue de manière aléatoire a bien un nombre d'exercice minimum inférieur ou égal aux nombre d'exercices compatibles avec le user et appartenant aux catégories d'exercices de la méthode. </p>
+      <div *ngIf="!methodeWorks">
+        <strong>LA METHODE NE FONCTIONNE PAS : </strong>
+        La méthode retenue de manière aléatoire a un nombre d'exercices supèrieur au nombre d'exercices compatibles avec le user et appartenant aux catégories d'exercices de la méthode.
+        <button mat-button>Recherche une autre méthode</button>
+      </div>
+    </div>
+
+    <div *ngIf="listeDesBlocs && heuredepointe"
+    style="padding: 3px;
+    background-color: #999 !important;
+    margin: 5px;
+    text-align: center;">
+      <button mat-button
+      *ngFor="let bloc of listeDesBlocs; let i = index"
+      (click)="launchBloc(i)"
+      [ngClass]="{'blackbut' : i == blockseen }">
+        Bloc N°{{ i+1 }}
+      </button>
+    </div>
+
+    <hr>
+
+    <div *ngIf="listeDesExercicesSerie.length !== 0">
+      <h4>BLOC N° {{ blockseen+1 }}</h4>
+      <p> <strong> Methode aléatoire:  </strong> {{ methodeAleatoire.acronyme }}
+          --- Nbre de serie : {{ methodeAleatoire.serieexercice.length }}
+          --- global : {{ methodeAleatoire.global }} </p>
+      <p> <strong>Categorie aléatoire : </strong> {{ categorieAleatoire.acronyme }} </p>
+
+      <div *ngFor="let item of listeDesExercicesSerie ; let i = index"
+        style="padding: 3px; color: black;
+        background-color: #999 !important;
+        margin: 5px;">
+        <p> <strong> Série N°{{ i+1 }} </strong>  <br>
+          Nombre d'exercice de la serie : {{ listeDesSeries[i].nbrexparserie }}</p>
+          <h4>liste des exercices</h4>
+          <p *ngFor="let exe of item"> Nom :  {{ exe.nom }}
+                --- Degressif: {{ exe.degressif }}</p>
+      </div>
+      <button mat-button (click)="nextSerie()" *ngIf="indexSerie+1 != listeDesSeries.length">
+        Série Suivante
+      </button>
+    </div>
+
+
   </div>
 </div>
 

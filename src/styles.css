@@ -104,9 +104,6 @@ h4.h4-modal {
   border: 1px solid #000;
 }
 
-/* <div class="nom-formulaire" *ngIf="formData">
-  <h2>Exercice : <strong>{{ formData.nom }}</strong></h2>
-</div> */
 
 .nom-formulaire {
   background: #000;

@@ -106,6 +106,10 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  arrayOne(n: number): any[] {
+    return Array(n);
+  }
+
   updateField(attribut: string, value: any, isDate?: boolean) {
     if (isDate) {
       this.usersService.newUpdateVersion(this.formData, attribut, value.getTime());
