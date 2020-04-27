@@ -55,6 +55,7 @@ export class ExercicesSeriesComponent implements OnInit {
   disabled = true;
   disabled2 = false;
   nom = '';
+  type = '';
   displayEditForm = true;
   displayExercice = true;
   dataType = '';
@@ -151,6 +152,7 @@ export class ExercicesSeriesComponent implements OnInit {
     this.exerciceAdded = [];
     this.initForm();
     this.nom = '';
+    this.type = '';
     this.exos = false;
     this.exoTest = false;
     this.typeIsChoose = false;
@@ -175,6 +177,7 @@ export class ExercicesSeriesComponent implements OnInit {
     this.part2 = true;
     this.part1 = false;
     this.nom = this.formulaire.get('nom').value;
+    this.type = this.formulaire.get('type').value;
     const type = this.formulaire.get('type').value;
     if ( type === 'test' ) {
       this.exoTest = true;

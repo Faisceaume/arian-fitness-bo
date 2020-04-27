@@ -69,8 +69,13 @@
       <mat-icon>close</mat-icon>
   </button>
 
-  <h2 *ngIf="isClickToEdit"> Éditer la série <strong>{{ nom }}</strong>  </h2>
-  <h2 *ngIf="isClickToAdd"> Ajouter une série d'exercice : <strong>{{ nom }}</strong> </h2>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <h2 *ngIf="isClickToEdit"> Éditer la série <strong>{{ nom }}</strong>  </h2>
+    <h2 *ngIf="isClickToAdd"> Ajouter une série d'exercice : <strong>{{ nom }}</strong> </h2>
+
+    <h2 *ngIf="isClickToEdit"> <strong>{{ type }}</strong>  </h2>
+    <h2 *ngIf="isClickToAdd"> <strong>{{ type }}</strong> </h2>
+  </div>
 
   <div fxLayout="column" style="padding: 0 10px;">
 
@@ -152,7 +157,7 @@
           </button>
 
 
-          <div fxLayout="column"  fxFlex="100" formArrayName="exo" class="liste-exe" *ngFor="let ex of getExo().controls; let i = index;">
+          <div fxLayout="row wrap"  fxFlex="100" formArrayName="exo" class="liste-exe" *ngFor="let ex of getExo().controls; let i = index;">
               <div fxFlex="100">
                 <div fxFlex="5"><span class="bulle-acro">{{ i+1 }}</span></div>
                 <div fxFlex="5">
