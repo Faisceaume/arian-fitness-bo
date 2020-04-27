@@ -1,4 +1,5 @@
 <button id="mainmenu" mat-icon-button class="main-menu-trigger-button"
+  *ngIf="auth.isAdmin"
   color="black"
   [matMenuTriggerFor]="menu"
   [ngStyle.xs]="{ 'left':'20px', 'top':'20px' }">
@@ -16,9 +17,9 @@
     <mat-icon>explicit</mat-icon>
     <span>Exercices</span>
   </button>
-  <button mat-menu-item routerLink="./materiels">
-    <mat-icon>fitness_center</mat-icon>
-    <span>Matériels</span>
+  <button mat-menu-item [matMenuTriggerFor]="menunutrition">
+    <mat-icon>restaurant</mat-icon>
+    <span>Nutrition</span>
   </button>
   <button mat-menu-item routerLink="./objectifs">
     <mat-icon>assignment</mat-icon>
@@ -39,7 +40,9 @@
   <button mat-menu-item routerLink="./users">
     <mat-icon>account_circle</mat-icon>
     <span>Users</span>
-</button>
+  </button>
+
+
 
   <mat-divider></mat-divider>
 
@@ -79,10 +82,16 @@
     <span>Nouvelle Méthode</span>
   </button>
   <mat-divider></mat-divider>
-  <button mat-menu-item routerLink="./exercices/series">
+  <button mat-menu-item routerLink="./materiels">
+    <mat-icon>fitness_center</mat-icon>
+    <span>Matériels</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item routerLink="./exercices-series">
     <mat-icon>playlist_add</mat-icon>
     <span>Série Fixe</span>
   </button>
+  <mat-divider></mat-divider>
   <button mat-menu-item routerLink="./programmes">
     <mat-icon>playlist_add</mat-icon>
     <span>Programmes</span>
@@ -90,5 +99,16 @@
 </mat-menu>
 
 
+
+<mat-menu #menunutrition="matMenu">
+  <button mat-menu-item routerLink="./aliments">
+    <mat-icon>restaurant</mat-icon>
+    <span>Aliments</span>
+  </button>
+  <button mat-menu-item routerLink="./aliments/prognuts-list">
+    <mat-icon>date_range</mat-icon>
+    <span>Programmes  de nutrition</span>
+  </button>
+</mat-menu>
 
 

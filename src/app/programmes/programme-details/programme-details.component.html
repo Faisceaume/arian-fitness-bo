@@ -1,1 +1,328 @@
-<p>programme-details works!</p>
+<button mat-icon-button
+  routerLink="/programmes"
+  type="button"
+  class="button-right">
+    <mat-icon>close</mat-icon>
+</button>
+
+<div class="nom-formulaire" *ngIf="formData">
+  <h2>Programme : <strong>{{ formData.numero }}</strong></h2>
+</div>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="formData">
+
+        <div fxFlex="100" fxLayout="row" style="padding:10px">
+
+          <div fxLayoutAlign="start center">
+            <label class="dark-chip"> Niveau</label>
+          </div>
+
+          <div fxFlex="50" *ngIf="!toChangeNiveau && formData.niveau">
+            <span class="bulle-acro">
+              N {{ formData.niveau.acronyme}} </span>
+            <button mat-icon-button
+              (click)="toChangeNiveau = true"
+              *ngIf="!toChangeNiveau && formData.niveau">
+                <mat-icon>close</mat-icon>
+            </button>
+          </div>
+
+          <div fxFlex="50" fxLayoutAlign="start start" *ngIf="!formData.niveau || toChangeNiveau">
+            <mat-radio-group color="warn"
+              [(ngModel)]="formData.niveau"
+              (ngModelChange)="updateField('niveau', formData.niveau)">
+              <mat-radio-button *ngFor="let niveau of niveaux"
+              [value]="niveau" class="span-radio-button">
+                N {{ niveau.acronyme }}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div fxFlex="40" fxLayout="row" fxLayoutAlign="end start" *ngIf="showCustompointsfaibles">
+              <label>Custom point Faible</label>
+              <mat-slide-toggle color="warn"
+                [formControl]="custompointsfaiblesControl"
+                (change)="updateField('custompointsfaibles', custompointsfaiblesControl.value)"></mat-slide-toggle>
+          </div>
+
+        </div>
+
+        <div fxFlex="100" style="margin: 10px">
+
+          <mat-form-field fxFlex="20">
+            <input matInput placeholder="Numéro" required
+            [(ngModel)]="formData.numero"
+            (ngModelChange)="updateField('numero', formData.numero)">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="20">
+            <input matInput placeholder="Acronyme" type="text" required
+            [(ngModel)]="formData.acronyme" maxlength="4"
+            (ngModelChange)="updateField('acronyme', formData.acronyme)">
+          </mat-form-field>
+
+          <div fxFlex="60" fxLayoutAlign="end start">
+            <label> Genre :</label>
+            <mat-radio-group color="warn"
+            [(ngModel)]="formData.genre"
+            (ngModelChange)="updateField('genre', formData.genre)">
+              <mat-radio-button value="H&F" class="span-radio-button">
+                Hommes et Femmes
+              </mat-radio-button>
+              <mat-radio-button value="H" class="span-radio-button">
+                Hommes
+              </mat-radio-button>
+              <mat-radio-button value="F" class="span-radio-button">
+                Femmes
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+        </div>
+
+        <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0">
+          <div style="margin:0 10px 10px">
+            <label class="dark-chip custom-obj"> Objectifs</label>
+            <button  mat-icon-button (click)="showObjectif = true" *ngIf="!showObjectif" >
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button  mat-icon-button (click)="showObjectif = false" *ngIf="showObjectif" >
+              <mat-icon>visibility_off</mat-icon>
+             </button>
+          </div>
+          <div *ngIf="showObjectif"  fxLayout="column">
+            <mat-checkbox
+            color="warn"
+            *ngFor="let objectif of objectifsSelected"
+            (change)="onObjectifSelected($event, objectif)"
+            checked="true">{{ objectif.nom }}</mat-checkbox>
+            <mat-checkbox
+            color="warn"
+            *ngFor="let objectif of objectifsNotSelected"
+            (change)="onObjectifSelected($event, objectif)"
+            >{{ objectif.nom }}</mat-checkbox>
+          </div>
+        </div>
+
+        <div fxFlex="100" style="margin:10px">
+
+          <div fxFlex="40" style="margin: 10px 0 15px 0">
+            <label class="dark-chip" style="margin-right:10px">Extra &nbsp; </label>
+            <mat-slide-toggle color="warn"
+              [formControl]="extraControl"
+              (change)="updateField('extra', extraControl.value)"></mat-slide-toggle>
+          </div>
+
+          <div fxFlex="60" fxLayoutAlign="end start">
+            <mat-form-field *ngIf="showNombreSemaine && !extraControl.value">
+              <mat-label>Nombre de semaines</mat-label>
+              <mat-select
+              [(ngModel)]="formData.nbrsemaine"
+              (ngModelChange)="updateField('nbrsemaine', formData.nbrsemaine)">
+                <mat-option matNativeControl
+                *ngFor="let item of nombreSemaine"
+                [value]="item"> {{ item }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Nombre de séances hebdomadaire</mat-label>
+              <mat-select
+              [(ngModel)]="formData.frequence"
+              (ngModelChange)="updateField('frequence', formData.frequence)"
+              [disabled]="extraControl.value">
+                <mat-option matNativeControl *ngFor="let item of listeFrequence"
+                            [value]="item"> {{ item }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+
+        <div fxFlex="100" *ngIf="extraControl.value" fxLayoutAlign="start start" style="margin: 10px 0 0 10px">
+          <label class="dark-chip">Durée</label>
+          <mat-radio-group color="warn"
+          [(ngModel)]="formData.duree"
+          (ngModelChange)="updateField('duree', formData.duree)">
+            <mat-radio-button value="30" class="span-radio-button">
+              30 minutes
+            </mat-radio-button>
+            <mat-radio-button value="45" class="span-radio-button">
+              45 minutes
+            </mat-radio-button>
+            <mat-radio-button value="60" class="span-radio-button">
+              60 minutes
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div fxFlex="100" style="margin: 10px" *ngIf="!extraControl.value">
+          <mat-chip-list #chipList aria-label="Semaine du Niveau">
+            <mat-chip class="dark-chip tt-upper br-5">Semaine du niveau</mat-chip>
+            <mat-chip
+              *ngFor="let item of semaineNiveauSelected; let i = index"
+              [ngStyle]="{
+                'color': '#FFF',
+                'background-color': '#000'
+              }">
+              Sem. {{ item }}
+              <button  mat-icon-button
+                        (click)="deleteSemaineNiveau(i)">
+                  <mat-icon>close</mat-icon>
+                </button>
+            </mat-chip>
+
+            <button *ngIf="!toAddSemaineNiveau"  mat-icon-button
+                        (click)="toAddSemaineNiveau = true">
+                  <mat-icon>add</mat-icon>
+                </button>
+                <button *ngIf="toAddSemaineNiveau" mat-icon-button
+                        (click)="toAddSemaineNiveau = false">
+                  <mat-icon>close</mat-icon>
+                </button>
+          </mat-chip-list>
+        </div>
+
+        <div fxFlex="100" *ngIf="toAddSemaineNiveau && !extraControl.value" style="margin: 10px">
+          <mat-chip-list #chipList aria-label="Semaine du Niveau">
+            <mat-chip
+              *ngFor="let item of allListeSemaineNiveau"
+              (click)="addSemaineNiveau(item)">
+              {{ item }}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+
+        <!-- SECTION DES SEANCES -->
+
+        <div fxFlex="100" fxLayout="row wrap"
+            *ngIf="seancesOfProgramme && seancesOfProgramme.length != 0" >
+
+          <div fxFlex="100" fxLayout="row wrap"
+          *ngFor="let item of seancesOfProgramme; let i = index"
+          style="padding: 10px 10px 20px; margin: 10px 10px 0"
+          class="programme">
+
+            <div fxFlex="50" fxLayout="column" fxLayoutAlign="start start">
+              <h3 class="seance"> SÉANCE N°{{ i+1 }} </h3>
+            </div>
+            <div fxFlex="50" fxLayout="row" fxLayoutAlign="end start">
+              <button mat-icon-button (click)="addBloc(i)"
+                matTooltip="Ajouter un bloc à la séance" matTooltipPosition="after">
+                  <mat-icon>add</mat-icon>
+              </button>
+            </div>
+
+            <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start"
+                 *ngIf="seancesOfProgramme[i].blocs && seancesOfProgramme[i].blocs.length != 0" >
+
+              <div fxFlex="100" fxLayout="row wrap" class="bloc"
+                   *ngFor="let item of seancesOfProgramme[i].blocs; let idbloc = index">
+
+                  <div fxFlex="25" fxLayoutAlign="start center">
+                    <label>{{ seancesOfProgramme[i].blocs[idbloc].orientation }}</label>
+                  </div>
+
+                   <div fxFlex="25" fxLayoutAlign="start center">
+                    <label *ngIf="seancesOfProgramme[i].blocs[idbloc].fusionnable">Fusionnable</label>
+                  </div>
+
+                  <div fxFlex="25" fxLayoutAlign="start center">
+                    <label>{{ seancesOfProgramme[i].blocs[idbloc].duree }}</label>
+                  </div>
+
+                  <div fxFlex="25" fxLayoutAlign="end start">
+                    <button mat-icon-button (click)="editBloc(i, idbloc)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deleteBloc(i, idbloc)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+
+                  <div fxFlex="100" style="margin: 0 10px 5px"
+                  *ngIf="seancesOfProgramme[i].blocs[idbloc].methodes && seancesOfProgramme[i].blocs[idbloc].methodes.length!==0" >
+                    <mat-chip-list #chipList aria-label="Les Méthodes">
+                      <mat-chip class="tt-upper br-5">Méthodes</mat-chip>
+                      <mat-chip
+                        *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].methodes; let i = index"
+                        [ngStyle]="{
+                          'color': '#FFF',
+                          'background-color': '#000'
+                        }">
+                        {{ item.acronyme }}
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
+
+                  <div fxFlex="100" style="margin: 0 10px 5px"
+                  *ngIf="seancesOfProgramme[i].blocs[idbloc].quartfusion && seancesOfProgramme[i].blocs[idbloc].quartfusion.length!==0" >
+                    <mat-chip-list #chipList aria-label="Les Méthodes">
+                      <mat-chip class="tt-upper br-5">Méthodes 15 minutes</mat-chip>
+                      <mat-chip
+                        *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].quartfusion;
+                        let idMethode15 = index"
+                        [ngStyle]="{
+                          'color': '#FFF',
+                          'background-color': '#000'
+                        }">
+                        {{ item.acronyme }}
+                        <button mat-icon-button
+                        (click)="deleteMethode15(i, idbloc, idMethode15)"
+                        *ngIf="formData.fusion">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
+
+                  <div fxFlex="100" style="margin: 0 10px 5px"
+                  *ngIf="seancesOfProgramme[i].blocs[idbloc].demifusion && seancesOfProgramme[i].blocs[idbloc].demifusion.length!==0" >
+                    <mat-chip-list #chipList aria-label="Les Méthodes">
+                      <mat-chip class="tt-upper br-5">Méthodes 30 minutes</mat-chip>
+                      <mat-chip
+                        *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].demifusion;
+                        let idMethode30 = index"
+                        [ngStyle]="{
+                          'color': '#FFF',
+                          'background-color': '#000'
+                        }">
+                        {{ item.acronyme }}
+                        <button mat-icon-button
+                        (click)="deleteMethode30(i, idbloc, idMethode30)"
+                        *ngIf="formData.fusion" >
+                            <mat-icon>close</mat-icon>
+                        </button>
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
+
+                  <div fxFlex="100" style="margin: 0 10px 20px"
+                  *ngIf="seancesOfProgramme[i].blocs[idbloc].categoriesexercices
+                  && seancesOfProgramme[i].blocs[idbloc].categoriesexercices.length != 0" >
+                    <mat-chip-list #chipList aria-label="Les Méthodes">
+                      <mat-chip class="tt-upper br-5">Cat. d'exe.</mat-chip>
+                      <mat-chip
+                        *ngFor="let item of seancesOfProgramme[i].blocs[idbloc].categoriesexercices; let i = index"
+                        [ngStyle]="{
+                          'color': '#FFF',
+                          'background-color': '#000'
+                        }">
+                        {{ item.acronyme }}
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div fxLayoutAlign="end start" style="margin:5px 0">
+          <button mat-raised-button (click)="resetFusion()">Réinitialiser les méthodes des blocs fusionnés</button>
+          <button mat-raised-button (click)="saveFusion()" *ngIf="!formData.fusion" color="warn" >Enregistrer</button>
+        </div>
+
+
+      </div>

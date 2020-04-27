@@ -1,4 +1,5 @@
-import { Pathologie } from '../shared/pathologies/pathologie';
+import { Materiel } from './../materiels/materiel';
+import { PathologieAvance } from './../exercices-series/pathologie-avance';
 import { Objectif } from '../shared/objectifs/objectif';
 import { Niveau } from '../shared/niveaux/niveau';
 
@@ -23,14 +24,35 @@ export class User {
  modereprise: string; // >60J<90J, >=90J<180J, >=180J, 0
  frequenceparjour: number;
  positionparcoursniveau: number;  // x/24
- niveauinscription: string;
- niveauavantperiodeoff: string;
+ positionseance: number;
+ niveauinscription: Niveau;
+ niveauavantperiodeoff: Niveau;
  parcoursnutrition: string; // x/y
+ photo?: string;
 
 
- pathologies: Pathologie[]; // multi select sur le noeud pathologie
- objectif: Objectif[]; // liste noeud objectif
+ materiels: any[];
+ pathologie: PathologieAvance; // multi select sur le noeud pathologie
+ objectif: Objectif; // liste noeud objectif
  trophee: string;
+
+ questionnaire1?: boolean;
+ questionnaire2?: boolean;
+ questionnaire3?: boolean;
+ questionnaire4?: boolean;
+ questionnaire5?: boolean;
+ questionnaire6?: boolean;
+
+ extraseniorobjectifjour: Objectif;
+ extraseniormateriel: any[];
+ extragpemuscu: any;
+ extraduree: string;
+ extramateriels: any[];
+ extrapathos: any;
+
+ objectifjour: Objectif;
+
+ position: string;
 
  timestamp: string;
 }

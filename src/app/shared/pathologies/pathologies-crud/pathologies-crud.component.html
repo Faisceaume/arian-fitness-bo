@@ -2,8 +2,14 @@
 
   <div fxLayout="row">
     <div  fxFlex="80" fxLayoutAlign="start start">
-      <h2 *ngIf="toCreate" class="h2-modal">Ajouter une nouvelle pathologie</h2>
-      <h2 *ngIf="!toCreate" class="h2-modal">Editer la pathologie</h2>
+      <h2 *ngIf="toCreate" class="h2-modal">Ajouter
+        <span *ngIf="formData.type=='pathologie'">une nouvelle pathologie </span>
+        <span *ngIf="formData.type=='pointfaible'">un nouveau point faible</span>
+      </h2>
+      <h2 *ngIf="!toCreate" class="h2-modal">Editer
+        <span *ngIf="formData.type=='pathologie'">la pathologie</span>
+        <span *ngIf="formData.type=='pointfaible'">le point faible</span>
+      </h2>
     </div>
     <div  fxFlex="20" fxLayoutAlign="end start">
       <button mat-icon-button class="button-right-modal"
@@ -47,7 +53,7 @@
         <div fxFlex="100" fxLayout="column">
 
           <div class="type">
-            <label class="dark-chip"> Type :</label>
+            <label class="custom-obj">Type : </label>
             <mat-radio-group color="warn"
             [(ngModel)]="formData.type"
             (ngModelChange)="updateField('type', formData.type)"
@@ -63,24 +69,52 @@
         </div>
       </div>
 
+      <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 5px 0"
+      *ngIf="formData.type === 'pathologie'" >
+        <div style="margin:0 10px 10px 0">
+          <label class="custom-obj">Serie Fixe : </label>
+          {{ formData.seriefixe ? formData.seriefixe.nom : 'inconnu' }}
+          <button  mat-icon-button (click)="toAddSerieFixe = true" *ngIf="!toAddSerieFixe" >
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button  mat-icon-button (click)="toAddSerieFixe = false" *ngIf="toAddSerieFixe" >
+            <mat-icon>visibility_off</mat-icon>
+           </button>
+        </div>
+        <div *ngIf="toAddSerieFixe && serieFixePathologie"  fxLayout="column">
+          <mat-chip-list #chipList aria-label="pathologies">
+            <mat-chip
+              *ngFor="let item of serieFixePathologie; let i = index"
+              [ngStyle]="{
+                'color': '#FFF',
+                'background-color': '#ccc',
+                cursor: 'pointer'
+              }"
+              (click)="selectSerieFixe(item)">
+              {{ (item.nom | slice:0:30)+'...' }}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+      </div>
+
       <div *ngIf="!toCreate" fxLayout="column" [ngStyle]="{'margin':'0 0 30px'}">
         <div *ngIf="formData.exercicesCategorie ? formData.exercicesCategorie.length!=0 : false">
-          <h4 class="h4-modal">Catégories d'exercices</h4>
+          <h4 class="h4-modal">Catégories d'exercices : </h4>
           <span *ngFor="let cat of formData.exercicesCategorie" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
         </div>
         <div *ngIf="formData.materielsCategorie ? formData.materielsCategorie.length!=0 : false" [ngStyle]="{'margin':'20px 0 0'}">
-          <h4 class="h4-modal">Catégories de matériels</h4>
+          <h4 class="h4-modal">Catégories de matériels : </h4>
           <span *ngFor="let cat of formData.materielsCategorie" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
         </div>
       </div>
 
       <div *ngIf="toCreate" fxLayout="column" [ngStyle]="{'margin':'0 0 30px'}">
         <div *ngIf="categoriesService.exeCatChipsSelected.length!=0">
-          <h4 class="h4-modal">Catégories d'exercices</h4>
+          <h4 class="h4-modal">Catégories d'exercices : </h4>
           <span *ngFor="let cat of categoriesService.exeCatChipsSelected" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
         </div>
         <div *ngIf="categoriesService.matCatChipsSelected.length!=0" [ngStyle]="{'margin':'20px 0 0'}">
-          <h4 class="h4-modal">Catégories de matériels</h4>
+          <h4 class="h4-modal">Catégories de matériels : </h4>
           <span *ngFor="let cat of categoriesService.matCatChipsSelected" class="bulle-acro"><strong>{{ cat.acronyme }}</strong></span>
         </div>
       </div>

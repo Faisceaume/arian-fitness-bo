@@ -1,0 +1,72 @@
+<div fxLayout="row wrap" fxLayoutAlign="start start" class="bloc">
+
+  <h2 fxFlex="100"> {{ data.currentBloc ? 'Editer le Bloc' : 'Ajouter un nouveau Bloc' }} </h2>
+  <p class="red"><strong>ATTENTION : </strong> L'ajout d'un nouveau bloc réinitialise les méthodes des blocs fusionnés</p>
+
+  <div fxFlex="50">
+    <mat-radio-group color="warn"
+      [(ngModel)]="currentBloc.orientation"
+      (ngModelChange)="updateField()">
+      <mat-radio-button value="cardio" class="span-radio-button">
+        Cardio
+      </mat-radio-button>
+      <mat-radio-button value="renforcement" class="span-radio-button">
+        Renforcement
+      </mat-radio-button>
+      <mat-radio-button value="seriefixepathos" class="span-radio-button" *ngIf="data.extra">
+        Pathologies
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <div fxFlex="25" fxLayout="row" style="margin-top: 23px;" *ngIf="currentBloc.orientation!=='seriefixepathos'">
+   <label> Fusionnable </label>
+   <mat-slide-toggle  color="warn"
+     [formControl]="fusionnableControl"
+     (change)="currentBloc.fusionnable = fusionnableControl.value"
+     ></mat-slide-toggle>
+  </div>
+
+ <mat-form-field fxFlex="25" *ngIf="currentBloc.orientation!=='seriefixepathos'">
+   <mat-label>Durée</mat-label>
+   <mat-select [(ngModel)]="currentBloc.duree"
+                (ngModelChange)="updateField()">
+     <mat-option *ngFor="let duree of listeDuree" matNativeControl [value]="duree">
+         {{ duree }}
+     </mat-option>
+   </mat-select>
+ </mat-form-field>
+
+ <div fxFlex="100" style="margin: 10px 0" *ngIf="listeDesMethodes && currentBloc.orientation!=='seriefixepathos'">
+  <mat-chip-list #chipList aria-label="Les Méthodes">
+    <mat-chip class="tt-upper">Méthodes correspondantes</mat-chip>
+    <mat-chip *ngFor="let item of listeDesMethodes; let i = index" [ngStyle]="{ 'color': '#FFF', 'background-color': '#000' }">
+      {{ item.acronyme }}
+      <button  mat-icon-button (click)="deleteMethode(i)"><mat-icon>close</mat-icon></button>
+    </mat-chip>
+  </mat-chip-list>
+</div>
+
+<div fxFlex="100" fxLayout="row" fxLayoutAlign="start end" style="margin-top: 5px;" *ngIf="currentBloc.orientation!=='seriefixepathos'">
+  <label> Ajouter des catégories Exercice </label>
+  <mat-slide-toggle  color="warn"
+    [formControl]="addCategoriesControl"
+    ></mat-slide-toggle>
+ </div>
+
+<app-categories
+          [ngStyle]="{'padding':'10px 0'}"
+          [noeud]="'exe_cat'"
+          [chipsSelectedInput]="currentBloc.categoriesexercices"
+          *ngIf="addCategoriesControl.value" ></app-categories>
+
+<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end end">
+    <button mat-fab color="warn"
+            [mat-dialog-close]="currentBloc" cdkFocusInitial>
+      <mat-icon>save</mat-icon>
+    </button>
+</div>
+
+
+
+</div>

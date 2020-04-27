@@ -60,11 +60,6 @@
                   </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="timestamp">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</mat-header-cell>
-                  <mat-cell *matCellDef="let element;" class="timestamp"> {{element.timestamp | date: 'dd/mm'}} </mat-cell>
-                </ng-container>
-
                 <ng-container matColumnDef="active">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Active</mat-header-cell>
                   <mat-cell *matCellDef="let element;">
@@ -76,6 +71,22 @@
                     <mat-icon
                     *ngIf="!element.active"
                     (click)="updateActiveField(element.idOfQuestionnaire, element.id, !element.active)">
+                            visibility_off
+                    </mat-icon>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="croix">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Croix de Fermeture</mat-header-cell>
+                  <mat-cell *matCellDef="let element;">
+                    <mat-icon
+                    *ngIf="element.croix"
+                    (click)="updateCroixField(element.idOfQuestionnaire, element.id, !element.croix)">
+                            visibility
+                    </mat-icon>
+                    <mat-icon
+                    *ngIf="!element.croix"
+                    (click)="updateCroixField(element.idOfQuestionnaire, element.id, !element.croix)">
                             visibility_off
                     </mat-icon>
                   </mat-cell>

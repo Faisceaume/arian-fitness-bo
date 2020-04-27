@@ -1,8 +1,11 @@
+import { ExerciceSerieAvance } from './../../../programmes/exercice-serie-avance';
+import { ExercicesSeriesService } from './../../../exercices-series/exercices-series.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Pathologie } from '../pathologie';
 import { PathologiesService } from '../pathologies.service';
 import { CategoriesService } from '../../categories/categories.service';
+import { ExerciceSerie } from 'src/app/exercices-series/exercice-serie';
 
 @Component({
   selector: 'app-pathologies-crud',
@@ -12,13 +15,16 @@ import { CategoriesService } from '../../categories/categories.service';
 export class PathologiesCrudComponent implements OnInit {
 
   formData: Pathologie;
+  serieFixePathologie: ExerciceSerie[];
   toCreate: boolean;
   toMatCatManager: boolean;
   toExeCatManager: boolean;
+  toAddSerieFixe: boolean;
 
   constructor(public dialogRef: MatDialogRef<PathologiesCrudComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private pathologiesService: PathologiesService,
+              private exercicesSerieService: ExercicesSeriesService,
               public categoriesService: CategoriesService) { }
 
   ngOnInit() {
@@ -35,6 +41,22 @@ export class PathologiesCrudComponent implements OnInit {
 
       this.toCreate = true;
     }
+
+    this.exercicesSerieService.getAllSeriesExercicesByType('pathologies');
+    this.exercicesSerieService.serieExerciceFixeByTypeSubject.subscribe(data => {
+      this.serieFixePathologie = data;
+    });
+  }
+
+  selectSerieFixe(item: ExerciceSerie) {
+    const local = new ExerciceSerieAvance();
+    local.id = item.id;
+    local.nom = item.nom;
+    local.senior = item.senior;
+
+    this.formData.seriefixe = local;
+    this.updateField('seriefixe', Object.assign({}, this.formData.seriefixe));
+    this.toAddSerieFixe = false;
   }
 
   onSubmit() {

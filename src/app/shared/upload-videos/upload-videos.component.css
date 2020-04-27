@@ -1,0 +1,62 @@
+#dropzone {
+  color: #999;
+  height: 120px;
+  max-height: 200px;
+  margin: 0;
+  padding-top: 100px;
+  border-radius: 5px;
+  text-align: center;
+  background-color: #eee;
+  border: 3px dotted #ccc;
+  font-weight: bold;
+  transition: all 0.1s;
+}
+
+#dropzone:hover {
+color: #000;
+background-color: #ccc;
+border-radius: 20px;
+border: 3px solid #333;
+}
+
+.erreurMessage {
+  color: red;
+}
+
+
+.example-card {
+  text-align: center;
+  width: 340px;
+  max-width: 340px;
+}
+
+.del{
+width: 40%;
+margin: auto;
+}
+
+.custom{
+  color:#ccc;
+  cursor: pointer;
+  margin: auto;
+  padding: 5px;
+  margin: 0 20px;
+  display: block;
+  text-align: center;
+  -webkit-border-bottom-right-radius: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background-color: #333;
+  transition: all 0.1s;
+  font-size: 0.8em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.custom:hover {
+  background-color: #000;
+  color:#fff;
+}
+input[type="file"] {
+display: none;
+}

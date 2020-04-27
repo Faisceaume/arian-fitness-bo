@@ -23,8 +23,8 @@ export class PathologiesComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit() {
-    this.pathologiesService.getAllPathologies();
-    this.pathologiesService.pathologieSubject.subscribe(data => {
+    this.pathologiesService.getAllPathologiesPointFaible();
+    this.pathologiesService.pathologiesPointFaibleSubject.subscribe(data => {
       this.pathologies = data;
       this.dataSource = new MatTableDataSource<Pathologie>(data);
       this.dataSource.sort = this.sort;
@@ -49,7 +49,7 @@ export class PathologiesComponent implements OnInit {
   openMatDialog(information: any): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
+    dialogConfig.width = '80%';
     dialogConfig.data = information;
     this.matDialog.open(PathologiesCrudComponent, dialogConfig);
   }

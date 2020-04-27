@@ -1,0 +1,42 @@
+.bulle-acro {
+  margin: 2px;
+  float: left;
+}
+
+.blackbut {
+  background-color: #000;
+  color: #FFF;
+}
+
+
+h2 {
+  font-size: 1.3em;
+  padding-left: 0;
+}
+
+h2 strong {
+  font-weight: 900;
+}
+
+p {
+  margin: 10px 0;
+}
+
+hr {
+  border: 1px dotted #eee;
+}
+
+.plist {
+  color: #333;
+  margin: 0;
+}
+.bulle-acro {
+  text-align: center;
+  font-size: 0.7em;
+  width: 20px;
+  margin-right: 10px;
+}
+.info {
+  color: #999;
+  font-size: 0.9em;
+}

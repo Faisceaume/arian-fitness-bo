@@ -30,8 +30,10 @@ export class QuestionsDetailComponent implements OnInit {
       this.questionSingle = data;
       this.questionForm = this.formBuilder.group({
         question: [this.questionSingle.question, Validators.required],
+        consignes: [this.questionSingle.consignes],
         reponses: this.formBuilder.array(this.questionSingle.reponses, Validators.required),
-        active: [this.questionSingle.active, Validators.required]
+        active: [this.questionSingle.active, Validators.required],
+        croix: [this.questionSingle.active, Validators.required]
       });
       this.isDisplayed = true;
     });

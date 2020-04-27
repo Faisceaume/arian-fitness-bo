@@ -15,6 +15,12 @@ export class PathologiesService {
   pathologies: Pathologie[];
   pathologieSubject = new Subject<any[]>();
 
+  pointfaibles: Pathologie[];
+  pointfaibleSubject = new Subject<any[]>();
+
+  pathologiesPointFaible: Pathologie[];
+  pathologiesPointFaibleSubject = new Subject<any[]>();
+
   constructor(private firestore: AngularFirestore,
               private categoriesService: CategoriesService,
               private exercicesService: ExercicesService,
@@ -40,7 +46,7 @@ export class PathologiesService {
 }
 
 getAllPathologies(): void {
-  this.firestore.collection('pathologies', ref => ref.orderBy('nom'))
+  this.firestore.collection('pathologies', ref => ref.where('type', '==', 'pathologie'))
               .snapshotChanges().subscribe( data => {
    this.pathologies = data.map( e => {
     const anotherData = e.payload.doc.data() as Pathologie;
@@ -54,6 +60,40 @@ getAllPathologies(): void {
 
 emitPathologieSubject() {
   this.pathologieSubject.next(this.pathologies.slice());
+}
+
+getAllPointFaibles(): void {
+  this.firestore.collection('pathologies', ref => ref.where('type', '==', 'pointfaible'))
+              .snapshotChanges().subscribe( data => {
+   this.pointfaibles = data.map( e => {
+    const anotherData = e.payload.doc.data() as Pathologie;
+    return  {
+      ...anotherData
+    } as Pathologie;
+  });
+   this.emitPointFaibleSubject();
+});
+}
+
+emitPointFaibleSubject() {
+  this.pointfaibleSubject.next(this.pointfaibles.slice());
+}
+
+getAllPathologiesPointFaible(): void {
+  this.firestore.collection('pathologies')
+              .snapshotChanges().subscribe( data => {
+   this.pathologiesPointFaible = data.map( e => {
+    const anotherData = e.payload.doc.data() as Pathologie;
+    return  {
+      ...anotherData
+    } as Pathologie;
+  });
+   this.emitPathologiesPointFaibleSubject();
+});
+}
+
+emitPathologiesPointFaibleSubject() {
+  this.pathologiesPointFaibleSubject.next(this.pathologiesPointFaible.slice());
 }
 
 getSinglePathologie(id: string) {

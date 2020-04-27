@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Exercice } from './exercice';
 import { Subject } from 'rxjs';
 import { CategoriesService } from '../shared/categories/categories.service';
+import { Niveau } from '../shared/niveaux/niveau';
+import { MaterielsService } from '../materiels/materiels.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +15,6 @@ export class ExercicesService {
   exercices: Exercice[];
   exerciceSubject = new Subject<any[]>();
 
-  serieExerciceFixe: any[];
-  serieExerciceFixeSubject = new Subject<any[]>();
-
   oneSerieExerciceFixe: any;
   oneSerieExerciceFixeSubject = new Subject<any>();
 
@@ -24,7 +23,8 @@ export class ExercicesService {
 
   constructor(private firestore: AngularFirestore,
               private router: Router,
-              private categoriesService: CategoriesService) { }
+              private categoriesService: CategoriesService,
+              private materielsService: MaterielsService) { }
 
 
   createExercice(exercice: Exercice) {
@@ -61,6 +61,10 @@ export class ExercicesService {
     });
   }
 
+  // getExercicesForUser(userid):void {
+
+  // }
+
   emitExercicesSubject() {
     this.exerciceSubject.next(this.exercices.slice());
   }
@@ -80,6 +84,9 @@ export class ExercicesService {
   }
 
   deleteExercice(exercice: Exercice) {
+    exercice.materiels.forEach(mat => {
+      this.materielsService.deleteExercice(mat, exercice);
+    });
     this.firestore.doc('exercices/' + exercice.id).delete();
   }
 
@@ -88,7 +95,24 @@ export class ExercicesService {
     const nextDocument1 = this.firestore.firestore.collection('exercices').doc(element.id);
     batch.update(nextDocument1, `${attribut}`, value);
     batch.commit().then(() => {
+      this.updateSubCollectionExerciceOnSerieFixe(element);
     }).catch((error) => { console.error('Error updzting document: ', error); });
+  }
+
+  updateSubCollectionExerciceOnSerieFixe(exercice: Exercice) {
+
+    this.getSingleExercice(exercice.id).then((currentExercice: Exercice) => {
+      if (currentExercice.seriefixeid) {
+        currentExercice.seriefixeid.forEach(element => {
+          const nextDocument1 = this.firestore.firestore.collection('seriesfixes')
+                            .doc(element).collection('exercices').doc(currentExercice.id);
+          const batch = this.firestore.firestore.batch();
+          batch.update(nextDocument1, currentExercice);
+          batch.commit().then(() => {
+          }).catch((error) => { console.error('Error updzting document: ', error); });
+        });
+      }
+    });
   }
 
 
@@ -97,9 +121,6 @@ export class ExercicesService {
   /////////////// CREATE ////////////////////
   ///////////////////////////////////////////
 
-  emitSerieExercieFixe() {
-    this.serieExerciceFixeSubject.next( this.serieExerciceFixe );
-  }
   emitOneSerieExerciceFixe() {
     this.oneSerieExerciceFixeSubject.next( this.oneSerieExerciceFixe );
   }
@@ -153,14 +174,6 @@ export class ExercicesService {
   /////////////// READ //////////////////////
   ///////////////////////////////////////////
 
-  getAllSerieExercice() {
-    this.firestore.collection('seriesfixes').snapshotChanges().subscribe(data => {
-      this.serieExerciceFixe = data.map(e => {
-        return  e.payload.doc.data();
-      });
-      this.emitSerieExercieFixe();
-    });
-  }
 
   getOneSerieExercice(id) {
     this.firestore.collection('seriesfixes').doc(id).get().subscribe(data => {
@@ -193,7 +206,7 @@ export class ExercicesService {
       timestamp: data.timestamp,
       detailExos: data.detailExos
     });
- 
+
     batch.commit().then(() => {
       const batch2 = this.firestore.firestore.batch();
       for (let i = 0; i < dataArg2.length; i++) {
@@ -254,6 +267,41 @@ export class ExercicesService {
       batch.delete(ref2);
       batch.delete(ref);
       batch.commit().then(() => console.log('Suppression de la serie d\'exercice fixe réussi '));
+    });
+  }
+
+
+
+  /////////////////////////////////////////////
+  ////////////////////////////////////////////
+  /////////////// METHODES FOR SIMULATION ///
+  ///////////////////////////////////////////
+
+  getExercicesForUser(genre: string, age: string, niveau: Niveau, position: string) {
+    let url: any;
+
+    if (position !== 'toutes') {
+     url = this.firestore.collection('exercices', ref =>
+    ref.where('genre', '==', genre)
+    .where('age', '==', age)
+    .where('niveau', '==', niveau)
+    .where('position', '==', position));
+    } else {
+     url = this.firestore.collection('exercices', ref =>
+    ref.where('genre', '==', genre)
+    .where('age', '==', age)
+    .where('niveau', '==', niveau));
+    }
+    return new Promise<Exercice[]>((resolve, reject) => {
+      url.snapshotChanges().subscribe(res => {
+        const exercices = res.map( e => {
+        const anotherData = e.payload.doc.data() as Exercice;
+        return  {
+          ...anotherData
+        } as Exercice;
+        });
+        resolve(exercices);
+      });
     });
   }
 

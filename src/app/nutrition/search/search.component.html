@@ -1,0 +1,53 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center">
+  <mat-form-field fxFlex="40">
+    <input matInput placeholder="Nom de l'aliment" type="text" [(ngModel)]="nomAliment" required>
+  </mat-form-field>
+  <div fxFlex="10" fxLayoutAlign="start start">
+    <button mat-fab color="warn" type="button" (click)="onSearch()">
+        <mat-icon>search</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div fxLayout="row wrap" fxLayoutAlign="center center" style="padding: 10px;">
+  <mat-spinner color="warn" *ngIf="nutritionService.foodsData === null" ></mat-spinner>
+</div>
+
+<div fxLayout="row wrap" fxLayoutAlign="center start" style="padding: 10px;"
+     *ngIf="nutritionService.foodsData && !itemSelected" >
+
+  <mat-card class="example-card" fxFlex="22"
+            *ngFor="let item of nutritionService.foodsData.products"
+            (click)="selected(item)">
+    <mat-card-header fxLayoutAlign="start start">
+      <h4>{{ item.product_name_fr }}</h4>
+    </mat-card-header>
+    <img mat-card-image [src]="item.image_url" alt="Photo of a Shiba Inu" width="100%" height="auto">
+  </mat-card>
+
+</div>
+
+<div fxLayout="row wrap" fxLayoutAlign="center center" style="padding: 10px;" *ngIf="itemSelected" >
+  <mat-card class="example-card" fxFlex="70">
+    <mat-card-header fxLayout="row">
+      <h4 fxFlex="70">{{ itemSelected.product_name_fr }}</h4>
+      <div fxFlex="30" fxLayoutAlign="end center">
+        <button mat-icon-button (click)="saveAliment()">
+          <mat-icon>save</mat-icon>
+        </button>
+        <button mat-icon-button type="button" (click)=" itemSelected = null">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-card-header>
+    <img mat-card-image [src]="itemSelected.image_url"
+    alt="Photo of a Shiba Inu"
+    width="200px"
+    height="auto">
+    <mat-card-content>
+      <p *ngFor="let item of itemSelected.nutriments | keyvalue" >
+        <strong>{{ item.key }}</strong> : {{ item.value }}
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>

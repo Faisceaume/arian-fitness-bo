@@ -8,5 +8,18 @@ label {
 }
 
 .type {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+
+.custom-obj {
+  text-transform: uppercase;
+  margin: 0; padding: 0;
+  color: #ccc;
+}
+
+.h4-modal {
+  color: #ccc;
+  text-transform: uppercase;
+  font-weight: normal;
 }

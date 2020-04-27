@@ -7,221 +7,375 @@
 </button>
 
 <div class="nom-formulaire" *ngIf="formData">
-  <h2>User : <strong>{{ formData.email }}</strong></h2>
+  <h2>
+    User :
+    <strong>{{ formData.email }}</strong>
+    <span *ngIf="formData.genre">&nbsp; | Genre :
+      <strong>
+        <span *ngIf="formData.genre==='F'"> Femme</span>
+        <span *ngIf="formData.genre==='H'"> Homme</span>
+      </strong>
+    </span>
+    <span *ngIf="formData.niveau">&nbsp; | Niveau :
+      <strong>{{ formData.niveau.acronyme }}</strong>
+    </span>
+    <span *ngIf="formData.premium===true">&nbsp; |
+      <strong>Premium</strong>
+    </span>
+  </h2>
 </div>
 
+<div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="formData && niveaux">
 
-      <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="formData && niveaux">
+  <div fxFlex="30" style="padding:10px" fxLayout="column">
+    <div id="imageContainer">
+      <app-upload-images
+      [size]="1000000"
+      [width]="1000"
+      [heigth]="1000"></app-upload-images>
+    </div>
+  </div>
 
-        <mat-form-field fxFlex="40">
-          <input matInput placeholder="Email" type="text" name="email"
-            [(ngModel)]="formData.email"
-            (ngModelChange)="updateField('email', formData.email)"
-            id="email" required
-            disabled="true">
-        </mat-form-field>
-
-
-        <mat-form-field fxFlex="20">
-          <input matInput placeholder="Nom" type="text" name="nom"
-            [(ngModel)]="formData.nom"
-            (ngModelChange)="updateField('nom', formData.nom)"
-            id="nom" required>
-        </mat-form-field>
-
-
-        <mat-form-field fxFlex="40">
-          <input matInput placeholder="Prenom(s)" type="text" name="prenom"
-            [(ngModel)]="formData.prenom"
-            (ngModelChange)="updateField('prenom', formData.prenom)"
-            id="prenom" required>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="30">
-          <mat-label>Genre</mat-label>
-          <mat-select
-          [(ngModel)]="formData.genre"
-          (ngModelChange)="updateField('genre', formData.genre)">
-            <mat-option value="H">H</mat-option>
-            <mat-option value="F">F</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-
-        <mat-form-field fxFlex="35">
-          <input matInput placeholder="password" type="text" name="password"
-            [(ngModel)]="formData.password"
-            (ngModelChange)="updateField('password', formData.password)"
-            id="password" required>
-        </mat-form-field>
-
-
-        <mat-form-field fxFlex="35">
-          <input matInput placeholder="Telephone" type="text" name="telephone"
-            [(ngModel)]="formData.telephone"
-            (ngModelChange)="updateField('telephone', formData.telephone)"
-            id="telephone" required>
-        </mat-form-field>
-
-
+  <div fxFlex="70" fxLayout="column" style="padding:10px">
+    <div fxLayout="row">
+      <mat-form-field fxFlex="50">
+        <input matInput placeholder="Nom" type="text" name="nom"
+          [(ngModel)]="formData.nom"
+          (ngModelChange)="updateField('nom', formData.nom)"
+          id="nom" required>
+      </mat-form-field>
+      <mat-form-field fxFlex="50">
+        <input matInput placeholder="Prenom(s)" type="text" name="prenom"
+          [(ngModel)]="formData.prenom"
+          (ngModelChange)="updateField('prenom', formData.prenom)"
+          id="prenom" required>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row">
+      <mat-form-field fxFlex="50">
+        <mat-label>Date de naissance</mat-label>
+        <input matInput [matDatepicker]="picker1"
+        [formControl]="datenaissanceControl"
+        (ngModelChange)="updateField('datedenaissance', datenaissanceControl.value, true)">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field fxFlex="50">
+        <input matInput placeholder="Téléphone" type="text" name="prenom"
+          [(ngModel)]="formData.telephone"
+          (ngModelChange)="updateField('telephone', formData.telephone)"
+          id="telephone" required>
+      </mat-form-field>
+    </div>
+    <div>
+      <p *ngIf="!editdates" fxLayout="row" fxLayoutAlign="start center" class="info-user">
+        <button mat-icon-button (click)="editdates=!editdates"><mat-icon>edit</mat-icon></button>
+        <span *ngIf="formData.datedernierlog"> Dernier log : {{ formData.datedernierlog | date }} &nbsp;&nbsp;</span>
+        <span *ngIf="formData.datedernieremaj"> Dernièrer maj : {{ formData.datedernieremaj | date }}</span>
+      </p>
+      <div *ngIf="editdates" fxLayout="row">
+        <button mat-icon-button (click)="editdates=!editdates" class="icon" style="padding:10px 0 0"><mat-icon>visibility_off</mat-icon></button>
         <mat-form-field fxFlex="50">
-          <mat-label>Date de naissance</mat-label>
-          <input matInput [matDatepicker]="picker1"
-          [formControl]="datenaissanceControl"
-          (ngModelChange)="updateField('datedenaissance', datenaissanceControl.value, true)">
-          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-
-
-        <mat-form-field fxFlex="50">
-          <mat-label>Abonnement</mat-label>
-          <mat-select
-          [(ngModel)]="formData.abonnement"
-          (ngModelChange)="updateField('abonnement', formData.abonnement)">
-            <mat-option value="1">1</mat-option>
-            <mat-option value="3">3</mat-option>
-            <mat-option value="12">12</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-
-        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
-          <label fxFlex="50" fxLayoutAlign="end start">Premium &nbsp; </label>
-          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
-            [formControl]="premiumControl"
-            (change)="updateField('premium', premiumControl.value)">
-          </mat-slide-toggle>
-        </div>
-
-        <div fxFlex="100" [ngStyle]="{'margin-bottom':'10px'}">
-          <label fxFlex="50" fxLayoutAlign="end start">Senior &nbsp; </label>
-          <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
-            [formControl]="seniorControl"
-            (change)="updateField('senior', seniorControl.value)">
-          </mat-slide-toggle>
-        </div>
-
-        <mat-form-field fxFlex="20">
-          <mat-label>Date fin premium</mat-label>
-          <input matInput [matDatepicker]="picker2"
-          [formControl]="datefindepremiumControl"
-          (ngModelChange)="updateField('datefindepremium', datefindepremiumControl.value, true)">
-          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-          <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field>
-
-
-        <mat-form-field fxFlex="20">
-          <input matInput placeholder="Tarif" type="text" name="tarif"
-            [(ngModel)]="formData.tarif"
-            (ngModelChange)="updateField('tarif', formData.tarif)"
-            id="tarif" required>
-        </mat-form-field>
-
-
-        <mat-form-field fxFlex="40">
-          <mat-label>Frequence</mat-label>
-          <mat-select
-          [(ngModel)]="formData.frequence"
-          (ngModelChange)="updateField('frequence', formData.frequence)">
-            <mat-option value="2">2</mat-option>
-            <mat-option value="3">3</mat-option>
-            <mat-option value="4">4</mat-option>
-            <mat-option value="5">5</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="20">
-          <input matInput placeholder="Frequence par jour" type="number" name="frequenceparjour"
-            [(ngModel)]="formData.frequenceparjour"
-            (ngModelChange)="updateField('frequenceparjour', formData.frequenceparjour)"
-            id="frequenceparjour" required>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="50">
-          <mat-label>datedernierlog</mat-label>
+          <mat-label>Dernier log</mat-label>
           <input matInput [matDatepicker]="picker3"
           [formControl]="datedernierlogControl"
           (ngModelChange)="updateField('datedernierlog', datedernierlogControl.value, true)">
           <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
           <mat-datepicker #picker3></mat-datepicker>
         </mat-form-field>
-
-
         <mat-form-field fxFlex="50">
-          <mat-label>datedernieremaj</mat-label>
+          <mat-label>Dernière mise à jour</mat-label>
           <input matInput [matDatepicker]="picker4"
           [formControl]="datedernieremajControl"
           (ngModelChange)="updateField('datedernieremaj', datedernieremajControl.value, true)">
           <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
           <mat-datepicker #picker4></mat-datepicker>
         </mat-form-field>
-
-
-        <mat-form-field fxFlex="100">
-          <mat-label>Mode Reprise</mat-label>
-          <mat-select
-          [(ngModel)]="formData.modereprise"
-          (ngModelChange)="updateField('modereprise', formData.modereprise)">
-            <mat-option *ngFor="let it of modereprise" value="{{it}}">{{ it }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="25">
-          <input matInput placeholder="Position parcours niveau" type="number" name="positionparcoursniveau"
-            [(ngModel)]="formData.positionparcoursniveau"
-            (ngModelChange)="updateField('positionparcoursniveau', formData.positionparcoursniveau)"
-            id="positionparcoursniveau" required>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="25">
-          <input matInput placeholder="Niveau inscription" type="text" name="niveauinscription"
-            [(ngModel)]="formData.niveauinscription"
-            (ngModelChange)="updateField('niveauinscription', formData.niveauinscription)"
-            id="niveauinscription" required>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="25">
-          <input matInput placeholder="Niveau periode Off" type="text" name="niveauavantperiodeoff"
-            [(ngModel)]="formData.niveauavantperiodeoff"
-            (ngModelChange)="updateField('niveauavantperiodeoff', formData.niveauavantperiodeoff)"
-            id="niveauavantperiodeoff" required>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="25">
-          <input matInput placeholder="Parcours Nitrition" type="text" name="parcoursnutrition"
-            [(ngModel)]="formData.parcoursnutrition"
-            (ngModelChange)="updateField('parcoursnutrition', formData.parcoursnutrition)"
-            id="parcoursnutrition" required>
-        </mat-form-field>
-
-
-        <div fxLayout="row" fxFlex="100">
-          <div fxFlex="100" fxLayout="column">
-
-            <div>
-              <label class="dark-chip"> Niveau : </label>
-              <span class="bulle-acro" *ngIf="!toChangeNiveau && formData.niveau">N {{ formData.niveau.acronyme}} </span>
-
-              <button mat-icon-button
-                (click)="toChangeNiveau = true"
-                *ngIf="!toChangeNiveau && formData.niveau">
-                  <mat-icon>close</mat-icon>
-              </button>
-
-              <mat-radio-group color="warn"
-                [(ngModel)]="formData.niveau"
-                (ngModelChange)="updateField('niveau', formData.niveau)"
-                *ngIf="!formData.niveau || toChangeNiveau">
-                <mat-radio-button *ngFor="let niveau of niveaux"
-                [value]="niveau" class="span-radio-button">
-                  N {{ niveau.acronyme }}
-                </mat-radio-button>
-              </mat-radio-group>
-            </div>
-
-        </div>
       </div>
     </div>
+  </div>
+
+
+  <div fxFlex="30" fxLayout="row wrap" class="divgrey" style="margin:10px">
+    <h4 fxFlex="100">Trophées</h4>
+    <div *ngFor="let i of arrayOne(12)" fxFlex="33">
+      <img src="../../../assets/trophy-empty.png" style="max-width: 100%;">
+    </div>
+  </div>
+
+
+  <div fxFlex="30" fxLayout="column" class="divgrey" style="margin:10px">
+
+    <h4 fxFlex="100">Niveaux</h4>
+
+    <div fxLayout="row wrap" style="padding-bottom:10px">
+        <label> Niveau : </label>
+        <span *ngIf="!toChangeNiveau && formData.niveau" class="niveaux">N {{ formData.niveau.acronyme}} </span>
+        <button mat-icon-button
+          (click)="toChangeNiveau = true"
+          *ngIf="!toChangeNiveau && formData.niveau">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <mat-radio-group color="warn" fxFlex="100"
+          [(ngModel)]="formData.niveau"
+          (ngModelChange)="updateField('niveau', formData.niveau);toChangeNiveau=false"
+          *ngIf="!formData.niveau || toChangeNiveau">
+          <mat-radio-button *ngFor="let niveau of niveaux"
+          [value]="niveau" class="span-radio-button">
+            N {{ niveau.acronyme }}
+          </mat-radio-button>
+        </mat-radio-group>
+    </div>
+
+    <div fxLayout="row wrap" style="padding-bottom:10px">
+      <label> Niveau Inscription : </label>
+      <span class="niveaux" *ngIf="!toChangeNiveauIns && formData.niveauinscription">
+        N {{ formData.niveauinscription.acronyme}} </span>
+      <button mat-icon-button
+        (click)="toChangeNiveauIns = true"
+        *ngIf="!toChangeNiveauIns && formData.niveauinscription">
+          <mat-icon>edit</mat-icon>
+      </button>
+      <mat-radio-group color="warn" fxFlex="100"
+        [(ngModel)]="formData.niveauinscription"
+        (ngModelChange)="updateField('niveauinscription', formData.niveauinscription);toChangeNiveauIns=false"
+        *ngIf="!formData.niveauinscription || toChangeNiveauIns">
+        <mat-radio-button *ngFor="let niveau of niveaux"
+        [value]="niveau" class="span-radio-button">
+          N {{ niveau.acronyme }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div fxLayout="row wrap" style="padding-bottom:10px">
+      <label> Niveau Période Off : </label>
+      <span class="niveaux" *ngIf="!toChangeNiveauOff && formData.niveauavantperiodeoff">
+        N {{ formData.niveauavantperiodeoff.acronyme}} </span>
+      <button mat-icon-button
+        (click)="toChangeNiveauOff = true"
+        *ngIf="!toChangeNiveauOff && formData.niveauavantperiodeoff">
+          <mat-icon>edit</mat-icon>
+      </button>
+      <mat-radio-group color="warn" fxFlex="100"
+        [(ngModel)]="formData.niveauavantperiodeoff"
+        (ngModelChange)="updateField('niveauavantperiodeoff', formData.niveauavantperiodeoff);toChangeNiveauOff=false"
+        *ngIf="!formData.niveauavantperiodeoff || toChangeNiveauOff">
+        <mat-radio-button *ngFor="let niveau of niveaux"
+        [value]="niveau" class="span-radio-button">
+          N {{ niveau.acronyme }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div fxLayout="row wrap">
+      <label style="padding:5px 5px 0 0">Mode Reprise : </label>
+      <span class="niveaux">
+        <!-- {{ formData.modereprise }}  -->
+        <span *ngIf="formData.modereprise==='0'">Aucun</span>
+        <span *ngIf="formData.modereprise==='>60J<90J'">Entre 60 et 90 jours</span>
+        <span *ngIf="formData.modereprise==='>=90J<180J'">Entre 90 et 180 jours</span>
+        <span *ngIf="formData.modereprise==='>=180J'">Plus de 180 jours</span>
+      </span>
+      <button mat-icon-button
+        (click)="toChangeModeReprise = true"
+        *ngIf="!toChangeModeReprise && formData.modereprise">
+          <mat-icon>edit</mat-icon>
+      </button>
+      <mat-radio-group color="warn" fxFlex="100"
+        *ngIf="!formData.modereprise || toChangeModeReprise"
+        [(ngModel)]="formData.modereprise"
+        (ngModelChange)="updateField('modereprise', formData.modereprise);toChangeModeReprise=false">
+          <mat-radio-button *ngFor="let it of modereprise" [value]="it" class="span-radio-button">{{ it }}</mat-radio-button>
+      </mat-radio-group>
+  </div>
+
+  </div>
+
+  <div fxFlex="30" fxLayout="column" class="divgrey" style="margin:10px">
+
+    <h4 fxFlex="100">Position</h4>
+
+    <div fxLayoutAlign="start start" style="margin-top: 10px;" fxFlex="33" fxLayout="column">
+      <label style="padding:0 0 10px"> Position Parcours Niveau</label>
+      <mat-radio-group color="warn"
+      [(ngModel)]="formData.positionparcoursniveau"
+      (ngModelChange)="updateField('positionparcoursniveau', formData.positionparcoursniveau)"
+      fxFlex="82">
+        <mat-radio-button *ngFor="let item of listePositionParc"
+        [value]="item" class="span-radio-button">
+          {{ item }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div fxLayoutAlign="start start" style="margin-top: 10px;" fxFlex="33" fxLayout="column">
+      <label style="padding:0 0 10px">Position Séance:</label>
+      <mat-radio-group color="warn"
+      [(ngModel)]="formData.positionseance"
+      (ngModelChange)="updateField('positionseance', formData.positionseance)"
+      fxFlex="82">
+        <mat-radio-button value="1" class="span-radio-button">1</mat-radio-button>
+        <mat-radio-button value="2" class="span-radio-button">2</mat-radio-button>
+        <mat-radio-button value="3" class="span-radio-button">3</mat-radio-button>
+        <mat-radio-button value="4" class="span-radio-button">4</mat-radio-button>
+        <mat-radio-button value="5" class="span-radio-button">5</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <mat-form-field fxFlex="100">
+      <input matInput placeholder="Parcours Nutrition" type="text" name="parcoursnutrition"
+        [(ngModel)]="formData.parcoursnutrition"
+        (ngModelChange)="updateField('parcoursnutrition', formData.parcoursnutrition)"
+        id="parcoursnutrition" required>
+    </mat-form-field>
+
+  </div>
+
+
+  <div fxFlex="45" fxLayout="row wrap" fxLayoutAlign="start center" class="divgrey" style="margin:10px">
+
+    <h4 fxFlex="100">Objectifs & Pathologies</h4>
+
+    <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0">
+      <div style="margin:10px 0">
+        <label> Objectifs : </label>
+        <span>{{ formData.objectif ? formData.objectif.nom : 'inconnu' }}</span>
+        <button  mat-icon-button (click)="showObjectif = true" *ngIf="!showObjectif" >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button  mat-icon-button (click)="showObjectif = false" *ngIf="showObjectif" >
+          <mat-icon>close</mat-icon>
+         </button>
+      </div>
+      <div *ngIf="showObjectif"  fxLayout="column">
+        <mat-chip-list #chipList aria-label="objectifs">
+          <mat-chip
+            *ngFor="let item of objectifs; let i = index"
+            [ngStyle]="{
+              'color': '#FFF',
+              'background-color': '#000'
+            }"
+            (click)="selectObjectif(item)">
+            {{ item.acronyme }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+
+    <div fxFlex="100" fxLayout="column" class="objectif" style="margin:0 10px 10px 0">
+      <div style="margin:0 10px 10px 0">
+        <label> Pathologie : </label>
+        {{ formData.pathologie ? formData.pathologie.acronyme : 'inconnu' }}
+        <button  mat-icon-button (click)="toAddPathologie = true" *ngIf="!toAddPathologie" >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button  mat-icon-button (click)="toAddPathologie = false" *ngIf="toAddPathologie" >
+          <mat-icon>close</mat-icon>
+         </button>
+      </div>
+      <div *ngIf="toAddPathologie"  fxLayout="column">
+        <mat-chip-list #chipList aria-label="pathologies">
+          <mat-chip
+            *ngFor="let item of pathologies; let i = index"
+            [ngStyle]="{
+              'color': '#FFF',
+              'background-color': '#000'
+            }"
+            (click)="selectedPathologie(item)">
+            {{ item.acronyme }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+  </div>
+
+  <div fxFlex="50" class="divgrey" fxLayout="row wrap" style="margin:10px">
+
+    <h4 fxFlex="100">Abonnement</h4>
+
+    <div fxFlex="50">
+      <label>Premium &nbsp; </label>
+      <mat-slide-toggle color="warn"
+        [formControl]="premiumControl"
+        (change)="updateField('premium', premiumControl.value)">
+      </mat-slide-toggle>
+    </div>
+
+    <div fxFlex="50">
+      <label fxFlex="50" fxLayoutAlign="end start">Senior &nbsp; </label>
+      <mat-slide-toggle fxFlex="50" fxLayoutAlign="start start" color="warn"
+        [formControl]="seniorControl"
+        (change)="updateField('senior', seniorControl.value)">
+      </mat-slide-toggle>
+    </div>
+
+    <div fxFlex="100">
+      <label>Type d'abonnement</label>
+      <mat-radio-group color="warn"
+      [(ngModel)]="formData.abonnement"
+      (ngModelChange)="updateField('abonnement', formData.abonnement)">
+        <mat-radio-button value="1" class="span-radio-button">1 mois</mat-radio-button>
+        <mat-radio-button value="3" class="span-radio-button">3 mois</mat-radio-button>
+        <mat-radio-button value="3" class="span-radio-button">12 mois</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <mat-form-field fxFlex="50">
+      <mat-label>Date fin premium</mat-label>
+      <input matInput [matDatepicker]="picker2"
+      [formControl]="datefindepremiumControl"
+      (ngModelChange)="updateField('datefindepremium', datefindepremiumControl.value, true)">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="50">
+      <input matInput placeholder="Tarif" type="text" name="tarif"
+        [(ngModel)]="formData.tarif"
+        (ngModelChange)="updateField('tarif', formData.tarif)"
+        id="tarif" required>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="50">
+      <mat-label>Frequence</mat-label>
+      <mat-select
+      [(ngModel)]="formData.frequence"
+      (ngModelChange)="updateField('frequence', formData.frequence)">
+        <mat-option *ngFor="let item of listeFrequence"  [value]="item">{{ item }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="50">
+      <input matInput placeholder="Frequence par jour" type="number" name="frequenceparjour"
+        [(ngModel)]="formData.frequenceparjour"
+        (ngModelChange)="updateField('frequenceparjour', formData.frequenceparjour)"
+        id="frequenceparjour" required>
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="100" fxLayoutAlign="end end" fxLayoutGap="5px" style="margin: 10px">
+    <button mat-fab color="black" (click)="launchQ1()">Q1</button>
+    <button mat-fab color="black" (click)="launchQ2()">Q2</button>
+    <button mat-fab color="black" (click)="launchQ3()">Q3</button>
+    <button mat-fab color="black" (click)="launchQ4()">Q4</button>
+    <button mat-fab color="black" (click)="launchQ5()">Q5</button>
+    <button mat-fab color="black" (click)="launchQ6()">Q6</button>
+    <button mat-fab
+    color="warn"
+    [routerLink]="['/users/user-seance', formData.id]"
+    *ngIf="premiumControl.value"
+    >E</button>
+  </div>
+
+  <!--
+  <div *ngIf="resultQ1" >
+    <h4>Historique questionnaire 1</h4>
+    <p *ngFor="let item of resultQ1.questions ; let i = index" >
+      <strong><span> {{ item.question }} </span></strong>
+      <span> {{ resultQ1.reponses[i] }} </span>
+    </p>
+  </div>
+-->
+</div>
+
 

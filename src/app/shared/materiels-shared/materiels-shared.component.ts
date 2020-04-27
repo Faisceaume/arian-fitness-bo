@@ -35,12 +35,14 @@ export class MaterielsSharedComponent implements OnInit {
   onCkecked(event, item: Materiel) {
     if (event.checked) {
       this.materielsService.addMaterielSelected(item);
+      this.materielsService.writeExercice(item, this.data.currentExercice);
     } else {
       this.materielsService.deleteMaterielSelected(item);
+      this.materielsService.deleteExercice(item, this.data.currentExercice);
     }
 
     if (this.data != null) {
-      this.exercicesServices.newUpdateVersion(this.data.currentMateriel as Exercice, 'materiels',
+      this.exercicesServices.newUpdateVersion(this.data.currentExercice as Exercice, 'materiels',
                                              this.materielsService.materielsSelected);
     }
   }

@@ -1,8 +1,9 @@
+import { SharedService } from './../../shared/shared.service';
 import { Component, OnInit } from '@angular/core';
 import { Exercice } from '../exercice';
 import { ActivatedRoute } from '@angular/router';
 import { ExercicesService } from '../exercices.service';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { NiveauxService } from 'src/app/shared/niveaux/niveaux.service';
 import { Niveau } from 'src/app/shared/niveaux/niveau';
 import { MaterielsService } from 'src/app/materiels/materiels.service';
@@ -46,6 +47,7 @@ export class ExerciceDetailsComponent implements OnInit {
               private exercicesService: ExercicesService,
               private niveauxService: NiveauxService,
               public materielsService: MaterielsService,
+              public sharedService: SharedService,
               private matDialog: MatDialog) {
   }
 
@@ -66,8 +68,26 @@ export class ExerciceDetailsComponent implements OnInit {
       this.visuel.setValue(item.visuel);
       this.retouraucalme.setValue(item.retouraucalme);
 
+      this.sharedService.currentExercice = item;
+
       if (item.niveau) {
         this.showSeniotRepetList = item.niveau.acronyme === 'S80+' ? true  : false;
+      }
+
+      if (item.photo) {
+        this.sharedService.isImageUploadShown = false;
+        this.sharedService.fileUrl = item.photo;
+      } else {
+        this.sharedService.fileUrl = null;
+        this.sharedService.isImageUploadShown = true;
+      }
+
+      if (item.video) {
+        this.sharedService.isVideoUploadShown = false;
+        this.sharedService.videoUrl = item.video;
+      } else {
+        this.sharedService.videoUrl = null;
+        this.sharedService.isVideoUploadShown = true;
       }
   }).then(() => {
     this.allRegime.forEach(item => {
@@ -91,6 +111,7 @@ export class ExerciceDetailsComponent implements OnInit {
       list.splice(index, 1);
     }
     this.exercicesService.newUpdateVersion(this.formData, 'materiels', list);
+    this.materielsService.deleteExercice(materiel, this.formData);
   }
 
   updateFiel(attribut: string, value: any) {
@@ -98,6 +119,9 @@ export class ExerciceDetailsComponent implements OnInit {
     if (attribut === 'niveau') {
         this.showSeniotRepetList = value.acronyme === 'S80+' ? true : false;
     }
+    this.formData.materiels.forEach(mat => {
+      this.materielsService.writeExercice(mat, this.formData);
+    });
   }
 
   onDelete(materiel: Materiel) {
@@ -109,7 +133,7 @@ export class ExerciceDetailsComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';
-    dialogConfig.data = {currentMateriel: this.formData};
+    dialogConfig.data = {currentExercice: this.formData};
     this.matDialog.open(MaterielsSharedComponent, dialogConfig);
   }
 

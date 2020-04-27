@@ -1,10 +1,10 @@
 export class Listes {
 
   nbrerepetechauffement = [
-    '5',
-    '10',
-    '15',
-    '20',
+    '5 répétitions',
+    '10 répétitions',
+    '15 répétitions',
+    '20 répétitions',
     '10 secondes',
     '15 secondes',
     '30 secondes',
@@ -55,6 +55,7 @@ export class Listes {
   ];
 
   nbrreposexercice = [
+    '0 seconde',
     '30 secondes',
     '60 secondes',
     '90 secondes',
@@ -70,17 +71,11 @@ export class Listes {
 
   dureemethodes = [
     '7 minutes 30',
+    '10 minutes',
     '15 minutes',
     '30 minutes'
   ];
 
-  // nbrseries = [
-  //   '1', '1 par côté',
-  //   '2', '2 par côté',
-  //   '3', '3 par côté',
-  //   '4', '4 par côté',
-  //   '5', '5 par côté'
-  // ];
 
   // section methodes
   listeNbrexparserie = [
@@ -132,5 +127,116 @@ export class Listes {
   ];
 
 
+  // Section des programmes
+  semaineduniveau = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24
+  ];
 
+  frequence = [
+    1,
+    2,
+    3,
+    4,
+    5
+  ];
+
+  nombresemaine = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ];
+
+
+  // section des programmes-nutrition
+  etapesprognut = [
+    'Etape 1',
+    'Etape 2',
+    'Etape 3',
+    'Etape 4',
+    'Etape 5',
+    'Etape 6',
+    'Etape 7',
+    'Etape 8',
+    'Etape 9',
+    'Etape 10',
+    'Etape 11',
+    'Etape 12',
+    'Etape 13',
+    'Etape 14',
+    'Etape 15',
+    'Etape 16',
+    'Etape 17',
+    'Etape 18'
+  ];
+
+  nbrescenarios = [
+    1,
+    2,
+    3,
+    4
+  ];
+
+  // section des users
+
+  positionparcoursniveau = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+  ];
+
+  frequenceUser = [
+    2,
+    3,
+    4,
+    5
+  ];
 }

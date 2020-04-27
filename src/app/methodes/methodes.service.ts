@@ -1,3 +1,5 @@
+import { MethodeAvance } from './../programmes/methode-avance';
+import { Niveau } from './../shared/niveaux/niveau';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
@@ -11,6 +13,7 @@ export class MethodesService {
 
   methodes: Methode[];
   methodeSubject = new Subject<any[]>();
+
 
   constructor(private firestore: AngularFirestore,
               private router: Router) { }
@@ -48,6 +51,25 @@ emitMethodeSubject() {
     this.methodeSubject.next(this.methodes.slice());
 }
 
+/*
+getMethodesForProgrammeFusion(niveau: Niveau, orientation: string, duree: string): Methode[]   {
+  const data: Methode[] = [];
+  this.firestore.firestore.collection('methodes')
+  .where('orientation', '==', orientation)
+  .where('duree', '==', duree)
+  .where('niveau', '==', niveau)
+  .onSnapshot((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+    data.push(
+      {
+        id : doc.id,
+        ...doc.data()
+      } as Methode);
+  });
+});
+  return data;
+}
+ */
 
 getSingleMethode(id: string) {
     return new Promise<Methode>((resolve, reject) => {
@@ -74,4 +96,28 @@ newUpdateVersion(element: Methode, attribut: string, value: any) {
     batch.commit().then(() => {
     }).catch((error) => { console.error('Error updzting document: ', error); });
   }
+
+
+
+  // SECTION DES PROGRAMMES => SEANCES => BLOCS
+
+  getMethodesForProgramme(niveau: Niveau, orientation: string, duree: string) {
+    return new Promise<MethodeAvance[]>((resolve, reject) => {
+      this.firestore.collection('methodes', ref =>
+      ref.where('orientation', '==', orientation)
+      .where('duree', '==', duree)
+      .where('niveau', '==', niveau)).snapshotChanges().subscribe(res => {
+        const methodes = res.map( e => {
+        const anotherData = e.payload.doc.data() as Methode;
+        const local = new MethodeAvance();
+        local.acronyme = anotherData.acronyme;
+        local.id = anotherData.id;
+        local.nom = anotherData.nom;
+        return Object.assign({}, local);
+        });
+        resolve(methodes);
+      });
+    });
+    }
+
 }

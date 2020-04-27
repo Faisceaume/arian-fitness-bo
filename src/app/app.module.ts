@@ -22,6 +22,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { QuestionnairesModule } from './questionnaires/questionnaires.module';
 import { UsersModule } from './users/users.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,8 +33,6 @@ import { UsersModule } from './users/users.module';
   imports: [
     SharedModule,
     BrowserModule,
-    QuestionnairesModule,
-    UsersModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
@@ -41,7 +40,10 @@ import { UsersModule } from './users/users.module';
     ReactiveFormsModule,
     UiModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    QuestionnairesModule,
+    UsersModule,
+    HttpClientModule
   ],
   providers: [
     {

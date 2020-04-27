@@ -3,6 +3,7 @@ import { User } from './user';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class UsersService {
   users: User[];
   userSubject = new Subject<any[]>();
   asError: boolean;
+
+  currentUser: User;
 
   constructor(private firestore: AngularFirestore,
               private router: Router) { }

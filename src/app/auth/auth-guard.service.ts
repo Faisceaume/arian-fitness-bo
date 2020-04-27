@@ -3,6 +3,7 @@ import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from './auth.service';
+import { UsersService } from './users.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { AuthService } from './auth.service';
 export class AuthGuardService implements CanActivate {
 
   constructor(
+     private us: UsersService,
      private router: Router,
      private afauth: AngularFireAuth,
      private authService: AuthService,
@@ -20,8 +22,18 @@ export class AuthGuardService implements CanActivate {
       this.afauth.auth.onAuthStateChanged(
         (user) => {
           if (user) {
-            resolve(true);
+            this.us.getUserRole(user.email).then((item: string) => {
+              if (item === 'admin') {
+                this.authService.isAdmin = true;
+                resolve(true);
+              } else {
+                this.authService.isAdmin = false;
+                this.ngZone.run(() => this.router.navigate(['/auth']));
+                resolve(false);
+              }
+            });
           } else {
+            this.authService.isAdmin = false;
             this.ngZone.run(() => this.router.navigate(['/auth']));
             resolve(false);
           }

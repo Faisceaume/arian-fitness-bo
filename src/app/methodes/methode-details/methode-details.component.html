@@ -44,7 +44,8 @@
 
             <div>
               <label class="dark-chip"> Niveau : </label>
-              <span class="bulle-acro" *ngIf="!toChangeNiveau && formData.niveau">N {{ formData.niveau.acronyme}} </span>
+              <span class="bulle-acro"
+              *ngIf="!toChangeNiveau && formData.niveau">N {{ formData.niveau.acronyme}} </span>
 
               <button mat-icon-button
                 (click)="toChangeNiveau = true"
@@ -54,6 +55,7 @@
 
               <mat-radio-group color="warn"
                 [(ngModel)]="formData.niveau"
+                (ngModelChange)="onValueChange('niveau', formData.niveau)"
                 *ngIf="!formData.niveau || toChangeNiveau">
                 <mat-radio-button *ngFor="let niveau of niveaux"
                 [value]="niveau" class="span-radio-button">
@@ -153,7 +155,7 @@
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
-          <mat-label>Nombre d'exercices minimum par catégorie</mat-label>
+          <mat-label>Nombre d'exercices minimum par catégorie d'exercices</mat-label>
           <mat-select [(ngModel)]="formData.nbrexercicesminimumparcategorie"
           (ngModelChange)="onValueChange('nbrexercicesminimumparcategorie', formData.nbrexercicesminimumparcategorie)">
             <mat-option *ngFor="let nombre of listes.listeNbrexercicesminimum"
@@ -246,11 +248,19 @@
                 <span class="cercle-acro">{{ cat.acronyme }}</span>
                 <span>{{ cat.nom }}</span>
               </div>
-              <div fxFlex="50">
+              <div fxFlex="50" *ngIf="formData.orientation === 'cardio'" >
                 <mat-form-field fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].custom">
                   <mat-label>Temps de travail</mat-label>
                   <mat-select [(ngModel)]="cat.tempstravailmethode">
                     <mat-option *ngFor="let nombre of listes.listeTemps" matNativeControl [value]="nombre">{{nombre}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div fxFlex="50" *ngIf="formData.orientation === 'renforcement'">
+                <mat-form-field fxFlex="100" *ngIf="categoriesService.listeOfSeries[i].custom">
+                  <mat-label>Nombre de repetition</mat-label>
+                  <mat-select [(ngModel)]="cat.tempstravailmethode">
+                    <mat-option *ngFor="let nombre of listes.nbrerepetexercice" matNativeControl [value]="nombre">{{nombre}}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>

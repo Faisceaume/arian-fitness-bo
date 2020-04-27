@@ -21,6 +21,7 @@ export class Exercice {
   nom: string;
   numero: number;
   pathologie: string;
+  photo?: string;
   position: string;
   regime: string[];
   repetitionexercice: boolean;
@@ -28,6 +29,9 @@ export class Exercice {
   senior: string;
   timestamp: number;
   type: string;
+  video?: string;
   visibility: boolean;
   visuel: boolean;
+
+  seriefixeid?: string[];
 }

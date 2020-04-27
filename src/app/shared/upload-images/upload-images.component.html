@@ -1,0 +1,29 @@
+<div fxLayout="column">
+        <div *ngIf="sharedService.fileUrl === null">
+          <div id="dropzone"
+          (dragover)="change($event)"
+          (dragleave)="resetChange($event)"
+          (dragend)="false"
+          (drop)="handleDrop($event)">
+              Drop your image here <br>(.jpg)
+            </div>
+        </div>
+        <div *ngIf="sharedService.fileUrl === null">
+          <label for="file-upload" class="custom">Upload File</label>
+          <input id="file-upload" type="file" (change)="detectFile($event)" accept="image/*"/>
+            <p *ngIf="fileUploaded">Fichier chargé !</p>
+            <p *ngIf="!fileIsOK" class="text-danger">Impossible de charger l'image</p>
+        </div>
+        <ul *ngIf="erreursMessages">
+          <li *ngFor='let erreur of erreursMessages' class="erreurMessage"> {{ erreur }} </li>
+        </ul>
+
+        <div class="del" *ngIf="sharedService.fileUrl != null"
+        fxLayoutAlign="center end"
+        fxLayout="column">
+            <button mat-icon-button (click)="onDeleteDrapImage()">
+              <mat-icon>close</mat-icon>
+            </button>
+              <img mat-card-image [src]="sharedService.fileUrl">
+        </div>
+</div>

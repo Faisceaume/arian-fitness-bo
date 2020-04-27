@@ -4,7 +4,6 @@ mat-form-field {
 
 mat-radio-button {
   padding: 0 10px;
-  margin-top: 20px;
 }
 
 label {
@@ -40,5 +39,16 @@ mat-horizontal-stepper {
 
 mat-checkbox{
   padding: 0 10px;
-  margin-top: 20px;
+}
+
+.imagelabel{
+  text-align: center;
+  color: 000;
+  font-size: 1.1em;
+  margin: 10px;
+  padding: 0;
+}
+
+#imageContainer{
+  margin: 20px 0;
 }

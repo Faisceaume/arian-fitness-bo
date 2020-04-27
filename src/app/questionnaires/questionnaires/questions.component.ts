@@ -16,12 +16,10 @@ import * as firebase from 'firebase';
 })
 export class QuestionsComponent implements OnInit {
 
-  
-
   questionnairesList: Questionnaires[];
   questionsList: Questions[];
 
-  displayedColumns: string[] = ['ordre', 'question', 'reponses', 'timestamp', 'active', 'action', 'Drag'];
+  displayedColumns: string[] = ['ordre', 'question', 'reponses', 'active', 'croix', 'action', 'Drag'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild('table', {static: false}) table: MatTable<Questions>;
@@ -78,7 +76,7 @@ export class QuestionsComponent implements OnInit {
     this.questionnairesService.getAllQuestions(idQuestionnaire);
     this.questionnairesService.questionsListSubject.subscribe(data => {
       this.questionsList = data;
-      this.questionsList.sort((a,b) => { return a.ordre - b.ordre });
+      this.questionsList.sort( (a, b) => { return a.ordre - b.ordre });
       this.dataSource = new MatTableDataSource(this.questionsList);
       this.dataSource.sort = this.sort;
       this.dataDrag = this.dataSource.data;
@@ -105,6 +103,14 @@ export class QuestionsComponent implements OnInit {
     }
   }
 
+  updateCroixField(idQuestionnaire, idQuestion, croix) {
+    if (croix) {
+      this.questionnairesService.updateCroixField(idQuestionnaire, idQuestion, true);
+    } else {
+      this.questionnairesService.updateCroixField(idQuestionnaire, idQuestion, false);
+    }
+  }
+
   onListDrop(event: CdkDragDrop<string[]>) {
     const prevIndex = this.dataSource.data.findIndex((d) => d === event.item.data);
     const idQuestionnaire = this.dataSource.data[prevIndex].idOfQuestionnaire;
@@ -116,19 +122,19 @@ export class QuestionsComponent implements OnInit {
     moveItemInArray(event.container.data, prevIndex, event.currentIndex);
 
     if ( prev > current ) {
-      for(let i = current; i < length; i++) {
+      for (let i = current; i < length; i++) {
         const idCurrent = this.dataSource.data[i].id;
         this.questionnairesService.updateOrdreField(idQuestionnaire, idCurrent, i + 1);
       }
       this.questionnairesService.updateOrdreField(idQuestionnaire, idPrevIndex, event.currentIndex + 1);
     } else if ( prev < current ) {
       console.log(prev, current);
-      for (let i = prev-1; i < current - 1; i++) {
+      for (let i = prev - 1; i < current - 1; i++) {
         const idCurrent = this.dataSource.data[i].id;
         this.questionnairesService.updateOrdreField(idQuestionnaire, idCurrent, i + 1);
       }
       this.questionnairesService.updateOrdreField(idQuestionnaire, idPrevIndex, event.currentIndex + 1);
-    } else { 
+    } else {
     }
     this.dataSource.data = this.dataDrag = event.container.data;
   }

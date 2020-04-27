@@ -27,6 +27,8 @@ import {MatRadioModule} from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 
 
 
@@ -39,6 +41,8 @@ import { ObjectifsCrudComponent } from './objectifs/objectifs-crud/objectifs-cru
 import { NiveauxCrudComponent } from './niveaux/niveaux-crud/niveaux-crud.component';
 import { PathologiesCrudComponent } from './pathologies/pathologies-crud/pathologies-crud.component';
 import { MaterielsSharedComponent } from './materiels-shared/materiels-shared.component';
+import { UploadImagesComponent } from './upload-images/upload-images.component';
+import { UploadVideosComponent } from './upload-videos/upload-videos.component';
 
 const modules = [
     CommonModule,
@@ -69,7 +73,8 @@ const modules = [
     MatRadioModule,
     MatStepperModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatProgressBarModule
 ];
 
 @NgModule({
@@ -81,7 +86,9 @@ const modules = [
                 ObjectifsCrudComponent,
                 NiveauxCrudComponent,
                 PathologiesCrudComponent,
-                MaterielsSharedComponent],
+                MaterielsSharedComponent,
+                UploadImagesComponent,
+                UploadVideosComponent],
   imports: [
     ...modules,
   ],
@@ -89,6 +96,8 @@ const modules = [
     ...modules,
     CategoriesComponent,
     ObjectifsComponent,
+    UploadImagesComponent,
+    UploadVideosComponent
 ],
 providers: [
   MatDatepickerModule,

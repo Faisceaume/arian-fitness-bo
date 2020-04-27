@@ -81,11 +81,11 @@
     </ng-container>
 
     <!-- retouraucalme Column -->
-    <ng-container matColumnDef="retouraucalme">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Calme </th>
+    <ng-container matColumnDef="visuel">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Visuel </th>
       <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
-        <mat-icon class="icon-but" *ngIf="element.retouraucalme" (click)="updateField(true,'retouraucalme', element)">check</mat-icon>
-        <mat-icon class="icon-but" *ngIf="!element.retouraucalme" (click)="updateField(false,'retouraucalme', element)">close</mat-icon>
+        <mat-icon class="icon-but" *ngIf="element.retouraucalme" (click)="updateField(true,'visuel', element)">check</mat-icon>
+        <mat-icon class="icon-but" *ngIf="!element.retouraucalme" (click)="updateField(false,'visuel', element)">close</mat-icon>
       </td>
     </ng-container>
 

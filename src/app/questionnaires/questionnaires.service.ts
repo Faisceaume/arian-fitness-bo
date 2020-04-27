@@ -74,9 +74,11 @@ export class QuestionnairesService {
     const data: Questions = {
       id: idDoc,
       question: dataArg.question,
+      consignes: dataArg.consignes,
       reponses: dataArg.reponses,
       ordre: dataArg.ordre,
       active: dataArg.active,
+      croix: dataArg.croix,
       idOfQuestionnaire: idQuestionnaire,
       timestamp: timestampArg
     };
@@ -125,9 +127,11 @@ export class QuestionnairesService {
       this.singleQuestion = {
         id: d.data().id,
         question: d.data().question,
+        consignes: d.data().consignes,
         reponses: d.data().reponses,
         ordre: d.data().ordre,
         active: d.data().active,
+        croix: d.data().croix,
         idOfQuestionnaire: d.data().idOfQuestionnaire,
         timestamp: d.data().timestamp
       } as Questions;
@@ -177,6 +181,20 @@ export class QuestionnairesService {
     batch.update(ref1, {active: activeArg});
     batch.update(ref2, {active: activeArg});
     batch.commit().then(() => console.log('Update field active success'));
+  }
+
+  updateCroixField(idOfQuestionnaire, idQuestion, activeArg) {
+    const batch = this.db.firestore.batch();
+    const ref1 = this.db.firestore
+                        .collection('questionnaires')
+                        .doc(idOfQuestionnaire)
+                        .collection('questions')
+                        .doc(idQuestion);
+    const ref2 = this.db.firestore.collection('questions').doc(idQuestion);
+
+    batch.update(ref1, {croix: activeArg});
+    batch.update(ref2, {croix: activeArg});
+    batch.commit().then(() => console.log('Update field croix success'));
   }
 
 
@@ -231,5 +249,54 @@ export class QuestionnairesService {
     batch.commit().then(() => {
       console.log('Suppression de la question ok');
     });
+  }
+
+
+
+  /*********************************************/
+  /*********************************************/
+  /******************* DELMAS SECTION ******************/
+  /*********************************************/
+  /*********************************************/
+
+  getQuestionnaireByName(name: string) {
+      return new Promise<Questionnaires>((resolve, reject) => {
+        const museums = this.db.firestore.collection('questionnaires').where('name', '==', name);
+        museums.get().then((querySnapshot) =>  {
+          querySnapshot.forEach((doc) => {
+            resolve(
+              {id: doc.id,
+                ...doc.data()} as Questionnaires
+              );
+          });
+        });
+      });
+  }
+
+  getAllQuestionsActiveInOrder(idQuestionnaires: string) {
+    this.db.collection('questionnaires').doc(idQuestionnaires)
+    .collection('questions', ref =>
+    ref.where('active', '==', true)
+        .orderBy('ordre', 'asc')).snapshotChanges()
+    .subscribe(array => {
+      this.questionsList = array.map(e => {
+        return {...e.payload.doc.data()} as Questions;
+      });
+      this.emitQuestionsListSubject();
+    });
+  }
+
+  createQuestionOnUser(userid: string, questions: Questions[]) {
+
+    const batch = this.db.firestore.batch();
+    questions.forEach(item => {
+      let data = Object.assign({}, item);
+      data = Object.assign(data, {timestamp: new Date().getTime()});
+      const ref = this.db.firestore.collection('users').doc(userid)
+                    .collection('questions').doc(item.id);
+      batch.set(ref, data);
+    });
+
+    batch.commit().then(() => console.log('questions ajouté avec succès') );
   }
 }
