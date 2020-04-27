@@ -73,19 +73,115 @@ arian-fitness.appspot.com
 
 
 
-CALL LOUNIS
+CALL LOUNIS 24/04/20
+
+Régle Script de Remplissage :
+- if  (custompointsfaibles == true &&
+      user niveau >=2 &&
+      frequencehebdo >=3 &&
+      accès salle de sport &&
+      objectif user inclu "se muscler" (ie. obj = MINMU && MM) &&
+      (pathos==null))
+      {
+        get programmes.where(programme.pointfaibles)
+      }
+
+- Transformation des catégories du bloc en fonction de la donnée point faible précisé par le user:
+  LW et LN >> L1 , L1A , L2L , L2I , L2F
+  (si le user a choisi en point faible L1, LW = L1 et LN = L1A-L2L-L2I-L2F)
+  T1W et T1N >> T1a , T1b, T1c
+  (si le user a choisi en point faible T1a, T1W = T1a et T1N = T1b-T1c)
+  T2W et T2N >> T2a , T2b
+  (si le user a choisi en point faible T2a, T2W = T1a et T2N = T2b)
+  T3W et T3N >> T3a , T3b , T3’
+  T’W et T’N >> T1’ , T2’
+Ci-dessus les catégories d’exercices que le user choisira rattachées aux nouvelles catégories créés en W ou N.
+La cat_exe W est celle qu’il aura choisi, la cat_exe N est une des autres non-choisi dans la liste
+Les W et N apparaîtront donc dans certains blocs de programme lorsque le programme sera « custom point faible true » .
+
+- Dans tous les blocs hors série fixes (echauffement, pathologie et retour au calme),
+retirer les exercices ayant pour catégorie ETD, ETM, TR, ECH sauf s'il partage également la catégorie d'exerice "P" ou "M"
+
+- MATERIEL :
+Le matériel du user doit être inclus dans le matériel de l'exercice (dont AUCUN MATERIEL)
+
+- Si l'exercice a comme matériels
+    au moins un matériel de catégorie CHA
+    et au moins un matériel de catégorie SUP
+  Alors l'exercice est retenu pour le user si
+    user.matériels inclu au moins un matériel de catégorie CHA &&
+    et au moins un matériel de catégorie SUP
+
+- Si le user à sélectionné comme matériel "Paire d'haltères adaptables",
+alors les exercices ayant comme matériel le matériel "Un seul haltère adaptable"
+seront aussi diponibles.
+
+- Vérifier qu'il n'y ait pas plus d'un exercice ayant la catégorie de matériel "Poste Fixe"
+dans chaque série de la méthode.
+Si oui, remplacer les exercices supplémentaires de cette catégorie de matériel ("PF")
+par des exercices comptabiles avec le user dont la catégorie de matériel est "PM" ou "AUC".
+
+- Si le user à un niveau N3+, ne pas prendre en compte la donnée du niveau dans les recherches de programme.
+
+- Si le user a effectué moins de 13 pompes lors de son dernier test de performance, alors retirer
+de sa liste d'exercices comptabiles avec ses données les exercices ayant pour matériel "Barre Olympique"
+
+- Si le user a effectué moins de 5 tractions lors de son dernier test de performance, alors retirer
+de sa liste d'exercices compatibles avec ses données, les exercices appartenant à la catégorie "5tractions"
+
+- Si la méthode retenue n'est pas "MD1", alors retirer de la liste d'exercice du user les exercices de catégories "MD1Exercice"
+
+- Entre chaque série d'un bloc, lancer un temps de repos mentionné prioritairement par la méthode,
+sinon par la dernière catégorie d'exercice executé.
+
+- Règles relatives aux Tests
+(Cf. CDC p.104)
+
+Tests de Performances: CDC p.104
+
+Lorsque le user n'est pas senior, et qu'il lance sa première séance ( en extra ou en programme)
+il est redirigé vers la Série Fixe: "Test de performance de départ et interniveaux"
+
+Lorsqu'un user change de niveau, sa première séance du nouveua niveau l'oriente directement
+vers la série fixe/Test de performance "Test de performance de départ et interniveaux"
+
+Lorsque le user n'a pas renseigné son niveau dans le questionnaire 1 - Question 3,
+son niveau est déterminé par le premier test de performance. Cf. réponses précisées p.104
+
+
+Suivi et Parcours d'un user :
+
+- Validation des semaines :
+Si le user à fait au moins 2 séances dans la semaine, peu importe sa fréquence hebdomadaire,
+la semaine est validée.
+
+A chaque fin de semaine (ie. première connection d'une nouvelle semaine),
+si le user a effectué moins de séance que celle précisée dans son profil
+(user.frequence hebdomadaire), alors lancer une pop up proposant au user
+de réduire sa fréquence hebdo, en le redirigeant sur son profil.
+
+- Passage d'un user d'un niveau à l'autre :
+A la première connexion après un niveau, une pop up de "Félicitation" s'affiche (CDC: p.34)
+si le user valide, il passe au niveau supèrieur et poursuit son parcours,
+si le user décline, il reste à la même semaine et à chaque connexion d'une novuelle semaine,
+la pop up ressort.
+  -> Passage du niveau.ordre de 1 à 2 :
+      Lorsqu'un user a validé les semaines de 1 à 4
+  -> Passage du niveau.ordre de 2 à 3 :
+      Lorsqu'un user a validé les semaines de 5 à 8, et à valider la pop up de félicitation de N1.2 à N2
+  -> Passage du niveau 3 à 4 :
+      Lorsqu'un user a validé les semaines de 9 à 16, et à valider la pop up de félicitation N2 à N3
+  -> Passage du niveau 4 à 5 :
+      Lorsqu'un user a validé les semaines de 17 à 24, et à valider la pop up de félicitation N3 à N3+
 
 
 
 
-1 1 * * 1
-
-CALL LOUNIS
 
 
 
 
-1 1 * * 1
+
 
 
 
