@@ -1,1 +1,51 @@
-<p>trophees-list works!</p>
+<button mat-icon-button
+  type="button"
+  class="button-right"
+  (click)="onCreate()">
+    <mat-icon>add</mat-icon>
+</button>
+
+<h2>Liste des trophées</h2>
+
+<div>
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="box-shadow: none;">
+
+    <ng-container matColumnDef="nom">
+      <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+      <mat-cell *matCellDef="let element;"> {{ element.nom }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="details">
+      <mat-header-cell *matHeaderCellDef>Details</mat-header-cell>
+      <mat-cell *matCellDef="let element;"> {{ element.details }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="explications">
+      <mat-header-cell *matHeaderCellDef>Explications</mat-header-cell>
+      <mat-cell *matCellDef="let element;"> {{ element.explications }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="timestamp">
+      <mat-header-cell *matHeaderCellDef>Timestamp</mat-header-cell>
+      <mat-cell *matCellDef="let element;"> {{ element.timestamp | date }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let element;" [ngStyle]="{'text-align':'right'}">
+          <button type="button" mat-icon-button [routerLink]="['/trophees', element.$id]" routerLinkActive="router-link-active" >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button type="button" mat-icon-button (click)="onDelete(element.$id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+  </mat-table>
+</div>

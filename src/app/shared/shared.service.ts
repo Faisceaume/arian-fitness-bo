@@ -6,6 +6,8 @@ import { UsersService } from '../users/users.service';
 import { Exercice } from '../exercices/exercice';
 import { ExercicesService } from '../exercices/exercices.service';
 import { Aliment } from '../nutrition/aliment';
+import { Trophee } from '../trophees/trophee';
+import { TropheesService } from '../trophees/trophees.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,7 @@ export class SharedService {
   currentUser: User;
   currentExercice: Exercice;
   currentAliment: Aliment;
+  currentTrophee: Trophee;
 
   progressValue = 0;
   isUploadingVideo = false;
@@ -27,7 +30,8 @@ export class SharedService {
   constructor(private store: AngularFireStorage,
               private usersService: UsersService,
               private exercicesService: ExercicesService,
-              private nutritionService: NutritionService) { }
+              private nutritionService: NutritionService,
+              private tropheesService: TropheesService) { }
 
     // SECTION IMAGE && VIDEO
 
@@ -50,7 +54,10 @@ export class SharedService {
               } else if (this.currentAliment) {
                 upload =  this.store.storage.ref()
                       .child('medias/aliments/' + this.currentAliment.id + '.jpg').put(file);
-            }
+              } else if (this.currentTrophee) {
+                upload =  this.store.storage.ref()
+                      .child('medias/trophees/' + this.currentTrophee.$id + '.jpg').put(file);
+              }
         }
 
 
@@ -100,6 +107,8 @@ export class SharedService {
             this.exercicesService.newUpdateVersion(this.currentExercice, 'photo', null);
           } else if (this.currentAliment) {
             this.nutritionService.newUpdateVersion(this.currentAliment, 'image', null);
+          } else if (this.currentTrophee) {
+            this.tropheesService.newUpdateVersion(this.currentTrophee, 'image', null);
           }
       }
 
@@ -113,6 +122,8 @@ export class SharedService {
         this.exercicesService.newUpdateVersion(this.currentExercice, 'photo', url);
       } else if (this.currentAliment) {
         this.nutritionService.newUpdateVersion(this.currentAliment, 'image', url);
+      } else if (this.currentTrophee) {
+        this.tropheesService.newUpdateVersion(this.currentTrophee, 'image', url);
       }
     }
 
