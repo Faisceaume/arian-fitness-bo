@@ -3,6 +3,7 @@ export class Trophee {
     nom: string;
     details: string;
     explications: string;
+    numero: string;
     timestamp: number;
     image: string;
 }

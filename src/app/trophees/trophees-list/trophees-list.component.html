@@ -8,7 +8,22 @@
 <h2>Liste des trophées</h2>
 
 <div>
-  <mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="box-shadow: none;">
+  <mat-table [dataSource]="dataSource" style="box-shadow: none;">
+
+    <ng-container matColumnDef="numero">
+      <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+      <mat-cell *matCellDef="let element;"> {{ element.numero }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="image">
+      <mat-header-cell *matHeaderCellDef>Image</mat-header-cell>
+      <mat-cell *matCellDef="let element;">
+        <img [routerLink]="['/trophees', element.$id]"
+          *ngIf="element.image"
+          [src]="element.image"
+          class="imgtrophee">
+      </mat-cell>
+    </ng-container>
 
     <ng-container matColumnDef="nom">
       <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
@@ -16,13 +31,8 @@
     </ng-container>
 
     <ng-container matColumnDef="details">
-      <mat-header-cell *matHeaderCellDef>Details</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>Détails</mat-header-cell>
       <mat-cell *matCellDef="let element;"> {{ element.details }} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="explications">
-      <mat-header-cell *matHeaderCellDef>Explications</mat-header-cell>
-      <mat-cell *matCellDef="let element;"> {{ element.explications }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="timestamp">
@@ -45,7 +55,7 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
 
   </mat-table>
 </div>

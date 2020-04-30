@@ -12,7 +12,7 @@ import { TropheesService } from '../trophees.service';
 export class TropheesListComponent implements OnInit {
 
   dataSource: MatTableDataSource<Trophee>;
-  displayedColumns:string[] = ['nom', 'details', 'explications', 'timestamp', 'actions'];
+  displayedColumns:string[] = ['numero', 'image', 'nom', 'details', 'timestamp', 'actions'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(
@@ -26,7 +26,7 @@ export class TropheesListComponent implements OnInit {
       this.dataSource = new MatTableDataSource( data );
       this.dataSource.paginator = this.paginator;
     });
-    
+
   }
 
   onCreate() {

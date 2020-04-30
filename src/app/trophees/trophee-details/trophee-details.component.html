@@ -11,22 +11,22 @@
 
 <div *ngIf="formData">
     <div fxLayout="row" style="margin: 2%">
-        <div fxFlex="40">
+        <div fxFlex="40" fxFlexAlign="center center">
             <app-upload-images [size]="1000000" [width]="1000" [heigth]="1000"></app-upload-images>
         </div>
 
         <div fxFlex="60" fxLayout="column">
-            <mat-form-field style="margin: 3%">
+            <mat-form-field style="margin: 0 3%">
                 <input matInput placeholder="Nom" required [(ngModel)]="formData.nom"
                 (ngModelChange)="updateField('nom', formData.nom)" name="nom">
             </mat-form-field>
-            <mat-form-field style="margin: 3%">
-                <input matInput placeholder="Details" required [(ngModel)]="formData.details"
-                (ngModelChange)="updateField('details', formData.details)" name="details">
+            <mat-form-field style="margin: 0 3%">
+              <input matInput placeholder="Numéro" required [(ngModel)]="formData.numero"
+              (ngModelChange)="updateField('numero', formData.numero)" name="numero">
             </mat-form-field>
-            <mat-form-field style="margin: 3%">
-                <input matInput placeholder="Explications" required [(ngModel)]="formData.explications"
-                (ngModelChange)="updateField('explications', formData.explications)" name="explications">
+            <mat-form-field style="margin: 0 3%">
+                <input matInput placeholder="Détails" required [(ngModel)]="formData.details"
+                (ngModelChange)="updateField('details', formData.details)" name="details">
             </mat-form-field>
         </div>
     </div>
