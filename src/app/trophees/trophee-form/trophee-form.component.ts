@@ -25,7 +25,8 @@ export class TropheeFormComponent implements OnInit {
       details: '',
       explications: '',
       timestamp: null,
-      image: ''
+      image: '',
+      numero: ''
     }
   }
 
