@@ -58,6 +58,16 @@
             <span *ngIf="fibresMidiStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
             <label [ngClass]="fibresMidiStatut=='valide' ? 'green' : 'red'"> Fibres Midi</label>
           </div>
+          <div (click)="updatemanuelle('collationStatut')">
+            <span *ngIf="collationStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
+            <span *ngIf="collationStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
+            <label [ngClass]="collationStatut=='valide' ? 'green' : 'red'">Collation</label>
+          </div>
+          <div (click)="updatemanuelle('agrementStatut')">
+            <span *ngIf="agrementStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
+            <span *ngIf="agrementStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
+            <label [ngClass]="agrementStatut=='valide' ? 'green' : 'red'">Agrément</label>
+          </div>
       </div>
     </div>
 
