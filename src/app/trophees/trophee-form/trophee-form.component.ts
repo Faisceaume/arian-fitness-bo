@@ -22,6 +22,7 @@ export class TropheeFormComponent implements OnInit {
     this.formData = {
       $id: null,
       nom: '',
+      numero: '',
       details: '',
       explications: '',
       timestamp: null,
