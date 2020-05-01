@@ -36,37 +36,44 @@
           <div (click)="updatemanuelle('proteinesStatut')">
             <span *ngIf="proteinesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
             <span *ngIf="proteinesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
-            <label [ngClass]="proteinesStatut=='valide' ? 'green' : 'red'"> Protéines</label>
+            <span *ngIf="!proteinesStatut"><mat-icon class="grey">report_problem</mat-icon></span>
+            <label [ngClass]="proteinesStatut=='valide' ? 'green' : proteinesStatut=='nonvalide' ? 'red' : 'grey'"> Protéines</label>
           </div>
           <div (click)="updatemanuelle('glucidesStatut')">
             <span *ngIf="glucidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
             <span *ngIf="glucidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
-            <label [ngClass]="glucidesStatut=='valide' ? 'green' : 'red'"> Glucides</label>
+            <span *ngIf="!glucidesStatut"><mat-icon class="grey">report_problem</mat-icon></span>
+            <label [ngClass]="glucidesStatut=='valide' ? 'green' : glucidesStatut=='nonvalide' ? 'red' : 'grey'"> Glucides</label>
           </div>
           <div (click)="updatemanuelle('lipidesStatut')">
             <span *ngIf="lipidesStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
             <span *ngIf="lipidesStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
-            <label [ngClass]="lipidesStatut=='valide' ? 'green' : 'red'"> Lipides</label>
+            <span *ngIf="!lipidesStatut"><mat-icon class="grey">report_problem</mat-icon></span>
+            <label [ngClass]="lipidesStatut=='valide' ? 'green' : lipidesStatut=='nonvalide' ? 'red' : 'grey'"> Lipides</label>
           </div>
           <div (click)="updatemanuelle('fibresSoirStatut')">
             <span *ngIf="fibresSoirStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
             <span *ngIf="fibresSoirStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
-            <label [ngClass]="fibresSoirStatut=='valide' ? 'green' : 'red'"> Fibres Soir</label>
+            <span *ngIf="!fibresSoirStatut"><mat-icon class="grey">report_problem</mat-icon></span>
+            <label [ngClass]="fibresSoirStatut=='valide' ? 'green' : fibresSoirStatut=='nonvalide' ? 'red' : 'grey'"> Fibres Soir</label>
           </div>
           <div (click)="updatemanuelle('fibresMidiStatut')">
             <span *ngIf="fibresMidiStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
             <span *ngIf="fibresMidiStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
-            <label [ngClass]="fibresMidiStatut=='valide' ? 'green' : 'red'"> Fibres Midi</label>
+            <span *ngIf="!fibresMidiStatut"><mat-icon class="grey">report_problem</mat-icon></span>
+            <label [ngClass]="fibresMidiStatut=='valide' ? 'green': fibresMidiStatut=='nonvalide' ? 'red' : 'grey'"> Fibres Midi</label>
           </div>
           <div (click)="updatemanuelle('collationStatut')">
             <span *ngIf="collationStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
             <span *ngIf="collationStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
-            <label [ngClass]="collationStatut=='valide' ? 'green' : 'red'">Collation</label>
+            <span *ngIf="!collationStatut"><mat-icon class="grey">report_problem</mat-icon></span>
+            <label [ngClass]="collationStatut=='valide' ? 'green' : collationStatut=='nonvalide' ? 'red' : 'grey'">Collation</label>
           </div>
           <div (click)="updatemanuelle('agrementStatut')">
             <span *ngIf="agrementStatut=='valide'"><mat-icon class="green">done</mat-icon></span>
             <span *ngIf="agrementStatut=='nonvalide'"><mat-icon class="red">clear</mat-icon></span>
-            <label [ngClass]="agrementStatut=='valide' ? 'green' : 'red'">Agrément</label>
+            <span *ngIf="!agrementStatut"><mat-icon class="grey">report_problem</mat-icon></span>
+            <label [ngClass]="agrementStatut=='valide' ? 'green' : agrementStatut=='nonvalide' ? 'red' : 'grey'">Agrément</label>
           </div>
       </div>
     </div>
