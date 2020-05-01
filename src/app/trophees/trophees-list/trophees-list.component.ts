@@ -37,7 +37,9 @@ export class TropheesListComponent implements OnInit {
   }
 
   onDelete(idTrophee: string) {
-    this.tropheesService.deleteTrophee(idTrophee);
+    if(confirm("Voulez vous vraiment supprimer ce trophée ?")) {
+      this.tropheesService.deleteTrophee(idTrophee);
+    }
   }
 
 }
