@@ -13,7 +13,7 @@
 </button>
 
 <div [ngStyle]="{'padding':'0 10px'}">
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort style="box-shadow: none">
 
 
     <ng-container matColumnDef="nom">
@@ -24,15 +24,9 @@
 
     <ng-container matColumnDef="source">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Source </th>
-      <td mat-cell *matCellDef="let element"> {{element.source }} </td>
-    </ng-container>
-
-
-    <ng-container matColumnDef="valide">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Valide </th>
-      <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
-        <mat-icon class="icon-but" *ngIf="element.valide" (click)="updateField(true,'valide', element)">check</mat-icon>
-        <mat-icon class="icon-but" *ngIf="!element.valide" (click)="updateField(false,'valide', element)">close</mat-icon>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.source=='manuelle'" class="cercle-acro">Manuelle</span>
+        <span *ngIf="element.source=='open food fact'" class="cercle-acro">Online</span>
       </td>
     </ng-container>
 

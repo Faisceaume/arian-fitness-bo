@@ -11,8 +11,8 @@ import { Aliment } from './aliment';
 })
 export class AlimentsComponent implements OnInit {
 
-  displayedColumns: string[] = ['nom', 'source', 'valide', 'proteines', 'glucides',
-                                 'lipides', 'fibressoir', 'fibresmidi', 
+  displayedColumns: string[] = ['nom', 'source', 'proteines', 'glucides',
+                                 'lipides', 'fibressoir', 'fibresmidi',
                                  'collation', 'agrement'
                                  , 'action'];
   dataSource: MatTableDataSource<Aliment>;
