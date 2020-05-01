@@ -22,6 +22,8 @@ export class AlimentDetailsComponent implements OnInit {
   lipidesStatut: string;
   fibresSoirStatut: string;
   fibresMidiStatut: string;
+  collationStatut: string;
+  agrementStatut: string;
 
 
   constructor(private nutritionService: NutritionService,
@@ -59,6 +61,8 @@ export class AlimentDetailsComponent implements OnInit {
    this.glucidesStatut =  this.formData.glucidesstatut;
    this.fibresSoirStatut =  this.formData.fibressoirstatut;
    this.fibresMidiStatut =  this.formData.fibresmidistatut;
+   this.collationStatut = this.formData.collationstatut;
+   this.agrementStatut = this.formData.agrementstatut;
   }
 
   updateFiel(attribut: string, value: any) {
@@ -121,6 +125,26 @@ export class AlimentDetailsComponent implements OnInit {
         this.fibresMidiStatut = 'valide';
         this.formData.fibresmidistatut = 'valide';
         this.updateFiel('fibresmidistatut', 'valide');
+      }
+    } else if (attribut === 'collationStatut') {
+      if (this.formData.collationstatut === 'valide') {
+        this.collationStatut = 'nonvalide';
+        this.formData.collationstatut = 'nonvalide';
+        this.updateFiel('collationstatut', 'nonvalide');
+      } else {
+        this.collationStatut = 'valide';
+        this.formData.collationstatut = 'valide';
+        this.updateFiel('collationstatut', 'valide');
+      }
+    } else if (attribut === 'agrementStatut') {
+      if (this.formData.agrementstatut === 'valide') {
+        this.agrementStatut = 'nonvalide';
+        this.formData.agrementstatut = 'nonvalide';
+        this.updateFiel('agrementstatut', 'nonvalide');
+      } else {
+        this.agrementStatut = 'valide';
+        this.formData.agrementstatut = 'valide';
+        this.updateFiel('agrementstatut', 'valide');
       }
     }
   }

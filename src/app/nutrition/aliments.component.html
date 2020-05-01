@@ -77,6 +77,22 @@
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="collation">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Collation </th>
+      <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
+        <mat-icon class="icon-but" *ngIf="element.collationstatut === 'valide'" class="green">check</mat-icon>
+        <mat-icon class="icon-but" *ngIf="element.collationstatut === 'nonvalide'" class="red">close</mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="agrement">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Agrement </th>
+      <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
+        <mat-icon class="icon-but" *ngIf="element.agrementstatut === 'valide'" class="green">check</mat-icon>
+        <mat-icon class="icon-but" *ngIf="element.agrementstatut === 'nonvalide'" class="red">close</mat-icon>
+      </td>
+    </ng-container>
+
     <!-- action Column -->
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> </th>
