@@ -313,10 +313,10 @@
       <label>Type d'abonnement</label>
       <mat-radio-group color="warn"
       [(ngModel)]="formData.abonnement"
-      (ngModelChange)="updateField('abonnement', formData.abonnement)">
+       (change)="checkout($event)">
         <mat-radio-button value="1" class="span-radio-button">1 mois</mat-radio-button>
         <mat-radio-button value="3" class="span-radio-button">3 mois</mat-radio-button>
-        <mat-radio-button value="3" class="span-radio-button">12 mois</mat-radio-button>
+        <mat-radio-button value="12" class="span-radio-button">12 mois</mat-radio-button>
       </mat-radio-group>
     </div>
 
