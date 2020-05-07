@@ -118,7 +118,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     /* Stripe checkout */
     this.handler = StripeCheckout.configure({
       key: 'pk_test_yDtGdgPw6nE62qq046y2WgUn00T98s5X3b',
-      image: '/your-avatar.png',
       locale: 'auto',
       currency: 'eur'
     });
@@ -128,7 +127,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     const user = await this.auth.getUser();
     let amount = 0;
     if (this.formData.abonnement == 12) {
-      amount = 500;
+      amount = 1200;
     } else if (this.formData.abonnement == 3) {
       amount = 300;
     } else {

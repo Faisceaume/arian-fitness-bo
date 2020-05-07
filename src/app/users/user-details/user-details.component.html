@@ -323,10 +323,10 @@
     <mat-form-field fxFlex="50">
       <mat-label>Date fin premium</mat-label>
       <input matInput [matDatepicker]="picker2"
-      [formControl]="datefindepremiumControl"
-      (ngModelChange)="updateField('datefindepremium', datefindepremiumControl.value, true)">
+      [formControl]="datefindepremiumControl" disabled>
+      <!--(ngModelChange)="updateField('datefindepremium', datefindepremiumControl.value, true)"-->
       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
+      <mat-datepicker #picker2 disabled></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field fxFlex="50">
