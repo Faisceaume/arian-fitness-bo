@@ -41,7 +41,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   premiumControl = new FormControl();
   seniorControl = new FormControl();
   datenaissanceControl = new FormControl();
-  datefindepremiumControl = new FormControl();
+  datefindepremiumControl = new FormControl({disabled: true});
   datedernierlogControl = new FormControl();
   datedernieremajControl = new FormControl();
 
@@ -93,6 +93,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       this.seniorControl.setValue(item.senior);
       this.premiumControl.setValue(item.premium);
       this.datenaissanceControl.setValue(new Date(item.datedenaissance));
+      this.datefindepremiumControl.disable();
       this.datefindepremiumControl.setValue(new Date(item.datefindepremium));
       this.datedernierlogControl.setValue(new Date(item.datedernierlog));
       this.datedernieremajControl.setValue(new Date(item.datedernieremaj));
