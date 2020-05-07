@@ -23,6 +23,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { QuestionnairesModule } from './questionnaires/questionnaires.module';
 import { UsersModule } from './users/users.module';
 import { HttpClientModule } from '@angular/common/http';
+import { StripecheckoutComponent } from './users/stripecheckout/stripecheckout.component';
 
 @NgModule({
   declarations: [
