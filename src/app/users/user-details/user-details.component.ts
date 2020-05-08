@@ -118,7 +118,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     /* Stripe checkout */
     this.handler = StripeCheckout.configure({
-      key: 'pk_test_yDtGdgPw6nE62qq046y2WgUn00T98s5X3b',
+      key: 'pk_test_5bJ3goCC3VtkgGeYP8UyENKJ00nI3rnCk1',
       locale: 'auto',
       currency: 'eur'
     });
