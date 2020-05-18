@@ -41,7 +41,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   premiumControl = new FormControl();
   seniorControl = new FormControl();
   datenaissanceControl = new FormControl();
-  datefindepremiumControl = new FormControl();
+  datefindepremiumControl = new FormControl({disabled: true});
   datedernierlogControl = new FormControl();
   datedernieremajControl = new FormControl();
 
@@ -93,6 +93,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       this.seniorControl.setValue(item.senior);
       this.premiumControl.setValue(item.premium);
       this.datenaissanceControl.setValue(new Date(item.datedenaissance));
+      this.datefindepremiumControl.disable();
       this.datefindepremiumControl.setValue(new Date(item.datefindepremium));
       this.datedernierlogControl.setValue(new Date(item.datedernierlog));
       this.datedernieremajControl.setValue(new Date(item.datedernieremaj));
@@ -119,8 +120,12 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     /* Stripe checkout */
     this.handler = StripeCheckout.configure({
+<<<<<<< HEAD
       key: 'pk_test_yDtGdgPw6nE62qq046y2WgUn00T98s5X3b',
       // image: '/your-avatar.png',
+=======
+      key: 'pk_test_5bJ3goCC3VtkgGeYP8UyENKJ00nI3rnCk1',
+>>>>>>> assamoi
       locale: 'auto',
       currency: 'eur'
     });
@@ -130,7 +135,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     const user = await this.auth.getUser();
     let amount = 0;
     if (this.formData.abonnement == 12) {
-      amount = 500;
+      amount = 1200;
     } else if (this.formData.abonnement == 3) {
       amount = 300;
     } else {

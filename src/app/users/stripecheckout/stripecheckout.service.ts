@@ -20,13 +20,17 @@ export class StripecheckoutService {
       token: token,
       amount: amount ? amount: null,
       userid: this.userId,
-      userkey: utilisateurid
+      userkey: utilisateurid,
+      statut: "error",
+      timestamp: new Date().getTime()
     };
 
     const batch = this.db.firestore.batch();
     const id = this.db.createId();
     const ref =  this.db.firestore.collection(`payments`).doc(id);
+    const ref2 = this.db.firestore.collection('users').doc(utilisateurid).collection('payments').doc(id);
     batch.set(ref, payment);
+    batch.set(ref2, payment);
     batch.commit().then(() => console.log("Payement effectué")).catch(err => console.log(err));
   }
 }

@@ -12,117 +12,37 @@ exports.StripeCharge = functions.firestore.document('payments/{paymentId}').onCr
     const paymentId = context.params.paymentId;
     const userkey = dataPayment.userkey;
     const amount = dataPayment.amount;
+    let timestamp = dataPayment.timestamp;
     const idempotencyKey = paymentId;
     const source = dataPayment.token.id;
     const currency = 'eur';
     const charge = {amount, currency, source};
+    let abonnement = "0";
+    let finpremium = 0;
+    let d = new Date(timestamp)
+    if (amount === 100) {
+        abonnement = "1";
+        finpremium = d.setMonth(d.getMonth() + 1);
+    } else if (amount === 300) {
+        abonnement = "3";
+        finpremium = d.setMonth(d.getMonth() + 3);
+    } else if (amount === 1200){
+        abonnement = "12";
+        finpremium = d.setMonth(d.getMonth() + 12); 
+    }
     return stripe.charges.create(charge, { idempotencyKey }).then((charg: any) => {
-        db.doc(`payments/${paymentId}`).update({
-            charge: charg
-        });
-        db.doc(`users/${userkey}`).update({
-        });
-
-    }).catch((error: any) => console.log(error));
+        const batch = db.batch();
+        const ref1 = db.doc(`payments/${paymentId}`);
+        const ref2 = db.doc(`users/${userkey}/payments/${paymentId}`);
+        const ref3 = db.doc(`users/${userkey}`);
+        batch.update(ref1, {charge: charg, statut: "success"});
+        batch.update(ref2, {charge: charg, statut: "success"});
+        batch.update(ref3, {premium: true, abonnement: abonnement, datefindepremium: finpremium});
+        batch.commit().then().catch((error: any) => console.log(error));
+    }).catch((error: any) => {
+        console.log(error);
+    });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
