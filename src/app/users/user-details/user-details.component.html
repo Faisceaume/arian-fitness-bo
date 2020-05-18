@@ -312,6 +312,7 @@
     <div fxFlex="100">
       <label>Type d'abonnement</label>
       <mat-radio-group color="warn"
+      [disabled]="!premiumControl.value"
       [(ngModel)]="formData.abonnement"
        (change)="checkout($event)">
         <mat-radio-button value="1" class="span-radio-button">1 mois</mat-radio-button>
@@ -322,11 +323,13 @@
 
     <mat-form-field fxFlex="50">
       <mat-label>Date fin premium</mat-label>
-      <input matInput [matDatepicker]="picker2"
-      [formControl]="datefindepremiumControl"
-      (ngModelChange)="updateField('datefindepremium', datefindepremiumControl.value, true)">
-      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
+      <input matInput
+      disabled [(ngModel)]="formData.datefindepremium">
+      <!-- [formControl]="datefindepremiumControl" -->
+      <!-- [matDatepicker]="picker2" -->
+      <!-- (ngModelChange)="updateField('datefindepremium', datefindepremiumControl.value, true)"> -->
+      <!-- <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle> -->
+      <!-- <mat-datepicker #picker2></mat-datepicker> -->
     </mat-form-field>
 
     <mat-form-field fxFlex="50">

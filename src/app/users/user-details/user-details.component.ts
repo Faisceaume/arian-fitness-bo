@@ -110,6 +110,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       this.formData.premium = data;
     });
 
+
+
     this.niveauxService.getAllNiveaux();
     this.niveauxService.niveauxSubject.subscribe(data => {
       this.niveaux = data;
@@ -118,7 +120,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     /* Stripe checkout */
     this.handler = StripeCheckout.configure({
       key: 'pk_test_yDtGdgPw6nE62qq046y2WgUn00T98s5X3b',
-      image: '/your-avatar.png',
+      // image: '/your-avatar.png',
       locale: 'auto',
       currency: 'eur'
     });

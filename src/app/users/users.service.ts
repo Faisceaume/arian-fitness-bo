@@ -29,7 +29,7 @@ export class UsersService {
     const currentid = this.firestore.firestore.collection('users').doc().id;
     const nextDocument1 = this.firestore.firestore.collection('users').doc(currentid);
     let data = Object.assign({}, user);
-    data = Object.assign(user, {id: currentid, timestamp: new Date().getTime()});
+    data = Object.assign(user, {id: currentid, origine: 'AF BO : USR SIMULATION', timestamp: new Date().getTime()});
     batch.set(nextDocument1, data);
     batch.commit().then(() => {
       console.log('Batch Commited');
