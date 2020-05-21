@@ -162,12 +162,17 @@ export class ExercicesSeriesService {
       .where('type', '==', type);
       museums.get().then((querySnapshot) =>  {
         querySnapshot.forEach((doc) => {
-          resolve(
-            {id: doc.id,
-              ...doc.data()} as ExerciceSerie
-            );
+          resolve({id: doc.id ,...doc.data()} as ExerciceSerie);
         });
       });
     });
+  }
+
+  getExerciceById(idExo) {
+    return new Promise<any>((resolve, reject) => {
+      this.firestore.collection('exercices').doc(idExo).get().subscribe(data => {
+        resolve( data.data().categories );
+      });
+    })
   }
 }

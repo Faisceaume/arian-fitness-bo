@@ -46,10 +46,10 @@
       Ci-après le déroulé de la séance :
     </p>
     <hr>
-    <div *ngIf="echauffement" >
+    <div *ngIf="echauffement">
       <h2> Echauffement : {{ echauffement.nom }} </h2>
       <p *ngFor="let item of echauffement.exercices ; let i = index" fxLayout="row" class="plist">
-        <span class="bulle-acro">{{ i+ 1 }}</span>{{ item.nomexercice }}
+        <span class="bulle-acro">{{ i + 1 }}</span>{{ item.nomexercice }}
       </p>
     </div>
     <hr>
@@ -132,7 +132,11 @@
         </p>
         <p *ngFor="let exe of item; let j = index">
           <span class="bulle-acro">{{ j+1 }}</span>
-          {{ exe.nom }} <span *ngIf="exe.degressif" class="info">(Dégressif)</span>
+          <span>{{ exe.nom }}</span>
+          <span *ngFor="let item of exe.categories">
+            <span class="bulle-acro">{{ item.acronyme }}</span>
+          </span>
+          <span *ngIf="exe.degressif" class="info">(Dégressif)</span>
         </p>
       </div>
       <button mat-button (click)="nextSerie()" *ngIf="indexSerie+1 != listeDesSeries.length" style="margin-left:10px">

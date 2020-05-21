@@ -68,6 +68,8 @@ export class UserSeanceComponent implements OnInit {
   listeDesBlocs: Bloc[];
   heuredepointe: string;
 
+  categorieEchauffement: any[];
+
   constructor(private usersService: UsersService,
               private exercicesService: ExercicesService,
               private programmesService: ProgrammesService,
@@ -135,9 +137,39 @@ export class UserSeanceComponent implements OnInit {
     }).then(() => {
       this.exercicesSeriesService.getSerieFixeByTypeAndSenior(this.senior, 'echauffement').then(item => {
         this.echauffement = item;
+        for(let i = 0; i < this.echauffement.exercices.length; i++) {
+          this.echauffement.exercices[i].acronymes = [];
+        }
+        for(let i = 0; i < this.echauffement.exercices.length; i++) {
+          this.exercicesSeriesService.getExerciceById(this.echauffement.exercices[i].exercice).then(categorie => {
+            for(let j = 0; j < categorie.length; j++) {
+              if (categorie[j].acronyme == "ETD" || categorie[j].acronyme == "ETM" || categorie[j].acronyme == "TR" || categorie[j].acronyme == "ECH") {
+                this.echauffement.exercices.shift();
+                break
+              } else {
+                //this.echauffement.exercices[i].acronymes.push(categorie[j].acronyme);
+              }
+            }
+          });
+        }
       });
       this.exercicesSeriesService.getSerieFixeByTypeAndSenior(this.senior, 'calme').then(item => {
         this.retouraucalme = item;
+        for(let i = 0; i < this.retouraucalme.exercices.length; i++) {
+          this.retouraucalme.exercices[i].acronymes = [];
+        }
+        for(let i = 0; i < this.retouraucalme.exercices.length; i++) {
+          this.exercicesSeriesService.getExerciceById(this.retouraucalme.exercices[i].exercice).then(categorie => {
+            for(let j = 0; j < categorie.length; j++) {
+              if (categorie[j].acronyme == "ETD" || categorie[j].acronyme == "ETM" || categorie[j].acronyme == "TR" || categorie[j].acronyme == "ECH") {
+                this.retouraucalme.exercices.shift();
+                break
+              } else {
+                //this.retouraucalme.exercices[i].acronymes.push(categorie[j].acronyme);
+              }
+            }
+          });
+        }
       });
 
     });
