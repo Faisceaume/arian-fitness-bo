@@ -5,4 +5,5 @@ export class ExerciceAvance {
   nbrederepetition: string;
   nbredeserie: string;
   tempsderepos: string;
+  acronymes?: string[] = [];
 }
