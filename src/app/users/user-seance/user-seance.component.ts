@@ -70,6 +70,10 @@ export class UserSeanceComponent implements OnInit {
 
   categorieEchauffement: any[];
 
+
+  /* Règles */
+  regle2: boolean = false;
+
   constructor(private usersService: UsersService,
               private exercicesService: ExercicesService,
               private programmesService: ProgrammesService,
@@ -145,13 +149,14 @@ export class UserSeanceComponent implements OnInit {
             for(let j = 0; j < categorie.length; j++) {
               if (categorie[j].acronyme == "ETD" || categorie[j].acronyme == "ETM" || categorie[j].acronyme == "TR" || categorie[j].acronyme == "ECH") {
                 this.echauffement.exercices.shift();
-                break
+                break;
               } else {
                 //this.echauffement.exercices[i].acronymes.push(categorie[j].acronyme);
               }
             }
           });
         }
+        this.regle2 = true;
       });
       this.exercicesSeriesService.getSerieFixeByTypeAndSenior(this.senior, 'calme').then(item => {
         this.retouraucalme = item;
@@ -163,15 +168,15 @@ export class UserSeanceComponent implements OnInit {
             for(let j = 0; j < categorie.length; j++) {
               if (categorie[j].acronyme == "ETD" || categorie[j].acronyme == "ETM" || categorie[j].acronyme == "TR" || categorie[j].acronyme == "ECH") {
                 this.retouraucalme.exercices.shift();
-                break
+                break;
               } else {
                 //this.retouraucalme.exercices[i].acronymes.push(categorie[j].acronyme);
               }
             }
           });
         }
+        this.regle2 = true;
       });
-
     });
   }
 
