@@ -22,8 +22,9 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
                                 'position',
                                 'type',
                                 'echauffement',
-                                'visuel',
                                 'accessalledesport',
+                                'photo',
+                                'video',
                                 'visibility',
                                 'action'
                               ];
