@@ -38,6 +38,11 @@ gcloud firestore import gs://arian-fitness.appspot.com/2020-04-01T11:08:13_82756
 
 gcloud firestore import gs://arian-fitness.appspot.com/2020-04-09T15:22:08_65705/
 
+
+
+gcloud firestore import gs://arian-fitness.appspot.com/2020-06-25T09:55:24_9508/
+
+
 // IMPORT SPECIFIC FIRESTORE COLLECTIONS
 gcloud beta firestore import gs://[BUCKET_NAME]/[EXPORT_PREFIX]/ --collection-ids=[COLLECTION_ID_1],[COLLECTION_ID_2]
 //////////////////////////////////////////////////////////////////////////
@@ -73,6 +78,34 @@ arian-fitness.appspot.com
 
 
 
+
+finishquestionnaire : boolean
+questionnaire1
+abonnementsection
+premium
+
+
+
+
+
+
+ACRONYMES PATHOLOGIES :
+
+- ED / EG
+
+- user.pathos : [
+    - id
+    - nom
+    - acronyme
+    - positions : gauche || droite || lesdeux
+      (pour épaules, hanches, poignet, genoux, pied, cheville)
+]
+
+
+
+
+
+
 CALL LOUNIS 24/04/20
 
 Régle Script de Remplissage :
@@ -85,6 +118,38 @@ Régle Script de Remplissage :
       {
         get programmes.where(programme.pointfaibles)
       }
+
+Le user peut sélectionner des points faibles seulement lorsque
+user.niveau >=2 &&
+frequencehebdo >=3 &&
+accès salle de sport &&
+objectif user inclu "se muscler" (ie. obj = MINMU && MM) &&
+(pathos==null))
+
+Le user peut sélectionner en tout :
+4 sur le haut du corps
+2 sur les abdos ou lombaire
+2 sur le bas du corps
+
+Pour le haut du corps :
+Un parmi T3A (T3W = T3A && T3N = (T3B ||T3')), T3B (T3W = T3B), T3' (T3W = T3')
+Un parmi T1a, T1b, T1c : T1W = celui sélectionnée
+Un parmi T1' et T2' : T'W = celui sélectionnée
+UN parmi T2a : T2W = celui sélectionnée
+
+T1’ ou T2’ >>>(T’W) T2a ou T2b >>>(T2W)
+
+Abdos : aucune incidence. AW = A
+
+Bas du corps (5 zones)
+Face : Quad
+ un parmi Quadricep (LW = L1), Adducteurs (LW = L1A), ischio-jambiers (LW = L2I), fessier (LW = L2F) et lombaire (LW = L2L)
+ il peut cliquer sur les mollet mais (LMO = L')
+
+
+- Dans tous les blocs hors série fixes (echauffement, pathologie et retour au calme),
+retirer les exercices ayant pour catégorie ETD, ETM, TR, ECH sauf s'il partage également la catégorie d'exerice "P" ou "M"
+
 
 - Transformation des catégories du bloc en fonction de la donnée point faible précisé par le user:
   LW et LN >> L1 , L1A , L2L , L2I , L2F
@@ -99,8 +164,6 @@ Ci-dessus les catégories d’exercices que le user choisira rattachées aux nou
 La cat_exe W est celle qu’il aura choisi, la cat_exe N est une des autres non-choisi dans la liste
 Les W et N apparaîtront donc dans certains blocs de programme lorsque le programme sera « custom point faible true » .
 
-- Dans tous les blocs hors série fixes (echauffement, pathologie et retour au calme),
-retirer les exercices ayant pour catégorie ETD, ETM, TR, ECH sauf s'il partage également la catégorie d'exerice "P" ou "M"
 
 - MATERIEL :
 Le matériel du user doit être inclus dans le matériel de l'exercice (dont AUCUN MATERIEL)
@@ -133,6 +196,8 @@ de sa liste d'exercices compatibles avec ses données, les exercices appartenant
 
 - Entre chaque série d'un bloc, lancer un temps de repos mentionné prioritairement par la méthode,
 sinon par la dernière catégorie d'exercice executé.
+
+
 
 - Règles relatives aux Tests
 (Cf. CDC p.104)

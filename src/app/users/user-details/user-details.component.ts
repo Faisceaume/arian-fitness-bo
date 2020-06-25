@@ -111,6 +111,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       this.formData.premium = data;
     });
 
+
+
     this.niveauxService.getAllNiveaux();
     this.niveauxService.niveauxSubject.subscribe(data => {
       this.niveaux = data;
@@ -127,9 +129,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   async checkout(e) {
     const user = await this.auth.getUser();
     let amount = 0;
-    if (this.formData.abonnement == 12) {
+    if (this.formData.abonnement === 12) {
       amount = 1200;
-    } else if (this.formData.abonnement == 3) {
+    } else if (this.formData.abonnement === 3) {
       amount = 300;
     } else {
       amount = 100;

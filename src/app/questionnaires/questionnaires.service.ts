@@ -105,7 +105,7 @@ export class QuestionnairesService {
   /*********************************************/
   /*********************************************/
   getAllQuestionnaires() {
-    this.db.collection('questionnaires').snapshotChanges().subscribe(array => {
+    this.db.collection('questionnaires', ref => ref.orderBy('name')).snapshotChanges().subscribe(array => {
       this.questionnairesList = array.map( e => {
         return e.payload.doc.data() as Questionnaires;
       });

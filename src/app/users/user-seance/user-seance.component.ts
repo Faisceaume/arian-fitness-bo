@@ -151,7 +151,7 @@ export class UserSeanceComponent implements OnInit {
                 this.echauffement.exercices.shift();
                 break;
               } else {
-                //this.echauffement.exercices[i].acronymes.push(categorie[j].acronyme);
+                // this.echauffement.exercices[i].acronymes.push(categorie[j].acronyme);
               }
             }
           });
