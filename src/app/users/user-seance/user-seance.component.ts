@@ -329,6 +329,7 @@ export class UserSeanceComponent implements OnInit {
     return new Promise((resolve, reject) => {
       const localExercice = this.listeExercices.filter(exe1 =>
         this.listeExercicesSelected.findIndex(exe2 => exe2.id === exe1.id) < 0 );
+      console.log( localExercice );
       const addExercice = [];
 
       for (const exercice of localExercice) {
