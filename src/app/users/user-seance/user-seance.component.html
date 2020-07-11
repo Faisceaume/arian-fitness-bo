@@ -160,7 +160,7 @@
     <h2>Règles</h2>
     <div>
       <p *ngIf="regle2">Dans tous les blocs hors série fixes (echauffement, pathologie et retour au calme), retirer les exercices ayant pour catégorie ETD, ETM, TR, ECH sauf s'il partage également la catégorie d'exerice "P" ou "M"</p>
-      <p></p>
+      <p *ngIf="regleMateriel">Si l'exercice a comme matériels au moins un matériel de catégorie CHA et au moins un matériel de catégorie SUP Alors l'exercice est retenu pour le user</p>
       <p></p>
     </div>
 
