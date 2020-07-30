@@ -11,7 +11,7 @@
 
 
 .div-home {
-  height: 300px;
+  height: 200px;
   background-color: #999;
   color: #FFF;
   cursor: pointer;
@@ -19,7 +19,7 @@
   margin: 1px;
 }
 .div-home:hover {
-  background-color: #333;
+  background-color: #FE5000;
   letter-spacing: 6px;
 }
 

@@ -93,6 +93,7 @@ export class SerieDetailsComponent implements OnInit {
     local.nbrederepetition = '';
     local.nbredeserie = '';
     local.tempsderepos = '';
+    local.acronymes = null;
     this.exercicesAvances.push(local);
 
     const field = this.exercicesAvances.map((obj) => {

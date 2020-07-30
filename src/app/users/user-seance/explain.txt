@@ -1,0 +1,1 @@
+currentUser est l'utitlisateur courant 

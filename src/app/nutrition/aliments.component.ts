@@ -11,8 +11,10 @@ import { Aliment } from './aliment';
 })
 export class AlimentsComponent implements OnInit {
 
-  displayedColumns: string[] = ['nom', 'source', 'valide', 'proteines', 'glucides',
-                                 'lipides', 'fibressoir', 'fibresmidi', 'action'];
+  displayedColumns: string[] = ['nom', 'source', 'proteines', 'glucides',
+                                 'lipides', 'fibressoir', 'fibresmidi',
+                                 'collation', 'agrement'
+                                 , 'action'];
   dataSource: MatTableDataSource<Aliment>;
 
   constructor(public dialog: MatDialog,

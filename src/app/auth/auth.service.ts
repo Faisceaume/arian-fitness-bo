@@ -7,6 +7,7 @@ import { Users } from './users';
 import { auth } from 'firebase/app';
 import { UsersService } from './users.service';
 import { Subject } from 'rxjs';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +57,10 @@ export class AuthService {
       this.emitIsAdmin(this.isAdmin);
     }).catch((error) => {
     });
+  }
+
+  async getUser() {
+    return this.afauth.authState.pipe(first()).toPromise();
   }
 
   signInWithGoogle() {

@@ -33,3 +33,7 @@ label {
 .check-aliment label {
   padding: 0;
 }
+
+.grey {
+  color: grey
+}

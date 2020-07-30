@@ -7,13 +7,15 @@ import { UsersRoutingModule } from './users-routing.module';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { UserSeanceComponent } from './user-seance/user-seance.component';
 import { UserQuestionsComponent } from './user-questions/user-questions.component';
+import { StripecheckoutComponent } from './stripecheckout/stripecheckout.component';
 
 @NgModule({
   declarations: [UsersComponent,
                  UserFormComponent,
                  UserDetailsComponent,
                  UserSeanceComponent,
-                 UserQuestionsComponent],
+                 UserQuestionsComponent,
+                 StripecheckoutComponent],
   imports: [
     SharedModule,
     CommonModule,

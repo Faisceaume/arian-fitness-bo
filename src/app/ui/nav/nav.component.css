@@ -22,11 +22,11 @@ button mat-icon {
   transition: all 0.2s;
 }
 button:hover mat-icon {
-  color: #000;
+  color: #FE5000;
 }
 button span {
   transition: all 0.2s;
 }
 button:hover span {
-	color: #000;
+	color: #FE5000;
 }

@@ -8,7 +8,7 @@ import { PathologiesService } from './../../shared/pathologies/pathologies.servi
 import { ObjectifsService } from 'src/app/shared/objectifs/objectifs.service';
 import { Objectif } from 'src/app/shared/objectifs/objectif';
 import { Listes } from 'src/app/shared/listes';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../user';
 import { FormControl } from '@angular/forms';
@@ -16,6 +16,10 @@ import { Niveau } from 'src/app/shared/niveaux/niveau';
 import { NiveauxService } from 'src/app/shared/niveaux/niveaux.service';
 import { UsersService } from '../users.service';
 import { SharedService } from 'src/app/shared/shared.service';
+import { StripecheckoutService } from '../stripecheckout/stripecheckout.service';
+import { AuthService } from 'src/app/auth/auth.service';
+
+declare var StripeCheckout: StripeCheckoutStatic;
 
 @Component({
   selector: 'app-user-details',
@@ -37,7 +41,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   premiumControl = new FormControl();
   seniorControl = new FormControl();
   datenaissanceControl = new FormControl();
-  datefindepremiumControl = new FormControl();
+  datefindepremiumControl = new FormControl({disabled: true});
   datedernierlogControl = new FormControl();
   datedernieremajControl = new FormControl();
 
@@ -63,7 +67,12 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
               private objectifsService: ObjectifsService,
               private pathologiesService: PathologiesService,
               private questionnairesService: QuestionnairesService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog,
+              private paymentService: StripecheckoutService,
+              private auth: AuthService) { }
+
+  handler: StripeCheckoutHandler;
+  abonnement: any;
 
   ngOnInit() {
     const id = this.activeRoute.snapshot.params.id;
@@ -80,9 +89,11 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     this.usersService.getSingleUser(null, id).then((item: User) => {
       this.formData = item;
+      this.abonnement = this.formData.abonnement;
       this.seniorControl.setValue(item.senior);
       this.premiumControl.setValue(item.premium);
       this.datenaissanceControl.setValue(new Date(item.datedenaissance));
+      this.datefindepremiumControl.disable();
       this.datefindepremiumControl.setValue(new Date(item.datefindepremium));
       this.datedernierlogControl.setValue(new Date(item.datedernierlog));
       this.datedernieremajControl.setValue(new Date(item.datedernieremaj));
@@ -100,10 +111,52 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       this.formData.premium = data;
     });
 
+
+
     this.niveauxService.getAllNiveaux();
     this.niveauxService.niveauxSubject.subscribe(data => {
       this.niveaux = data;
     });
+
+    /* Stripe checkout */
+    this.handler = StripeCheckout.configure({
+      key: 'pk_test_5bJ3goCC3VtkgGeYP8UyENKJ00nI3rnCk1',
+      locale: 'auto',
+      currency: 'eur'
+    });
+  }
+  /* Stripe checkout functions */
+  async checkout(e) {
+    const user = await this.auth.getUser();
+    let amount = 0;
+    if (this.formData.abonnement === 12) {
+      amount = 1200;
+    } else if (this.formData.abonnement === 3) {
+      amount = 300;
+    } else {
+      amount = 100;
+    }
+    this.handler.open({
+        name: 'Abonnement',
+        amount: amount,
+        email: user.email,
+        token: token => {
+          this.paymentService.processPayment(token, amount, this.activeRoute.snapshot.params.id);
+          this.updateField('abonnement', this.formData.abonnement);
+        },
+        closed: () => {
+          console.log('fermer');
+        }
+    });
+  }
+  @HostListener('window:popstate')
+  onPopstate() {
+    console.log('fermer par le user');
+    this.handler.close();
+  }
+
+  arrayOne(n: number): any[] {
+    return Array(n);
   }
 
   updateField(attribut: string, value: any, isDate?: boolean) {

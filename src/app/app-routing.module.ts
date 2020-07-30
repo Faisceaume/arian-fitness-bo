@@ -33,6 +33,10 @@ const routes: Routes = [
     path: 'programmes', canActivate: [AuthGuardService],
     loadChildren: () => import('./programmes/programmes.module').then(mod => mod.ProgrammesModule)
   },
+  {
+    path: 'trophees', canActivate: [AuthGuardService],
+    loadChildren: () => import('./trophees/trophees.module').then(mod => mod.TropheesModule)
+  },
   { path: 'questionnaires', canActivate: [AuthGuardService], component: QuestionsComponent },
   {path: 'question-form/:idQuestionnaire', canActivate: [AuthGuardService], component: QuestionsFormComponent},
   {path: 'question-detail/:idQuestion', canActivate: [AuthGuardService], component: QuestionsDetailComponent},

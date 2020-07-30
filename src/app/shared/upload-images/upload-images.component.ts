@@ -126,5 +126,6 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
       this.sharedService.currentExercice = null;
       this.sharedService.currentUser = null;
       this.sharedService.currentAliment = null;
+      this.sharedService.currentTrophee = null;
     }
 }

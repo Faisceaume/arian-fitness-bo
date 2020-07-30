@@ -8,6 +8,7 @@ import { SerieFormComponent } from './serie-form/serie-form.component';
 import { ExercicesService } from '../exercices/exercices.service';
 import { Router } from '@angular/router';
 import { ExerciceSerie } from './exercice-serie';
+import { Exercice } from '../exercices/exercice';
 
 @Component({
   selector: 'app-exercices-series',
@@ -38,9 +39,38 @@ export class ExercicesSeriesComponent implements OnInit {
   ngOnInit() {
 
     this.exercicesSeriesService.getAllSerieExercice();
-    this.exercicesSeriesService.serieExerciceFixeSubject.subscribe(data => {
+    this.exercicesSeriesService.serieExerciceFixeSubject.subscribe((data: ExerciceSerie[]) => {
       this.dataSource = new MatTableDataSource( data );
       this.dataSource.sort = this.sort;
+
+      // data.forEach(item => {
+      //   const sauvegarde = [];
+      //   item.exercices.forEach((element: any) => {
+      //     if (!element.nomexercice) {
+      //       const exe = element;
+      //       const d = new ExerciceAvance();
+      //       d.acronymes = null;
+      //       d.exercice = exe.exercice.id;
+      //       d.nbrederepetition = exe.nbrederepetition;
+      //       d.nbredeserie = exe.nbredeserie;
+      //       d.nomexercice = exe.exercice.nom;
+      //       d.tempsderepos = exe.tempsderepos;
+      //       d.visibilityexercice = exe.exercice.visibility;
+      //       sauvegarde.push(Object.assign({}, d));
+      //     }
+      //   });
+
+      //   if (sauvegarde.length > 0) {
+      //     console.log('###############################');
+      //     console.log('---------------', item.nom, '---------------');
+      //     // console.log(sauvegarde);
+      //     item.exercices = sauvegarde;
+      //     // this.updateField(item, 'exercices', sauvegarde);
+      //     console.log('###############################');
+      //   }
+
+      // });
+
     });
   }
 
@@ -61,4 +91,9 @@ export class ExercicesSeriesComponent implements OnInit {
     this.matDialog.open(SerieFormComponent, dialogConfig);
   }
 
+
+  ///////////////////// FOR SCRIPT
+  updateField(item: ExerciceSerie, attribut: string, value: any) {
+    this.exercicesSeriesService.newUpdateVersion(item, attribut, value);
+  }
 }

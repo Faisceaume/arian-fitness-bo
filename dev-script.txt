@@ -1,5 +1,7 @@
 RDV LOUNIS 25/02/2020
 
+
+
 0 - INITIALISATION
 0 - a - IF (!user.isrequiredquestions) alors lancer le questionnaire aux questions non répondues obligatoires
 				A la sortie du questionnaire obligatoire, rediriger vers le questionnaire facultatif à la première fin du questionnaire obligatoire.
