@@ -35,10 +35,11 @@ gcloud firestore import gs://arian-fitness.appspot.com/2020-01-29T13:17:17_40772
 gcloud firestore import gs://arian-fitness.appspot.com/2020-02-10T10:08:14_2660/
 gcloud firestore import gs://arian-fitness.appspot.com/2020-03-12T16:07:10_33540/
 gcloud firestore import gs://arian-fitness.appspot.com/2020-04-01T11:08:13_82756/
+gcloud firestore import gs://arian-fitness.appspot.com/2020-04-09T15:22:08_65705/
 
 gcloud firestore import gs://arian-fitness.appspot.com/2020-04-09T15:22:08_65705/
 
-
+gcloud firestore import gs://arian-fitness.appspot.com/2020-07-23T13:24:31_25156/
 
 gcloud firestore import gs://arian-fitness.appspot.com/2020-06-25T09:55:24_9508/
 
@@ -218,7 +219,12 @@ Suivi et Parcours d'un user :
 
 - Validation des semaines :
 Si le user à fait au moins 2 séances dans la semaine, peu importe sa fréquence hebdomadaire,
-la semaine est validée.
+la semaine est validée :
+il existe une variable dans le user "semainevalide" : number
+quand le user fait une séance, on incrémente cette variable.
+Lorsque le user démarre une nouvelle semaine, on vérifie si cette variable est > 1,
+si oui user.positionparcoursniveau++;
+et on remet la variable semainevalide à 0
 
 A chaque fin de semaine (ie. première connection d'une nouvelle semaine),
 si le user a effectué moins de séance que celle précisée dans son profil
@@ -238,7 +244,6 @@ la pop up ressort.
       Lorsqu'un user a validé les semaines de 9 à 16, et à valider la pop up de félicitation N2 à N3
   -> Passage du niveau 4 à 5 :
       Lorsqu'un user a validé les semaines de 17 à 24, et à valider la pop up de félicitation N3 à N3+
-
 
 
 
