@@ -73,6 +73,7 @@ export class UserSeanceComponent implements OnInit {
 
   /* Règles */
   regle2: boolean = false;
+  regleMateriel = false;
 
   constructor(private usersService: UsersService,
               private exercicesService: ExercicesService,
@@ -329,6 +330,7 @@ export class UserSeanceComponent implements OnInit {
     return new Promise((resolve, reject) => {
       const localExercice = this.listeExercices.filter(exe1 =>
         this.listeExercicesSelected.findIndex(exe2 => exe2.id === exe1.id) < 0 );
+      console.log( localExercice );
       const addExercice = [];
 
       for (const exercice of localExercice) {
@@ -403,8 +405,16 @@ export class UserSeanceComponent implements OnInit {
           .then(data => {
             data.forEach(item => {
               const id = this.listeExercices.findIndex(it => it.id === item.id);
+              let found = false;
               if (id < 0) {
-                this.listeExercices.push(item);
+                for (let index = 0; index < item.materiels.length; index++) {
+                  if ( 
+                    item.materiels[index].categories.some(cat => cat.acronyme === 'CHA') &&
+                    item.materiels[index].categories.some(cat => { console.log(cat.acronyme); return cat.acronyme === 'SUP'})) {
+                    this.listeExercices.push(item);
+                  };
+                }
+                //this.listeExercices.push(item);
               }
             });
     });
@@ -419,7 +429,13 @@ export class UserSeanceComponent implements OnInit {
             const id = this.listeExercices.findIndex(it => it.id === exeid);
             if (id < 0) {
               this.exercicesService.getSingleExercice(exeid).then(exe => {
-                this.listeExercices.push(exe);
+                for (let index = 0; index < exe.materiels.length; index++) {
+                  if ( 
+                    exe.materiels[index].categories.some(cat => cat.acronyme === 'CHA') &&
+                    exe.materiels[index].categories.some(cat => { console.log(cat.acronyme); return cat.acronyme === 'SUP'})) {
+                    this.listeExercices.push(exe);
+                  };
+                }
               });
             }
           });
@@ -436,7 +452,13 @@ export class UserSeanceComponent implements OnInit {
           const id = this.listeExercices.findIndex(it => it.id === exe.id);
           if (id < 0) {
                 this.exercicesService.getSingleExercice(exe.id).then(item => {
-                  this.listeExercices.push(item);
+                  for (let index = 0; index < item.materiels.length; index++) {
+                    if ( 
+                      item.materiels[index].categories.some(cat => cat.acronyme === 'CHA') &&
+                      item.materiels[index].categories.some(cat => { console.log(cat.acronyme); return cat.acronyme === 'SUP'})) {
+                      this.listeExercices.push(item);
+                    };
+                  }
                 });
           }
         });
@@ -474,17 +496,20 @@ export class UserSeanceComponent implements OnInit {
 
         // determination des exercices de tous les sexes
         this.getExercicesByScenario('H&F', age, niveau, position);
+        this.regleMateriel = true;
       }
     }
 
     // la liste des exercices en fonction de la pathologie de l'utilisateur
     if (this.isPathologie) {
       this.getAllExercicesPatho();
+      this.regleMateriel = true;
     }
 
     // la liste des exercices en fonction des materiels
     if (this.currentUser.materiels && this.currentUser.materiels.length !== 0) {
       this.getAllExercicesMat();
+      this.regleMateriel = true;
     }
   }
 }

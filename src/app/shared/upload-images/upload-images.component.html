@@ -5,7 +5,7 @@
           (dragleave)="resetChange($event)"
           (dragend)="false"
           (drop)="handleDrop($event)">
-              Drop your image here <br>(.jpg)
+              Drop your image here <br><span *ngIf="!isPng">(.jpg)</span><span *ngIf="isPng">(.png)</span> 
             </div>
         </div>
         <div *ngIf="sharedService.fileUrl === null">

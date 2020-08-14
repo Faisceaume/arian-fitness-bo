@@ -17,6 +17,7 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
   @Input() width: number;
   @Input() heigth: number;
   @Input() size: number;
+  @Input() isPng: boolean = false;
 
   constructor(public sharedService: SharedService) { }
 
@@ -38,21 +39,38 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
 
   detectFile(event) {
       const file: File = event.target.files[0];
-      if (file.type === 'image/jpeg') {
-        this.traitementImage(file);
+      if (this.isPng) {
+        if (file.type === 'image/png') {
+          this.traitementImage(file);
+        } else {
+          alert('L\'image doit être de type PNG');
+        }
       } else {
-        alert('L\'image doit être de type JPEG');
+        if (file.type === 'image/jpeg') {
+          this.traitementImage(file);
+        } else {
+          alert('L\'image doit être de type JPEG');
+        }
       }
+      
   }
 
 
     handleDrop(e) {
       e.preventDefault();
       const file = e.dataTransfer.files[0];
-      if (file.type === 'image/jpeg') {
-        this.traitementImage(file);
+      if (this.isPng) {
+        if (file.type === 'image/png') {
+          this.traitementImage(file);
+        } else {
+          alert('L\'image doit être de type PNG');
+        }
       } else {
-        alert('L\'image doit être de type JPEG');
+        if (file.type === 'image/jpeg') {
+          this.traitementImage(file);
+        } else {
+          alert('L\'image doit être de type JPEG');
+        }
       }
     }
 
