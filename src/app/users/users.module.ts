@@ -8,6 +8,7 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { UserSeanceComponent } from './user-seance/user-seance.component';
 import { UserQuestionsComponent } from './user-questions/user-questions.component';
 import { StripecheckoutComponent } from './stripecheckout/stripecheckout.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
   declarations: [UsersComponent,
@@ -15,7 +16,8 @@ import { StripecheckoutComponent } from './stripecheckout/stripecheckout.compone
                  UserDetailsComponent,
                  UserSeanceComponent,
                  UserQuestionsComponent,
-                 StripecheckoutComponent],
+                 StripecheckoutComponent,
+                 NotificationsComponent],
   imports: [
     SharedModule,
     CommonModule,
