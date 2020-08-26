@@ -1,0 +1,61 @@
+<div fxLayout="row">
+    <div  fxFlex="80" fxLayoutAlign="start start">
+        <h2 *ngIf="data.create">Ajouter</h2>
+        <h2 *ngIf="data.update">Modifier</h2>
+    </div>
+    <div  fxFlex="20" fxLayoutAlign="end start">
+      <button mat-icon-button class="button-right-modal" (click)="closeDialog()" type="button">
+          <mat-icon>close</mat-icon>
+      </button>
+    </div>
+</div>
+<div *ngIf="data.create">
+
+    <form fxLayout="column" [formGroup]="form" (ngSubmit)="createNewNotification()">
+        <mat-form-field [ngStyle]="{'padding':'10px'}">
+            <input matInput placeholder="Titre" formControlName="title">
+        </mat-form-field>
+
+        <mat-form-field [ngStyle]="{'padding':'10px'}">
+            <textarea matInput placeholder="Contenu de la notification" formControlName="content"></textarea>
+        </mat-form-field>
+
+        <mat-radio-group [ngStyle]="{'padding':'10px'}" formControlName="status" aria-label="Selectionne un status">
+            <mat-radio-button [ngStyle]="{'padding-left':'10px'}" value="online">Online</mat-radio-button>
+            <mat-radio-button [ngStyle]="{'padding-left':'10px'}" value="offline">Offline</mat-radio-button>
+            <mat-radio-button [ngStyle]="{'padding-left':'10px'}" value="draft">Draft</mat-radio-button>
+        </mat-radio-group>
+
+        <div [ngStyle]="{'padding':'10px'}" fxLayoutAlign="end end">
+            <button type="submit" mat-fab color="warn" [disabled]="form.invalid">
+                <mat-icon>save</mat-icon>
+            </button>
+        </div>
+    </form>
+</div>
+
+
+<div *ngIf="data.update && isLoadData">
+    
+    <form fxLayout="column" [formGroup]="form" (ngSubmit)="updateNotification()">
+        <mat-form-field [ngStyle]="{'padding':'10px'}">
+            <input matInput placeholder="Titre" formControlName="title">
+        </mat-form-field>
+
+        <mat-form-field [ngStyle]="{'padding':'10px'}">
+            <textarea matInput placeholder="Contenu de la notification" formControlName="content"></textarea>
+        </mat-form-field>
+
+        <mat-radio-group [ngStyle]="{'padding':'10px'}" formControlName="status" aria-label="Selectionne un status">
+            <mat-radio-button [ngStyle]="{'padding-left':'10px'}" value="online">Online</mat-radio-button>
+            <mat-radio-button [ngStyle]="{'padding-left':'10px'}" value="offline">Offline</mat-radio-button>
+            <mat-radio-button [ngStyle]="{'padding-left':'10px'}" value="draft">Draft</mat-radio-button>
+        </mat-radio-group>
+
+        <div [ngStyle]="{'padding':'10px'}" fxLayoutAlign="end end">
+            <button type="submit" mat-fab color="warn" [disabled]="form.invalid">
+                <mat-icon>save</mat-icon>
+            </button>
+        </div>
+    </form>
+</div>
