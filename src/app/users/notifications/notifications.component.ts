@@ -10,7 +10,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class NotificationsComponent implements OnInit {
 
-  displayedColumns: string[] = ['title', 'content', 'status', 'timestamp', 'action'];
+  displayedColumns: string[] = ['title', 'content', 'status', 'timestamp', 'username', 'action'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
