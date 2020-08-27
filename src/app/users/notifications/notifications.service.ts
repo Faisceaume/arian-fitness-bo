@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class NotificationsService {
   notificationOneSubject = new Subject<any>();
   
 
-  constructor(private db: AngularFirestore) { }
+  constructor(private db: AngularFirestore, private afAuth: AngularFireAuth) { }
 
   ///////////////////////////////////////////////
   ///////////////// EMIT ////////////////////////
@@ -44,8 +45,7 @@ export class NotificationsService {
         timestamp: d.data().timestamp,
         title: d.data().title,
         content: d.data().content,
-        status: d.data().status,
-        user: d.data().user 
+        status: d.data().status 
       };
       this.emitNotificationOneSubject();
     });
@@ -58,10 +58,9 @@ export class NotificationsService {
   createNotification(data: any) {
     const batch = this.db.firestore.batch();
     const key = this.db.createId();
-    const newData = Object.assign(data, {
-      id: key,
-      timestamp: new Date().getTime()
-    });
+    const username = this.afAuth.auth.currentUser.displayName;
+    const userid = this.afAuth.auth.currentUser.uid;
+    const newData = Object.assign(data, {id: key, timestamp: new Date().getTime()}, {username: username, userid: userid});
     const ref = this.db.firestore.collection('notifications').doc(key);
     batch.set(ref, newData);
     batch.commit().then(() => console.log('Nouvelle notification crée avec succès '))
@@ -79,8 +78,7 @@ export class NotificationsService {
       timestamp: new Date().getTime(),
       title: data.title,
       content: data.content,
-      status: data.status,
-      user: data.user
+      status: data.status
     });
     batch.commit().then(() => console.log('Mise a jour de statut réussi'))
                   .catch(err => console.log('Erreur de la mise à jour notification' + err));
