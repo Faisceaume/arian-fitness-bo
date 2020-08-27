@@ -8,7 +8,10 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { UserSeanceComponent } from './user-seance/user-seance.component';
 import { UserQuestionsComponent } from './user-questions/user-questions.component';
 import { StripecheckoutComponent } from './stripecheckout/stripecheckout.component';
-import { NotificationsComponent, DialogNotificationComponent } from './notifications/notifications.component';
+import {
+  NotificationsComponent,
+  DialogNotificationComponent,
+  DialogPicNotificationComponent } from './notifications/notifications.component';
 
 @NgModule({
   declarations: [UsersComponent,
@@ -18,12 +21,13 @@ import { NotificationsComponent, DialogNotificationComponent } from './notificat
                  UserQuestionsComponent,
                  StripecheckoutComponent,
                  NotificationsComponent,
-                DialogNotificationComponent],
+                DialogNotificationComponent,
+                DialogPicNotificationComponent],
   imports: [
     SharedModule,
     CommonModule,
     UsersRoutingModule
   ],
-  entryComponents: [UserFormComponent, UserQuestionsComponent, DialogNotificationComponent]
+  entryComponents: [UserFormComponent, UserQuestionsComponent, DialogNotificationComponent, DialogPicNotificationComponent]
 })
 export class UsersModule { }

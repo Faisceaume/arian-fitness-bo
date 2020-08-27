@@ -10,7 +10,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class NotificationsComponent implements OnInit {
 
-  displayedColumns: string[] = ['title', 'content', 'status', 'timestamp', 'username', 'action'];
+  displayedColumns: string[] = ['title', 'content', 'picture', 'status', 'timestamp', 'username', 'action'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -35,6 +35,14 @@ export class NotificationsComponent implements OnInit {
     this.matDialog.open(DialogNotificationComponent, dialogConfig);
   }
 
+  openDialogPic() {
+    const dialogPicConfig = new MatDialogConfig();
+    dialogPicConfig.autoFocus = true;
+    dialogPicConfig.width = '50%';
+    dialogPicConfig.data = {create: true, update: false};
+    this.matDialog.open(DialogPicNotificationComponent, dialogPicConfig);
+  }
+
   onEdit(id: string) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
@@ -44,7 +52,7 @@ export class NotificationsComponent implements OnInit {
   }
 
   onDelete(id: string) {
-    if (confirm("Are you sure to delete this notication")) {
+    if (confirm('Are you sure to delete this notication')) {
       this.notificationsService.deleteNotification(id);
     }
   }
@@ -123,4 +131,33 @@ export class DialogNotificationComponent implements OnInit {
   closeDialog() {
     this.dialogRef.close();
   }
+}
+
+
+
+
+
+
+@Component({
+  selector: 'app-dialogPicNotification',
+  templateUrl: './dialog-pic-notification.component.html',
+  styleUrls: ['./dialog-pic-notification.component.css']
+})
+export class DialogPicNotificationComponent implements OnInit {
+
+  form: FormGroup;
+  isLoadData = false;
+
+  constructor(
+    private notificationsService: NotificationsService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private formBuilder: FormBuilder,
+    private dialogRef: MatDialogRef<DialogNotificationComponent>
+    ) {}
+
+  ngOnInit() {
+
+  }
+
+
 }
