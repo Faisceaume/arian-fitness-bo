@@ -26,6 +26,15 @@
             <mat-radio-button [ngStyle]="{'padding-left':'10px'}" value="draft">Draft</mat-radio-button>
         </mat-radio-group>
 
+        <mat-form-field [ngStyle]="{'padding':'10px'}" appearance="fill">
+            <mat-label>Users</mat-label>
+            <mat-select formControlName="user">
+              <mat-option *ngFor="let user of data.users" [value]="user">
+                {{ user.nom }} {{ user.prenom }}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <div [ngStyle]="{'padding':'10px'}" fxLayoutAlign="end end">
             <button type="submit" mat-fab color="warn" [disabled]="form.invalid">
                 <mat-icon>save</mat-icon>
@@ -51,6 +60,15 @@
             <mat-radio-button [ngStyle]="{'padding-left':'10px'}" value="offline">Offline</mat-radio-button>
             <mat-radio-button [ngStyle]="{'padding-left':'10px'}" value="draft">Draft</mat-radio-button>
         </mat-radio-group>
+
+        <mat-form-field [ngStyle]="{'padding':'10px'}" appearance="fill">
+            <mat-label>Users</mat-label>
+            <mat-select formControlName="user">
+              <mat-option *ngFor="let user of data.users" [value]="user">
+                {{ user.nom }} {{ user.prenom }}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
 
         <div [ngStyle]="{'padding':'10px'}" fxLayoutAlign="end end">
             <button type="submit" mat-fab color="warn" [disabled]="form.invalid">
