@@ -13,6 +13,10 @@
     <mat-icon>home</mat-icon>
     <span>Accueil</span>
   </button>
+  <button mat-menu-item [matMenuTriggerFor]="menunusers">
+    <mat-icon>account_circle</mat-icon>
+    <span>Users</span>
+  </button>
   <button mat-menu-item [matMenuTriggerFor]="menuexercices">
     <mat-icon>explicit</mat-icon>
     <span>Exercices</span>
@@ -21,32 +25,6 @@
     <mat-icon>restaurant</mat-icon>
     <span>Nutrition</span>
   </button>
-  <button mat-menu-item routerLink="./objectifs">
-    <mat-icon>assignment</mat-icon>
-    <span>Objectifs</span>
-  </button>
-  <button mat-menu-item routerLink="./niveaux">
-    <mat-icon>bookmarks</mat-icon>
-    <span>Niveaux</span>
-  </button>
-  <button mat-menu-item routerLink="./pathologies">
-    <mat-icon>healing</mat-icon>
-    <span>Pathologies</span>
-  </button>
-  <button mat-menu-item routerLink="./questionnaires">
-      <mat-icon>question_answer</mat-icon>
-    <span>Questionnaires</span>
-  </button>
-  <button mat-menu-item routerLink="./users">
-    <mat-icon>account_circle</mat-icon>
-    <span>Users</span>
-  </button>
-  <button mat-menu-item routerLink="./users/notifications">
-    <mat-icon>notifications</mat-icon>
-    <span>Notifications</span>
-  </button>
-
-
 
   <mat-divider></mat-divider>
 
@@ -91,11 +69,6 @@
     <span>Matériels</span>
   </button>
   <mat-divider></mat-divider>
-  <button mat-menu-item routerLink="./trophees">
-    <mat-icon>stars</mat-icon>
-    <span>Trophées</span>
-  </button>
-  <mat-divider></mat-divider>
   <button mat-menu-item routerLink="./exercices-series">
     <mat-icon>playlist_add</mat-icon>
     <span>Séries Fixes</span>
@@ -121,3 +94,34 @@
 </mat-menu>
 
 
+
+<mat-menu #menunusers="matMenu">
+  <button mat-menu-item routerLink="./users">
+    <mat-icon>account_circle</mat-icon>
+    <span>Users List</span>
+  </button>
+  <button mat-menu-item routerLink="./questionnaires">
+    <mat-icon>question_answer</mat-icon>
+  <span>Questionnaires</span>
+  </button>
+  <button mat-menu-item routerLink="./users/notifications">
+    <mat-icon>notifications</mat-icon>
+    <span>Notifications</span>
+  </button>
+  <button mat-menu-item routerLink="./objectifs">
+    <mat-icon>assignment</mat-icon>
+    <span>Objectifs</span>
+  </button>
+  <button mat-menu-item routerLink="./niveaux">
+    <mat-icon>bookmarks</mat-icon>
+    <span>Niveaux</span>
+  </button>
+  <button mat-menu-item routerLink="./pathologies">
+    <mat-icon>healing</mat-icon>
+    <span>Pathologies</span>
+  </button>
+  <button mat-menu-item routerLink="./trophees">
+    <mat-icon>stars</mat-icon>
+    <span>Trophées</span>
+  </button>
+</mat-menu>
