@@ -1,2 +1,4 @@
-<h1>Notification Title : </h1>
-<h2>Add a picture to this notification</h2>
+<div fxLayout="column" fxLayoutAlign="space-between center" >
+    <h2>Add a picture to this notification</h2>
+    <app-upload-images style="width: 100%;" [width]="700" [heigth]="700" [size]="200000" *ngIf="isLoadData" [isJpeg]="true"></app-upload-images>
+</div>

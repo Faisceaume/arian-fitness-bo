@@ -8,6 +8,7 @@ import { ExercicesService } from '../exercices/exercices.service';
 import { Aliment } from '../nutrition/aliment';
 import { Trophee } from '../trophees/trophee';
 import { TropheesService } from '../trophees/trophees.service';
+import { NotificationsService } from '../users/notifications/notifications.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class SharedService {
   currentExercice: Exercice;
   currentAliment: Aliment;
   currentTrophee: Trophee;
+  currentNotification: any;
 
   progressValue = 0;
   isUploadingVideo = false;
@@ -31,7 +33,8 @@ export class SharedService {
               private usersService: UsersService,
               private exercicesService: ExercicesService,
               private nutritionService: NutritionService,
-              private tropheesService: TropheesService) { }
+              private tropheesService: TropheesService,
+              private notificationService: NotificationsService) { }
 
     // SECTION IMAGE && VIDEO
 
@@ -57,6 +60,9 @@ export class SharedService {
               } else if (this.currentTrophee) {
                 upload =  this.store.storage.ref()
                       .child('medias/trophees/' + this.currentTrophee.$id + '.jpg').put(file);
+              } else if (this.currentNotification) {
+                upload =  this.store.storage.ref()
+                      .child('medias/notifications/' + this.currentNotification.id + '.jpeg').put(file);
               }
         }
 
@@ -109,6 +115,8 @@ export class SharedService {
             this.nutritionService.newUpdateVersion(this.currentAliment, 'image', null);
           } else if (this.currentTrophee) {
             this.tropheesService.newUpdateVersion(this.currentTrophee, 'image', null);
+          } else if (this.currentNotification) {
+            this.notificationService.newUpdateVersion(this.currentNotification, 'image', null);
           }
       }
 
@@ -124,6 +132,8 @@ export class SharedService {
         this.nutritionService.newUpdateVersion(this.currentAliment, 'image', url);
       } else if (this.currentTrophee) {
         this.tropheesService.newUpdateVersion(this.currentTrophee, 'image', url);
+      } else if (this.currentNotification) {
+        this.notificationService.newUpdateVersion(this.currentNotification, 'image', url);
       }
     }
 

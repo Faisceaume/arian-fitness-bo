@@ -18,6 +18,7 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
   @Input() heigth: number;
   @Input() size: number;
   @Input() isPng: boolean = false;
+  @Input() isJpeg: boolean = false;
 
   constructor(public sharedService: SharedService) { }
 
@@ -145,5 +146,6 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
       this.sharedService.currentUser = null;
       this.sharedService.currentAliment = null;
       this.sharedService.currentTrophee = null;
+      this.sharedService.currentNotification = null;
     }
 }

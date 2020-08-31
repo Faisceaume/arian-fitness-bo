@@ -28,7 +28,7 @@
         <span *ngIf="element.picture">
           <mat-icon>photo</mat-icon>
         </span>
-        <span *ngIf="!element.picture" (click)="openDialogPic()">
+        <span *ngIf="!element.picture" (click)="openDialogPic(element.id)">
           <mat-icon>add_photo_alternate</mat-icon>
         </span>
       </td>

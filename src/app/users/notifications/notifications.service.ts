@@ -45,7 +45,8 @@ export class NotificationsService {
         timestamp: d.data().timestamp,
         title: d.data().title,
         content: d.data().content,
-        status: d.data().status 
+        status: d.data().status,
+        image: d.data().image 
       };
       this.emitNotificationOneSubject();
     });
@@ -89,6 +90,14 @@ export class NotificationsService {
     const ref = this.db.firestore.collection('notifications').doc(id);
     batch.update(ref, { status: newStatus });
     return batch.commit();
+  }
+
+  newUpdateVersion(element: any, attribut: string, value: any) {
+    const batch = this.db.firestore.batch();
+    const nextDocument1 = this.db.firestore.collection('notifications').doc(element.id);
+    batch.update(nextDocument1, `${attribut}`, value);
+    batch.commit().then(() => {
+    }).catch((error) => { console.error('Error updating document: ', error); });
   }
 
 

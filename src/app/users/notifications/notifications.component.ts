@@ -2,6 +2,7 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { NotificationsService } from './notifications.service';
 import { MatDialogConfig, MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatTableDataSource, MatSort } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SharedService } from 'src/app/shared/shared.service';
 
 @Component({
   selector: 'app-notifications',
@@ -35,11 +36,11 @@ export class NotificationsComponent implements OnInit {
     this.matDialog.open(DialogNotificationComponent, dialogConfig);
   }
 
-  openDialogPic() {
+  openDialogPic(key: string) {
     const dialogPicConfig = new MatDialogConfig();
     dialogPicConfig.autoFocus = true;
-    dialogPicConfig.width = '50%';
-    dialogPicConfig.data = {create: true, update: false};
+    dialogPicConfig.width = '40%';
+    dialogPicConfig.data = {create: true, update: false, id: key};
     this.matDialog.open(DialogPicNotificationComponent, dialogPicConfig);
   }
 
@@ -150,13 +151,23 @@ export class DialogPicNotificationComponent implements OnInit {
 
   constructor(
     private notificationsService: NotificationsService,
+    private sharedService: SharedService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<DialogNotificationComponent>
     ) {}
 
   ngOnInit() {
-
+    this.notificationsService.getOneNotification(this.data.id);
+      this.notificationsService.notificationOneSubject.subscribe(data => {
+        if (data.image) {
+          this.sharedService.fileUrl = data.image;
+        } else {
+          this.sharedService.fileUrl = null;
+        }
+        this.sharedService.currentNotification = data;
+        this.isLoadData = true;
+      });
   }
 
 
