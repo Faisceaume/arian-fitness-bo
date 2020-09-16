@@ -14,3 +14,7 @@ h3{
   font-size: 14px;
   width: 100%;
 }
+
+tr:hover {
+  background-color: #eee;
+}
