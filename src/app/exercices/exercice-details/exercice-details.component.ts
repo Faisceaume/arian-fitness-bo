@@ -38,6 +38,8 @@ export class ExerciceDetailsComponent implements OnInit {
   visibility = new FormControl();
   degressif = new FormControl();
   visuel = new FormControl();
+  intermittent = new FormControl();
+  unilateral = new FormControl();
   retouraucalme = new FormControl();
   listes: Listes;
   repetitionexercice = new FormControl();

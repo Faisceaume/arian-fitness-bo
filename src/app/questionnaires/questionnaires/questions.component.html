@@ -23,7 +23,7 @@
             <mat-panel-description fxLayout="row" fxLayoutAlign="end">
               <button type="button" mat-button (click)="onAddQuestion(questionnaire.id)"><mat-icon>add</mat-icon></button>
               <button type="button" mat-button (click)="onEdit(questionnaire)" ><mat-icon>edit</mat-icon></button>
-              <button type="button" mat-button (click)="onDeleteQuestionnaire(questionnaire.id)"><mat-icon>delete</mat-icon></button>
+              <!-- <button type="button" mat-button (click)="onDeleteQuestionnaire(questionnaire.id)"><mat-icon>delete</mat-icon></button> -->
             </mat-panel-description>
           </mat-expansion-panel-header>
 
@@ -99,11 +99,11 @@
                     type="button"
                     (click)="onEditQuestion(element.id)"
                     mat-icon-button><mat-icon>edit</mat-icon></button>
-                    <button
+                    <!-- <button
                     type="button"
                     (click)="onDeleteQuestion(element.idOfQuestionnaire, element.id)"
                      mat-icon-button
-                     ><mat-icon>delete</mat-icon></button>
+                     ><mat-icon>delete</mat-icon></button> -->
                   </mat-cell>
                 </ng-container>
 

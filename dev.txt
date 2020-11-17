@@ -1,3 +1,7 @@
+main-es2015.2bb1c1a86f259d9628c5.js:2 ERROR Error: Uncaught (in promise): TypeError: Cannot read property 'findIndex' of undefined
+TypeError: Cannot read property 'findIndex' of undefined
+    at 12-es2015.0a744d908a20ebb779a1.js:1
+
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -36,20 +40,18 @@ gcloud firestore import gs://arian-fitness.appspot.com/2020-02-10T10:08:14_2660/
 gcloud firestore import gs://arian-fitness.appspot.com/2020-03-12T16:07:10_33540/
 gcloud firestore import gs://arian-fitness.appspot.com/2020-04-01T11:08:13_82756/
 gcloud firestore import gs://arian-fitness.appspot.com/2020-04-09T15:22:08_65705/
-
 gcloud firestore import gs://arian-fitness.appspot.com/2020-04-09T15:22:08_65705/
-
 gcloud firestore import gs://arian-fitness.appspot.com/2020-07-23T13:24:31_25156/
-
 gcloud firestore import gs://arian-fitness.appspot.com/2020-06-25T09:55:24_9508/
-
 gcloud firestore import gs://arian-fitness.appspot.com/2020-08-24T12:42:07_50756
-
 gcloud firestore import gs://arian-fitness.appspot.com/2020-08-26T15:19:26_31716
-
-
-
+gcloud firestore import gs://arian-fitness.appspot.com/2020-09-16T13:04:36_9572/
 gcloud firestore import gs://arian-fitness.appspot.com/2020-09-07T16:17:31_95940/
+
+
+gcloud firestore import gs://arian-fitness.appspot.com/2020-10-13T08:36:32_32772/
+
+gcloud firestore import gs://arian-fitness.appspot.com/2020-09-21T07:55:12_95172/
 
 
 // IMPORT SPECIFIC FIRESTORE COLLECTIONS
@@ -278,7 +280,8 @@ ACRONYMES PATHOLOGIES :
 CALL LOUNIS 24/04/20
 
 Régle Script de Remplissage :
-- if  (custompointsfaibles == true &&
+- Règle Premium
+  if  (custompointsfaibles == true &&
       user niveau >=2 &&
       frequencehebdo >=3 &&
       accès salle de sport &&
@@ -288,6 +291,7 @@ Régle Script de Remplissage :
         get programmes.where(programme.pointfaibles)
       }
 
+Règle Premium :
 Le user peut sélectionner des points faibles seulement lorsque
 user.niveau >=2 &&
 frequencehebdo >=3 &&
@@ -315,12 +319,7 @@ Face : Quad
  un parmi Quadricep (LW = L1), Adducteurs (LW = L1A), ischio-jambiers (LW = L2I), fessier (LW = L2F) et lombaire (LW = L2L)
  il peut cliquer sur les mollet mais (LMO = L')
 
-
-- Dans tous les blocs hors série fixes (echauffement, pathologie et retour au calme),
-retirer les exercices ayant pour catégorie ETD, ETM, TR, ECH sauf s'il partage également la catégorie d'exerice "P" ou "M"
-
-
-- Transformation des catégories du bloc en fonction de la donnée point faible précisé par le user:
+- Règle Premium : Transformation des catégories du bloc en fonction de la donnée point faible précisé par le user:
   LW et LN >> L1 , L1A , L2L , L2I , L2F
   (si le user a choisi en point faible L1, LW = L1 et LN = L1A-L2L-L2I-L2F)
   T1W et T1N >> T1a , T1b, T1c
@@ -333,6 +332,8 @@ Ci-dessus les catégories d’exercices que le user choisira rattachées aux nou
 La cat_exe W est celle qu’il aura choisi, la cat_exe N est une des autres non-choisi dans la liste
 Les W et N apparaîtront donc dans certains blocs de programme lorsque le programme sera « custom point faible true » .
 
+- Dans tous les blocs hors série fixes (echauffement, pathologie et retour au calme),
+retirer les exercices ayant pour catégorie ETD, ETM, TR, ECH sauf s'il partage également la catégorie d'exerice "P" ou "M"
 
 - MATERIEL :
 Le matériel du user doit être inclus dans le matériel de l'exercice (dont AUCUN MATERIEL)
@@ -355,12 +356,6 @@ par des exercices comptabiles avec le user dont la catégorie de matériel est "
 
 - Si le user à un niveau N3+, ne pas prendre en compte la donnée du niveau dans les recherches de programme.
 
-- Si le user a effectué moins de 13 pompes lors de son dernier test de performance, alors retirer
-de sa liste d'exercices comptabiles avec ses données les exercices ayant pour matériel "Barre Olympique"
-
-- Si le user a effectué moins de 5 tractions lors de son dernier test de performance, alors retirer
-de sa liste d'exercices compatibles avec ses données, les exercices appartenant à la catégorie "5tractions"
-
 - Si la méthode retenue n'est pas "MD1", alors retirer de la liste d'exercice du user les exercices de catégories "MD1Exercice"
 
 - Entre chaque série d'un bloc, lancer un temps de repos mentionné prioritairement par la méthode,
@@ -368,8 +363,16 @@ sinon par la dernière catégorie d'exercice executé.
 
 
 
+
+
 - Règles relatives aux Tests
 (Cf. CDC p.104)
+
+Si le user a effectué moins de 13 pompes lors de son dernier test de performance, alors retirer
+de sa liste d'exercices comptabiles avec ses données les exercices ayant pour matériel "Barre Olympique"
+
+Si le user a effectué moins de 5 tractions lors de son dernier test de performance, alors retirer
+de sa liste d'exercices compatibles avec ses données, les exercices appartenant à la catégorie "5tractions"
 
 Tests de Performances: CDC p.104
 
