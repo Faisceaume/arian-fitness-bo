@@ -66,6 +66,8 @@ export class ExerciceDetailsComponent implements OnInit {
       this.accessalledesportControl.setValue(item.accessalledesport);
       this.repetitionexercice.setValue(item.repetitionexercice);
       this.visibility.setValue(item.visibility);
+      this.intermittent.setValue(item.intermittent);
+      this.unilateral.setValue(item.unilateral);
       this.degressif.setValue(item.degressif);
       this.visuel.setValue(item.visuel);
       this.retouraucalme.setValue(item.retouraucalme);
