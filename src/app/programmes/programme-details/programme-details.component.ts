@@ -59,6 +59,7 @@ export class ProgrammeDetailsComponent implements OnInit {
     this.niveauxService.getAllNiveaux();
     this.niveauxService.niveauxSubject.subscribe(data => {
       this.niveaux = data;
+      this.initSearchProg();
     });
 
     this.objectifsService.getAllObjectifs();
@@ -66,6 +67,10 @@ export class ProgrammeDetailsComponent implements OnInit {
       this.objectifs = data;
     });
 
+  }
+
+
+  initSearchProg() {
     const id = this.route.snapshot.params.id;
     this.programmesService.getSingleProgramme(id).then((item: Programme) => {
       this.formData = item;
@@ -115,10 +120,10 @@ export class ProgrammeDetailsComponent implements OnInit {
         if (index < 0) {
           this.objectifsNotSelected.push(item);
         }
-      });
-    });
-
+      })
+    })
   }
+
 
   updateField(attribut: string, value: any) {
 
