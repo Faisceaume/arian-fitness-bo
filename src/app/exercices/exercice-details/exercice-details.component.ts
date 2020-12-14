@@ -38,6 +38,8 @@ export class ExerciceDetailsComponent implements OnInit {
   visibility = new FormControl();
   degressif = new FormControl();
   visuel = new FormControl();
+  intermittent = new FormControl();
+  unilateral = new FormControl();
   retouraucalme = new FormControl();
   listes: Listes;
   repetitionexercice = new FormControl();
@@ -64,6 +66,8 @@ export class ExerciceDetailsComponent implements OnInit {
       this.accessalledesportControl.setValue(item.accessalledesport);
       this.repetitionexercice.setValue(item.repetitionexercice);
       this.visibility.setValue(item.visibility);
+      this.intermittent.setValue(item.intermittent);
+      this.unilateral.setValue(item.unilateral);
       this.degressif.setValue(item.degressif);
       this.visuel.setValue(item.visuel);
       this.retouraucalme.setValue(item.retouraucalme);

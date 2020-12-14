@@ -12,6 +12,7 @@ export class Exercice {
   echauffement: boolean;
   genre: string;
   id: string;
+  intermittent: boolean;
   materiels: Materiel[];
   nbrerepetitionechauffement: number;
   nbrrepetitionsenior: number;
@@ -28,7 +29,9 @@ export class Exercice {
   retouraucalme: boolean;
   senior: string;
   timestamp: number;
+  time: number;
   type: string;
+  unilateral: boolean;
   video?: string;
   visibility: boolean;
   visuel: boolean;

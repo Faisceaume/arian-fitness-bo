@@ -148,6 +148,7 @@ export class DialogPicNotificationComponent implements OnInit {
 
   form: FormGroup;
   isLoadData = false;
+  isImage = false;
 
   constructor(
     private notificationsService: NotificationsService,
@@ -159,8 +160,9 @@ export class DialogPicNotificationComponent implements OnInit {
 
   ngOnInit() {
     this.notificationsService.getOneNotification(this.data.id);
-      this.notificationsService.notificationOneSubject.subscribe(data => {
+    this.notificationsService.notificationOneSubject.subscribe(data => {
         if (data.image) {
+          this.isImage = true;
           this.sharedService.fileUrl = data.image;
         } else {
           this.sharedService.fileUrl = null;

@@ -25,10 +25,10 @@
     <ng-container matColumnDef="picture">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Picture</th>
       <td mat-cell *matCellDef="let element">
-        <span *ngIf="element.picture">
+        <span *ngIf="element.image" (click)="openDialogPic(element.id)">
           <mat-icon>photo</mat-icon>
         </span>
-        <span *ngIf="!element.picture" (click)="openDialogPic(element.id)">
+        <span *ngIf="!element.image" (click)="openDialogPic(element.id)">
           <mat-icon>add_photo_alternate</mat-icon>
         </span>
       </td>
