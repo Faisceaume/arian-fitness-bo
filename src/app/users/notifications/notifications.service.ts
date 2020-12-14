@@ -114,16 +114,31 @@ export class NotificationsService {
   updateStatusNotification(newStatus: string, id: string) {
     const batch = this.db.firestore.batch();
     const ref = this.db.firestore.collection('notifications').doc(id);
-    batch.update(ref, { status: newStatus });
-    return batch.commit();
+    const query = this.db.firestore.collection('users');
+    query.get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        const ref2 = this.db.firestore.collection('users').doc(doc.id).collection('notifications').doc(id); 
+        batch.update(ref2, { status: newStatus });
+      });
+      batch.update(ref, { status: newStatus });
+      return batch.commit().then(() => console.log('notification status change to ' + newStatus))
+      .catch(err => console.log('Erreur mise à jour du statut' + err));
+    });
   }
 
   newUpdateVersion(element: any, attribut: string, value: any) {
     const batch = this.db.firestore.batch();
     const nextDocument1 = this.db.firestore.collection('notifications').doc(element.id);
-    batch.update(nextDocument1, `${attribut}`, value);
-    batch.commit().then(() => {
-    }).catch((error) => { console.error('Error updating document: ', error); });
+    const query = this.db.firestore.collection('users');
+    query.get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        const ref2 = this.db.firestore.collection('users').doc(doc.id).collection('notifications').doc(element.id); 
+        batch.update(ref2, `${attribut}`, value);
+      });
+      batch.update(nextDocument1, `${attribut}`, value);
+      batch.commit().then(() => {
+      }).catch((error) => { console.error('Error updating document: ', error); });
+    });
   }
 
 
