@@ -62,7 +62,7 @@ export class SharedService {
                       .child('medias/trophees/' + this.currentTrophee.$id + '.jpg').put(file);
               } else if (this.currentNotification) {
                 upload =  this.store.storage.ref()
-                      .child('medias/notifications/' + this.currentNotification.id + '.jpeg').put(file);
+                      .child('medias/notifications/' + new Date().getTime() + "_" + this.currentNotification.id + '.jpg').put(file);
               }
         }
 
