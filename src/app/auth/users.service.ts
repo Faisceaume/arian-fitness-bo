@@ -91,7 +91,7 @@ export class UsersService {
   }
 
   createUserG( mail: string, id: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       console.log(mail + ' ' + id);
       this.db.collection('users').doc( id ).set({email:  mail, uid: id, origine: 'AF BO : GG', role: 'pending'});
       resolve();

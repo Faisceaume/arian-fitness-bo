@@ -66,9 +66,7 @@ export class NotificationsComponent implements OnInit {
     } else if(status === 'draft') {
        status = 'online';
     }
-    this.notificationsService.updateStatusNotification(status, id)
-                             .then(() => console.log('notification status change to ' + status))
-                             .catch(err => console.log('Erreur mise à jour du statut' + err));
+    this.notificationsService.updateStatusNotification(status, id);
   }
 
 }
