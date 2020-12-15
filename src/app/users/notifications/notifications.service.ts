@@ -67,9 +67,10 @@ export class NotificationsService {
     const query = this.db.firestore.collection('users');
     query.get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
-        const ref2 = this.db.firestore.collection('users').doc(doc.id).collection('notifications').doc(key);
+        let ref2 = this.db.firestore.collection('users').doc(doc.id).collection('notifications').doc(key);
         batch.set(ref2, newData);
-      });
+      }); 
+    }).finally(() => {
       batch.set(ref, newData);   
       batch.commit().then(() => console.log('Nouvelle notification crée avec succès '))
                   .catch((err) => console.log('Erreur à la création de notification' + err));
@@ -88,7 +89,7 @@ export class NotificationsService {
     const query = this.db.firestore.collection('users');
     query.get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
-        const ref2 = this.db.firestore.collection('users').doc(doc.id).collection('notifications').doc(id);
+        let ref2 = this.db.firestore.collection('users').doc(doc.id).collection('notifications').doc(id);
         batch.update(ref2, {
           timestamp: new Date().getTime(),
           title: data.title,
@@ -96,6 +97,8 @@ export class NotificationsService {
           status: data.status
         });
       });
+      
+    }).finally(() => {
       batch.update(ref, {
         timestamp: new Date().getTime(),
         title: data.title,
@@ -117,12 +120,13 @@ export class NotificationsService {
     const query = this.db.firestore.collection('users');
     query.get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
-        const ref2 = this.db.firestore.collection('users').doc(doc.id).collection('notifications').doc(id); 
+        let ref2 = this.db.firestore.collection('users').doc(doc.id).collection('notifications').doc(id); 
         batch.update(ref2, { status: newStatus });
       });
+    }).finally(() => {
       batch.update(ref, { status: newStatus });
-      return batch.commit().then(() => console.log('notification status change to ' + newStatus))
-      .catch(err => console.log('Erreur mise à jour du statut' + err));
+      batch.commit().then(() => console.log('notification status change to ' + newStatus))
+                    .catch(err => console.log('Erreur mise à jour du statut' + err));
     });
   }
 
@@ -132,12 +136,12 @@ export class NotificationsService {
     const query = this.db.firestore.collection('users');
     query.get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
-        const ref2 = this.db.firestore.collection('users').doc(doc.id).collection('notifications').doc(element.id); 
+        let ref2 = this.db.firestore.collection('users').doc(doc.id).collection('notifications').doc(element.id); 
         batch.update(ref2, `${attribut}`, value);
       });
+    }).finally(() => {
       batch.update(nextDocument1, `${attribut}`, value);
-      batch.commit().then(() => {
-      }).catch((error) => { console.error('Error updating document: ', error); });
+      batch.commit().then(() => {}).catch((error) => { console.error('Error updating document: ', error); });
     });
   }
 
@@ -152,12 +156,13 @@ export class NotificationsService {
     const query = this.db.firestore.collection('users');
     query.get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
-        const ref2 = this.db.firestore.collection('users').doc(doc.id).collection('notifications').doc(id);
+        let ref2 = this.db.firestore.collection('users').doc(doc.id).collection('notifications').doc(id);
         batch.delete(ref2);
       });
+    }).finally(() => {
       batch.delete(ref);   
       batch.commit().then(() => console.log('Notification (' + id +  ') supprimée'))
-                  .catch((err) => console.log('Erreur à la suppression de la notification' + err));
+                    .catch((err) => console.log('Erreur à la suppression de la notification' + err));
     });
   }
 }

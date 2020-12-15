@@ -90,6 +90,18 @@ export class UsersService {
   }
 
   deleteUser(user: User) {
-    this.firestore.doc('users/' + user.id).delete();
+    const batch = this.firestore.firestore.batch();
+    let query = this.firestore.firestore.collection('users').doc(user.id).collection('notifications');
+    let ref2 = this.firestore.firestore.collection('users').doc(user.id);
+    query.get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        let ref = this.firestore.firestore.collection('users').doc(user.id).collection('notifications').doc(doc.id)
+        batch.delete( ref );
+      })
+    }).finally(() => {
+      batch.delete(ref2);
+      batch.commit().then(() => console.log('User supprimé avec succès'))
+                    .catch(error => console.log('Erreur supression user' ,error))
+    });
   }
 }
