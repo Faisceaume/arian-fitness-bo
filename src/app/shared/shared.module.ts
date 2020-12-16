@@ -29,9 +29,6 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 
-
-
-
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoriesCrudComponent } from './categories/categories-crud/categories-crud.component';
 import { ObjectifsComponent } from './objectifs/objectifs.component';
