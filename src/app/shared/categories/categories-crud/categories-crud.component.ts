@@ -42,7 +42,8 @@ export class CategoriesCrudComponent implements OnInit {
       acronyme: '',
       duree: null,
       repos: null,
-      timestamp: ''
+      timestamp: '',
+      exeids: null
     } as Categorie;
   }
 

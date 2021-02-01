@@ -31,7 +31,8 @@ export class Listes {
     '30 secondes',
     '30 secondes par côté',
     '45 secondes',
-    '120 secondes'
+    '120 secondes',
+    'Jusqu\'à la fin du temps imparti'
   ];
 
   nbrerepetexercice = [
@@ -45,7 +46,8 @@ export class Listes {
     '30 secondes',
     'Maximum de répétitions',
     'Maximum de temps',
-    'Êtes-vous capable d’exécuter cet exercice correctement?'
+    'Êtes-vous capable d’exécuter cet exercice correctement?',
+    'Jusqu\'à la fin du temps imparti'
   ];
 
   nbrdureeexercice = [

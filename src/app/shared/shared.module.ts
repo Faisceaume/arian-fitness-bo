@@ -40,6 +40,7 @@ import { PathologiesCrudComponent } from './pathologies/pathologies-crud/patholo
 import { MaterielsSharedComponent } from './materiels-shared/materiels-shared.component';
 import { UploadImagesComponent } from './upload-images/upload-images.component';
 import { UploadVideosComponent } from './upload-videos/upload-videos.component';
+import { ExercicesListviewComponent } from './exercices-listview/exercices-listview.component';
 
 const modules = [
     CommonModule,
@@ -75,23 +76,26 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: [CategoriesComponent,
-                 CategoriesCrudComponent,
-                 ObjectifsComponent,
-                 NiveauxComponent,
-                PathologiesComponent,
-                ObjectifsCrudComponent,
-                NiveauxCrudComponent,
-                PathologiesCrudComponent,
-                MaterielsSharedComponent,
-                UploadImagesComponent,
-                UploadVideosComponent],
+  declarations: [
+    ExercicesListviewComponent,
+    CategoriesComponent,
+    CategoriesCrudComponent,
+    ObjectifsComponent,
+    NiveauxComponent,
+    PathologiesComponent,
+    ObjectifsCrudComponent,
+    NiveauxCrudComponent,
+    PathologiesCrudComponent,
+    MaterielsSharedComponent,
+    UploadImagesComponent,
+    UploadVideosComponent],
   imports: [
     ...modules,
   ],
   exports: [
     ...modules,
     CategoriesComponent,
+    ExercicesListviewComponent,
     ObjectifsComponent,
     UploadImagesComponent,
     UploadVideosComponent

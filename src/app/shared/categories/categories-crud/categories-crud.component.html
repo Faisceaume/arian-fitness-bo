@@ -79,6 +79,8 @@
       </mat-form-field>
       &nbsp;&nbsp;
 
+
+
       <button mat-fab color="warn" type="submit"
         [disabled]="form2.invalid"
         *ngIf="toCreate">
@@ -86,3 +88,7 @@
       </button>
     </form>
 </div>
+
+<h2 class="h2-modal" *ngIf="toEdit">
+  Nombre d'exercices affiliés à la catégorie : <strong>{{ formDataCategorie.exeids.length }}</strong>
+</h2>
