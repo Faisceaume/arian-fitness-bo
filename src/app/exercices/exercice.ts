@@ -35,6 +35,7 @@ export class Exercice {
   video?: string;
   visibility: boolean;
   visuel: boolean;
+  filesize: number;
 
   seriefixeid?: string[];
 }

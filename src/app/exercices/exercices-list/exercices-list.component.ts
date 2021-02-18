@@ -26,6 +26,7 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
                                 'photo',
                                 'video',
                                 'visibility',
+                                'filesize',
                                 'action'
                               ];
   dataSource: MatTableDataSource<Exercice>;

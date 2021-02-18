@@ -23,15 +23,11 @@ export class AccueilComponent implements OnInit {
         itemRef.getDownloadURL().then(url => {
           itemRef.getMetadata().then(async meta => {
             this.exerciceService.getSingleExerciceByUrl(url).then(exe => {
-              console.log('###############################')
-              console.log('Exercice : ', exe.nom)
-              console.log('SIZE : ', Math.round((meta.size/1048576)*100)/100)
-              console.log('###############################')
+              this.exerciceService.newUpdateVersion(exe, 'filesize', Math.round((meta.size/1048576)*100)/100)
             },
             () => {
               console.log('Pas d\'exercice correspondant')
             })
-
           })
         })
 
