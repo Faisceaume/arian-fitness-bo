@@ -81,8 +81,7 @@ export class SharedService {
               });
 
               upload.snapshot.ref.getMetadata().then(async meta => {
-                console.log('File Size : ', Math.round((meta.size/1048576)*100)/100)
-                //this.exercicesService.newUpdateVersion(this.currentExercice, 'filesize', Math.round((meta.size/1048576)*100)/100)
+                this.exercicesService.newUpdateVersion(this.currentExercice, 'filesize', Math.round((meta.size/1048576)*100)/100)
               })
 
             });
@@ -112,7 +111,7 @@ export class SharedService {
       if (typeFile) {
         if (this.currentExercice) {
           this.exercicesService.newUpdateVersion(this.currentExercice, 'video', null);
-          //this.exercicesService.newUpdateVersion(this.currentExercice, 'filesize', null)
+          this.exercicesService.newUpdateVersion(this.currentExercice, 'filesize', null)
         }
       } else {
           if (this.currentUser) {
