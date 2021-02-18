@@ -83,6 +83,25 @@ export class ExercicesService {
     });
   }
 
+  getSingleExerciceByUrl(url: string) {
+    return new Promise<Exercice>((resolve, reject) => {
+      const museums = this.firestore.firestore.collection('exercices').where('video', '==', url);
+      museums.get().then((querySnapshot) =>  {
+        if (querySnapshot.docs.length > 0) {
+          querySnapshot.forEach((doc) => {
+            resolve(
+              {id: doc.id,
+                ...doc.data()} as Exercice
+              );
+          });
+        } else {
+          reject()
+        }
+
+      });
+    });
+  }
+
   deleteExercice(exercice: Exercice) {
     exercice.materiels.forEach(mat => {
       this.materielsService.deleteExercice(mat, exercice);

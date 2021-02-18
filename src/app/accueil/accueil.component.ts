@@ -1,6 +1,6 @@
+import { AngularFireStorage } from '@angular/fire/storage';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { ExercicesService } from '../exercices/exercices.service';
 
 @Component({
   selector: 'app-accueil',
@@ -11,9 +11,34 @@ export class AccueilComponent implements OnInit {
 
 
 
-  constructor() { }
+  constructor(private store: AngularFireStorage,
+              private exerciceService: ExercicesService) { }
 
   ngOnInit() {
+
+    this.store.storage.ref().child('medias/exercices/videos/').listAll().then(
+      (res) => {
+      res.items.forEach((itemRef) => {
+
+        itemRef.getDownloadURL().then(url => {
+          itemRef.getMetadata().then(async meta => {
+            this.exerciceService.getSingleExerciceByUrl(url).then(exe => {
+              console.log('###############################')
+              console.log('Exercice : ', exe.nom)
+              console.log('SIZE : ', Math.round((meta.size/1048576)*100)/100)
+              console.log('###############################')
+            },
+            () => {
+              console.log('Pas d\'exercice correspondant')
+            })
+
+          })
+        })
+
+      });
+    }).catch((error) => {
+
+    });
 
   }
 
