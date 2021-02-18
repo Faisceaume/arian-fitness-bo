@@ -118,6 +118,14 @@
       </td>
     </ng-container>
 
+    <!-- fileSize Column -->
+    <ng-container matColumnDef="filesize">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> File Size </th>
+      <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
+        {{ element.filesize }}
+      </td>
+    </ng-container>
+
     <!-- action Column -->
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
