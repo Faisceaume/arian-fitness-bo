@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Exercice } from './exercice';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { CategoriesService } from '../shared/categories/categories.service';
 import { Niveau } from '../shared/niveaux/niveau';
 import { MaterielsService } from '../materiels/materiels.service';
@@ -14,6 +14,9 @@ export class ExercicesService {
 
   exercices: Exercice[];
   exerciceSubject = new Subject<any[]>();
+
+  photoThumbnail: string;
+  photoThumbnailSubject = new BehaviorSubject<any>('');
 
   oneSerieExerciceFixe: any;
   oneSerieExerciceFixeSubject = new Subject<any>();
@@ -69,6 +72,10 @@ export class ExercicesService {
     this.exerciceSubject.next(this.exercices.slice());
   }
 
+  emitSingleExerciceSubject() {
+    this.photoThumbnailSubject.next(this.photoThumbnail);
+  }
+
   getSingleExercice(id: string) {
     return new Promise<Exercice>((resolve, reject) => {
       const museums = this.firestore.firestore.collection('exercices').where('id', '==', id);
@@ -82,6 +89,14 @@ export class ExercicesService {
       });
     });
   }
+
+  getSingleExerciceThumbnails(id: string) {
+      this.firestore.collection('exercices').doc(id).get().subscribe((doc: any) => {
+        this.photoThumbnail = doc.data().photoThumbnail ? doc.data().photoThumbnail : '';
+        this.emitSingleExerciceSubject();
+      });
+  }
+
 
   getSingleExerciceByUrl(url: string) {
     return new Promise<Exercice>((resolve, reject) => {
@@ -115,7 +130,8 @@ export class ExercicesService {
     batch.update(nextDocument1, `${attribut}`, value);
     batch.commit().then(() => {
       this.updateSubCollectionExerciceOnSerieFixe(element);
-    }).catch((error) => { console.error('Error updzting document: ', error); });
+      this.getSingleExerciceThumbnails(element.id);
+    }).catch((error) => { console.error('Error updating document: ', error); });
   }
 
   updateSubCollectionExerciceOnSerieFixe(exercice: Exercice) {
@@ -240,7 +256,7 @@ export class ExercicesService {
         query.get().then((querySnaphot) => {
           querySnaphot.forEach(doc => {
             doc.ref.delete();
-            resolve();
+            resolve('');
           });
         });
       });
@@ -276,7 +292,7 @@ export class ExercicesService {
       query.get().then((querySnaphot) => {
         querySnaphot.forEach(doc => {
           doc.ref.delete();
-          resolve();
+          resolve('');
         });
       });
     });

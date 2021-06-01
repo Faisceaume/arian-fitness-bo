@@ -38,4 +38,5 @@ export class Exercice {
   filesize: number;
 
   seriefixeid?: string[];
+  photoThumbnail?: string;
 }

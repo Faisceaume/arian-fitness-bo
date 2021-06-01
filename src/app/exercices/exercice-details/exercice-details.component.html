@@ -79,15 +79,16 @@
 
         <div fxFlex="100" id="imageContainer" fxLayout="row wrap" fxLayoutAlign="center center">
 
-          <div fxFlex="50" class="fileContent">
+          <div fxFlex="40" class="fileContent">
               <h3 class="imagelabel" *ngIf="sharedService.isImageUploadShown"> Ajouter une image</h3>
               <app-upload-images
+                [urlThumbnail]="imgThumbnail"
                 [size]="1000000"
                 [width]="2000"
                 [heigth]="2000"></app-upload-images>
           </div>
 
-          <div fxFlex="50">
+          <div fxFlex="30">
             <h3 class="imagelabel" *ngIf="sharedService.isVideoUploadShown"> Ajouter une vidéo</h3>
             <app-upload-videos></app-upload-videos>
             <mat-progress-bar
@@ -95,6 +96,15 @@
             [value]="sharedService.progressValue"
             *ngIf="sharedService.isUploadingVideo" ></mat-progress-bar>
         </div>
+        <div fxFlex="30" gdAlignRows="center center">
+          <h2 class="imagelabel">Vignette image</h2>
+          <h4 *ngIf="!imgThumbnail && !loadThumbnail" style="color: red;">Aucune vignette</h4>
+          <img *ngIf="imgThumbnail" [src]="imgThumbnail" alt="vignette image">
+          <mat-spinner *ngIf="loadThumbnail"></mat-spinner>
+          <button [disabled]="!formData.photo" *ngIf="!imgThumbnail && !loadThumbnail" (click)="generateThumbnail(formData)" mat-mini-fab color="primary">
+            <mat-icon>autorenew</mat-icon>
+          </button>
+      </div>
 
         </div>
 

@@ -19,6 +19,7 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
   @Input() size: number;
   @Input() isPng: boolean = false;
   @Input() isJpeg: boolean = false;
+  @Input() urlThumbnail: string;
 
   constructor(public sharedService: SharedService) { }
 
@@ -124,7 +125,8 @@ export class UploadImagesComponent implements OnInit, OnDestroy {
     }
 
     onDeleteDrapImage() {
-      this.sharedService.deleteFile(this.sharedService.fileUrl);
+      if(this.urlThumbnail) this.sharedService.deleteFile(this.sharedService.fileUrl, this.urlThumbnail);
+      else this.sharedService.deleteFile(this.sharedService.fileUrl);
       this.sharedService.isImageUploadShown = true;
       this.sharedService.fileUrl = null;
       this.fileUploaded = false;
