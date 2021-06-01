@@ -97,7 +97,6 @@ export class ExercicesService {
       });
   }
 
-
   getSingleExerciceByUrl(url: string) {
     return new Promise<Exercice>((resolve, reject) => {
       const museums = this.firestore.firestore.collection('exercices').where('video', '==', url);
