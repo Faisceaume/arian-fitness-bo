@@ -119,7 +119,7 @@ exports.generateThumbnailAuto = functions.firestore.document('exercices/{exoId}'
     const exoId = context.params.exoId;
     const newValue = change.after.data().photoThumbnail;
     if(newValue === 'pending...') {
-        const fileBucket = 'gs://arian-fitness-dev.appspot.com';
+        const fileBucket = 'gs://arian-fitness.appspot.com';
         const filePath = `medias/exercices/images/${exoId}.jpg`;
         const contentType = 'image/jpeg';
 
