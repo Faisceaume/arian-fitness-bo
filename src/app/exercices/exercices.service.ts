@@ -7,6 +7,8 @@ import { CategoriesService } from '../shared/categories/categories.service';
 import { Niveau } from '../shared/niveaux/niveau';
 import { MaterielsService } from '../materiels/materiels.service';
 
+import * as fb from 'firebase';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -91,10 +93,11 @@ export class ExercicesService {
   }
 
   getSingleExerciceThumbnails(id: string) {
-      this.firestore.collection('exercices').doc(id).get().subscribe((doc: any) => {
-        this.photoThumbnail = doc.data().photoThumbnail ? doc.data().photoThumbnail : '';
-        this.emitSingleExerciceSubject();
-      });
+    //const doc = fb.firestore().collection('exercices').doc(id).onSnapshot()
+    const ref =  this.firestore.collection('exercices').doc(id).snapshotChanges().subscribe((doc:any) => {
+      this.photoThumbnail = doc.payload.data().photoThumbnail;
+      this.emitSingleExerciceSubject();
+    });
   }
 
   getSingleExerciceByUrl(url: string) {
@@ -129,7 +132,6 @@ export class ExercicesService {
     batch.update(nextDocument1, `${attribut}`, value);
     batch.commit().then(() => {
       this.updateSubCollectionExerciceOnSerieFixe(element);
-      this.getSingleExerciceThumbnails(element.id);
     }).catch((error) => { console.error('Error updating document: ', error); });
   }
 
