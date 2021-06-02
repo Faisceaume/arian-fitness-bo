@@ -12,8 +12,6 @@ import { MaterielsSharedComponent } from 'src/app/shared/materiels-shared/materi
 import { Materiel } from 'src/app/materiels/materiel';
 import { Listes } from 'src/app/shared/listes';
 
-import { sharp } from 'sharp';
-
 @Component({
   selector: 'app-exercice-details',
   templateUrl: './exercice-details.component.html',
@@ -65,7 +63,7 @@ export class ExerciceDetailsComponent implements OnInit, OnChanges{
     this.exercicesService.photoThumbnailSubject.subscribe((photoThumbnail: string) => {
       this.imgThumbnail = photoThumbnail;
     });
-    
+
     this.exercicesService.getSingleExercice(id).then((item: Exercice) => {
       this.formData = item;
       this.niveauSelected = item.niveau ? item.niveau : null ;
@@ -177,6 +175,6 @@ export class ExerciceDetailsComponent implements OnInit, OnChanges{
 
   ngOnChanges()  {
     console.log('Changes');
-    
+
   }
 }

@@ -24,6 +24,7 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
                                 'echauffement',
                                 'accessalledesport',
                                 'photo',
+                                'thumb',
                                 'video',
                                 'visibility',
                                 'filesize',
