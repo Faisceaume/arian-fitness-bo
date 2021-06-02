@@ -88,25 +88,42 @@ export class SharedService {
       });
     }
 
-    deleteFile(url: string, typeFile?: string) {
+    deleteFile(url: string, urlThumbnail?: string, typeFile?: string) {
       let storageRef: any = '';
-      try {
-         storageRef =  this.store.storage.refFromURL(url);
-      } catch (error) {
-
-      }
-      if (storageRef !== '') {
-        storageRef.delete().then(
-          () => {
-            console.log('fichier supprimé');
-          }
-        ).catch(
-          (error) => {
+      let storageRefThumbnail: any = '';
+      if(urlThumbnail) {
+        try {
+          storageRef =  this.store.storage.refFromURL(url);
+          storageRefThumbnail =  this.store.storage.refFromURL(urlThumbnail);
+        } catch (error) {
+  
+        }
+        if (storageRef !== '' && storageRef !== '') {
+          storageRef.delete().then(() => {
+              console.log('fichier supprimé');
+          }).catch((error) => {
             console.log('Erreur de la suppression ' + error);
-          }
-        );
+          });
+          
+          storageRefThumbnail.delete().then(() => {
+            console.log('fichier thumbnail supprimé');
+          }).catch((error: Error) => {
+            console.log('Erreur de la suppression thumbnail ' + error.message);
+          });
+        }
+      } else {
+        try {
+          storageRef =  this.store.storage.refFromURL(url);
+        } catch (error) {
+        }
+        if (storageRef !== '') {
+          storageRef.delete().then(() => {
+              console.log('fichier supprimé');
+          }).catch((error) => {
+            console.log('Erreur de la suppression ' + error);
+          });
+        }
       }
-
 
       if (typeFile) {
         if (this.currentExercice) {
@@ -118,6 +135,7 @@ export class SharedService {
             this.usersService.newUpdateVersion(this.currentUser, 'photo', null);
           } else if (this.currentExercice) {
             this.exercicesService.newUpdateVersion(this.currentExercice, 'photo', null);
+            this.exercicesService.newUpdateVersion(this.currentExercice, 'photoThumbnail', null);
           } else if (this.currentAliment) {
             this.nutritionService.newUpdateVersion(this.currentAliment, 'image', null);
           } else if (this.currentTrophee) {

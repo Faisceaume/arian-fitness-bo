@@ -1,5 +1,5 @@
 import { SharedService } from './../../shared/shared.service';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, DoCheck, OnChanges, OnInit, SimpleChange } from '@angular/core';
 import { Exercice } from '../exercice';
 import { ActivatedRoute } from '@angular/router';
 import { ExercicesService } from '../exercices.service';
@@ -12,18 +12,22 @@ import { MaterielsSharedComponent } from 'src/app/shared/materiels-shared/materi
 import { Materiel } from 'src/app/materiels/materiel';
 import { Listes } from 'src/app/shared/listes';
 
+import { sharp } from 'sharp';
+
 @Component({
   selector: 'app-exercice-details',
   templateUrl: './exercice-details.component.html',
   styleUrls: ['./exercice-details.component.css']
 })
-export class ExerciceDetailsComponent implements OnInit {
+export class ExerciceDetailsComponent implements OnInit, OnChanges{
 
   isLinear = false;
   formData: Exercice;
   niveaux: Niveau[];
   niveauSelected: Niveau;
   toChangeNiveau = false;
+  imgThumbnail: string;
+  loadThumbnail = false;
 
   regimeSelected: string[]  = [];
   regimeNotSelected: string[] = [];
@@ -56,6 +60,12 @@ export class ExerciceDetailsComponent implements OnInit {
   ngOnInit() {
     this.listes = new Listes();
     const id = this.route.snapshot.params.id;
+
+    this.exercicesService.getSingleExerciceThumbnails(id);
+    this.exercicesService.photoThumbnailSubject.subscribe((photoThumbnail: string) => {
+      this.imgThumbnail = photoThumbnail;
+    });
+    
     this.exercicesService.getSingleExercice(id).then((item: Exercice) => {
       this.formData = item;
       this.niveauSelected = item.niveau ? item.niveau : null ;
@@ -159,4 +169,14 @@ export class ExerciceDetailsComponent implements OnInit {
     this.updateFiel('regime', this.regimeSelected);
   }
 
+  generateThumbnail(exercice: any) {
+    this.loadThumbnail = true;
+    this.exercicesService.newUpdateVersion(exercice, 'photoThumbnail', 'pending...');
+    //console.log(exercice);
+  }
+
+  ngOnChanges()  {
+    console.log('Changes');
+    
+  }
 }
