@@ -77,18 +77,28 @@
           </div>
         </div>
 
-        <div fxFlex="100" id="imageContainer" fxLayout="row wrap" fxLayoutAlign="center center">
+        <div fxFlex="100" id="imageContainer" fxLayout="row wrap" fxLayoutAlign="start center">
 
-          <div fxFlex="40" class="fileContent">
+          <div fxFlex="50" class="fileContent">
               <h3 class="imagelabel" *ngIf="sharedService.isImageUploadShown"> Ajouter une image</h3>
               <app-upload-images
                 [urlThumbnail]="imgThumbnail"
                 [size]="1000000"
                 [width]="2000"
                 [heigth]="2000"></app-upload-images>
+              <div>
+                <button [disabled]="!formData.photo" *ngIf="!imgThumbnail" (click)="generateThumbnail(formData)" mat-raised-button color="black">
+                  <span>Générer la vignette </span>
+                  <mat-icon>compress</mat-icon>
+                </button>
+                <button disabled="true" *ngIf="imgThumbnail" mat-raised-button color="black">
+                  <span>Vignette générée </span>
+                  <mat-icon>done</mat-icon>
+                </button>
+              </div>
           </div>
 
-          <div fxFlex="30">
+          <div fxFlex="50">
             <h3 class="imagelabel" *ngIf="sharedService.isVideoUploadShown"> Ajouter une vidéo</h3>
             <app-upload-videos></app-upload-videos>
             <mat-progress-bar
@@ -96,7 +106,7 @@
             [value]="sharedService.progressValue"
             *ngIf="sharedService.isUploadingVideo" ></mat-progress-bar>
         </div>
-        <div fxFlex="30" gdAlignRows="center center">
+        <!-- <div fxFlex="30" gdAlignRows="center center">
           <h2 class="imagelabel">Vignette image</h2>
           <h4 *ngIf="!imgThumbnail && !loadThumbnail" style="color: red;">Aucune vignette</h4>
           <img *ngIf="imgThumbnail" [src]="imgThumbnail" alt="vignette image">
@@ -104,7 +114,7 @@
           <button [disabled]="!formData.photo" *ngIf="!imgThumbnail && !loadThumbnail" (click)="generateThumbnail(formData)" mat-mini-fab color="primary">
             <mat-icon>autorenew</mat-icon>
           </button>
-      </div>
+      </div> -->
 
         </div>
 
