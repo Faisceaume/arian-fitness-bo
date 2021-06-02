@@ -7,7 +7,6 @@ import { CategoriesService } from '../shared/categories/categories.service';
 import { Niveau } from '../shared/niveaux/niveau';
 import { MaterielsService } from '../materiels/materiels.service';
 
-import * as fb from 'firebase';
 
 @Injectable({
   providedIn: 'root'
