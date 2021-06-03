@@ -62,7 +62,6 @@ export class ExerciceDetailsComponent implements OnInit, OnChanges{
     this.exercicesService.getSingleExerciceThumbnails(id);
     this.exercicesService.photoThumbnailSubject.subscribe((photoThumbnail: string) => {
       this.imgThumbnail = ( photoThumbnail === 'pending...' || !photoThumbnail)? null : photoThumbnail;
-      console.log(this.imgThumbnail);
     });
 
     this.exercicesService.getSingleExercice(id).then((item: Exercice) => {
