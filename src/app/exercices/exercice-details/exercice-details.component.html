@@ -87,11 +87,11 @@
                 [width]="2000"
                 [heigth]="2000"></app-upload-images>
               <div>
-                <button [disabled]="!formData.photo" *ngIf="!imgThumbnail" (click)="generateThumbnail(formData)" mat-raised-button color="black">
+                <button [disabled]="!formData.photo" *ngIf="!imgThumbnail" (click)="generateThumbnail(formData)" mat-raised-button color="warn">
                   <span>Générer la vignette </span>
                   <mat-icon>compress</mat-icon>
                 </button>
-                <button disabled="true" *ngIf="imgThumbnail" mat-raised-button color="black">
+                <button disabled="true" *ngIf="imgThumbnail" mat-raised-button color="warn">
                   <span>Vignette générée </span>
                   <mat-icon>done</mat-icon>
                 </button>

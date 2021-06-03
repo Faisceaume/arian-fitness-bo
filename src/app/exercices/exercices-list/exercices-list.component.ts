@@ -66,6 +66,11 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
     }
   }
 
+  generateThumbnail(exercice: any) {
+    this.exercicesService.newUpdateVersion(exercice, 'photoThumbnail', 'pending...');
+    // console.log(exercice);
+  }
+
   updateField(beforeStatut: boolean, attribut: string, element: Exercice) {
     if (beforeStatut) {
       this.exercicesService.newUpdateVersion(element, attribut, false);
