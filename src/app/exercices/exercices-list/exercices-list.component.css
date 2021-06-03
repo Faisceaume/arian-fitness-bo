@@ -18,3 +18,9 @@ h3{
 tr:hover {
   background-color: #eee;
 }
+
+.vignette-liste {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+}
