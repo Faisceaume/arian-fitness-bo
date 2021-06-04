@@ -54,5 +54,8 @@ export class User {
 
  position: string;
 
+ isonline: boolean;
+ statut: string;
+
  timestamp: string;
 }

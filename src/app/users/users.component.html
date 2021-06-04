@@ -45,6 +45,21 @@
       <td mat-cell *matCellDef="let element"> {{element.abonnement}} </td>
     </ng-container>
 
+    <!-- online Column -->
+    <ng-container matColumnDef="online">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Online </th>
+      <td mat-cell *matCellDef="let element">
+         <mat-icon class="icon-but" *ngIf="element.isonline" class="green">check</mat-icon>
+        <mat-icon class="icon-but" *ngIf="!element.isonline" class="red">close</mat-icon>
+      </td>
+    </ng-container>
+
+    <!-- statut Column -->
+    <ng-container matColumnDef="statut">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Statut </th>
+      <td mat-cell *matCellDef="let element"> {{element.statut ? element.statut : ''}} </td>
+    </ng-container>
+
       <!-- action Column -->
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>

@@ -17,7 +17,7 @@ import { Materiel } from '../materiels/materiel';
 })
 export class UsersComponent implements OnInit {
 
-  displayedColumns: string[] = ['email', 'nom', 'prenom', 'genre', 'abonnement', 'action'];
+  displayedColumns: string[] = ['email', 'nom', 'prenom', 'genre', 'abonnement','online', 'statut', 'action'];
   dataSource: MatTableDataSource<User>;
   showError: boolean;
 
