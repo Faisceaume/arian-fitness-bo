@@ -3,6 +3,7 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 const os = require('os');
 const db = admin.firestore();
+const storage = admin.storage();
 
 const spawn = require('child-process-promise').spawn;
 const path = require('path');
@@ -93,7 +94,7 @@ exports.generateThumbnailsByUploading = functions.storage.object().onFinalize(as
     const [url] = await destinationBucket.file( path.join(path.dirname(filePath), 'thumb_' + path.basename(filePath)) ).getSignedUrl({
         version: 'v2',
         action: 'read',
-        expires: '03-09-2491'
+        expires: '03-09-2025'
     });
 
 
@@ -146,7 +147,7 @@ exports.generateThumbnailAuto = functions.firestore.document('exercices/{exoId}'
         const [url] = await destinationBucket.file( path.join(path.dirname(filePath), 'thumb_' + path.basename(filePath)) ).getSignedUrl({
             version: 'v2',
             action: 'read',
-            expires: '03-09-2491'
+            expires: '03-09-2025'
         });
 
 
