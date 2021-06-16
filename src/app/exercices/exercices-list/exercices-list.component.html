@@ -133,7 +133,7 @@
     <!-- fileSize Column -->
     <ng-container matColumnDef="filesize">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> File Size </th>
-      <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px'}">
+      <td mat-cell *matCellDef="let element" [ngStyle]="{'padding-left':'10px', 'color':'#999', 'font-size':'0.8em'}">
         {{ element.filesize }}
       </td>
     </ng-container>
