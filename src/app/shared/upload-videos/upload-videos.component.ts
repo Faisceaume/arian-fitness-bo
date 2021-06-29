@@ -66,7 +66,7 @@ export class UploadVideosComponent implements OnInit, OnDestroy {
 }
 
     onDeleteDrapVideo() {
-      this.sharedService.deleteFile(this.sharedService.videoUrl, 'video');
+      this.sharedService.deleteFile(this.sharedService.videoUrl,null, 'video');
       this.sharedService.videoUrl = null;
       this.sharedService.isVideoUploadShown = true;
       this.fileUploaded = false;

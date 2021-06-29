@@ -108,7 +108,7 @@
           <img [src]="element.photoThumbnail" class="vignette-liste">
         </span>
         <mat-spinner color="warn" diameter="20" *ngIf="element.photoThumbnail==='pending...'"></mat-spinner>
-        <mat-icon class="icon-but" *ngIf="!element.photoThumbnail && element.photo" (click)="generateThumbnail(element)">image_not_supported</mat-icon>
+        <mat-icon class="icon-but" *ngIf="(!element.photoThumbnail || element.photoThumbnail==null) && element.photo" (click)="generateThumbnail(element)">image_not_supported</mat-icon>
       </td>
     </ng-container>
 
@@ -156,3 +156,8 @@
   </table>
   <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
 </div>
+
+<!-- <div flexLayout="column" gdAlignRows="center center">
+  <button (click)="regenerateThumbnails()" mat-button mat-raised-button color="accent">REGENERATE THUMBNAILS</button>
+  <button (click)="deleteAllThumbnails()" mat-button mat-raised-button color="warn">SUPPRESS ALL THUMBNAILS</button>
+</div> -->

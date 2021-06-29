@@ -91,6 +91,7 @@ export class SharedService {
     deleteFile(url: string, urlThumbnail?: string, typeFile?: string) {
       let storageRef: any = '';
       let storageRefThumbnail: any = '';
+      console.log(urlThumbnail, typeFile);
       if(urlThumbnail) {
         try {
           storageRef =  this.store.storage.refFromURL(url);
