@@ -47,6 +47,8 @@ export class ExerciceDetailsComponent implements OnInit, OnChanges{
   repetitionexercice = new FormControl();
   showSeniotRepetList: boolean;
 
+  filesize: number;
+
   constructor(private route: ActivatedRoute,
               private exercicesService: ExercicesService,
               private niveauxService: NiveauxService,
@@ -62,6 +64,13 @@ export class ExerciceDetailsComponent implements OnInit, OnChanges{
     this.exercicesService.getSingleExerciceThumbnails(id);
     this.exercicesService.photoThumbnailSubject.subscribe((photoThumbnail: string) => {
       this.imgThumbnail = ( photoThumbnail === 'pending...' || !photoThumbnail)? null : photoThumbnail;
+    });
+    
+    this.filesize = 0;
+    this.exercicesService.getSingleExerciceVersion2(id);
+    this.exercicesService.singleExerciceSubject.subscribe((item: Exercice) => {
+      //console.log(item.filesize);
+      this.filesize = item.filesize;
     });
 
     this.exercicesService.getSingleExercice(id).then((item: Exercice) => {

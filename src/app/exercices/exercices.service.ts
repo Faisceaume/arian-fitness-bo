@@ -16,6 +16,8 @@ export class ExercicesService {
 
   exercices: Exercice[];
   exerciceSubject = new Subject<any[]>();
+  singleExercice: Exercice;
+  singleExerciceSubject = new Subject<Exercice>();
 
   photoThumbnail: string;
   photoThumbnailSubject = new BehaviorSubject<any>('');
@@ -86,6 +88,10 @@ export class ExercicesService {
   }
 
   emitSingleExerciceSubject() {
+    this.singleExerciceSubject.next(this.singleExercice);
+  }
+
+  emitSinglePropertySubject() {
     this.photoThumbnailSubject.next(this.photoThumbnail);
   }
 
@@ -101,13 +107,21 @@ export class ExercicesService {
         });
       });
     });
+    
+  }
+
+  getSingleExerciceVersion2(id: string) {
+    const ref =  this.firestore.collection('exercices').doc(id).snapshotChanges().subscribe((doc:any) => {
+      this.singleExercice = doc.payload.data() as Exercice;
+      this.emitSingleExerciceSubject();
+    });
   }
 
   getSingleExerciceThumbnails(id: string) {
     //const doc = fb.firestore().collection('exercices').doc(id).onSnapshot()
     const ref =  this.firestore.collection('exercices').doc(id).snapshotChanges().subscribe((doc:any) => {
       this.photoThumbnail = doc.payload.data().photoThumbnail;
-      this.emitSingleExerciceSubject();
+      this.emitSinglePropertySubject();
     });
   }
 
@@ -147,7 +161,6 @@ export class ExercicesService {
   }
 
   updateSubCollectionExerciceOnSerieFixe(exercice: Exercice) {
-
     this.getSingleExercice(exercice.id).then((currentExercice: Exercice) => {
       if (currentExercice.seriefixeid) {
         currentExercice.seriefixeid.forEach(element => {
