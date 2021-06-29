@@ -98,10 +98,10 @@
               </div>
           </div>
 
-          <div fxFlex="50">
+          <div fxFlex="50" style="padding-left: 30px; border-left: #ccc 1px dotted ">
             <h3 class="imagelabel" *ngIf="sharedService.isVideoUploadShown"> Ajouter une vidéo</h3>
             <app-upload-videos></app-upload-videos>
-            <p *ngIf="!sharedService.isVideoUploadShown">File size : {{ filesize }}</p>
+            <p *ngIf="!sharedService.isVideoUploadShown" class="vfs">Video File Size : {{ filesize }} Mo</p>
             <mat-progress-bar
             mode="determinate"
             [value]="sharedService.progressValue"

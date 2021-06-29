@@ -52,3 +52,9 @@ mat-checkbox{
 #imageContainer{
   margin: 20px 0;
 }
+
+.vfs {
+  text-align: right;
+  color:#CCC;
+  font-size: 0.8em;
+}

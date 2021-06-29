@@ -20,18 +20,14 @@
       <li *ngFor='let erreur of erreursMessages' class="erreurMessage"> {{ erreur }} </li>
     </ul>
 
-    <div class="del" *ngIf="sharedService.videoUrl != null">
-      <mat-card class="example-card" >
-         <!-- <img mat-card-image [src]="sharedService.fileUrl"> -->
-         <video width="320" height="240" controls>
-          <source [src]="sharedService.videoUrl" type="video/mp4">
-           Your browser does not support the video tag.
-        </video>
-          <mat-card-actions class="text-center">
-              <button mat-icon-button (click)="onDeleteDrapVideo()">
-                  <mat-icon>delete</mat-icon>
-              </button>
-          </mat-card-actions>
-      </mat-card>
+    <div fxLayout="column" fxLayoutAlign="center" *ngIf="sharedService.videoUrl != null">
+      <video width="320" height="240" controls>
+      <source [src]="sharedService.videoUrl" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+      <button mat-button color="warn" (click)="onDeleteDrapVideo()" style="text-align: right">
+        <mat-icon>delete</mat-icon>
+        <span>Changer la vidéo</span>
+      </button>
   </div>
 </div>
