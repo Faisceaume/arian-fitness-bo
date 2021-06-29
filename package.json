@@ -30,6 +30,7 @@
     "rxjs": "^6.5.5",
     "sharp": "^0.28.2",
     "tslib": "^1.13.0",
+    "uuid": "^3.3.3",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {

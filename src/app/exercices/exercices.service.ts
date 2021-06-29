@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { Router } from '@angular/router';
 import { Exercice } from './exercice';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { CategoriesService } from '../shared/categories/categories.service';
 import { Niveau } from '../shared/niveaux/niveau';
 import { MaterielsService } from '../materiels/materiels.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +27,7 @@ export class ExercicesService {
   oneSerieFixeFromExerciceSubject = new Subject<any>();
 
   constructor(private firestore: AngularFirestore,
+              private storage : AngularFireStorage,
               private router: Router,
               private categoriesService: CategoriesService,
               private materielsService: MaterielsService) { }
@@ -34,6 +37,7 @@ export class ExercicesService {
     const batch = this.firestore.firestore.batch();
     const currentid = this.firestore.firestore.collection('exercices').doc().id;
     const nextDocument1 = this.firestore.firestore.collection('exercices').doc(currentid);
+    exercice.photoThumbnail = null;
     let data = Object.assign({}, exercice);
     data = Object.assign(exercice, {id: currentid, timestamp: new Date().getTime()});
     batch.set(nextDocument1, data);
@@ -49,6 +53,15 @@ export class ExercicesService {
           console.log('Batch Commited');
           this.router.navigate(['/exercices', currentid]);
     }).catch((error) => { console.error('Error creating document: ', error); });
+  }
+
+
+  TriggerFunctions() {
+    const batch = this.firestore.firestore.batch();
+    const currentid = 'trigger';
+    const nextDocument1 = this.firestore.firestore.collection('exercices').doc(currentid);
+    batch.set(nextDocument1, {trigger: true});
+    batch.commit().then(() => {console.log('ok trigger')}).catch((error) => { console.error('Error creating document trigger: ', error); });
   }
 
   getAllExercices() {
@@ -91,10 +104,11 @@ export class ExercicesService {
   }
 
   getSingleExerciceThumbnails(id: string) {
-      this.firestore.collection('exercices').doc(id).get().subscribe((doc: any) => {
-        this.photoThumbnail = doc.data().photoThumbnail ? doc.data().photoThumbnail : '';
-        this.emitSingleExerciceSubject();
-      });
+    //const doc = fb.firestore().collection('exercices').doc(id).onSnapshot()
+    const ref =  this.firestore.collection('exercices').doc(id).snapshotChanges().subscribe((doc:any) => {
+      this.photoThumbnail = doc.payload.data().photoThumbnail;
+      this.emitSingleExerciceSubject();
+    });
   }
 
   getSingleExerciceByUrl(url: string) {
@@ -129,7 +143,6 @@ export class ExercicesService {
     batch.update(nextDocument1, `${attribut}`, value);
     batch.commit().then(() => {
       this.updateSubCollectionExerciceOnSerieFixe(element);
-      this.getSingleExerciceThumbnails(element.id);
     }).catch((error) => { console.error('Error updating document: ', error); });
   }
 
@@ -304,6 +317,16 @@ export class ExercicesService {
       batch.delete(ref);
       batch.commit().then(() => console.log('Suppression de la serie d\'exercice fixe réussi '));
     });
+  }
+
+  deleteThumbnail(url: string) {
+    let stor: any = '';
+    try { 
+      stor = this.storage.storage.refFromURL(url);
+    } catch {}
+    if(stor !== '') {
+      return stor.delete();
+    }
   }
 
 

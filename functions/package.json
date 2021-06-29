@@ -21,7 +21,9 @@
     "firebase-functions": "^3.6.1",
     "fs-extra": "^10.0.0",
     "sharp": "^0.28.3",
-    "stripe": "^8.49.0"
+    "stripe": "^8.49.0",
+    "uuid": "^7.0.3",
+    "uuidv4": "^6.2.10"
   },
   "devDependencies": {
     "firebase-functions-test": "^0.1.6",

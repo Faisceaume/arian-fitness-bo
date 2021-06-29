@@ -61,7 +61,7 @@ export class ExerciceDetailsComponent implements OnInit, OnChanges{
 
     this.exercicesService.getSingleExerciceThumbnails(id);
     this.exercicesService.photoThumbnailSubject.subscribe((photoThumbnail: string) => {
-      this.imgThumbnail = photoThumbnail;
+      this.imgThumbnail = ( photoThumbnail === 'pending...' || !photoThumbnail)? null : photoThumbnail;
     });
 
     this.exercicesService.getSingleExercice(id).then((item: Exercice) => {
@@ -168,9 +168,9 @@ export class ExerciceDetailsComponent implements OnInit, OnChanges{
   }
 
   generateThumbnail(exercice: any) {
-    this.loadThumbnail = true;
+    //this.loadThumbnail = true;
     this.exercicesService.newUpdateVersion(exercice, 'photoThumbnail', 'pending...');
-    //console.log(exercice);
+    //console.log(exercice); 
   }
 
   ngOnChanges()  {

@@ -5,6 +5,7 @@ import { Exercice } from '../exercice';
 import { Subscription } from 'rxjs';
 import { ExercicesService } from '../exercices.service';
 import { Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-exercices-list',
@@ -34,6 +35,7 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
   exerciceSubscription: Subscription;
 
   constructor(private exercicesService: ExercicesService,
+              private firestore: AngularFirestore,
               private router: Router) {
   }
 
@@ -82,6 +84,24 @@ export class ExercicesListComponent implements OnInit, OnDestroy {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  regenerateThumbnails() {
+    console.log('Regenerer');
+    this.exercicesService.TriggerFunctions();
+  }
+
+  deleteAllThumbnails() {
+    for(let i = 0; i < this.dataSource.data.length; i++) {
+      if(this.dataSource.data[i].photo && this.dataSource.data[i].photoThumbnail) {
+        this.exercicesService.newUpdateVersion(this.dataSource.data[i], 'photoThumbnail', null);
+        this.exercicesService.deleteThumbnail(this.dataSource.data[i].photoThumbnail).then(() => {
+          //this.exercicesService.newUpdateVersion(this.dataSource.data[i], 'photoThumbnail', null);
+        }).catch((err: Error)=> console.log(err.message));
+        
+      }
+    }
+    //this.exercicesService.newUpdateVersion()
   }
 
   ngOnDestroy(): void {

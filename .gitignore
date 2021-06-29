@@ -46,3 +46,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+
+/functions/src/keyfilename.json
+/functions/lib/keyfilename.json
+/functions/src/arian-fitness-796b7a8ff535.json
