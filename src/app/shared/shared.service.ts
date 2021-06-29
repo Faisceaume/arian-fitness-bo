@@ -89,10 +89,9 @@ export class SharedService {
     }
 
     deleteFile(url: string, urlThumbnail?: string, typeFile?: string) {
-      let storageRef: any = '';
-      let storageRefThumbnail: any = '';
-      console.log(urlThumbnail, typeFile);
+      let storageRef: any = '';      
       if(urlThumbnail) {
+        let storageRefThumbnail: any = '';
         try {
           storageRef =  this.store.storage.refFromURL(url);
           storageRefThumbnail =  this.store.storage.refFromURL(urlThumbnail);
@@ -114,6 +113,7 @@ export class SharedService {
         }
       } else {
         try {
+          console.log(url);
           storageRef =  this.store.storage.refFromURL(url);
         } catch (error) {
         }
